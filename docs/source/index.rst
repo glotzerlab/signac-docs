@@ -12,7 +12,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   overview
+   intro
    installation
    tutorial
    examples
