@@ -17,7 +17,7 @@ Contents
    tutorial
    examples
    recipes
-   best_practices
+   tips_and_tricks
 
    support
    contribute
