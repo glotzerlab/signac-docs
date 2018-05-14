@@ -4,89 +4,57 @@
 Installation
 ============
 
-The recommendend installation method for **signac** is via conda_ or pip_.
-The software is tested for python versions 2.7.x and 3.x and does not have any *hard* dependencies, i.e. there are no packages or libraries required to use the core **signac** functions.
-However, some extra features, such as the database integration require additional packages.
-
 .. _conda: https://anaconda.org/
+.. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3.5/installing/index.html
+
+All packages that are part of the **signac** framework depend on the core package, simply named ``signac``, which provides the core data management functionality to all other packages.
+See the :ref:`overview` chapter for more information.
+
+Most users should install the ``signac`` and the ``signac-flow`` packages, which are tested for Python version 2.7.x and 3.4+ and do not have any *hard* dependencies, that means you don't have to install any additional depenedencies for all basic functionality.
+Please see the individual package documentation for instructions on how to install additional packages.
 
 Install with conda
 ==================
 
-To install **signac** via conda, you first need to add the conda-forge_ channel with:
+The recommended installation method for installing **signac** packages is *via* conda_.
+The **signac** packages are distributed *via* the conda-forge_ channel.
+For a standard installation, execute:
 
-.. _conda-forge: https://conda-forge.github.io
+.. code-block:: bash
 
-.. code:: bash
+    $ conda install -c conda-forge signac signac-flow
 
-    $ conda config --add channels conda-forge
+.. tip::
 
-Once the **conda-forge** channel has been enabled, **signac** can be installed with:
-
-.. code:: bash
-
-    $ conda install signac
-
-All additional dependencies will be installed automatically.
-To upgrade the package, execute:
-
-.. code:: bash
-
-    $ conda update signac
-
+    Consider to add the conda-forge_ channel to your default channels with: ``$ conda config --add channels conda-forge``.
 
 Install with pip
 ================
 
-To install the package with the package manager pip_, execute
+For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install signac --user
+    $ pip install signac signac-flow
 
 .. note::
-    It is highly recommended to install the package into the user space and not as superuser!
 
-To upgrade the package, simply execute the same command with the ``--upgrade`` option.
-
-.. code:: bash
-
-    $ pip install signac --user --upgrade
-
-Consider to install optional dependencies:
-
-.. code:: bash
-
-    $ pip install pymongo passlib bcrypt --user
-
+    It is recommended to install Python packages into the user space by adding the ``--user`` option to the install command.
 
 Source Code Installation
 ========================
 
-Alternatively you can clone the `git repository <https://bitbucket.org/glotzer/signac>`_ and execute the ``setup.py`` script to install the package.
+
+Alternatively, you can clone any of the package's source code repositories and install them manually.
+For example, to install the signac core package, execute the following code:
 
 .. code:: bash
 
   git clone https://bitbucket.org/glotzer/signac.git
   cd signac
-  python setup.py install --user
+  python setup.py install
 
-Consider to install :ref:`optional dependencies <optional_dependencies>`.
+.. note::
 
-.. _optional_dependencies:
-
-Optional dependencies
-=====================
-
-Unless you install via conda_, optional dependencies are not installed automatically.
-In case you want to use extra features that require external packages, you need to install these manually.
-
-Extra features with dependencies:
-
-.. glossary::
-
-    MongoDB database backend
-      required: ``pymongo``
-
-      recommended: ``passlib``, ``bcrypt``
+    It is recommended to install Python packages into the user space by adding the ``--user`` option to the install command.
