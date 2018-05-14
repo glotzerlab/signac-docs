@@ -14,6 +14,7 @@ Contents
 
    intro
    installation
+   quickstart
    tutorial
    examples
    recipes
