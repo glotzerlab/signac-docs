@@ -4,27 +4,30 @@
 Quickstart
 ==========
 
-To get started with **signac**, :ref:`install <installation>` it and then setup a new project with
+.. todo:: Consider to replace this with a screencast!
+
+To get started, first :ref:`install <installation>` **signac** and then setup a new project with:
 
 .. code-block:: bash
 
     ~ $ mkdir my_project
-    ~ $ cd my_project
+    ~ $ cd my_project/
     ~/my_project $ signac init MyProject
     Initialized project 'MyProject'.
-    ~/my_project $
 
-Then, initialize a *data space*, for example:
+Initialize the *data space*, for example in a file called ``init.py``.:
 
 .. code-block:: python
 
-    >>> import signac
-    >>> project = signac.get_project()
-    >>> for foo in range(3):
-    ...     project.open_job({'foo': foo}).init()
-    ...
+    # init.py
 
-Next, implement a simple *data space operation* within a ``project.py`` script:
+    import signac
+    project = signac.get_project()
+
+    for foo in range(3):
+        project.open_job({'foo': foo}).init()
+
+Implement a simple *data space operation* within a ``project.py`` script:
 
 .. code-block:: python
 
