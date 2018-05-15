@@ -11,7 +11,7 @@ This is a collection of recipes on how to solve typical problems using **signac*
     Move all recipes below into a 'General' section once we have added more recipes.
 
 How to migrate (change) the data space schema.
-----------------------------------------------
+==============================================
 
 Oftentimes, one discovers at a later stage that important keys are missing from the metadata schema.
 For example, in the tutorial we are modeling a gas using the ideal gas law, but we might discover later that important effects are not captured using this overly simplistic model and decide to replace it with the van der Waals equation:
@@ -39,7 +39,7 @@ To *rename* a key, use ``job.sp.new_name = job.sp.pop('old_name')``.
 
 
 How to integrate signac-flow with matlab or other software without Python interface
------------------------------------------------------------------------------------
+===================================================================================
 
 The easiest way to integrate software that has no native Python interface is to implement ``signac-flow`` operations in combination with the ``flow.cmd`` decorator.
 Assuming that we have a matlab script called ``prog.m`` within the project root directory:
@@ -65,11 +65,41 @@ Then, we could impement a simple operation that passes it some metadata paramete
 
 Executing this operation will store the output of the matlab script within the job's workspace within a file called ``output.txt``.
 
-How to run and submit MPI programs and operations
--------------------------------------------------
+How to implement MPI-parallelized operations
+============================================
 
-Running MPI operations is easiest by implementing a :class:`~.flow.FlowProject` operation in combination wtih the ``flow.cmd``  and the ``flow.directives`` decorators.
-Assuming that we have an MPI-parallelized program ``my_programm``, which expectes an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
+There are basically two strategies to implement :class:`~.flow.FlowProject` operations that are MPI-parallelized, one for external programs and one for Python scripts.
+
+.. tip::
+
+    Fully functional scripts can be found in the signac-docs repository under ``examples/MPI``.
+
+
+MPI-operations with mpi4py or similar
+-------------------------------------
+
+Assuming that your operation is using mpi4py or similar, you don't really have to change anything to the code:
+
+.. code-block:: python
+
+    @FlowProject.operation
+    def hello_mpi(job):
+        from mpi4py import MPI
+        print("Hello from rank", MPI.COMM_WORLD.Get_rank())
+
+You could run this operation directly with: ``mpiexec -n 2 python project.py run -o hello_mpi``.
+
+.. note::
+
+    This strategy might fail in cases where you cannot ensure that the MPI communicator is initialized *within* the operation function.
+
+MPI-operations with ``flow.cmd``
+--------------------------------
+
+Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``flow.directives`` decorator.
+This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
+
+Assuming that we have an MPI-parallelized program named ``my_programm``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
 
 .. code-block:: python
 
@@ -85,33 +115,24 @@ However, some script templates, including those designed for HPC cluster submiss
 
 .. tip::
 
-  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``flow.directives(np=lambda job: job.sp.system_size // 1000``.
+  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``flow.directives(np=lambda job: job.sp.system_size // 1000)``.
 
-An alternative to using the ``flow.cmd`` decorator is to make the operation itself MPI-aware with ``mpi4py``:
 
-.. code-block:: python
+MPI-operations with custom script templates
+-------------------------------------------
 
-    @FlowProject.operation
-    def hello_mpi(job):
-        from mpi4py import MPI
-        comm = MPI.COMM_WORLD
-        print("Hello from rank", comm.Get_rank())
-
-You could execute above operation directly with: ``mpiexec -n 2 python project.py run -o hello_mpi``.
-Make sure to import ``mpi4py`` within the operation function, otherwise this example will likely not work.
-
-Finally, here is an example for how you could use a custom scripte template for MPI commands:
+Finally, instead of modifying the operation implementation, you could use a custom script template, such as this one:
 
 .. code-block:: bash
 
+    {% extends base_script %}
+    {% block body %}
     {% for operation in operations %}
     mpiexec -n {{ operation.directives.np }} operation.cmd
     {% endfor %}
+    {% endblock %}
 
-.. tip::
-
-    Fully functional scripts can be found in the signac-docs repository under ``examples/MPI``.
-
+Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
 .. todo::
 
