@@ -74,7 +74,6 @@ There are basically two strategies to implement :class:`~.flow.FlowProject` oper
 
     Fully functional scripts can be found in the signac-docs repository under ``examples/MPI``.
 
-
 MPI-operations with mpi4py or similar
 -------------------------------------
 
@@ -92,6 +91,17 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
 .. note::
 
     This strategy might fail in cases where you cannot ensure that the MPI communicator is initialized *within* the operation function.
+
+.. danger::
+
+    *Write* operations to the **job-/ and project-document** are not protected against race-conditions and
+    should only be executed on one rank at a time.
+    This can be ensured for example like this:
+
+    .. code-block:: python
+
+        if rank == 0:
+            job.doc.foo = 'abc'
 
 MPI-operations with ``flow.cmd``
 --------------------------------
