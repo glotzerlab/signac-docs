@@ -17,31 +17,12 @@ To get started, first :ref:`install <installation>` **signac** and then setup a 
 
 Initialize the *data space*, for example in a file called ``init.py``.:
 
-.. code-block:: python
 
-    # init.py
-
-    import signac
-    project = signac.get_project()
-
-    for foo in range(3):
-        project.open_job({'foo': foo}).init()
+.. literalinclude:: ../../examples/quickstart/init.py
 
 Implement a simple *data space operation* within a ``project.py`` script:
 
-.. code-block:: python
-
-    # project.py
-    from flow import FlowProject
-
-
-    @FlowProject.operation
-    def hello_job(job):
-        print("Hello from job {}, my foo is '{}'.".format(job, job.sp.foo))
-
-
-    if __name__ == '__main__':
-        FlowProject().main()
+.. literalinclude:: ../../examples/quickstart/project.py
 
 Execute this operation for each of your jobs, with:
 
