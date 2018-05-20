@@ -4,6 +4,12 @@
 Tutorial
 ========
 
+.. sidebar:: License
+
+    The code shown in this tutorial is part of the :ref:`examples`, can be downloaded from the signac-docs_ repository, and is released into the `public domain <https://bitbucket.org/glotzer/signac-docs/raw/master/examples/LICENSE>`_.
+
+.. _signac-docs: https://bitbucket.org/glotzer/signac-docs/
+
 This tutorial is designed to step new users through the basic of setting up a **signac** dataspace, defining and executing a simple workflow, and analyzing the data.
 
 
