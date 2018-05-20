@@ -168,7 +168,7 @@ texinfo_documents = [
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
     'signac': ('http://signac.readthedocs.io/en/latest/', None),
-    'flow': ('http://signac-flow.readthedocs.io/en/latest/', None),
+    'flow': ('http://signac-flow.readthedocs.io/en/release-0.6.0/', None),
 }
 
 # -- Options for todo extension ----------------------------------------------
