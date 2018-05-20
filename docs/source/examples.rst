@@ -75,11 +75,40 @@ All operations are defined in ``project.py``:
 The complete workflow can be executed on the command line with ``$ python project.py run``.
 
 
-Pumpkin cannon
-==============
+MD with HOOMD-blue
+==================
 
-HPMC with HOOMD-blue
-====================
+This example demonstrates how to setup and analyze the simulation of Lennard-Jones fluid with molecular dynamics using the `HOOMD-blue <https://glotzerlab.engin.umich.edu/hoomd-blue>`_ code.
+The project data space is initialized in a ``src/init.py`` script with explicit random seed:
 
-MD with GROMACS
-===============
+.. literalinclude:: ../../examples/hoomd-lj/src/init.py
+
+Using this script, one replica set (for a given random seed, e.g., 42) can then be initialized with:
+
+.. code-block:: bash
+
+    $ python src/init.py 42
+
+The simulation and analysis workflow is broken into three operations:
+
+  1. **init**: Initialize the simulation configuration.
+  2. **estimate**: Use the ideal gas law to estimate the expected volume.
+  3. **sample**: Carry-out the molecular dynamics simulation with HOOMD-blue.
+
+Those three operations and corresponding condition functions are defined and implemented within a ``src/project.py`` module:
+
+.. literalinclude:: ../../examples/hoomd-lj/src/project.py
+
+There are two additional label functions, which show whether the simulation has finished (**sampled**) and one that shows the rough progress in quarters (**progress**).
+
+Execute the initialization and simulation with:
+
+.. code-block:: bash
+
+  $ python src/project.py run
+
+
+.. todo::
+
+    Add Pumpkin example.
+    Add MD with Gromacs example.
