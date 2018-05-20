@@ -360,7 +360,7 @@ Here we reused the ``volume_computed`` condition function as a **pre-condition**
 
 .. important::
 
-    An operation function is *eligible for execution* if all pre-conditions are met and at least one post-condition is not met.
+    An operation function is **eligible** for execution if all pre-conditions are met, at least one post-condition is not met and the operation is not currently submitted or running.
 
 Next, instead of running this new function for all jobs, let's test it for one job first.
 
