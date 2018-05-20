@@ -94,14 +94,19 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
 
 .. danger::
 
-    *Write* operations to the **job-/ and project-document** are not protected against race-conditions and
-    should only be executed on one rank at a time.
+    Read and write operations to the **job-/ and project-document** are not protected
+    against race-conditions and should only be executed on one rank at a time.
     This can be ensured for example like this:
 
     .. code-block:: python
 
-        if rank == 0:
+        from mpi4py import MPI
+        comm = MPI.COMM_WORLD
+
+        if comm.Get_rank() == 0:
             job.doc.foo = 'abc'
+        comm.barrier()
+
 
 MPI-operations with ``flow.cmd``
 --------------------------------
