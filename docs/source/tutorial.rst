@@ -216,7 +216,7 @@ Implementing a simple workflow
 ------------------------------
 
 In many cases, it is desirable to avoid the repeat execution of *data space operations*, especially if they are not `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_ or significantly more expensive than our simple example.
-For this, we will incorporate the ``compute_volume()`` function into a workflow using the ``FlowProject`` class.
+For this, we will incorporate the ``compute_volume()`` function into a workflow using the :py:class:`~.flow.FlowProject` class.
 We slightly modify our ``project.py`` script:
 
 .. code-block:: python
@@ -235,8 +235,8 @@ We slightly modify our ``project.py`` script:
     if __name__ == '__main__':
         FlowProject().main()
 
-The ``@FlowProject.operation`` decorator identifies the ``compute_volume`` function as an *operation function* of our project.
-Furthermore, it is now directly executable from the command line via an interface provided by the :py:meth:`flow.FlowProject.main` method.
+The :py:meth:`~.flow.FlowProject.operation` decorator identifies the ``compute_volume`` function as an *operation function* of our project.
+Furthermore, it is now directly executable from the command line via an interface provided by the :py:meth:`~flow.FlowProject.main` method.
 
 We can then execute all operations defined within the project with:
 
@@ -261,7 +261,7 @@ An operation is considered completed, when all post conditions are met.
 We did not define any post conditions yet, so theoretically, **signac** would continue to execute the same operation indefinitely.
 
 For this example, a good post condition would be the existance of the ``volume.txt`` file.
-We can define a condition that tells the ``FlowProjct`` class when an operation is *completed* like this:
+We can define a condition that tells the :py:class:`~.flow.FlowProject` class when an operation is *completed* like this:
 
 .. code-block:: python
 
@@ -406,8 +406,8 @@ Let's add another operation to our ``project.py`` script that stores the volume 
 Besides needing fewer lines of code, storing data in the *job document* has one more distinct advantage: it is directly searchable.
 That means that we can find and select jobs based on its content.
 
-Executing the ``python project.py run`` command after adding the above funtion to the ``project.py`` script will store all volume in the job documents.
-We can then inspect all *searchable* data with the ``signac find`` command in combination with the ``--show`` option:
+Executing the ``$ python project.py run`` command after adding the above funtion to the ``project.py`` script will store all volume in the job documents.
+We can then inspect all *searchable* data with the ``$ signac find`` command in combination with the ``--show`` option:
 
 .. code-block:: bash
 
