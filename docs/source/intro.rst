@@ -22,8 +22,8 @@ This means that all data is uniquely addressable from the associated parameters.
 
 .. _package-overview:
 
-Package Overview
-================
+Packages
+========
 
 The signac framework is split into multiple packages, all of which address the needs of a specific application.
 Most users will not need *all* packages.
