@@ -3,8 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to signac's documentation!
-==================================
+Welcome to the signac framework documentation!
+==============================================
+
+The **signac** framework supports researchers in managing project-related data with a well-defined indexable storage layout for data and metadata.
+This streamlines post-processing and analysis and makes data collectively accessible.
+
+This is the overall **framework documentation**.
+It provides a comprehensive overview on what you can do with packages that are part of the **signac** framework.
+If you are new to **signac**, the best place to start is to read the :ref:`introduction` and the :ref:`tutorial`.
+
 
 Contents
 --------
@@ -26,14 +34,6 @@ Contents
 
    license
    acknowledge
-
-Support and Contribution
-------------------------
-
-To get help using the signac package, either send an email to `signac-support@umich.edu <mailto:signac-support@umich.edu>`_ or join the `signac gitter chatroom <https://gitter.im/signac/Lobby>`_.
-
-The **signac** package is hosted on `bitbucket <https://bitbucket.org/glotzer/signac>`_ and licensed under the open-source BSD 3-Clause license.
-Please use the `repository's issue tracker <https://bitbucket.org/glotzer/signac/issues?status=new&status=open>`_ to report bugs or request new features.
 
 Indices and tables
 ==================
