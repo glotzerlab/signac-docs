@@ -10,6 +10,7 @@ This is a collection of recipes on how to solve typical problems using **signac*
 
     Move all recipes below into a 'General' section once we have added more recipes.
 
+
 How to migrate (change) the data space schema.
 ==============================================
 
@@ -37,12 +38,13 @@ To *rename* a key, use ``job.sp.new_name = job.sp.pop('old_name')``.
 
     The ``job.sp`` attribute provides all basic functions  of a regular Python dict.
 
+.. _rec_external:
 
-How to integrate signac-flow with matlab or other software without Python interface
+How to integrate signac-flow with MATLAB or other software without Python interface
 ===================================================================================
 
 The easiest way to integrate software that has no native Python interface is to implement ``signac-flow`` operations in combination with the ``flow.cmd`` decorator.
-Assuming that we have a matlab script called ``prog.m`` within the project root directory:
+Assuming that we have a MATLAB script called ``prog.m`` within the project root directory:
 
 .. code-block:: matlab
 
@@ -54,7 +56,7 @@ Assuming that we have a matlab script called ``prog.m`` within the project root 
 
     exitcode = 0;
 
-Then, we could impement a simple operation that passes it some metadata parameters like this:
+Then, we could implement a simple operation that passes it some metadata parameters like this:
 
 .. code-block:: python
 
@@ -65,6 +67,12 @@ Then, we could impement a simple operation that passes it some metadata paramete
 
 Executing this operation will store the output of the matlab script within the job's workspace within a file called ``output.txt``.
 
+.. todo::
+
+    Show how to use signac to initialize from the command line, or point to the signac docs for doing this.
+    Clarify that in principle the only Python needed is the definition of the bash command as a string returned from a decorated Python function.
+
+
 How to implement MPI-parallelized operations
 ============================================
 
@@ -74,10 +82,13 @@ There are basically two strategies to implement :class:`~.flow.FlowProject` oper
 
     Fully functional scripts can be found in the signac-docs repository under ``examples/MPI``.
 
+
 MPI-operations with mpi4py or similar
 -------------------------------------
 
-Assuming that your operation is using mpi4py or similar, you don't really have to change anything to the code:
+Assuming that your operation is using `mpi4py`_ or similar, you do not have to change your code:
+
+.. _mpi4py: http://mpi4py.scipy.org/docs/
 
 .. code-block:: python
 
@@ -114,7 +125,7 @@ MPI-operations with ``flow.cmd``
 Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``flow.directives`` decorator.
 This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
 
-Assuming that we have an MPI-parallelized program named ``my_programm``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
+Assuming that we have an MPI-parallelized program named ``my_program``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
 
 .. code-block:: python
 
@@ -124,9 +135,13 @@ Assuming that we have an MPI-parallelized program named ``my_programm``, which e
     def hello_mpi(job):
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
-The ``flow.cmd`` decorator instructs signac-flow to interpret the operation as a command rather than a Python function.
+The ``flow.cmd`` decorator instructs ``signac-flow`` to interpret the operation as a command rather than a Python function.
 The ``flow.directives`` decorator provides additional instructions on how to execute this operation and is not strictly necessary for the example above to work.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
+
+.. todo::
+    Once we have templates documentation, point to it here.
+    Clarify that np is just a flow convention.
 
 .. tip::
 
