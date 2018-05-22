@@ -6,11 +6,13 @@ Tutorial
 
 .. sidebar:: License
 
-    The code shown in this tutorial is part of the :ref:`examples`, can be downloaded from the signac-docs_ repository, and is released into the `public domain <https://bitbucket.org/glotzer/signac-docs/raw/master/examples/LICENSE>`_.
+    The code shown in this tutorial is part of the :ref:`examples`.
+    It can be downloaded from the signac-docs_ repository and is released into the `public domain <https://bitbucket.org/glotzer/signac-docs/raw/master/examples/LICENSE>`_.
 
 .. _signac-docs: https://bitbucket.org/glotzer/signac-docs/
 
-This tutorial is designed to step new users through the basic of setting up a **signac** dataspace, defining and executing a simple workflow, and analyzing the data.
+This tutorial is designed to step new users through the basics of setting up a **signac** data space, defining and executing a simple workflow, and analyzing the data.
+For the complete code corresponding to this tutorial, see the :ref:`idg_example` example.
 
 
 Basics
@@ -20,16 +22,16 @@ Basics
 Initializing the data space
 ---------------------------
 
-For this tutorial, we assume that we want to study pressure-volume (*p-V*) relationship of a nobel gas.
-As a first approximation, we could model the gas as an *ideal gas* according to the *ideal gas law*:
+In this tutorial, we will perform a simple study of the pressure-volume (*p-V*) relationship of a noble gas.
+As a first approximation, we could model the gas as an *ideal gas*, so the *ideal gas law* applies:
 
 .. math::
 
     p V = N k_B T
 
-Further, we will assume that the calculation of the volume :math:`V` as a function of system size :math:`N`, the Boltzmann constant :math:`k_B`, and temperature :math:`T` is a stand-in for a more expensive simulation.
+Therefore, we can assume that the volume :math:`V` can be directly calculated as a function of system size :math:`N`, Boltzmann's constant :math:`k_B`, and temperature :math:`T`.
 
-To test this relationship, we start by creating an empty directory, which is where will place all of our source and the data for this computational study.
+To test this relationship, we start by creating an empty project directory where we will place all the code and data associated with this computational study.
 
 .. code:: bash
 
@@ -51,15 +53,15 @@ We then proceed by initializing the data space within a Python script called ``i
         job = project.open_job(sp)
         job.init()
 
-The :py:func:`signac.init_project` function initializes the **signac** project in the current working directory by creating a file called ``signac.rc``.
+The :py:func:`signac.init_project` function initializes the **signac** project in the current working directory by creating a configuration file called ``signac.rc``.
 The location of this file defines the *project root directory*.
-We can access the project interface from anywhere within and below the root directory by calling the :py:func:`signac.get_project` function.
+We can access the project interface from anywhere within and below the root directory by calling the :py:func:`signac.get_project` function, or from outside this directory by providing an explicit path, *e.g.*, ``signac.get_project('~/ideal_gas_project')``.
 
 .. note::
 
     The name of the project stored in the configuration file is independent of the directory name it resides in.
 
-We can verify the correct intialization by examining the project's *implicit* schema, which we just created:
+We can verify that the initialization worked by examining the *implicit* schema of the project we just created:
 
 .. code:: bash
 
@@ -75,14 +77,15 @@ The output of the ``$ signac schema`` command gives us a brief overview of all k
 
 .. note::
 
-    The ``job.init()`` function is `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_, that means it is safe to call it multiple times even after a job has already been initialized.
+    The ``job.init()`` function is `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_, meaning that it is safe to call it multiple times even after a job has already been initialized.
     It is good practice make *all* steps that are part of the data space initialization routine idempotent.
 
 
 Exploring the data space
 ------------------------
 
-The signac core function is to associate the provided metadata, such as a specific temperature, pressure, and system size, with a distinct directory on the file system, which contains all data related to said metadata.
+The core function that ``signac`` offers is the ability to associate metadata --- for example, a specific set of parameters such as temperature, pressure, and system size --- with a distinct directory on the file system that contains all data related to said metadata.
+The ``signac`` core function is to associate the provided metadata, such as a specific temperature, pressure, and system size, with a distinct directory on the file system, which contains all data related to said metadata.
 The :py:meth:`~signac.Project.open_job` method associates the metadata specified as its first argument with a distinct directory called a *job workspace*.
 These directories are located in the ``workspace`` sub-directory within the project directory and the directory name is the so called *job id*.
 
@@ -94,11 +97,10 @@ These directories are located in the ``workspace`` sub-directory within the proj
     71855b321a04dd9ee27ce6c9cc0436f4
     # ...
 
-The *job id* is a highly compact, non-ambigious representation of the *full metadata*.
+The *job id* is a highly compact, unambiguous representation of the *full metadata*, *i.e.*, a distinct set of key-value pairs will always map to the same job id.
 However, it can also be somewhat cryptic, especially for users who would like to browse the data directly on the file system.
 Fortunately, you don't need to worry about this *internal representation* of the data space while you are actively working with the data.
-
-You can create a *linked view* with the ``signac view`` command:
+Instead, you can create a *linked view* with the ``signac view`` command:
 
 .. code-block:: bash
 
@@ -106,9 +108,10 @@ You can create a *linked view* with the ``signac view`` command:
     ~/ideal_gas_project $ ls view/
     p_1 p_10  p_2 p_3 p_4 p_5 p_6 p_7 p_8 p_9
 
-Each directory contains a ``job`` directory, which is a symbolic link to the actual workspace directory.
 The linked view is **the most compact** representation of the data space in form of a nested directory structure.
 *Most compact* means in this case, that **signac** detected that the values for *kT* and *N* are constant across all jobs and are therefore safely omitted.
+It is designed to provide a human-readable representation of the metadata in the form of a nested directory structure.
+Each directory contains a ``job`` directory, which is a symbolic link to the actual workspace directory.
 
 .. note::
 
@@ -171,12 +174,13 @@ See the detailed `query`_ documentation for more information on how to find and 
 
 .. _query: http://signac.readthedocs.io/en/latest/query.html
 
+
 Operating on the data space
 ---------------------------
 
-Each *signac job* represent a data set associated with specific metadata.
+Each job represents a data set associated with specific metadata.
 The point is to generate data which is a **function** of that metadata.
-Within the framework language, such a function is called a *data space operation*.
+Within the framework's language, such a function is called a *data space operation*.
 
 Coming back to our example, we could implement a very simple operation that calculates the volume :math:`V` as a function of our metadata like this:
 
@@ -212,10 +216,11 @@ Executing this script will calculate and store the volume for each pressure-temp
 Workflows
 =========
 
+
 Implementing a simple workflow
 ------------------------------
 
-In many cases, it is desirable to avoid the repeat execution of *data space operations*, especially if they are not `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_ or significantly more expensive than our simple example.
+In many cases, it is desirable to avoid the repeat execution of data space operations, especially if they are not `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_ or are significantly more expensive than our simple example.
 For this, we will incorporate the ``compute_volume()`` function into a workflow using the :py:class:`~.flow.FlowProject` class.
 We slightly modify our ``project.py`` script:
 
@@ -256,12 +261,12 @@ However, if you execute this in your own terminal, you might have noticed a bunc
     Operation 'compute_volume(22a51374466c4e01ef0e67e65f73c52e)' exceeds max. # of allowed passes (1).
     # and so on
 
-That is because by default, the ``run`` command will continue to execute all defined operations, until they are considered *completed*.
-An operation is considered completed, when all post conditions are met.
-We did not define any post conditions yet, so theoretically, **signac** would continue to execute the same operation indefinitely.
+That is because by default, the ``run`` command will continue to execute all defined operations until they are considered *completed*.
+An operation is considered completed when all its *post conditions* are met, and it is up to the user to define those post conditions.
+Since we have not defined any post conditions yet, **signac** would continue to execute the same operation indefinitely.
 
-For this example, a good post condition would be the existance of the ``volume.txt`` file.
-We can define a condition that tells the :py:class:`~.flow.FlowProject` class when an operation is *completed* like this:
+For this example, a good post condition would be the existence of the ``volume.txt`` file.
+To tells the :py:class:`~.flow.FlowProject` class when an operation is *completed*, we can modify the above example by adding a function that defines this condition:
 
 .. code-block:: python
 
@@ -286,21 +291,23 @@ We can define a condition that tells the :py:class:`~.flow.FlowProject` class wh
 
 .. tip::
 
-    Especially very simple condition functions can be conveniently defined inline as `lambda expression`_: ``@FlowProject.post(lambda job: job.isfile("volume.txt"))``.
+    Simple conditions can be conveniently defined inline as `lambda expressions`_: ``@FlowProject.post(lambda job: job.isfile("volume.txt"))``.
 
 .. _lambda expression: https://docs.python.org/3/reference/expressions.html#lambda
 
-We can check that we implemented the condition correctly, by executing ``$ python project.py run`` again, which should now return without any message, because all operations have already been completed.
+We can check that we implemented the condition correctly by executing ``$ python project.py run`` again.
+This should now return without any message because all operations have already been completed.
 
 .. note::
 
     To simply, execute a specific operation from the command line ignoring all logic, use the ``exec`` command, *e.g.*: ``$ python project.py exec compute_volume``.
+    This command (as well as the run command) also accepts jobs as arguments, so you can specify that you only want to run operations for a specific set of jobs.
 
 Extending the workflow
 ----------------------
 
 So far we learned how to define and implement *data space operations* and how to define simple post conditions to control the execution of said operations.
-In the next step, we will learn how to integrate multiple operations into cohesive workflow.
+In the next step, we will learn how to integrate multiple operations into a cohesive workflow.
 
 First, let's verify that the volume has actually been computed for all jobs.
 For this we transform the ``volume_computed()`` function into a *label function* by decorating it with the :py:meth:`~flow.FlowProject.label` decorator:
@@ -334,7 +341,7 @@ We can then view the project's status with the ``status`` command:
 That means that there is a ``volume.txt`` file in each and every job workspace directory.
 
 Let's assume that instead of storing the volume in a text file, we wanted to store in it in a `JSON`_ file called ``data.json``.
-Since we pretend that computing the volume is an expensive operation, we will implement a second operation that copies its result stored in the ``volume.txt`` file into the ``data.json`` file instead of recomputing it:
+Since we are pretending that computing the volume is an expensive operation, we will implement a second operation that copies the result stored in the ``volume.txt`` file into the ``data.json`` file instead of recomputing it:
 
 .. _JSON: https://en.wikipedia.org/wiki/JSON
 
@@ -376,18 +383,18 @@ We can verify the output with:
     ~/ideal_gas_project $ cat workspace/742c883cbee8e417bbb236d40aea9543/data.json
     {"volume": 1000.0}
 
-That seems right, we can then store all other volumes in the respective ``data.json`` files by executing ``$ python project run``.
+Since that seems right, we can then store all other volumes in the respective ``data.json`` files by executing ``$ python project run``.
 
 .. tip::
 
-    We could further simplify our workflow definition, by replacing the ``pre(volume_computed)`` condition with ``pre.after(compute_volume)``, which is a short-cut to reuse all of ``compute_volume()``'s post-conditions as pre-conditions for the ``store_volume_in_json_file()`` operation.
+    We could further simplify our workflow definition by replacing the ``pre(volume_computed)`` condition with ``pre.after(compute_volume)``, which is a short-cut to reuse all of ``compute_volume()``'s post-conditions as pre-conditions for the ``store_volume_in_json_file()`` operation.
 
 
 The job document
 ----------------
 
-Storing results in JSON-format -- as shown in the previous section -- is good practice, because the JSON format is an open format, human-readable and parsers are available for a large variety of codes.
-Because of this, **signac** stores all metadata in JSON-files and in addition comes with a built-in JSON-storage container for each job: the `job document <http://signac.readthedocs.io/en/latest/projects.html#the-job-document>`_.
+Storing results in JSON format -- as shown in the previous section -- is good practice because the JSON format is an open, human-readable format, and parsers are readily available in a wide range of languages.
+Because of this, **signac** stores all metadata in JSON files and in addition comes with a built-in JSON-storage container for each job: the `job document <http://signac.readthedocs.io/en/latest/projects.html#the-job-document>`_.
 
 Let's add another operation to our ``project.py`` script that stores the volume in the *job document*:
 
@@ -406,7 +413,7 @@ Let's add another operation to our ``project.py`` script that stores the volume 
 Besides needing fewer lines of code, storing data in the *job document* has one more distinct advantage: it is directly searchable.
 That means that we can find and select jobs based on its content.
 
-Executing the ``$ python project.py run`` command after adding the above funtion to the ``project.py`` script will store all volume in the job documents.
+Executing the ``$ python project.py run`` command after adding the above function to the ``project.py`` script will store all volume in the job documents.
 We can then inspect all *searchable* data with the ``$ signac find`` command in combination with the ``--show`` option:
 
 .. code-block:: bash
@@ -423,7 +430,7 @@ We can then inspect all *searchable* data with the ``$ signac find`` command in 
     {'volume': 250.0}
     # ...
 
-The ``find`` command in combination with ``--show`` does not only print the *job id*, but also the metadata and the document for each job.
+When executed with ``--show``, the ``find`` command not only prints the *job id*, but also the metadata and the document for each job.
 In addition to selecting by metadata as shown earlier, we can also find and select jobs by their *job document* content, *e.g.*:
 
 .. code-block:: bash
@@ -440,9 +447,14 @@ In addition to selecting by metadata as shown earlier, we can also find and sele
     {'N': 1000, 'kT': 1.0, 'p': 8}
     {'volume': 125.0}
 
+.. note::
 
-Advanced
-========
+    The job document is a feature of the core ``signac`` package, and can be used even outside the context of a :py:class:`~.flow.FlowProject`.
+
+
+Job scripts and cluster submission
+==================================
+
 
 Generating scripts
 ------------------
@@ -451,6 +463,9 @@ So far, we executed all operations directly on the command line with the ``run``
 However we can also generate scripts for execution, which is especially relevant if you intend to submit the workflow to a scheduling system typically encountered high-performance computing (HPC) environments.
 
 Scripts are generated using the `jinja2`_ templating system, but you don't have to worry about that unless you want to change any of the default templates.
+
+.. todo::
+    Once we have templates documentation, point to it here.
 
 .. _jinja2: http://jinja.pocoo.org/
 
@@ -480,19 +495,19 @@ Let's start by generating a script for the execution of up to two *eligible* ope
     python project.py exec compute_volume 22a51374466c4e01ef0e67e65f73c52e
 
 By default, the generated script will change into the  *project root directory* and then execute the command for each next eligible operation for all selected jobs.
-To run this script, we could pipe it either into a file and then execute it or directly into a command processor with:
+We then have two ways to run this script
+One option would be to pipe it into a file and then execute it:
 
 .. code-block:: bash
 
      ~/ideal_gas_project $ python project.py script > run.sh
      ~/ideal_gas_project $ /bin/bash run.sh
 
-Or pipe it directly into the command processor:
+Alternatively, we could pipe it directly into the command processor:
 
 .. code-block:: bash
 
    ~/ideal_gas_project $ python project.py script | /bin/bash
-   ~/ideal_gas_project $
 
 Executing the ``script`` command again, we see that it would now execute both the ``store_volume_in_document`` and the ``store_volume_in_json_file`` operation, since both share the same pre-conditions:
 
@@ -536,8 +551,9 @@ Please see ``$ python project.py script --template-help`` to get more informatio
 Submit operations to a scheduling system
 ----------------------------------------
 
-In addition to executing operations directly on the command line and generating scripts, **signac** also supports you in submitting operations to a scheduling system, such as SLURM_.
-This is essentially equivalent to generating a script as described in the previous section, but in addition **signac** will also keep track of the submitted operations, to prevent the accidental repeated submission of operations.
+In addition to executing operations directly on the command line and generating scripts, **signac** can also submit operations to a scheduler such as SLURM_.
+This is essentially equivalent to generating a script as described in the previous section, but in this case the script will also contain the relevant scheduler directives such as the number of processors to request.
+In addition, **signac** will also keep track of submitted operations in addition to workflow progress, which almost completely automates the submission process as well as preventing the accidental repeated submission of operations.
 
 .. _SLURM: https://slurm.schedmd.com/
 

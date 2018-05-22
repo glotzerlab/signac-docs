@@ -4,7 +4,7 @@
 Quickstart
 ==========
 
-.. todo:: Consider to replace this with a screencast!
+.. todo:: Consider replacing this with a screencast!
 
 To get started, first :ref:`install <installation>` **signac** and then setup a new project with:
 
@@ -15,16 +15,22 @@ To get started, first :ref:`install <installation>` **signac** and then setup a 
     ~/my_project $ signac init MyProject
     Initialized project 'MyProject'.
 
-Initialize the *data space*, for example in a file called ``init.py``.:
+.. important::
 
+    If you need to interface with non-Python code, see :ref:`rec_external`.
+
+Once a project has been created, the next step is to initialize the *data space* with, *e.g.*, a script called ``init.py``.:
 
 .. literalinclude:: ../../examples/quickstart/init.py
 
-Implement a simple *data space operation* within a ``project.py`` script:
+The key is using the Python *project* handle as the interface to initialize jobs (data points) in your data space.
+You can then implement a simple *data space operation* within a ``project.py`` script:
 
 .. literalinclude:: ../../examples/quickstart/project.py
 
-Execute this operation for each of your jobs, with:
+Note the use of the ``FlowProject.operation`` decorator to indicate that the ``hello_job`` function should be interpreted as an operation acting on the data space.
+
+Operations can be executed for all of your jobs with:
 
 .. code-block:: bash
 

@@ -13,6 +13,8 @@ Examples
 This is a collection of example projects which are designed to illustrate how to implement certain applications and solutions with **signac**.
 Unlike the tutorial, the examples consist mainly of complete, immediately executable source code with less explanation.
 
+.. _idg_example:
+
 Ideal Gas
 =========
 
@@ -26,7 +28,7 @@ The data space is initialized for a specific system size :math:`N`, thermal ener
 
 .. literalinclude:: ../../examples/tutorial/init.py
 
-The workflow consists of a ``compute_volume`` operation, that computes the volume based on the given parameters and stores it within a file called ``V.txt`` within each job's workspace directory.
+The workflow consists of a ``compute_volume`` operation that computes the volume based on the given parameters and stores it within a file called ``V.txt`` within each job's workspace directory.
 The two additional operations copy the result into a JSON file called ``data.json`` and into the job document under the ``volume`` key respectively.
 All operations are defined in ``project.py``:
 
@@ -38,7 +40,7 @@ The complete workflow can be executed on the command line with ``$ python projec
 MD with HOOMD-blue
 ==================
 
-This example demonstrates how to setup and analyze the simulation of Lennard-Jones fluid with molecular dynamics using the `HOOMD-blue <https://glotzerlab.engin.umich.edu/hoomd-blue>`_ code.
+This example demonstrates how to setup and analyze the simulation of a Lennard-Jones fluid with molecular dynamics (MD) using `HOOMD-blue <https://glotzerlab.engin.umich.edu/hoomd-blue>`_.
 The project data space is initialized in a ``src/init.py`` script with explicit random seed:
 
 .. literalinclude:: ../../examples/hoomd-lj/src/init.py
@@ -53,7 +55,7 @@ The simulation and analysis workflow is broken into three operations:
 
   1. **init**: Initialize the simulation configuration.
   2. **estimate**: Use the ideal gas law to estimate the expected volume.
-  3. **sample**: Carry-out the molecular dynamics simulation with HOOMD-blue.
+  3. **sample**: Carry out the simulation with HOOMD-blue.
 
 Those three operations and corresponding condition functions are defined and implemented within a ``src/project.py`` module:
 

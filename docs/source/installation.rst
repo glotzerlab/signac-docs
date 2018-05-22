@@ -8,11 +8,10 @@ Installation
 .. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3.5/installing/index.html
 
-All packages that are part of the **signac** framework depend on the core package, simply named ``signac``, which provides the core data management functionality to all other packages.
-See the :ref:`package-overview` section for more information.
-
-Most users should install the ``signac`` and the ``signac-flow`` packages, which are tested for Python version 2.7.x and 3.4+ and do not have any *hard* dependencies, that means you don't have to install any additional dependencies for the basic functionality.
+All packages in the **signac** framework depend on the core ``signac`` package, which provides the data management functionality used by all other packages (See :ref:`package-overview` for more information).
+Most users should install the ``signac`` and the ``signac-flow`` packages, which are tested for Python version 2.7.x and 3.4+ and do not have any *hard* dependencies, ensuring that no packages outside the **signac** framework are required for basic functionality.
 Please see the individual package documentation for instructions on how to install additional packages.
+
 
 Install with conda
 ==================
@@ -27,7 +26,8 @@ For a standard installation, execute:
 
 .. tip::
 
-    Consider to add the conda-forge_ channel to your default channels with: ``$ conda config --add channels conda-forge``.
+    Consider adding the conda-forge_ channel to your default channels with: ``$ conda config --add channels conda-forge``.
+
 
 Install with pip
 ================
@@ -36,25 +36,25 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install signac signac-flow
+    $ pip install --user signac signac-flow
 
 .. note::
 
-    It is recommended to install Python packages into the user space by adding the ``--user`` option to the install command.
+    If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
 
-Source Code Installation
+
+Installation from Source 
 ========================
 
-
 Alternatively, you can clone any of the package's source code repositories and install them manually.
-For example, to install the signac core package, execute the following code:
+For example, to install the signac core package you can execute the following code:
 
 .. code:: bash
 
   git clone https://bitbucket.org/glotzer/signac.git
   cd signac
-  python setup.py install
+  python setup.py install --user
 
 .. note::
 
-    It is recommended to install Python packages into the user space by adding the ``--user`` option to the install command.
+    If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
