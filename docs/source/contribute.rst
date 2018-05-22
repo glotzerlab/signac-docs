@@ -4,7 +4,7 @@ Contribute
 ==========
 
 Contributions to **signac** are very welcome!
-We highly appreciate contributions general **user feedback** and **bug reports** on the `gitter channel <https://gitter.im/signac/Lobby>`_, the `issue tracker <https://bitbucket.org/glotzer/signac/issues>`_, or via `email <mailto:signac-support@umichedu>`_.
+We highly appreciate contributions in the form of **user feedback** and **bug reports** on the `gitter channel <https://gitter.im/signac/Lobby>`_, the `issue tracker <https://bitbucket.org/glotzer/signac/issues>`_, or via `email <mailto:signac-support@umichedu>`_.
 Developers are invited to contribute to the framework by pull request to the appropriate package repository.
 The source code for all packages is hosted on bitbucket: https://bitbucket.org/account/user/glotzer/projects/SIG.
 We recommend discussing new features in form of a proposal on the issue tracker for the appropriate project prior to development.

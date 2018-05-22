@@ -85,7 +85,6 @@ Exploring the data space
 ------------------------
 
 The core function that ``signac`` offers is the ability to associate metadata --- for example, a specific set of parameters such as temperature, pressure, and system size --- with a distinct directory on the file system that contains all data related to said metadata.
-The ``signac`` core function is to associate the provided metadata, such as a specific temperature, pressure, and system size, with a distinct directory on the file system, which contains all data related to said metadata.
 The :py:meth:`~signac.Project.open_job` method associates the metadata specified as its first argument with a distinct directory called a *job workspace*.
 These directories are located in the ``workspace`` sub-directory within the project directory and the directory name is the so called *job id*.
 
@@ -266,7 +265,7 @@ An operation is considered completed when all its *post conditions* are met, and
 Since we have not defined any post conditions yet, **signac** would continue to execute the same operation indefinitely.
 
 For this example, a good post condition would be the existence of the ``volume.txt`` file.
-To tells the :py:class:`~.flow.FlowProject` class when an operation is *completed*, we can modify the above example by adding a function that defines this condition:
+To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed*, we can modify the above example by adding a function that defines this condition:
 
 .. code-block:: python
 
