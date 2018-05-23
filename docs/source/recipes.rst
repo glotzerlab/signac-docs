@@ -164,6 +164,26 @@ Finally, instead of modifying the operation implementation, you could use a cust
 
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
+
+How to handle containers
+========================
+
+.. _docker: https://www.docker.com/
+.. _singularity: http://singularity.lbl.gov/
+
+Using **signac-flow** in combination with container systems such as docker_ or singularity_ is easily achieved by modifying the ``prefix_cmd`` template variable.
+For example, assuming that we wanted to use a singularity container named ``software.simg``, which is placed within our project root directory, we use the following custom template script to prefix all operation commands accordingly:
+
+.. code-block:: jinja
+    :caption: templates/script.sh
+
+    {% set prefix_cmd = "singularity exec software.simg " %}
+    {% extends base_script %}
+
+.. note::
+
+    This approach will only work in combination with the ``script`` or ``submission`` commands, not the ``run`` command.
+
 .. todo::
 
     Advanced Workflows
