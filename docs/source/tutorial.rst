@@ -292,7 +292,7 @@ To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed
 
     Simple conditions can be conveniently defined inline as `lambda expressions`_: ``@FlowProject.post(lambda job: job.isfile("volume.txt"))``.
 
-.. _lambda expression: https://docs.python.org/3/reference/expressions.html#lambda
+.. _lambda expressions: https://docs.python.org/3/reference/expressions.html#lambda
 
 We can check that we implemented the condition correctly by executing ``$ python project.py run`` again.
 This should now return without any message because all operations have already been completed.
