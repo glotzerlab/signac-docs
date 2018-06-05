@@ -74,3 +74,19 @@ Execute the initialization and simulation with:
 
     Add Pumpkin example.
     Add MD with Gromacs example.
+
+
+Integration with Sacred
+=======================
+
+Integrating a sacred_ experiment with **signac-flow** is very simple.
+Assuming the following sacred_ experiment defined in a ``experiment.py`` module:
+
+.. _sacred: http://sacred.readthedocs.io/en/latest/index.html
+
+.. literalinclude:: ../../examples/sacred/experiment.py
+
+
+Then we can integrate that experiment on a *per job* basis like this:
+
+.. literalinclude:: ../../examples/sacred/project.py
