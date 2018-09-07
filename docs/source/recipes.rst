@@ -188,6 +188,22 @@ If you are using the ``run`` command for execution, simply execute the whole scr
     $ singularity exec software.simg python project.py run
 
 
+.. tip::
+
+    You can define a decorator that can be reused like this:
+
+    .. code-block:: python
+
+        def on_container(func):
+            return flow.directives(executable='singularity exec software.simg python')(func)
+
+
+        @on_container
+        @Project.operation
+        def containerized_operation(job):
+            pass
+
+
 .. todo::
 
     Advanced Workflows
