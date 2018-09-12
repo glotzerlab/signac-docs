@@ -165,24 +165,44 @@ Finally, instead of modifying the operation implementation, you could use a cust
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
 
-How to handle containers
-========================
+How to run in containerized environments
+========================================
 
 .. _docker: https://www.docker.com/
 .. _singularity: http://singularity.lbl.gov/
 
-Using **signac-flow** in combination with container systems such as docker_ or singularity_ is easily achieved by modifying the ``cmd_prefix`` template variable.
-For example, assuming that we wanted to use a singularity container named ``software.simg``, which is placed within our project root directory, we use the following custom template script to prefix all operation commands accordingly:
+Using **signac-flow** in combination with container systems such as docker_ or singularity_ is easily achieved by modifying the ``executable`` *directive*.
+For example, assuming that we wanted to use a singularity container named ``software.simg``, which is placed within the project root directory, we use the following directive to specify that a given operation is to be executed within then container:
 
 .. code-block:: jinja
-    :caption: templates/script.sh
 
-    {% set cmd_prefix = "singularity exec software.simg " %}
-    {% extends base_script %}
+    @Project.operation
+    @flow.directives(executable='singularity exec software.simg python')
+    def containerized_operation(job):
+        pass
 
-.. note::
+If you are using the ``run`` command for execution, simply execute the whole script in the container:
 
-    This approach will only work in combination with the ``script`` or ``submission`` commands, not the ``run`` command.
+.. code-block:: bash
+
+    $ singularity exec software.simg python project.py run
+
+
+.. tip::
+
+    You can define a decorator that can be reused like this:
+
+    .. code-block:: python
+
+        def on_container(func):
+            return flow.directives(executable='singularity exec software.simg python')(func)
+
+
+        @on_container
+        @Project.operation
+        def containerized_operation(job):
+            pass
+
 
 .. todo::
 
