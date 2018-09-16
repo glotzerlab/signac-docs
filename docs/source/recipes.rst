@@ -14,6 +14,9 @@ This is a collection of recipes on how to solve typical problems using **signac*
 How to migrate (change) the data space schema.
 ==============================================
 
+Adding/renaming/deleting keys
+-----------------------------
+
 Oftentimes, one discovers at a later stage that important keys are missing from the metadata schema.
 For example, in the tutorial we are modeling a gas using the ideal gas law, but we might discover later that important effects are not captured using this overly simplistic model and decide to replace it with the van der Waals equation:
 
@@ -31,12 +34,42 @@ Since the ideal gas law can be considered a special case of the equation above w
     ...
 
 The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in case that they are not already present.
-To *delete* a key use ``del job.sp['key_to_be_removed']``.
-To *rename* a key, use ``job.sp.new_name = job.sp.pop('old_name')``.
+
+ * To *delete* a key use ``del job.sp['key_to_be_removed']``.
+ * To *rename* a key, use ``job.sp.new_name = job.sp.pop('old_name')``.
 
 .. note::
 
-    The ``job.sp`` attribute provides all basic functions  of a regular Python dict.
+    The ``job.sp`` and ``job.doc`` attributes provide all basic functions  of a regular Python dict.
+
+
+.. _document-wide-migration:
+
+Apply document-wide changes
+---------------------------
+
+The safest approach to apply multiple document-wide changes is to replace the document in one operation.
+Here is an example on how we could recursively replace all dot (.)-characters with the underscore-character in **all** keys [#f1]_:
+
+.. code-block:: python
+
+    import signac
+    from collections.abc import Mapping
+
+
+    def migrate(doc):
+        if isinstance(doc, Mapping):
+            return {k.replace('.', '_'): migrate(v) for k, v in doc.items()}
+        else:
+            return doc
+
+    for job in signac.get_project():
+        job.sp = migrate(job.sp)
+        job.doc = migrate(job.doc)
+
+This approach makes it also easy to compare the pre- and post-migration states before actually applying them.
+
+.. [#f1] The use of dots in keys is deprecated. Dots will be exclusively used to denote nested keywords in the future.
 
 .. _rec_external:
 
