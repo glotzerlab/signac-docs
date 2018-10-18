@@ -221,6 +221,14 @@ If you are using the ``run`` command for execution, simply execute the whole scr
     $ singularity exec software.simg python project.py run
 
 
+.. attention::
+
+    Many cluster environments will not allow you to **submit** jobs to the scheduler using the container image.
+    This means that the actual submission, (e.g. ``python project.py submit`` or similar) will need to be executed with a **local** Python executable.
+
+    To avoid issues with dependencies that are only available in the container image, move imports into the operation function.
+    Condition functions will be executed during the submission process to determine *what* to submit, so depedencies for those must be installed into the local environment as well.
+
 .. tip::
 
     You can define a decorator that can be reused like this:
