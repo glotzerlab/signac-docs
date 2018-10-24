@@ -168,10 +168,8 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
-    #'signac': ('http://signac.readthedocs.io/en/latest/', None),
-    'signac': ('https://signac-docs.readthedocs.io/projects/signac/en/latest/', None),
-    #'flow': ('http://signac-flow.readthedocs.io/en/latest/', None),
-    'flow': ('https://signac-docs.readthedocs.io/projects/flow/en/latest/', None),
+    'signac': ('https://signac.readthedocs.io/projects/signac/en/latest/', None),
+    'flow': ('https://signac.readthedocs.io/projects/flow/en/latest/', None),
     'pymongo': ('https://api.mongodb.com/python/current/', None),
 }
 
