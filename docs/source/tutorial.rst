@@ -84,7 +84,7 @@ The output of the ``$ signac schema`` command gives us a brief overview of all k
 Exploring the data space
 ------------------------
 
-The core function that ``signac`` offers is the ability to associate metadata --- for example, a specific set of parameters such as temperature, pressure, and system size --- with a distinct directory on the file system that contains all data related to said metadata.
+The core function that **signac** offers is the ability to associate metadata --- for example, a specific set of parameters such as temperature, pressure, and system size --- with a distinct directory on the file system that contains all data related to said metadata.
 The :py:meth:`~signac.Project.open_job` method associates the metadata specified as its first argument with a distinct directory called a *job workspace*.
 These directories are located in the ``workspace`` sub-directory within the project directory and the directory name is the so called *job id*.
 
@@ -116,12 +116,6 @@ Each directory contains a ``job`` directory, which is a symbolic link to the act
 
     Make sure to update the view paths by executing the ``$ signac view`` command (or equivalently with the :py:meth:`~signac.Project.create_linked_view` method) everytime you add or remove jobs from your data space.
 
-.. todo::
-
-    Add once ``signac-export`` is implemented:
-    If you are interested in a *permanent* representation of your data space with a nested directory structure, please see `signac-export`_.
-
-    .. _signac-export: signac-export
 
 
 Interacting with the **signac** project
@@ -399,15 +393,15 @@ Let's add another operation to our ``project.py`` script that stores the volume 
 
 .. code-block:: python
 
-   # project.py
-   # ...
+     # project.py
+     # ...
 
-   @FlowProject.operation
-   @FlowProject.pre.after(compute_volume)
-   @FlowProject.post(lambda job: 'volume' in job.document)
-   def store_volume_in_document(job):
-       with open(job.fn("volume.txt")) as textfile:
-               job.document.volume = float(textfile.read())
+     @FlowProject.operation
+     @FlowProject.pre.after(compute_volume)
+     @FlowProject.post(lambda job: 'volume' in job.document)
+     def store_volume_in_document(job):
+         with open(job.fn("volume.txt")) as textfile:
+             job.document.volume = float(textfile.read())
 
 Besides needing fewer lines of code, storing data in the *job document* has one more distinct advantage: it is directly searchable.
 That means that we can find and select jobs based on its content.
@@ -448,7 +442,7 @@ In addition to selecting by metadata as shown earlier, we can also find and sele
 
 .. note::
 
-    The job document is a feature of the core ``signac`` package, and can be used even outside the context of a :py:class:`~.flow.FlowProject`.
+    The job document is a feature of the core **signac** package, and can be used even outside the context of a :py:class:`~.flow.FlowProject`.
 
 
 Job scripts and cluster submission
@@ -459,7 +453,7 @@ Generating scripts
 ------------------
 
 So far, we executed all operations directly on the command line with the ``run`` command.
-However we can also generate scripts for execution, which is especially relevant if you intend to submit the workflow to a scheduling system typically encountered high-performance computing (HPC) environments.
+However we can also generate scripts for execution, which is especially relevant if you intend to submit the workflow to a scheduling system typically encountered in high-performance computing (HPC) environments.
 
 Scripts are generated using the `jinja2`_ templating system, but you don't have to worry about that unless you want to change any of the default templates.
 
@@ -469,7 +463,6 @@ Scripts are generated using the `jinja2`_ templating system, but you don't have 
 .. _jinja2: http://jinja.pocoo.org/
 
 We can generate a script for the execution of the *next eligible operations* with the ``script`` command.
-
 We need to reset our workflow before we can test that:
 
 .. code-block:: bash
@@ -494,7 +487,7 @@ Let's start by generating a script for the execution of up to two *eligible* ope
     python project.py exec compute_volume 22a51374466c4e01ef0e67e65f73c52e
 
 By default, the generated script will change into the  *project root directory* and then execute the command for each next eligible operation for all selected jobs.
-We then have two ways to run this script
+We then have two ways to run this script.
 One option would be to pipe it into a file and then execute it:
 
 .. code-block:: bash

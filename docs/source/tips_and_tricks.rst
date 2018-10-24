@@ -6,6 +6,18 @@ Tips and Tricks
 This is a collection of miscellaneous tips that might help new users avoid common mistakes or provide useful hints to more experienced users.
 
 
+How to design a good schema.
+----------------------------
+
+There is really no good answer on how to *generally* design a good schema because it is heavily dependent on the domain and the specific application.
+Nonetheless, there are some basic rules worth following:
+
+  1. Be descriptive. Although we are using short variable names in the tutorial, in general metadata keys should be as long as necessary for a third party to understand their meaning without needing to ask someone.
+  2. Any parameter which is likely to be *varied* at some point during the study should be part of the metadata right from the start to avoid needing to modify the schema later.
+  3. Take advantage of grouping keys! The job metadata mapping may be nested, just like any other Python dict.
+  4. Even if you don't use "official" schemas, consider to work out standardized schemas among your peers or with your collaborators.
+
+
 Do not replicate job metadata in file names.
 --------------------------------------------
 
@@ -37,15 +49,3 @@ One of the main advantages of using **signac** for data management is that the s
 That also means that existing ids will change and scripts that used them in a hard-coded fashion will fail.
 
 Whenever you find yourself hard-coding ids into your code, consider replacing it with a function that uses the :py:meth:`~.signac.Project.find_jobs` function instead.
-
-
-How to design a good schema.
-----------------------------
-
-There is really no good answer on how to *generally* design a good schema because it is heavily dependent on the domain and the specific application.
-Nonetheless, there are some basic rules worth following:
-
-  1. Be descriptive. Although we are using short variable names in the tutorial, in general metadata keys should be as long as necessary for a third party to understand their meaning without needing to ask someone.
-  2. Any parameter which is likely to be *varied* at some point during the study should be part of the metadata right from the start to avoid needing to modify the schema later.
-  3. Take advantage of grouping keys! The job metadata mapping may be nested, just like any other Python dict.
-  4. Even if you don't use "official" schemas, consider to work out standardized schemas among your peers or with your collaborators.

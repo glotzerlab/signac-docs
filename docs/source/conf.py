@@ -43,6 +43,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
+    'sphinx.ext.autosummary',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -167,8 +168,11 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
-    'signac': ('http://signac.readthedocs.io/en/latest/', None),
-    'flow': ('http://signac-flow.readthedocs.io/en/latest/', None),
+    #'signac': ('http://signac.readthedocs.io/en/latest/', None),
+    'signac': ('https://signac-docs.readthedocs.io/projects/signac/en/latest/', None),
+    #'flow': ('http://signac-flow.readthedocs.io/en/latest/', None),
+    'flow': ('https://signac-docs.readthedocs.io/projects/flow/en/latest/', None),
+    'pymongo': ('https://api.mongodb.com/python/current/', None),
 }
 
 # -- Options for todo extension ----------------------------------------------

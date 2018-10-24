@@ -76,7 +76,7 @@ This approach makes it also easy to compare the pre- and post-migration states b
 How to integrate signac-flow with MATLAB or other software without Python interface
 ===================================================================================
 
-The easiest way to integrate software that has no native Python interface is to implement ``signac-flow`` operations in combination with the ``flow.cmd`` decorator.
+The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``flow.cmd`` decorator.
 Assuming that we have a MATLAB script called ``prog.m`` within the project root directory:
 
 .. code-block:: matlab
@@ -168,7 +168,7 @@ Assuming that we have an MPI-parallelized program named ``my_program``, which ex
     def hello_mpi(job):
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
-The ``flow.cmd`` decorator instructs ``signac-flow`` to interpret the operation as a command rather than a Python function.
+The ``flow.cmd`` decorator instructs **signac-flow** to interpret the operation as a command rather than a Python function.
 The ``flow.directives`` decorator provides additional instructions on how to execute this operation and is not strictly necessary for the example above to work.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
 

@@ -24,13 +24,13 @@ Contents
    installation
    quickstart
    tutorial
+   reference
    examples
    recipes
    tips_and_tricks
 
-   support
-   contribute
-   changes
+   packages
+   community
 
    license
    acknowledge
