@@ -1,7 +1,7 @@
 .. _reference:
 
-Reference
-=========
+Topic Guides
+============
 
 A complete reference to all major components of the **signac** framework.
 
