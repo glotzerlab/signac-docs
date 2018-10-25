@@ -25,11 +25,11 @@ Contents
    quickstart
    tutorial
    reference
+   packages
    examples
    recipes
    tips_and_tricks
 
-   packages
    community
 
    license
