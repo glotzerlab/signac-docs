@@ -7,9 +7,9 @@ Packages (API)
 .. toctree::
     :hidden:
 
-    signac (core) <https://docs.signac.io/projects/core/en/latest/>
-    signac-flow <https://docs.signac.io/projects/flow/en/latest/>
-    signac-dashboard <https://signac-dashboard.readthedocs.io/en/latest/>
+    signac (core) <https://docs.signac.io/projects/core/>
+    signac-flow <https://docs.signac.io/projects/flow/>
+    signac-dashboard <https://docs.signac.io/projects/dashboard/>
 
 The **signac** framework is currently comprised of three packages.
 You only have to install those that provide the functionality you need, however both **signac-flow** and **signac-dashboard** require the **signac** core package.
@@ -34,6 +34,6 @@ These workflows can be executed directly on the command line or submitted to a c
 The **signac-dashboard** allows users to browse their **signac**-managed data spaces through a web-based GUI.
 The dashboard can be used for visualization and analysis and is very helpful when sharing data with collaborators.
 
-.. _signac-core: ../../projects/core/en/latest/
-.. _signac-flow: ../../projects/flow/en/latest/
-.. _signac-dashboard: https://signac-dashboard.readthedocs.io/en/latest/
+.. _signac-core: https://docs.signac.io/projects/core/
+.. _signac-flow: https://docs.signac.io/projects/flow/
+.. _signac-dashboard: https://docs.signac.io/projects/dashboard/

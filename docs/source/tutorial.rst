@@ -159,14 +159,11 @@ We can iterate through a select set of jobs with the :py:meth:`~signac.Project.f
 
 In this example we selected all jobs, where the value for :math:`kT` is equal to 1.0 -- which would be all of them -- and where the value for :math:`p` is less than 3.0.
 The equivalent selection on the command line would be achieved with ``$ signac find kT 1.0 p.\$lt 3.0``.
-See the detailed `query`_ documentation for more information on how to find and select specific jobs.
+See the detailed :ref:`query` documentation for more information on how to find and select specific jobs.
 
 .. note::
 
     The following expressions are all equivalent: ``for job in project:``, ``for job in project.find_jobs():``, and ``for job in project.find_jobs(None):``.
-
-.. _query: http://signac.readthedocs.io/en/latest/query.html
-
 
 Operating on the data space
 ---------------------------
@@ -387,7 +384,7 @@ The job document
 ----------------
 
 Storing results in JSON format -- as shown in the previous section -- is good practice because the JSON format is an open, human-readable format, and parsers are readily available in a wide range of languages.
-Because of this, **signac** stores all metadata in JSON files and in addition comes with a built-in JSON-storage container for each job: the `job document <http://signac.readthedocs.io/en/latest/projects.html#the-job-document>`_.
+Because of this, **signac** stores all metadata in JSON files and in addition comes with a built-in JSON-storage container for each job (see: :ref:`project-job-document`).
 
 Let's add another operation to our ``project.py`` script that stores the volume in the *job document*:
 

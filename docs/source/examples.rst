@@ -82,7 +82,7 @@ Integration with Sacred
 Integrating a sacred_ experiment with **signac-flow** is very simple.
 Assuming the following sacred_ experiment defined in a ``experiment.py`` module:
 
-.. _sacred: http://sacred.readthedocs.io/en/latest/index.html
+.. _sacred: https://sacred.readthedocs.io/
 
 .. literalinclude:: ../../examples/sacred/experiment.py
 

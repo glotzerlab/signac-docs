@@ -22,4 +22,5 @@ Contents:
    cluster_submission
    environments
    templates
+   dashboard
    configuration
