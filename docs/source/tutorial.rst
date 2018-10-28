@@ -104,8 +104,8 @@ Instead, you can create a *linked view* with the ``signac view`` command:
 .. code-block:: bash
 
     ~/ideal_gas_project $ signac view
-    ~/ideal_gas_project $ ls view/
-    p_1 p_10  p_2 p_3 p_4 p_5 p_6 p_7 p_8 p_9
+    ~/ideal_gas_project $ ls -d view/p/*
+    view/p/1  view/p/2  view/p/3  view/p/4  view/p/5  view/p/6  view/p/7  view/p/8  view/p/9
 
 The linked view is **the most compact** representation of the data space in form of a nested directory structure.
 *Most compact* means in this case, that **signac** detected that the values for *kT* and *N* are constant across all jobs and are therefore safely omitted.

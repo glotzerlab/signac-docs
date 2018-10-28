@@ -118,7 +118,7 @@ The :py:class:`~flow.FlowProject` class allows us to generate a **status** view 
 The status view provides information about which conditions are met and what operations are pending execution.
 
 A condition function which is supposed to be shown in the **status** view is called a *label-function*.
-We can convert any condition function into a label function by adding the :py:func:`~.flow.FlowProject.label` decorator:
+We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
 
@@ -141,7 +141,7 @@ We then generate a *detailed* status view with:
 
 .. code-block:: bash
 
-    ~/my_project.py status --detailed
+    ~/my_project.py status --detailed --stack --pretty
     Collect job status info: 100%|█████████████████████████████████████████████| 10/10
     # Overview:
     Total # of jobs: 10

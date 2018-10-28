@@ -50,7 +50,7 @@ The submission process consists of the following steps:
 
 The first step is largely determined by your project *workflow*.
 You can see which operation might be submitted by looking at the output of ``$ python project.py status --detailed``.
-You may further reduce the operations to be submitted by selecting specific jobs (*e.g.* with the ``-j`` or the ``-f`` options), specific operations (``-o``), or generally reduce the total number of operations to be submitted (``-n``).
+You may further reduce the operations to be submitted by selecting specific jobs (*e.g.* with the ``-j``, ``-f``, or ``-d`` options), specific operations (``-o``), or generally reduce the total number of operations to be submitted (``-n``).
 For example the following command would submit up to 5 ``hello`` operations, where *a is less than 5*.
 
 .. code-block:: bash

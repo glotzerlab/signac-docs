@@ -59,7 +59,7 @@ Then, add the ``mycluster.myuniversity.sh`` template script to the *templates/* 
 
 .. important::
 
-    The new environment will be automatically registered and used as long as it is either defined within the same module as your :py:class:`~flow.flow.FlowProject` class or imported into the same module.
+    The new environment will be automatically registered and used as long as it is either defined within the same module as your :py:class:`~flow.flow.FlowProject` class or its module is imported into the same module.
 
 As an example on how to write a submission script template, this would be a viable template to define the header for a SLURM scheduler:
 

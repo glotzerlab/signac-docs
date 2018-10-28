@@ -14,8 +14,8 @@ Therefore, they all follow the same syntax, so you can use the same type of filt
 
     The **signac** framework query API is a subset of the `MongoDB query API <https://docs.mongodb.com/manual/tutorial/query-documents/>`_!
 
-Basics
-======
+Basic Expressions
+=================
 
 Filter arguments are a mapping of expressions, where a single expression consists of a key-value pair.
 All selected documents must match these expressions.

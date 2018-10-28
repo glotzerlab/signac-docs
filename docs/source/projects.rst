@@ -81,15 +81,16 @@ Or with the :py:func:`~signac.get_project` function:
 
 .. _project-jobs:
 
-Jobs
-====
-
-For a full reference of the Job API, please see the :ref:`Python API
-<python-api-job>`.
+.. currentmodule:: signac.contrib.job
 
 The central assumption of the **signac** data model is that the *data space* is divisible into individual data points, consisting of data and metadata, which are uniquely addressable in some manner.
-In the context of **signac**, each data point is called a *job*, and its unique address is referred to as a *state point*.
+Specifically, the workspace is divided into sub-directories, where each directory corresponds to exactly one :py:class:`Job`.
+Each job has a unique address, which is referred to as a *state point*.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
+
+.. tip::
+
+    For a full reference of the Job API, please see the :ref:`Python API <python-api-job>`.
 
 .. _project-job-statepoints:
 
@@ -143,7 +144,7 @@ Once a job has been initialized, it may also be *opened by id* as follows (initi
     >>> job == job2
     True
 
-Whether a job is opened by state point or job id, an instance of :py:class:`~signac.contrib.job.Job` can always be used to retrieve the associated *state point*, the *job id*, and the *workspace* directory with the :py:meth:`~signac.contrib.job.Job.statepoint`, :py:meth:`~signac.contrib.job.Job.get_id`, and :py:meth:`~signac.contrib.job.Job.workspace` methods, respectively:
+Whether a job is opened by state point or job id, an instance of :py:class:`~signac.contrib.job.Job` can always be used to retrieve the associated *state point*, the *job id*, and the *workspace* directory with the :py:attr:`~signac.contrib.job.Job.statepoint`, :py:meth:`~signac.contrib.job.Job.get_id`, and :py:meth:`~signac.contrib.job.Job.workspace` methods, respectively:
 
 .. code-block:: python
 
@@ -155,7 +156,7 @@ Whether a job is opened by state point or job id, an instance of :py:class:`~sig
     '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2'
 
 Evidently, the job's workspace directory is a subdirectory of the project's workspace and is named by the job's id.
-We can use the :py:meth:`signac.Job.fn` convenience function to prepend the this workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
+We can use the :py:meth:`Job.fn` convenience function to prepend the this workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
 This function makes it easy to create or open files which are associated with the job:
 
 .. code-block:: python
@@ -235,9 +236,9 @@ You can modify **nested** *state points* in-place, but you will need to use dict
 The Job Document
 ----------------
 
-In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :py:attr:`~signac.Job.document`.
+In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :py:attr:`~Job.document`.
 This *job document* is automatically stored in the job's workspace directory in `JSON`_ format.
-You can access it via the :py:attr:`~signac.Job.document` or the :py:attr:`~.signac.Job.doc` attribute.
+You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attribute.
 
 .. _`JSON`: https://en.wikipedia.org/wiki/JSON
 
@@ -275,6 +276,8 @@ Use cases for the **job document** include, but are not limited to:
 Finding jobs
 ------------
 
+.. currentmodule:: signac
+
 In general, you can iterate over all initialized jobs using the following idiom:
 
 .. code-block:: python
@@ -282,7 +285,7 @@ In general, you can iterate over all initialized jobs using the following idiom:
     for job in project:
         pass
 
-This notation is shorthand for the following snippet of code using the :py:meth:`~signac.Project.find_jobs` method:
+This notation is shorthand for the following snippet of code using the :py:meth:`Project.find_jobs` method:
 
 .. code-block:: python
 
@@ -306,8 +309,8 @@ Grouping
 
 Grouping operations can be performed on the complete project data space or the results of search queries, enabling aggregated analysis of multiple jobs and state points.
 
-The return value of the :py:meth:`signac.Project.find_jobs()` method is an iterator over all jobs (or all jobs matching an optional filter if one is specified).
-This iterator is an instance of :py:class:`~signac.contrib.project.JobsCursor` and allows us to group these jobs by state point parameters, the job document values, or even arbitrary functions.
+The return value of the :py:meth:`~Project.find_jobs()` method is a cursor that we can use to iterate over all jobs (or all jobs matching an optional filter if one is specified).
+This cursor is an instance of :py:class:`~signac.contrib.project.JobsCursor` and allows us to group these jobs by state point parameters, the job document values, or even arbitrary functions.
 
 .. note::
 
@@ -429,7 +432,9 @@ The project document is stored in JSON format in the project root directory and 
     >>> print(project.doc.hello)
     'world'
 
-In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, which is analogous to the :py:meth:`signac.Job.fn` method described above:
+.. currentmodule:: signac.contrib.job
+
+In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, which is analogous to the :py:meth:`Job.fn` method described above:
 
 .. code-block:: python
 
@@ -455,7 +460,7 @@ Assuming that we initialize our data space with two state point keys, ``a`` and 
             project.open_job({'a': a, 'b': b}).init()
 
 
-Then we can use the :py:meth:`signac.Project.detect_schema` method to get a basic summary of keys within the project's data space and their respective range:
+Then we can use the :py:meth:`~signac.Project.detect_schema` method to get a basic summary of keys within the project's data space and their respective range:
 
 .. code-block:: python
 
@@ -571,7 +576,7 @@ To create views from the command line use the ``$ signac view`` command.
 
 .. important::
 
-    When the project data space is changed by adding or removing jobs, simply update the view, by executing :py:meth:`~signac.Project.create_linked_view` or ``signac view`` for the same view directory again.
+    When the project data space is changed by adding or removing jobs, simply update the view, by executing :py:meth:`~signac.Project.create_linked_view` or ``$ signac view`` for the same view directory again.
 
 You can limit the *linked view* to a specific data subset by providing a set of *job ids* to the :py:meth:`~signac.Project.create_linked_view` method.
 This works similar for ``$ signac view`` on the command line, but here you can also specify a filter directly:

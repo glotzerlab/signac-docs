@@ -28,7 +28,9 @@ You can then implement a simple *data space operation* within a ``project.py`` s
 
 .. literalinclude:: ../../examples/quickstart/project.py
 
-Note the use of the ``FlowProject.operation`` decorator to indicate that the ``hello_job`` function should be interpreted as an operation acting on the data space.
+.. currentmodule:: flow
+
+Note the use of the :py:meth:`FlowProject.operation` decorator to indicate that the ``hello_job`` function should be interpreted as an operation acting on the data space.
 
 Operations can be executed for all of your jobs with:
 

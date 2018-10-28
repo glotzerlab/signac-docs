@@ -15,7 +15,7 @@ Concept
 -------
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-In this context, a *data space operation* is defined as a unary function with an instance of :py:class:`~.contrib.job.Job` as its only argument.
+In this context, a *data space operation* is defined as a unary function with an instance of :py:class:`~signac.contrib.job.Job` as its only argument.
 
 We will demonstrate this concept with a simple example.
 Let's initialize a project with a few jobs, by executing the following script within a ``~/my_project`` directory:
