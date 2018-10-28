@@ -1,13 +1,12 @@
 .. _tips-and-tricks:
 
-Tips and Tricks
-===============
+FAQ
+===
 
-This is a collection of miscellaneous tips that might help new users avoid common mistakes or provide useful hints to more experienced users.
+This is a collection of frequently asked questions (and their answers) that might help new users avoid common mistakes or provide useful hints to more experienced users.
 
-
-How to design a good schema.
-----------------------------
+How do I design a good schema?
+------------------------------
 
 There is really no good answer on how to *generally* design a good schema because it is heavily dependent on the domain and the specific application.
 Nonetheless, there are some basic rules worth following:
@@ -16,10 +15,10 @@ Nonetheless, there are some basic rules worth following:
   2. Any parameter which is likely to be *varied* at some point during the study should be part of the metadata right from the start to avoid needing to modify the schema later.
   3. Take advantage of grouping keys! The job metadata mapping may be nested, just like any other Python dict.
   4. Even if you don't use "official" schemas, consider to work out standardized schemas among your peers or with your collaborators.
+  5. Use the *state point* to define the *identity* of each job, use the *document* to store additional metadata.
 
-
-Do not replicate job metadata in file names.
---------------------------------------------
+How do I avoid replicating metadata in filenames?
+-------------------------------------------------
 
 Many users, especially those new to **signac**, fall into the trap of storing metadata in filenames within a job's workspace even though that metadata is already encoded in the job itself.
 
@@ -41,9 +40,10 @@ Now, we instead need to adjust the filename for each job:
 In general, it is desirable to keep the filenames across the workspace as uniform as possible.
 
 
-Do not hard-code job ids in your scripts.
------------------------------------------
+How do I reference data/jobs in scripts?
+----------------------------------------
 
+You can reference other jobs in a script using the path to the project root directory in combination with a query-expression.
 While it is perfectly fine to copy & paste job ids during interactive work or for small tests, hard-coded job ids within code are almost always a bad sign.
 One of the main advantages of using **signac** for data management is that the schema is flexible and may be migrated at any time without too much hassle.
 That also means that existing ids will change and scripts that used them in a hard-coded fashion will fail.
