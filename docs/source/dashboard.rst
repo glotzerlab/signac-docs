@@ -4,6 +4,7 @@ The Dashboard
 =============
 
 This chapter describes how to create a dashboard to quickly visualize data stored in a **signac** data space.
+To install the dashboard package, follow the instructions `here <https://docs.signac.io/projects/dashboard/en/latest/installation.html>`_.
 
 Getting Started
 ---------------
