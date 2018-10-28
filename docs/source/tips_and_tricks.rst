@@ -1,4 +1,5 @@
 .. _tips-and-tricks:
+.. _faq:
 
 FAQ
 ===
@@ -16,6 +17,18 @@ Nonetheless, there are some basic rules worth following:
   3. Take advantage of grouping keys! The job metadata mapping may be nested, just like any other Python dict.
   4. Even if you don't use "official" schemas, consider to work out standardized schemas among your peers or with your collaborators.
   5. Use the *state point* to define the *identity* of each job, use the *document* to store additional metadata.
+
+What is the difference between the job state point and the job document?
+------------------------------------------------------------------------
+
+The *state point* defines the *identity* of each job in form of the *job id*.
+Conceptually, all data related to a job should be a function of the *state point*.
+That means that any metadata that could be changed without invalidating the data, should in principle be placed in the job document.
+
+.. important::
+
+    The *state point* defines the **identity** of each job, the job document **is data**.
+
 
 How do I avoid replicating metadata in filenames?
 -------------------------------------------------
