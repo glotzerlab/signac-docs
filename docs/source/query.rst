@@ -176,6 +176,19 @@ For example, to match all documents where the value for *protocol* contains the 
 
 This operator internally applies the :py:func:`re.search` function and will never match if the value is not of type ``str``.
 
+To negate a regular expression use a `negative lookaround`_, *e.g.*, to match all state points where the protocol does **not** contain the word "assembly",
+you would use:
+
+.. code-block:: python
+
+   {'protocol': {'$regex': r'^(?!.*assembly).*$'}}
+
+.. _negative lookaround: https://www.regular-expressions.info/lookaround.html
+
+.. tip::
+
+    Use the `Regex101 <https://regex101.com/>`_ app to develop and test your regular expressions.
+
 .. _type-operator:
 
 Type Operator
