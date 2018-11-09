@@ -88,6 +88,15 @@ Specifically, the workspace is divided into sub-directories, where each director
 Each job has a unique address, which is referred to as a *state point*.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
 
+Access a signac job from its workspace directory:
+
+.. code-block:: python
+
+    >>> import signac
+    >>> job = signac.get_job()
+    >>> print(job)
+    42b7b4f2921788ea14dac5566e6f06d0
+
 .. tip::
 
     For a full reference of the Job API, please see the :ref:`Python API <python-api-job>`.
