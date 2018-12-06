@@ -95,6 +95,32 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
 .. _lazily: https://en.wikipedia.org/wiki/Lazy_evaluation
 
+.. tip::
+   
+   The ``@with_job`` decorator can be used so the entire operation takes place in the ``job`` context.
+   For example:
+
+   .. code-block:: python
+
+         @Project.operation
+         @Project.post(greeted)
+         def hello(job):
+            with job:
+               with open('hello.txt', 'w') as file:
+                  file.write('world!\n')
+
+   Is the same as:
+
+   .. code-block:: python
+
+         @Project.operation
+         @Project.post(greeted)
+         @Project.with_job
+         def hello(job):
+            file.write('world!\n')
+
+   This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
+
 We can then execute this workflow with:
 
 .. code-block:: bash
