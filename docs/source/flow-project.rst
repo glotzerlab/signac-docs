@@ -181,8 +181,8 @@ As shown before, all *eligible* operations can then be executed with:
 
 .. _project-script:
 
-Generating Execution Scripts:
-=============================
+Generating Execution Scripts
+============================
 
 Instead of executing operations directly we can also create a script for execution.
 If we have any pending operations, a script might look like this:
@@ -225,7 +225,7 @@ Here is an example for such a template, that would essentially generate the same
     operation.cmd
     {% endfor %}
 
-.. note:: 
+.. note::
 
     Unlike the default template, this exemplary template would not allow for ``parallel`` execution.
 

@@ -38,12 +38,12 @@ Defining New Environments
 =========================
 
 In order to implement a new environment, create a new class that inherits from :py:class:`flow.ComputeEnvironment`.
-You will need to define a detection algorithm for your environment, by default we use a regular expression that matches the return value of :py:func:`socket.gethostname()`.
+You will need to define a detection algorithm for your environment, by default we use a regular expression that matches the return value of :py:func:`socket.getfqdn()`.
 
 Those are the steps usually required to define a new environment:
 
   1. Subclass from :py:class:`flow.ComputeEnvironment`.
-  2. Determine a host name pattern that would match the output of :py:func:`socket.gethostname()`.
+  2. Determine a `regular expression <https://en.wikipedia.org/wiki/Regular_expression>`_ that would match the output of :py:func:`socket.getfqdn()`.
   3. Create a template and specify the template name as ``template`` class variable.
 
 This is an example for a typical environment class definition:
@@ -52,10 +52,10 @@ This is an example for a typical environment class definition:
 
       class MyUniversityCluster(flow.DefaultTorqueEnvironment):
 
-          hostname_pattern = 'mycluster.*.university.edu'
+          hostname_pattern = r'.*\.mycluster\.university\.edu$'  # Matches names like login.mycluster.university.edu
           template = 'mycluster.myuniversity.sh'
 
-Then, add the ``mycluster.myuniversity.sh`` template script to the *templates/* directory within your project root directory.
+Then, add the ``mycluster.myuniversity.sh`` template script to the ``templates/`` directory within your project root directory.
 
 .. important::
 

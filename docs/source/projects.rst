@@ -122,7 +122,7 @@ To access or modify a data point, obtain an instance of :py:class:`~signac.contr
 
 In general an instance of :py:class:`~signac.contrib.job.Job` only gives you a handle to a python object.
 To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
-You can initialize a job **explicitly**, by calling the :py:meth:`~signac.contrib.job.Job.init` method, or **implictly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
+You can initialize a job **explicitly**, by calling the :py:meth:`~signac.contrib.job.Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
 .. code-block:: python
 
