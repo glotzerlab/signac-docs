@@ -120,9 +120,9 @@ If we implemented and integrated the operation and condition functions correctly
 
         @Project.operation
         @Project.post(greeted)
-           def hello(job):
-              with job:
-                 with open('hello.txt', 'w') as file:
+        def hello(job):
+            with job:
+                with open('hello.txt', 'w') as file:
                     file.write('world!\n')
 
     Is the same as:
@@ -132,10 +132,19 @@ If we implemented and integrated the operation and condition functions correctly
         @Project.operation
         @Project.post(greeted)
         @Project.with_job
-           def hello(job):
-              file.write('world!\n')
+        def hello(job):
+            file.write('world!\n')
 
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
+    ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
+
+    .. code-block:: python
+
+        @Project.operation
+        @cmd
+        @with_job
+        def hello(job):
+            return "echo 'hello {}'".format(job)
 
 The Project Status
 ==================
