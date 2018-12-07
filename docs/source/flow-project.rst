@@ -141,8 +141,8 @@ If we implemented and integrated the operation and condition functions correctly
     .. code-block:: python
 
         @Project.operation
-        @cmd
         @with_job
+        @cmd
         def hello(job):
             return "echo 'hello {}'".format(job)
 
