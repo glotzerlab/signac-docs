@@ -95,7 +95,6 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
 .. _lazily: https://en.wikipedia.org/wiki/Lazy_evaluation
 
-
 We can then execute this workflow with:
 
 .. code-block:: bash
