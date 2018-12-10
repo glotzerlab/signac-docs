@@ -121,7 +121,8 @@ If we implemented and integrated the operation and condition functions correctly
         @Project.post(greeted)
         @Project.with_job
         def hello(job):
-            file.write('world!\n')
+            with open('hello.txt', 'w') as file:
+                file.write('world!\n')
 
     Is the same as:
 
