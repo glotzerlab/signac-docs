@@ -271,6 +271,53 @@ Use cases for the **job document** include, but are not limited to:
   2) Tracking of **runtime information**
   3) **labeling** of jobs, e.g. to identify error states.
 
+.. tip::
+
+    Large arrays of numerical data are often not conducive to store in the :py:attr:`Job.document`. Text-based formats like JSON can be slower and less precise for floating-point numbers. For this kind of data, consider using the :py:attr:`Job.data` attribute.
+
+.. _project-job-data:
+
+Job Data Storage
+----------------
+
+Large numerical or text data can be stored in :py:attr:`Job.data`. This uses a file in `HDF5`_ format to store array-like or dictionary-like information. Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs. Unlike the :py:attr:`Job.document`, job data is not searchable.
+
+.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
+
+An example of storing data:
+
+.. code-block:: python
+
+    >>> import numpy as np
+    >>> job = project.open_job(statepoint)
+    >>> with job.data:
+    ...     job.data['x'] = np.arange(0, 1, 0.01)
+    ...     job.data['hello'] = 'world'
+
+
+Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
+The following examples are all equivalent:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     print(job.data.get('hello'))
+    world
+    >>> with job.data:
+    ...     print(job.data['hello'])
+    world
+    >>> with job.data:
+    ...     print(job.data.hello)
+    world
+
+.. tip::
+
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
+
+.. warning::
+
+    It is strongly advised that operations on :py:attr:`Job.data` are not performed in parallel, to avoid data corruption.
+
 .. _project-job-finding:
 
 Finding jobs
@@ -420,7 +467,7 @@ Centralized Project Data
 ========================
 
 To support the centralization of project-level data, **signac** offers simple facilities for placing data at the project level instead of associating it with a specific job.
-For one, **signac** provides a *project document* analogous to the :ref:`job document <project-job-document>`.
+For one, **signac** provides a *project document* and *project data* analogous to the :ref:`job document <project-job-document>` and :ref:`job data <project-job-data>`.
 The project document is stored in JSON format in the project root directory and can be used to store similar types of data to the job document.
 
 .. code-block:: python
@@ -430,6 +477,20 @@ The project document is stored in JSON format in the project root directory and 
     >>> print(project.doc().get('hello'))
     'world'
     >>> print(project.doc.hello)
+    'world'
+
+The project data is stored in HDF5 format in the project root directory and can be used to store similar types of data to the job data.
+
+.. code-block:: python
+
+    >>> project = signac.get_project()
+    >>> with project.data:
+    ...     project.data['hello'] = 'world'
+    >>> with project.data:
+    ...     print(project.data.get('hello'))
+    'world'
+    >>> with project.data:
+    ...     print(project.data.hello)
     'world'
 
 .. currentmodule:: signac.contrib.job
