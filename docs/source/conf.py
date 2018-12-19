@@ -93,6 +93,9 @@ html_logo = "images/logo.png"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# Disable automatic links to original size on scaled-down images
+html_scaled_image_link = False
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #

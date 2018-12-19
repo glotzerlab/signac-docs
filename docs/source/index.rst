@@ -6,14 +6,13 @@
 Welcome to the signac framework documentation!
 ==============================================
 
-.. image::  images/2color-bluebg.png
+.. image::  images/umich-block-M.svg
    :align: right
-   :width: 50px
-   :target: https://glotzerlab.engin.umich.edu/
+   :width: 100px
 
 The **signac** framework supports researchers in managing project-related data with a well-defined indexable storage layout for data and metadata.
 This streamlines post-processing and analysis and makes data collectively accessible.
-The development and maintenance of **signac** is led by researchers at the University of Michigan.
+The development and maintenance of **signac** is led by the `Glotzer Lab <https://glotzerlab.engin.umich.edu/>`_ at the University of Michigan.
 
 This is the overall **framework documentation**.
 It provides a comprehensive overview on what you can do with packages that are part of the **signac** framework.
