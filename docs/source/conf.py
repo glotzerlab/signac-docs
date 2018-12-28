@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'signac'
-copyright = '2018, Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice'
-author = 'Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice'
+copyright = 'The Regents of the University of Michigan'
+author = 'Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice and others.'
 
 # The short X.Y version
 version = ''
