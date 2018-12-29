@@ -280,7 +280,10 @@ Use cases for the **job document** include, but are not limited to:
 Job Data Storage
 ----------------
 
-Large numerical or text data can be stored in :py:attr:`Job.data`. This uses a file in `HDF5`_ format to store array-like or dictionary-like information. Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs. Unlike the :py:attr:`Job.document`, job data is not searchable.
+Large numerical or text data can be stored in :py:attr:`Job.data`.
+This uses a file in `HDF5`_ format to store array-like or dictionary-like information.
+Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
+Unlike the :py:attr:`Job.document`, job data is not searchable.
 
 .. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
@@ -290,9 +293,8 @@ An example of storing data:
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> with job.data:
-    ...     job.data['x'] = np.arange(0, 1, 0.01)
-    ...     job.data['hello'] = 'world'
+    >>> job.data['x'] = np.arange(0, 1, 0.01)
+    >>> job.data['hello'] = 'world'
 
 
 Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
@@ -300,15 +302,23 @@ The following examples are all equivalent:
 
 .. code-block:: python
 
-    >>> with job.data:
-    ...     print(job.data.get('hello'))
+    >>> print(job.data.get('hello'))
     world
-    >>> with job.data:
-    ...     print(job.data['hello'])
+    >>> print(job.data['hello'])
     world
-    >>> with job.data:
-    ...     print(job.data.hello)
+    >>> print(job.data.hello)
     world
+
+The underlying HDF5-file is openend and flushed after each read- and write-operation.
+You can keep the file explicitily open using a context manager.
+The file is only opened and flushed once in the following example:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     job.data['hello'] = 'world'
+    ...     print(job.data.x)
+    ...
 
 .. tip::
 
