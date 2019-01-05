@@ -4,21 +4,31 @@
 
 ### Definitions
 
-<dl>
-    <dt>Job</dt>
-    <dd>A *job* has a *job workspace* and a *job id*.</dd>
-    <dt>Job workspace</dt>
-    <dd>A directory that contains a *signac* metadata file.</dd>
-    <dt>Job id</dt>
-    <dd>A 32-digit hexadecimal number that is a function of the *signac* metadata.</dd>
-    <dt>Project</dt>
-    <dd>A project has a *Project root directory* and manages a *Project workspace*.</dd>
-    <dt>Project root directory</dt>
-    <dd>A file system directory that contains an INI-style *signac* configuration file with the `project` configuration value.</dd>
-    <dt>Project workspace</dt>
-    <dd>A file system directory that contains zero or more *Job workspaces* directories, where each *Job workspace* directory name is equal to the *Job id*.
-    A *Project workspace* can be any directory within the file system.</dd>
-</dl>
+**Job**
+
+A *job* has a *job workspace* and a *job id*.
+
+**Job workspace**
+
+A directory that contains a *signac* metadata file.
+
+**Job id**
+
+A 32-digit hexadecimal number that is a function of the *signac* metadata.
+
+**Project**
+
+A project has a *Project root directory* and manages a *Project workspace*.
+
+**Project root directory**
+
+A file system directory that contains an INI-style *signac* configuration file with the `project` configuration value.
+
+**Project workspace**
+
+A file system directory that contains zero or more *Job workspaces* directories, where each *Job workspace* directory name is equal to the *Job id*.
+A *Project workspace* can be any directory within the file system.
+
 
 ### API Examples
 
@@ -54,53 +64,87 @@
 
 ### Definitions
 
-<dl>
-    <dt>State point</dt>
-    <dd>A JSON-encodable key-value mapping, or Null.</dd>
-    <dt>Job</dt>
-    <dd>A directory on the file-system associated with a state point.
-        If the state point is non-Null, it will be stored in a file signac_statepoint.json within the Job.
-        **Note: The state point is no longer defined as a unique identifier of the job.**</dd>
-    <dt>Job state point</dt>
-    <dd>The JSON-encoded state point contained by the job.</dd>
-    <dt>Workspace</dt>
-    <dd>A directory that contains a workspace.rc file that defines a `statepoint_id` function from arbitrary key-value pairs to 32-hexadecimal strings.
-        The name of any Job in a workspace must equal the statepoint_id of the job state point; consequently, job names within a workspace must be unique.
-        A workspace may also contain other arbitrary files, but this usage is strongly discouraged.</dd>
-    <dt>State point ID</dt>
-    <dd>The output of statepoint_id(job) for a state point contained by a job in a given workspace.
-        The state point ID is workspace-dependent.</dd>
-    <dt>Job state point ID</dt>
-    <dd>The *state point ID* of the job state point.</dd>
-    <dt>Managed job</dt>
-    <dd>A job that is an immediate subdirectory of a workspace.</dd>
-    <dt>*signac* configuration file</dt>
-    <dd>An INI-style configuration file named signac.rc or .signacrc. </dd>
-    <dt>Project configuration file</dt>
-    <dd>A signac configuration file with the `project` configuration key defined.
-        The file should also have the `workspace` key defined, but this key will default to "workspace" if it is empty.</dd>
-    <dt>Project root directory</dt>
-    <dd>A directory that contains a *signac Project configuration file*.</dd> 
-    <dt>Project workspace</dt>
-    <dd>A *workspace* that is the value associated with the `workspace` key in the corresponding Project configuration file.</dd>
-    <dt>Project</dt>
-    <dd>An abstract container of a data space composed of jobs. Concretely, a *Project* is defined by its *root directory*, and is therefore associated with a *project workspace*.
-        This workspace is the only directory that is indexed by the project by default.</dd>
-    <dt>Attached Job</dt>
-    <dd>A *Job* that is a sub-directory of the **current** *Project root directory*.</dd>    
-    <dt>Detached Job</dt>
-    <dd>A *Job* that is not a sub-directory of the **current** *Project root directory*.</dd>    
-    <dt>Job ID</dt>
-    <dd>For *attached* jobs, the normalized path **relative** to the *current* project workspace directory.
-    For *detached jobs*, the normalized **absolute** path.
-    Note that for jobs that are both *managed* and *attached*, the Job ID is equivalent to the *state point ID*.</dd>
-    <dt>Moving a job</dt>
-    <dd>Moving a job's directory to a different location.</dd>
-    <dt>Migrating a job</dt>
-    <dd>Changing the job *state point* and *id* according to some well-defined scheme. For *managed jobs*, modifying the state point results in automatic migration according to the job workspace's `statepoint_id` function.</dd>
-    <dt>Index</dt>
-    <dd>A search index for jobs contained in one or multiple directories that supports finding, grouping, and selection of sets of jobs.</dd>
-</dl>
+**State point**
+
+A JSON-encodable key-value mapping, or Null.
+
+**Job**
+
+A directory on the file-system associated with a state point.
+If the state point is non-Null, it will be stored in a file signac_statepoint.json within the Job.
+**Note: The state point is no longer defined as a unique identifier of the job.**
+
+**Job state point**
+
+The JSON-encoded state point contained by the job.
+
+**Workspace**
+
+A directory that contains a workspace.rc file that defines a `statepoint\_id()` function from arbitrary key-value pairs to 32-hexadecimal strings.
+The name of any Job in a workspace must equal the statepoint_id of the job state point; consequently, job names within a workspace must be unique.
+A workspace may also contain other arbitrary files, but this usage is strongly discouraged.
+
+**State point ID**
+
+The output of statepoint_id(job) for a state point contained by a job in a given workspace.
+The state point ID is workspace-dependent.
+
+**Job state point ID**
+
+The *state point ID* of the job state point.
+
+**Managed job**
+
+A job that is an immediate subdirectory of a workspace.
+
+***signac* configuration file**
+
+An INI-style configuration file named signac.rc or .signacrc.
+
+**Project configuration file**
+
+A signac configuration file with the `project` configuration key defined.
+The file should also have the `workspace` key defined, but this key will default to "workspace" if it is empty.
+
+**Project root directory**
+
+A directory that contains a *signac Project configuration file*.
+
+**Project workspace**
+
+A *workspace* that is the value associated with the `workspace` key in the corresponding Project configuration file.
+
+**Project**
+
+An abstract container of a data space composed of jobs. Concretely, a *Project* is defined by its *root directory*, and is therefore associated with a *project workspace*.
+This workspace is the only directory that is indexed by the project by default.
+
+**Attached Job**
+
+A *Job* that is a sub-directory of the **current** *Project root directory*.
+
+**Detached Job**
+
+A *Job* that is not a sub-directory of the **current** *Project root directory*.
+
+**Job ID**
+
+For *attached* jobs, the normalized path **relative** to the *current* project workspace directory.
+For *detached jobs*, the normalized **absolute** path.
+Note that for jobs that are both *managed* and *attached*, the Job ID is equivalent to the *state point ID*.
+
+**Moving a job**
+
+Moving a job's directory to a different location.
+
+**Migrating a job**
+
+Changing the job *state point* and *id* according to some well-defined scheme.
+For *managed jobs*, modifying the state point results in automatic migration according to the job workspace's `statepoint\_id()` function.
+
+**Index**
+
+A search index for jobs contained in one or multiple directories that supports finding, grouping, and selection of sets of jobs.
 
 ### Python interfaces
 
