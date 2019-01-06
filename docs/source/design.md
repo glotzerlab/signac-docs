@@ -1,66 +1,6 @@
 # The *signac* Framework Concepts
 
-## Currently: v0.1-0.9.x
-
-### Definitions
-
-**Job**
-
-A *job* has a *job workspace* and a *job id*.
-
-**Job workspace**
-
-A directory that contains a *signac* metadata file.
-
-**Job id**
-
-A 32-digit hexadecimal number that is a function of the *signac* metadata.
-
-**Project**
-
-A project has a *Project root directory* and manages a *Project workspace*.
-
-**Project root directory**
-
-A file system directory that contains an INI-style *signac* configuration file with the `project` configuration value.
-
-**Project workspace**
-
-A file system directory that contains zero or more *Job workspaces* directories, where each *Job workspace* directory name is equal to the *Job id*.
-A *Project workspace* can be any directory within the file system.
-
-
-### API Examples
-
-```python
->>> import signac
-
-# Get a project handle
->>> project = signac.get_project()
-
-# Get a job handle by metadata
->>> job = project.open_job({'foo: 42'})
-
-# Get a job handle by primary id
->>> job = project.open_job(id='abc123')
-
->>> print(job.id)
-0300c31b9d55c0196b3848d252e46c0f
->>> print(job.sp)
-{'foo': 42}
-
-# Migrate a job's state point
->>> job.sp.foo = 48     # Changes state point and directory name.
-
-# Iterate over jobs
->>> for job in project:
-...    pass
-
-# Search jobs
->>> selection = project.find_jobs({'foo.$gt': 40})
-```
-
-## Proposal: v0.10.0
+## Versions: 0.10.0+
 
 ### Definitions
 
@@ -696,4 +636,64 @@ class Job:
         elif get_project().is_managed(self):
             self.id = get_project().workspace.open(new_statepoint)
         self._statepoint = new_statepoint
+```
+
+## Versions: 0.1-0.9.x
+
+### Definitions
+
+**Job**
+
+A *job* has a *job workspace* and a *job id*.
+
+**Job workspace**
+
+A directory that contains a *signac* metadata file.
+
+**Job id**
+
+A 32-digit hexadecimal number that is a function of the *signac* metadata.
+
+**Project**
+
+A project has a *Project root directory* and manages a *Project workspace*.
+
+**Project root directory**
+
+A file system directory that contains an INI-style *signac* configuration file with the `project` configuration value.
+
+**Project workspace**
+
+A file system directory that contains zero or more *Job workspaces* directories, where each *Job workspace* directory name is equal to the *Job id*.
+A *Project workspace* can be any directory within the file system.
+
+
+### API Examples
+
+```python
+>>> import signac
+
+# Get a project handle
+>>> project = signac.get_project()
+
+# Get a job handle by metadata
+>>> job = project.open_job({'foo: 42'})
+
+# Get a job handle by primary id
+>>> job = project.open_job(id='abc123')
+
+>>> print(job.id)
+0300c31b9d55c0196b3848d252e46c0f
+>>> print(job.sp)
+{'foo': 42}
+
+# Migrate a job's state point
+>>> job.sp.foo = 48     # Changes state point and directory name.
+
+# Iterate over jobs
+>>> for job in project:
+...    pass
+
+# Search jobs
+>>> selection = project.find_jobs({'foo.$gt': 40})
 ```
