@@ -1,5 +1,10 @@
 # The *signac* Framework Concepts
 
+**Authors**
+
+* Carl Simon Adorf <csadorf@umich.edu>
+* Vyas Ramasubramani <vramasub@umich.edu>
+
 ## Version: 1.0
 
 ### Definitions
