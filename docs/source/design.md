@@ -1,241 +1,645 @@
 # The *signac* Framework Concepts
 
-## Versions: 0.10.0+
+## Version: 1.0
 
 ### Definitions
 
-**State point**
+**Signac configuration file**
 
-A JSON-encodable key-value mapping, or Null.
+An INI-style file named "*signac.rc*" or "*.signacrc*".
 
-**Job**
+**Document**
 
-A directory on the file-system associated with a state point.
-If the state point is non-Null, it will be stored in a file signac_statepoint.json within the Job.
-**Note: The state point is no longer defined as a unique identifier of the job.**
+A JSON-encodable mapping.
 
-**Job state point**
+**Attributes**
 
-The JSON-encoded state point contained by the job.
+A *document* or null.
+
+**Directory**
+
+A directory on the file system identified by its normalized absolute path and associated with *attributes*.
+
+**Directory path**
+
+The normalized absolute path to the directory on the file system.
+
+**Directory root**
+
+An optional absolute path indicating a root directory for the given directory.
+
+**Directory ID**
+
+The path relative to the directory root.
+If no root is set (the default), this is equal to the *directory path*.
+
+**Directory attributes**
+
+*Attributes* associated with a *directory*.
+If the attributes are non-null, they are stored in a file called *signac_attrs.json* within the *directory*, conversely the non-existence of said file indicates null *attributes*.
+
+**Directory document**
+
+A unique *document* associated with a *directory*.
+Non-empty documents are stored in a file called *signac_document.json* within the *directory*.
+
+**Directory data**
+
+Data encoded and stored in a unique HDF5-file called *signac_data.h5* within the *directory*.
+
+**Directory View**
+
+An immutable view of a *directory*, that means the interface is restricted to functions that do not manipulate the directory metadata or data.
+
+**Attributes ID**
+
+A function that maps *attributes* to a valid directory name.
+Illegal return values include: "signac.rc" and ".signacrc".
 
 **Workspace**
 
-A directory that contains a workspace.rc file that defines a `statepoint\_id()` function from arbitrary key-value pairs to 32-hexadecimal strings.
-The name of any Job in a workspace must equal the statepoint_id of the job state point; consequently, job names within a workspace must be unique.
-A workspace may also contain other arbitrary files, but this usage is strongly discouraged.
+A *directory* that contains a *signac configuration file* with the `attrs_id` key that defines a *attributes id* function.
+The default function (`MD5v1`) maps to a 32-character long string of hexadecimal characters.
+A **valid** *workspace* contains either no directories, directories with only null attributes, or only *directories* with a name equal to the return value of said function.
 
-**State point ID**
+A *workspace* may also contain other arbitrary files, but this usage pattern is strongly discouraged as it may lead to file and directory name conflicts.
 
-The output of statepoint_id(job) for a state point contained by a job in a given workspace.
-The state point ID is workspace-dependent.
+**Managed directory**
 
-**Job state point ID**
+A *directory* that is a direct subdirectory of a workspace.
 
-The *state point ID* of the job state point.
+**Directory Index**
 
-**Managed job**
+A (by default non-recursive) search index for a directory hat supports the selection and grouping of *directories* residing in it.
 
-A job that is an immediate subdirectory of a workspace.
+**Moving a Directory**
 
-***signac* configuration file**
+Moving a directory on the file system and updating the *directory* instance path value.
 
-An INI-style configuration file named signac.rc or .signacrc.
+**Migrating a directory**
+
+Changing the directory *attributes* and *path* according to some well-defined scheme.
+
+For *managed directories*, modifying the attributes results in automatic migration according to the *attributes id* function of the *workspace* the directory is residing in.
+
+**DirectoryCursor**
+
+An abstract iterator over a specific set of directories.
+The cursor allows for iteration and manipulation of a set of directories.
+
+A concrete example for a *DirectoryCursor* is the result of a *Index* selection.
 
 **Project configuration file**
 
-A signac configuration file with the `project` configuration key defined.
-The file should also have the `workspace` key defined, but this key will default to "workspace" if it is empty.
-
-**Project root directory**
-
-A directory that contains a *signac Project configuration file*.
-
-**Project workspace**
-
-A *workspace* that is the value associated with the `workspace` key in the corresponding Project configuration file.
+A *signac configuration file* with the `project` configuration key defined.
 
 **Project**
 
-An abstract container of a data space composed of jobs. Concretely, a *Project* is defined by its *root directory*, and is therefore associated with a *project workspace*.
-This workspace is the only directory that is indexed by the project by default.
+A *Project* is defined by a *project root directory* and has a default workspace ("workspace").
 
-**Attached Job**
+**Project (root) directory**
 
-A *Job* that is a sub-directory of the **current** *Project root directory*.
+A directory that contains a *project configuration file*.
 
-**Detached Job**
+**Project workspace**
 
-A *Job* that is not a sub-directory of the **current** *Project root directory*.
+The *workspace* of a *project*.
 
-**Job ID**
+**Project index**
 
-For *attached* jobs, the normalized path **relative** to the *current* project workspace directory.
-For *detached jobs*, the normalized **absolute** path.
-Note that for jobs that are both *managed* and *attached*, the Job ID is equivalent to the *state point ID*.
+A *index* associated with a *project*.
 
-**Moving a job**
+**Job (legacy)**
 
-Moving a job's directory to a different location.
+A *job* is a *directory*.
 
-**Migrating a job**
-
-Changing the job *state point* and *id* according to some well-defined scheme.
-For *managed jobs*, modifying the state point results in automatic migration according to the job workspace's `statepoint\_id()` function.
-
-**Index**
-
-A search index for jobs contained in one or multiple directories that supports finding, grouping, and selection of sets of jobs.
 
 ### Python interfaces
 
-The core concepts defined above have the concrete implementations as Python classes.
-These are described below.
+The abstract concepts defined above are implemented by corresponding Python classes.
+Their interfaces are defined below.
 
-#### The Job interface
+#### The Path interface
 
-A `signac.Job` enables users to store and retrieve **data and metadata** for a given *file system path*.
-The `Job` must be created using the `Job.init` class method, which specifies both path to the job.
-This factory function also takes an optional *state point* argument that, if provided, is saved in the JSON-encoded signac_statepoint.json file at the provided path.
-The `Job` object then supports storing data within the specified directory.
+A `signac.Path` implements a [`os.PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) interface and a few other convenience functions.
 
-A `signac.Job` has the following API:
 ```python
-class Job:
+class Path:
 
-    def __init__(self, path):
-        """Initialize job for the existing path."""
+    def __fspath__(self):
+        "Return the normalized absolute path."
+
+    def exists(self):
+        """Return True if this path exists on the file system.
+
+        Equivalent to:
+
+            return os.path.exists(self)
+        """
+
+    def isfile(self):
+        """Return True if this path is a file.
+
+        Equivalent to:
+
+            return os.path.isfile(self)
+        """
+
+    def isdir(self):
+        """Return True if this path is a directory.
+
+        Equivalent to:
+
+            return os.path.isdir(self)
+        """
+
+    def join(self, path):
+        """Return a path constructed from joining this path and path.
+
+        Equivalent to:
+
+            return type(self)(os.path.join(self, path))
+        """
+
+    # Other methods which might be expected here, such as islink() etc.
+```
+
+#### The Directory interface
+
+A `signac.Directory` enables users to store and retrieve **data and metadata** for a given *file system path*.
+An instance of `Directory` is constructed given a specific file system path.
+An alternative factory function `Directory.init` accepts a path and a *attrs* argument and sets the *directory attributes* during construction *if and only if* the current *attributes* are null.
+The `Directory` object then supports storing data within the specified directory.
+
+A `signac.Directory` has the following API:
+```python
+class Directory:
+
+    def __init__(self, path, root=None):
+        """Initialize directory for the given path and root.
+
+        The absolute path is constructed by joining root with path.
+        The root argument may be omitted in which case path must either
+        be an absolute path or root defaults to the current working
+        directory.
+
+        The main purpose of the root argument is to allow for a
+        shorter presentation of directories. For example, the following
+        two directories point to the same absolute path, but are
+        not exactly identical since their representation is slightly
+        different:
+
+            >>> print(Directory('/path/to/data/my_project'))
+            /path/to/data/my_project
+            >>> print(Directory('my_project', '/path/to/data/'))
+            my_project
+        """
 
     @classmethod
-    def init(cls, path, statepoint=None, force=False):
-        """Initialize job at path with given state point.
+    def init(cls, path, attrs=None, force=False):
+        """Initialize directory at path with given attributes.
 
         :param path:
-            The data directory of the job instance.
-        :param statepoint:
+            The directory path.
+        :param attrs:
             The metadata dictionary associated with the
-            directory of the job instance.
+            directory of the directory instance.
         :param force:
-            Overwrite any existing state point metadata.
+            Overwrite the existing non-null attributes.
         :returns:
-            An instance of `Job`.
+            An instance of `Directory`.
         :raises ValueError:
-            When the provided value for state point does not
-            match the state point value already stored at the
-            given path and the force argument is False.
+            When the current attributes are not null and do
+            not match the provided attributes argument unless
+            the force argument is True.
         """
 
     @property
     def path(self):
-        """Returns the job's path relative to the current working directory."""
+        """The normalized absolute path of this directory.
+
+        :returns:
+            The normalized absolute path of this directory.
+        :rtype:
+            Path
+        """
+
+    __fspath__ = path  # A Directory is also a path-like object.
 
     @property
     def id(self):
-        """Returns the Job ID.
+        """Return the path relative to the directory root.
 
-        Depending on whether this job is attached to the current project,
-        the ID is either a path relative to the current project's workspaces
-        directory or the absolute job path.
+        This function is primarily needed to support the legacy API
+        and is essentially equivalent to:
+
+            if self.root:
+                return os.path.relpath(self.path, self.root)
+            else:
+                return self.path
+        """
+
+    __str__ = id
+
+    @property
+    def attrs(self):
+        """Return the attributes associated with this directory.
+
+        The data container for the attributes is mutable. That means
+        changes to this interface are directly reflected on the
+        file system.
+
+        For example:
+
+            >>> directory.attrs = dict(foo=42)
+            >>> print(directory.attrs)
+            {"foo": 42}
+            >>> directory.attrs.foo += 1
+            {"foo": 43}
+
+        To remove the attributes file, set the attributes to None:
+
+            >>> directory.attrs = None
+            >>> assert not directory.isfile('signac_attrs.json')
+            >>>
+        """
+
+    def __getitem__(self, path):
+        """Return a directory with a path relative to this directory.
+
+        Equivalent to:
+
+            return Directory(path=path, root=self.path)
+        """
+
+    def exists(self):
+        """Return True if this directory exists on the file system."""
+
+    def make(self, recursive=True):
+        """Attempt to create this directory on the file system.
+
+        This function attempts to create the file system directory
+        associated with this instance (recursively by default).
+
+        .. warning::
+
+            Any parent directories created in the process will
+            not be deleted upon failure!
+
+        :param recursive:
+            When True, also create all parent directories recursively
+            if necessary.
+        :raises OSError:
+            In case that the creation of the directory failed.
+        """
+
+    def __enter__(self):
+        """Context manager that temporarily switches into this directory.
+
+        For example:
+
+            >>> with directory:
+            ...     open('hello.txt').write('world!')
+            ...
+            >>> print(open(directory.fn('hello.txt')).read()):
+            world!
+        """
+
+    def fn(self, path):  # legacy
+        """Return a path formed from joining this path and path.
+
+        Wrapper for:
+
+            return self.path.join(path)
+        """
+
+    def isfile(self, path):  # legacy
+        """Return True if this path joined with path points to a file.
+
+        Equivalent to:
+
+            return self.path.join(path).isfile()
+        """
+
+    @property
+    def index(self):
+        """Returns the index associated with this directory.
+
+        Equivalent to:
+
+            return DirectoryIndex(self.path)
+        """
+
+    @property
+    def workspace(self):
+        """Returns the workspace associated with this directory.
+
+        Equivalent to:
+
+            return Workspace(self.path)
+        """
+
+    def find(self, **filter):
+        """Build and search the directory's indexes.
+
+        Wrapper for:
+
+            return DirectoryIterator(self.index.find(**filter))
+        """
+
+    def get(self, attrs=None, **kwargs):
+        """Open a directory for the given attributes.
 
         Essentially equivalent to:
 
-            try:
-                project = get_project()
-                if is_subdir(job.path, project.root_directory()):
-                    return os.path.relpath(job.path, str(project.workspace))
-                else:
-                    raise LookupError
-            except LookupError:
-                return os.path.abspath(job.path)
+            return Directory(self.workspace.get(attrs, **kwargs))
         """
-
-
-    @property
-    def statepoint_id(self):
-        """Returns the state point ID."""
-
-     def set_permissions(self, mode='0o644'):
-         """Set the job's metadata file permissions.
-
-         The default value allows changes to the job's
-         state point only by the file owner.
-
-         Equivalent to:
-
-             os.chmod(self._fn_statepoint, mode)
-         """
 
     # Other methods, that are already implemented as part
     # of the legacy signac.contrib.job.Job class.
 ```
 
+##### Example API usage:
+```python
+# Directory class:
+>>> import os
+>>> print(os.getcwd())
+/data
+>>> from signac import Directory
+>>> project_dir = Directory('my_project')
+>>> project_dir
+Directory('my_project', root='/data/')
+>>> project_dir.path
+Path('/data/my_project')
+>>> print(project_dir)
+'my_project'
+>>> project_dir['data']
+Directory('data', root='/data/my_project/')
+>>> print(project_dir['data'])
+data
+>>> foo42 = project_dir['data/foo_42']
+>>> foo42
+Directory('data/foo_42', root='/data/my_project/')
+>>> foo42.exists()
+False
+>>> foo42.make()    # explicit make()
+>>> foo42.exists()
+True
+>>> print(foo42.fn('hello.txt'))
+/data/my_project/data/foo_42/hello.txt
+>>> foo42.attrs = dict(foo=42)
+>>> print(foo42.attrs)
+{"foo": 42}
+```
+
+#### AttrsID interface
+
+The `signac.AttrsID` interface is a basic *callable* with the
+additional `.valid_id()` function which can be used by the *Workspace*
+to identify valid ids through simple inspection.
+This may lead to significant performance improvements for the determination
+of valid workspaces.
+
+```python
+class AttrsID:
+
+    @staticmethod
+    def __call__(attrs):
+        """Return the attrs_id for this attrs."""
+
+    @staticmethod
+    def valid_id(id):
+        """Return True if the id is recognized as valid.
+
+        This function may be used as *necessary* condition
+        for the identification of a valid workspace.
+
+        The default function returns True.
+        """
+```
 
 #### The Workspace interface
 
-A `signac.Workspace` enables the automatic generation of paths from *state points*.
-By construction, these paths will correspond to *state point IDs*, such that jobs created using these paths will be managed jobs.
-Consequently, jobs within any given workspace must be unique up to their state points.
+A `signac.Workspace` enables the automatic generation of paths from *attributes*.
+By construction, these paths will correspond to *attributes IDs*, such that directories created using these paths will be *managed directories*.
+Consequently, all directories within any given workspace must have names corresponding to their respective *attributes*.
 
 A `signac.Workspace` has the following API:
 ```python
 class Workspace:
 
-    def __init__(self, path):
-        """Initialize a Workspace for the given path.
+    def __init__(self, path, attrs_id=None):
+        """Initialize an instance of workspace.
 
-        The constructor should create the workspace.rc configuration file at the provided path."""
+        The attrs_id argument must be a callable, but should
+        preferably implement the full `AttrsID` interface for
+        improved performance.
+
+        :param path:
+            The path to the workspace directory.
+        :param attrs_id:
+            The attrs_id function.
+            Defaults to `signac.hashing.MD5v1`.
+        """
+
+    def init(self):
+        """Initialize this workspace.
+
+        Creates both the directory and the configuration file
+        if any of those do not exist yet.
+
+        The configuration file is a '.signacrc' file with the
+        `attrs_id` key set to the name of the *attrs_id*
+        functor for this workspace.
+        """
 
     @property
     def path(self):
-        """Returns the path relative to the current directory."""
+        """Returns the absolute normalized path to this directory."""
 
     def __str__(self):
         """Alias for `.path`."""
 
-    def statepoint_id(self, statepoint):
-        """Return a relative path for the given state point."""
+    def attrs_id(self, attrs):
+        """Return a relative path for the given attributes."""
 
-    def open(self, statepoint):
-        """Return a Job at the path defined by statepoint_id(statepoint)."""
+    def get(self, attrs, make=True, **kwargs):
+        """Return a path defined by the attrs_id function.
+
+        Optionally initializes the workspace if necessary.
+        When make is True, essentially equivalent to:
+
+            self.init()
+            return Directory.init(
+                path=os.path.join(
+                    self.path, self.attrs_id(attrs)),
+                attrs=attrs).path
+
+        :param attrs:
+            The attrs for which we want to open a directory for.
+        :param make:
+            Create the directory if it does not exist yet.
+        :returns:
+            Instance of directory for the given attributes.
+        :raises CorruptedWorkspaceError:
+            If the provided attributes do not match the attributes
+            of the directory at the provided path.
+        :raises KeyError:
+            If the directory corresponding to the attributes does
+            not exist and the make argument is False.
+        """
+
+    def check(self):
+        """Check whether the workspace is valid.
+
+        That means all directories within the workspace path adhere
+        to the specified *attrs id* scheme.
+        """
+
+    def repair(self):
+        """Move all directories within the workspace to the correct paths.
+
+        This function recalculates the path provided by the
+        attrs_id function for all directories within the workspace
+        and moves them if necessary.
+        """
 
     def __call__(self):
         """Alias for `.path` but emits `SignacDeprecationWarning`."""
 ```
 
+##### Example API Usage
 
-#### The Index interface
-
-A `signac.Index` enables search and selection operations on collections of Jobs.
-A `signac.Index` is constructed by crawling the indexed paths and building a collection of documents that link file system paths to Jobs.
-
-A `signac.Index` has the following API:
+We can explicitly construct a `Workspace`
 ```python
-class Index:
+>>> Workspace(project_dir['workspace'])
+Workspace('/data/my_project/workspace'])
+```
+Or use the `.workspace` attribute:
+```python
+>>> project_dir['workspace'].workspace
+Workspace('/data/my_project/workspace'])
+```
+The `Workspace` object then allows us to quickly create directories
+for specific *attributes*:
+```python
+>>> ws = project_dir['workspace'].workspace
+>>> ws.attrs_id(dict(foo=42))
+0300c31b9d55c0196b3848d252e46c0f
+>>> ws.get(foo=42)
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
+>>> print(ws.get(foo=42).attrs)
+{'foo': 42}
+>>> ws.attrs_id.is_valid('0300c31b9d55c0196b3848d252e46c0f')
+True
+```
 
-    def __init__(self, * paths, recursive=False, auto_cache=False):
-        """Construct index for paths."""
+#### The Cursor interfaces
+
+All functions that return a selection of some sort should return an instance of cursor that allows the repeated iteration over the selection and length determination.
+
+This is the basic `_Cursor` interface:
+```python
+class _Cursor:
+
+    def __iter___(self):
+        "Return iterator over the underlying selection."
+
+    def __len__(self):
+        "Return the length of the underlying selection."
+```
+
+The interface below is the description of an abstract interface that a directory cursor should implement.
+
+The interface is similar to the Directory interface itself, but allows operations on iterators.
+
+```python
+class AbstractDirectoryCursor:
+
+    @abstractmethod
+    def __iter__(self):
+        """Iterator over the selection."""
+
+    @abstractmethod
+    def __len__(self):
+        """Return the length of the underlying selection."""
+
+    def path(self):
+        """Iterator over the directory paths.
+
+        Essentially equivalent to:
+
+            for subdir in selection:
+                yield subdir.path
+        """
+
+    def fn(self, filename):
+        """Iterator over filenames for the selection.
+
+        Essentially equivalent to:
+
+            for subdir in selection:
+                yield subdir.fn(filename)
+        """
+
+    def apply(self, function):
+        """Apply function to all directories.
+
+        Returns iterator over the return values.
+
+        Example:
+
+            >>> for foo in selection.apply(lambda d: print(d, d.sp.foo):
+            ...     pass    
+            ...
+            foo_4 4
+            foo_8 8
+        """
+
+    def apply_parallel(self, function):
+        """Apply function to all directories in parallel.
+
+        Like `.apply`, but executes function in parallel.
+        """
+```
+##### Example API Usage
+
+Examples for this interface are shown as part of the API examples for the `DirectoryInterface` class.
+
+#### The DirectoryIndex interface
+
+A `signac.DirectoryIndex` enables selection and grouping operations on directories located within a specific directory.
+This is achieved by scanning the indexed path and compiling a collection of documents containing metadata (e.g. the directory attributes).
+
+A `signac.DirectoryIndex` has the following API:
+```python
+class DirectoryIndex:
+
+    def __init__(self, path, recursive=False, auto_cache=False):
+        """Construct index for path."""
 
     def build(self, include_documents=False):
-        """Build index for paths."""
+        """Build index for path."""
 
-    def __getitem__(self, id):
-        """Return path for the given id.
+    def __getitem__(self, path):
+        """Return document for the given path.
 
         :returns:
-            A path for the given id.
+            The index document for the given path.
         :raises KeyError:
-            If no match is found for the given id.
+            If no match is found for the given path.
         """
 
     def get(self, id, default=None):
         """Like __getitem__, but returns `default` if no match is found."""
 
-    def lookup(self, id):
-        """Return path for the given (abbreviated) id.
+    def lookup(self, path):
+        """Return document for the given (abbreviated) path.
 
         This function will optionally expand the id to generate a match.
 
         :returns:
-            A path for the given id.
+            A document for the given id.
         :raises KeyError:
             If no match is found for the given ID, even after expansion.
         :raises LookupError:
@@ -243,58 +647,122 @@ class Index:
         """
 
     def find(self, filter=None, **filter_kwargs):
-        """Returns an iterator over paths for the selection.
+        """Returns an iterator over directories for the selection.
 
         This function returns an iterator over all paths that
         match the given filter argument.
-
-        Valid examples:
-
-            find(dict(foo=42))
-            find(foo=42)
-            find('foo 42')
         """
+
     def store_cache(self):
         """Store persistent cache for this index in paths."""
 
     def __call__(self):
-        """Return iterator over all entries.
-
-        Primarily needed to preserve backwards compatibility.
-        """
+        """(legacy) Return iterator over all entries."""
 ```
 
-##### Questions
+##### Example API usage
 
- * Should `Index` return (iterators over) instances of `Job` instead of paths?
- **Yes, I think so. Jobs are our unambiguous representations of paths anyway.**
+```python
+>>> project_dir.index
+DirectoryIndex('/data/my_project')
+>>> foo42 = project_dir['data/foo_42']
+>>> foo42.attrs = dict(foo=42)
+>>> print(len(project_dir['data'].index.find(foo=42)))
+1
+```
+The `Directory.find()` method is wrapper for `Directory.index.find()`, but returns instances of `DirectoryIndexCursor` instead of an iterator over paths.
+For demonstration we first create a bunch of directories:
+```python
+>>> for foo in [4, 8, 15, 16, 23, 42]:
+...     project_dir['data/foo_{}'.format(foo)].attrs = dict(foo=foo)
+...
+```
+We can then iterate over all or a selection of directories.
+Here, we select all directories where the value for *foo*  is greater than 15:
+```python
+>>> for subdir in project_dir['data'].find('foo.$gt 15'):
+...     subdir
+...
+Directory('foo_16', root='/data/my_project/data')
+Directory('foo_23', root='/data/my_project/data')
+Directory('foo_42', root='/data/my_project/data')
+>>> for subdir in project_dir['data'].find('foo.$gt 15'):
+...     print(subdir)
+...
+foo_16
+foo_23
+foo_42
+```
+We can also apply certain functions directly to the selection, for example to construct a filename:
+```python
+>>> for fn in project_dir['data'].find('foo.$lte 15').apply(lambda d: d.fn('hello.txt')):
+...     pass
+...
+/data/my_project/data/foo_4/hello.txt
+/data/my_project/data/foo_8/hello.txt
+/data/my_project/data/foo_15/hello.txt
+```
+Some functions can be applied directly without passing it to `apply()`, for example, we can achieve the result above with:
+```python
+>>> for fn in project_dir['data'].find('foo.$lte 15').fn('hello.txt'):
+...     print(fn)
+...
+/data/my_project/data/foo_4/hello.txt
+/data/my_project/data/foo_8/hello.txt
+/data/my_project/data/foo_15/hello.txt
+```
 
 #### The Project interface
 
-A `signac.Project` provides an **anchor** on the file system that we can use to abstract away concerns about the data's absolute location.
-A `signac.Project` provides a transparent interface to a `signac.Index` on a specific instance of a `signac.Workspace`, namely the *project workspace*.
-It allows us to automatically determine a path within the *project workspace* for a given *state point* based on the underlying `Workspace` object, providing a straightforward interface for instantiating new Jobs.
-The underlying `Index` object can be used to search and select jobs that are located within the *project workspace*.
-Any other jobs may also be searched by explicitly adding them to the project's index (see below for more details).
+A `signac.Project` provides an *anchor* on the file system that we can use to abstract away concerns about the data's absolute location.
+A `signac.Project` has a specific *project workspace* that is automatically indexed providing a straightforward interface for instantiating new directories.
 
 A `signac.Project` has the following API:
 
 ```python
 class Project:
 
-    def __init__(self, config):
-        """Initialize a Project instance with the given configuration."""
+    def __init__(self, path):
+        """Initialize a Project instance for the given path.
+
+        :raises ValueError:
+            In case that path is not a project root directory.
+        """
 
     @property
-    def index(self):
-        """Return a reference to the project's index instance."""
+    def config(self):
+        """Return a reference to the project's configuration."""
 
     @property
     def workspace(self):
         """Return a reference to the project's workspace instance.
 
-        Reset the workspace path on assignment.
+        Resets the workspace path on assignment.
+
+        Essentially equivalent to:
+
+            return Workspace(self.config['workspace_dir'])
         """
+
+    @property
+    def index(self):
+        """Return a reference to the project's index instance.
+
+        Essentially equivalent to:
+
+            return Index(self.workspace.path)
+
+        **IT SHOULD BE POSSIBLE TO OVERWRITE THIS TO USE SOME DIFFERENT SCHEME! (csa)**
+        """
+
+    def __getitem__(self, id):
+        """Return a directory for the given id.
+
+        Wrapper for:
+
+            self.workspace.directory[id]
+        """
+        return
 
     @support_legacy_api
     def find(self, **filter):
@@ -302,170 +770,146 @@ class Project:
 
         Wrapper for:
 
-            return JobsIterator(self.index.find(**filter)))
+            return DirectorysIterator(self.index.find(**filter)))
 
         :returns:
-            An iterator over instances of `Jobs`.
+            An iterator over instances of `Directorys`.
         """
 
-    find_jobs = find  # legacy API
+    find_jobs = find    # legacy API
 
-    def open(self, statepoint=None, id=None):
-        """Return instance of job for the given statepoint or id.
+    @support_legacy_api
+    def get(self, attrs=None, **kwargs):
+        """Return instance of directory for the given attrs or id.
 
-        Depending on whether a state point or id is provided,
+        Depending on whether attributes or id is provided,
         this function will either return
 
-            return Job(self.workspace.open(statepoint))
+            return Directory(self.workspace.get(attrs))
 
         or
 
-            return self.index.lookup_job(id)
+            return self.index.lookup_directory(id)
 
         :returns:
-            An instance of `Job` for the given state point or
+            An instance of `Directory` for the given attributes or
             matching id.
         :raises KeyError:
-            If a job with the given id does not exist.
+            If a directory with the given id does not exist.
         :raises LookupError:
-            If there is more than one job matching
+            If there is more than one directory matching
             an abbreviated id.
         :raises ValueError:
-            If both the state point and id argument are provided.
+            If both the attributes and id argument are provided.
         """
 
-    open_job = open  # legacy API
+    open_job = get  # legacy API
 
     def __getitem__(self, id):
-        """Return an instance of `Job` for the given id.
+        """Return an instance of `Directory` for the given id.
 
         This is equivalent to:
 
-            return Job(self.workspace[id])
+            return Directory(self.workspace[id])
 
         :returns:
-            An instance of Job for the given id.
+            An instance of Directory for the given id.
         :raises KeyError:
-            If the job directory does not exist.
+            If the directory does not exist.
         """
 
-    def lookup(self, id):
-        """Return an instance of Job for the given (abbreviated) id.
-
-        This is equivalent to:
-
-            Job(self.index.lookup(id))
-
-        Note: This function will try to expand a given id,
-        to find a match if necessary.
-
-        :returns:
-            An instance of Job for the given id.
-        :raises KeyError:
-            If the job directory does not exist.
-        :raises LookupError:
-            If there is more than one job matching
-            an abbreviated id.
-        """
-
-    def is_managed(self, job):
-        """Determine whether the job is managed.
+    # Example for implementation of legacy functions:
+    def fn(self, filename):
+        """Return a filename joined with the project root directory.
 
         Equivalent to:
 
-            return job.id == self.workspace.open(job.statepoint)
-
-        returns:
-            True if job is managed in the workspace, otherwise False.
+            return self.directory.join(filename)
         """
-
     # ...
+```
+
+##### Example API usage
+```python
+>>> project = Directory('my_project').make_project()
+>>> project
+Project('/data/my_project')
+>>> project.directory
+Directoy('/data/my_project')
+>>> project.workspace
+Workspace('/data/my_project/workspace')
+>>> project.index
+Index('/data/my_project/workspace')
+>>> for job in project:
+...     job
+...
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
+>>> print(job)
+0300c31b9d55c0196b3848d252e46c0f
+>>> job.path
+Path('/data/my_project/workspace/0300c31b9d55c0196b3848d252e46c0f')
+>>> print(job)
+0300c31b9d55c0196b3848d252e46c0f
+>>> project.get(foo=42)
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
+>>> project.open_job(dict(foo=42))
+<string>:1: SignacDeprecationWarning: The Project.open_job() function is deprecated! Please use .get() instead!
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
 ```
 
 ##### The Project data space
 
-The project data space consists of the project workspace **as well as all other jobs that are subdirectories of the project root directory**.
-That becomes obvious considering that we can obtain **any** job by providing a path relative to the project's workspace directory.
-For example, assuming that `~/my_project/` is the project root directory and that there is a job in `~/my_project/data/my_job`, we can obtain a job handle with:
+The project data space consists of the project workspace **as well as all other directories that are subdirectories of the project root directory**.
+That becomes obvious considering that we can obtain **any** directory by providing a path relative to the project's workspace directory.
+For example, assuming that `~/my_project/` is the project root directory and that there is a directory in `~/my_project/data/my_directory`, we can obtain a directory handle with:
 ```python
->>> job = project['../data/my_job']
-```
-However, this job would not be part of the project *find()* result by default, unless we add `~/my_project/data` to the *indexed* directories.
-We can still search and select these jobs by either using an explicit index:
-```python
->>> index = Index('data')
->>> jobs = index.find('foo.$gt 0')
-```
-or by adding the `data/` directory to the project's indexed directories:
-```python
->>> project.add_index('data/')
-```
-This equivalent to adding an entry to the project's `indexed` configuration key:
-```INI
-# signac.rc
-project = Project
-indexed = data
+>>> directory = project['../data/my_directory']
+Directory('../data/my_directory', root='/data/my_project/workspace/')
 ```
 
-#### User story: Freeze the workspace
+### Directory move and migration
 
-One possible advantage of moving *all* jobs from the workspace into a different directory is to essentially *freeze* the workspace, meaning that future state point changes will no longer cause a change to the job's *ID* and *path*.
-
-A simple freeze would be achieved with
-```bash
-~/my_project $ mv workspace data
-```
-We then add `data/` to the *indexed* directories with `project.add_index('data/')`.
-
-### Job move and migration
-
-A move operation is achieved by assigning the job a new *path* or a new *ID*.
-When a job's state point is modified, a migration may be achieved by also updating the job ID according to some well-defined scheme.
-For *managed jobs*, modifying the state point results in an automatic migration according to the workspace's `statepoint_id` function.
-(Note: Previously, **all** state point changes were a migration.)
+A move operation is achieved by assigning the directory a new *path* or a new *ID*.
+When a directory's attributes are modified, a migration may be achieved by also updating the directory path according to some well-defined scheme.
+For *managed directories*, modifying the attributes results in an automatic migration according to the workspace's `attrs_id` function.
+(Note: Previously, **all** attributes changes were a migration.)
 
 Examples for a simple path assignment:
 ```python
->>> job.path = '/new/location'  # moves job directory to /new/location
->>> job.path = 'new/location'  # moves job directory to ./new/location
->>> job.path = project.fn('new/location')  # moves job directory to <project-root-directory>/new/location
+>>> directory.path = '/new/location'  # moves directory directory to /new/location
+>>> directory.path = 'new/location'  # moves directory directory to ./new/location
+>>> directory.path = project.fn('new/location')  # moves directory directory to <project-root-directory>/new/location
 ```
 
-Assigning a new *state point* for a *managed* job will result in a *migration*:
+Assigning new *attributes* for a *managed* directory will result in a *migration*:
 ```python
 >>> os.chdir('~/my_project')
 >>> project = get_project()
->>> job = project.lookup('0300')
->>> print(job.id)
+>>> directory = project.lookup('0300')
+>>> directory
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='~/my_project/')
+>>> print(directory.id)
 0300c31b9d55c0196b3848d252e46c0f
->>> print(job.path)
-workspace/0300c31b9d55c0196b3848d252e46c0f
->>>
-... # Assign a new statepoint:
->>> job.sp = dict(foo=43)
->>> print(job.id)
+>>> directory.is_managed()
+True
+>>> # Assign new attrs:
+... directory.attrs = dict(foo=43)
+>>> print(directory.id)
 fb5599b2a36a3cc7cd97aeaf6febfe97
->>> print(job.path)
-workspace/fb5599b2a36a3cc7cd97aeaf6febfe97
+>>> print(directory.path)
+~/my_project/workspace/fb5599b2a36a3cc7cd97aeaf6febfe97
 ```
 
-A change of the job's *ID* in conjunction with a *state point* change only occurs for *managed* jobs.
-For other jobs, changing the *state point* will leave the job ID unchanged.
+A change of the directory's *path* in conjunction with *attributes* change only occurs for *managed* directories.
+For other directories, changing the *attributes* will leave the directory path unchanged.
 
-To further protect the job metadata against accidental changes, it is recommended to set restrictive read/write permissions, for example with:
+To further protect the directory metadata against accidental changes, it is recommended to set restrictive read/write permissions, for example with:
 ```python
 # Protect workspace against renaming operations by other users:
 os.chmod(project.workspace.path, 0o755)
-
-# Protect jobs against state point changes by other users:
-for job in project:
-    job.set_permissions()
 ```
 
-Please see below for a pseudo-implementation of the *ID* and *state point* reset operations for the `Job` class.
-
-
-### Finding jobs with *Project.find_jobs()*
+### Finding directories with *Project.find()*
 
 All find-functions will accept queries in three different formats:
 
@@ -473,7 +917,7 @@ All find-functions will accept queries in three different formats:
 2. String (interpreted as simple syntax), ex.: `find('foo 42')`
 3. Key-word arguments, ex.: `find(foo=42)`
 
-Furthermore, it is now possible to specify **one** filter that queries both the job *state point* and the job *document* in one expression.
+Furthermore, it is now possible to specify **one** filter that queries both the directory *attributes* and the directory *document* in one expression.
 For example, the following expressions are all equivalent:
 ```python
 >>> find('foo 42 doc.bar true')
@@ -489,156 +933,175 @@ We can consider to support additional prefixes in the future as well, such as `d
 
 ### Summary of API Changes
 
-1. The `signac.Index` class is added that encapsulates the current search and caching functions implemented by the `signac.Project` class API.
-1. The `Project.index` function is converted to a property which holds a first-class `Index` object with the *project workspace* as first argument. Calling an `Index` object returns an iterator over all entries, thus preserving backwards-compatibility.
+1. The `signac.DirectoryIndex` class is added that encapsulates the current search and caching functions implemented by the `signac.Project` class API.
+1. The `Project.index` function is converted to a property which holds a first-class `DirectoryIndex` object with the *project workspace* as first argument. Calling an `DirectoryIndex` object returns an iterator over all entries, thus preserving backwards-compatibility.
 1. The `Project.find_jobs()` function is replaced by `Project.find()` with slightly modified function signature (see above).
-1. The `Project.open_job()` function is replaced by `Project.open()`.
+1. The `Project.open_job()` function is replaced by `Project.get()`.
 1. The `signac.Workspace` class is added that encapsulates the current path generation function implemented by the `signac.Project` and `signac.contrib.job.Job` class API.
 1. The `Project.workspace` attribute is converted to a property. Calling the attribute will still be possible but users are warned with a `SignacDeprecationWarning`.
 1. It is possible to change the *project workspace directory* by assigning a new value to `Project.workspace`. The user is warned about values which will be illegal in upcoming versions with a `SignacDeprecationWarning`.
-1. A revised version of the `signac.contrib.job.Job` class is moved into the root namespace (API shown above), a backwards compatibility layer is maintained at `signac.contrib.job.Job`.
-1. Opening a job with `Project.open_job()` returns an instance of `signac.Job` and thus automatically initializes the job. It is not possible to initialize an instance of `signac.Job` for a nonexistent path.
+1. A strongly revised version of the `signac.contrib.job.Job` class is moved into the root namespace under name `signac.Directory `(API shown above). A backwards compatibility layer is maintained.
 
 ### Additional API Examples
 
 #### Project-based workflows
 
 The project-based workflows rely on the specification of a project root directory.
-Standard operations involve the opening (and optional initialization) of *managed* jobs within the project's workspace:
+Standard operations involve the opening (and optional initialization) of *managed* directories within the project's workspace:
 ```python
 >>> import signac
 >>> # Get a project handle
 ... project = signac.get_project()
 >>> print(project.workspace)
-'workspace/'
+'/my_project/workspace/'
 ```
-Open and potentially initialize a new job by *state point*:
+Open and potentially initialize a new directory by *attributes*:
 ```python
->>> job = project.open_job(dict(foo=42))
->>> print(job.id)
+>>> foo42 = project.get(foo=42)
+>>> print(foo42.id)
 0300c31b9d55c0196b3848d252e46c0f
->>> print(job.sp)
+>>> print(foo42.attrs)
 {'foo': 42}
->>> print(job.id)
-0300c31b9d55c0196b3848d252e46c0f
->>> print(job.path)
-workspace/0300c31b9d55c0196b3848d252e46c0f
->>> print(project.is_managed(job))
+>>> print(foo42.path)
+/my_project/workspace/0300c31b9d55c0196b3848d252e46c0f
+>>> print(foo42.is_managed())
 True
 ```
-Obtain jobs directly by *ID*:
+Obtain directories directly by *ID*:
 ```python
->>> job = project['0300c31b9d55c0196b3848d252e46c0f']
+>>> foo42 = project['0300c31b9d55c0196b3848d252e46c0f']
 >>> # or alternatively with abbreviated ID:
-... job = project.lookup('0300')  # slightly more expensive
+... foo42 = project.lookup('0300')  # slightly more expensive
 ```
-Iterate over all or a selection of indexed jobs:
+Iterate over all or a selection of indexed directories:
 ```python
->>> for job in project:
-...     print(job.id)
+>>> for directory in project:
+...     print(directory)
 ...
 0561266e96c880060d71084ddb7e1f21
 07774c7f56b9f3782905094e67808674
 09e50f33fb3544215e6cef3ac2c3a978
->>> jobs = project.find({'foo.$exists': 0})
->>> print(len(jobs))
+>>> directories = project.find({'foo.$gt': 0})
+>>> directories
+IndexCursor('/data/my_project/workspace', {'foo.$gt': 0})
+>>> print(len(directories))
 3
 ```
 
-We can **migrate** a *managed* job to a different *state point*:
-```python
->>> print(job.sp)
-{'foo': 42}
->>> print(job.id)
-0300c31b9d55c0196b3848d252e46c0f
->>> print(job.path)
-workspace/0300c31b9d55c0196b3848d252e46c0f
->>> # Assign a new state point:
-... job.sp.foo = 43
->>> print(job.sp)
-{'foo': 43}
->>> print(job.id)
-fb5599b2a36a3cc7cd97aeaf6febfe97
->>> print(job.path)
-workspace/fb5599b2a36a3cc7cd97aeaf6febfe97
-```
-#### Non-project based workflows
+#### Non-project-based workflows
 
-In addition to interfacing with signac jobs *via* the *Project* interface, we can also initialize/index jobs directly.
+Instead of using `Project` class we can implement a lot of workflows just using the `Directory` class:
+```python
+>>> my_project = Directory('my_project', '~')
+>>> workspace = my_project['workspace']
+>>> for foo in [4, 8, 15, 16, 23, 42]:
+...     my_project['workspace'].workspace.get(foo=foo)
+...
+Directory('5beff50c2adf33c7c4aa9ebea3622f46', root='/projects/my_project/workspace/')
+Directory('7ba200e881d5aa9a9b27692ab8b02a5e', root='/projects/my_project/workspace/')
+Directory('a8cdb2f1357da6e7df3f06e26846efc2', root='/projects/my_project/workspace/')
+Directory('80dcf20ae54a2f22939c9182e0705b0b', root='/projects/my_project/workspace/')
+Directory('29656cdcda1cbfb88fc82f358defbd34', root='/projects/my_project/workspace/')
+Directory('0300c31b9d55c0196b3848d252e46c0f', root='/projects/my_project/workspace/')
+>>> for subdir in workspace.find('foo.$lt 16'):
+...     print(subdir.path, subdir.attrs())
+...
+/projects/my_project/workspace/5beff50c2adf33c7c4aa9ebea3622f46 {"foo": 4}
+/projects/my_project/workspace/7ba200e881d5aa9a9b27692ab8b02a5e {"foo": 8}
+/projects/my_project/workspace/a8cdb2f1357da6e7df3f06e26846efc2 {"foo": 15}
+```
+
+#### Multi-Index based workflows
+
+In addition to interfacing with signac directories *via* the *Project* interface, we can also index multiple directories explicitly.
 This is especially useful when operating on a third-party data space or when combining multiple data spaces.
 
-For example, we can access a job directly, by providing the full path:
+For example, we can search multiple directories with a `MultiIndex`:
 ```python
->>> # Initialize a job for a specific path and state point:
-... job = Job.init('/path/to/job', dict(foo=42))
->>> print(job.id)
-'/path/to/job'
->>> print(job.path)
-'/path/to/job'
-```
-In this case both the job *path* and *ID* are absolute and identical, because we are operating outside of a project and therefore **all** jobs are necessarily detached.
-
-### Potential issues
-
-#### Automatic initialization of jobs
-
-One of the potentially most user-notable changes will be presented by the automatic initialization of jobs.
-This change has the potential to break user scripts, whenever users rely on delayed initialization,
-for example in a scenario like this:
-```python
-job = project.open_job(my_sp)
-job.sp.another_key = 'additional_metadata'
-job.init()
-```
-The prevalence of examples such as the one above is likely low, but almost certainly not zero.
-However, in all likelihood, this script would still work correctly, albeit require at least two additional file system operations.
-
-To further mitigate API conflicts, we will ensure that the `Job.init` classmethod can be safely called on an instance of `Job` without side-effects.
-
-### Additional considerations
-
-
-### Pseudo implementations
-
-#### Job class
-
-**Note: This is outdated, since it still assumes that behavior depends on whether or not a job is *attached*. The implementation should only depend on whether a job is *managed***
-Proposed pseudo-implementation of the *ID* and *state point* reset operations of the `Job` class:
-```python
-class Job:
-    # ...
-    def _attached(self):
-        "Return True if this job is attached to the current project."
-        try:
-            return is_subdir(self.path, get_project().root_directory())
-        except LookupError:
-            return False
-
-    @id.setter
-    def reset_id(self, new_id):
-        "Reset this job's ID to new_id."
-        if os.path.isabs(new_id):
-            self.path = new_id
-            return
-        elif not self._attached():
-            raise RuntimeError(
-                "Job must be attached to current project to be able"
-                "to set relative ID!")
-        else:
-            self.path = os.path.join(str(get_project.workspace), new_id)
-
-    @statepoint.setter
-    def reset_statepoint(self, new_statepoint):
-        if not self._attached() or is_subdir(os.getcwd(), self.path):
-            raise RuntimeError(
-                "The current working directory must be a subdirectory "
-                "of the job directory for this state point change!")
-        elif get_project().is_managed(self):
-            self.id = get_project().workspace.open(new_statepoint)
-        self._statepoint = new_statepoint
+>>> other_project_index = NameBasedIndex('/data/other_project/', scheme='foo_{foo}')
+>>> index = MultiIndex(['/data/my_project/workspace/', other_project_index])
+>>> # Initialize a directory for a specific path and attributes:
+>>> for subdir in index.find('foo.%exists true'):
+...     subdir
+...
+Directory('0561266e96c880060d71084ddb7e1f21', root='/data/my_project/workspace/')
+Directory('07774c7f56b9f3782905094e67808674', root='/data/my_project/workspace/')
+Directory('09e50f33fb3544215e6cef3ac2c3a978', root='/data/my_project/workspace/')
+Directory('foo_0', root='/data/other_project/')
+Directory('foo_1', root='/data/other_project/')
 ```
 
-## Versions: 0.1-0.9.x
+### User stories
+
+#### Ideal-gas example (basic)
+
+##### Project-based API
+Generation:
+```python
+from signac import init_project
+
+project = init_project('ideal-gas-project')
+
+for p in range(1, 11):
+    sp = {'p': p, 'kT': 1.0, 'N': 1000}
+    with project.get(sp) as job:
+        volume = job.attrs.N * job.attrs.kT / job.attrs.p
+        with open('volume.txt') as file:
+            file.write(str(volume) + '\n')
+```
+Presentation:
+```python
+from signac import get_project
+
+project = get_project('ideal-gas-project')
+for job in project.find({'p.$lt 5'}):
+    print(job.attrs())
+```
+##### Non-project based API
+
+Generation:
+```python
+# compute.py
+from signac import Directory
+
+project = Directory('ideal-gas-project')
+for p in range(1, 11):
+    sp = {'p': p, 'kT': 1.0, 'N': 1000}
+    with project['workspace'].get(sp) as subdir:
+        volume = subdir.attrs.N * subdir.attrs.kT / subdir.attrs.p
+        with open('V.txt', 'w') as file:
+            file.write(str(volume) + '\n')
+```
+Presentation:
+```python
+from signac import Directory
+import signac
+
+project = Directory('ideal-gas-project')
+for subdir in project['workspace'].find({'p.$lt 5'}):
+    print(subdir.attrs())
+```
+
+#### Ideal-gas example (operation-based)
+
+##### Directory-based API
+
+```python
+from signac import Directory
+
+def compute_volume(job):
+    volume = job.attrs.N * job.attrs.kT / job.attrs.p
+    with open(job.fn('volume.txt'), 'w') as file:
+        file.write(str(volume) + '\n')
+
+project = Directory('ideal-gas-project')
+for p in range(1, 11):
+    project['workspace'].get(N=1000, kT=1.0, p=p)
+
+project['workspace'].find().apply(compute_volume)
+```
+
+## Version: 0.x
 
 ### Definitions
 
