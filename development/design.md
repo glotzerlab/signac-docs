@@ -1,9 +1,18 @@
-# The *signac* Framework Concepts
+# Design specifications for *signac*
 
 **Authors**
 
 * Carl Simon Adorf <csadorf@umich.edu>
 * Vyas Ramasubramani <vramasub@umich.edu>
+
+## About
+
+This document contains the design specifications for signac, that includes definitions and conceptual descriptions, as well as interface definitions.
+
+**Targeted audience**
+
+* Core maintainers
+* Developers
 
 ## Version: 1.0
 
