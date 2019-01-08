@@ -74,7 +74,10 @@ Illegal return values include: "signac.rc" and ".signacrc".
 
 A *directory* that contains a *signac configuration file* with the `attrs_id` key that defines a *attributes id* function.
 The default function (`MD5v1`) maps to a 32-character long string of hexadecimal characters.
-A **valid** *workspace* contains either no directories, directories with only null attributes, or only *directories* with a name equal to the return value of said function.
+
+The purpose of the workspace is to keep the name (id) of each of its subdirectories synchronized with its respective attributes id.
+That means that a change of a directory's attributes automatically triggers a change to its name (id).
+A *workspace* is therefore considered **valid** when it either contains no directories or when all directory ids are equal to their respective attributes id.
 
 A *workspace* may also contain other arbitrary files, but this usage pattern is strongly discouraged as it may lead to file and directory name conflicts.
 
