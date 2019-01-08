@@ -491,6 +491,8 @@ class Workspace:
     def path(self):
         """Returns the absolute normalized path to this directory."""
 
+    __fspath__ = path   # A Workspace is also a path-like object.
+
     def __str__(self):
         """Alias for `.path`."""
 
@@ -770,6 +772,10 @@ class Project:
     @property
     def path(self):
         "Return the path to the project's root directory."
+
+    __fspath__ = path   # A Project is also a path-like object.
+
+    root_directory = _as_method(path)    # legacy API
 
     @property
     def directory(self):
