@@ -377,11 +377,15 @@ class Directory:
 ```
 
 ##### Example API usage:
+To demonstrate the relationship of the `signac.Directory` to the current working directory, we first switch into a specific directory on the file system:
 ```python
-# Directory class:
 >>> import os
+>>> os.chdir('/data')
 >>> print(os.getcwd())
 /data
+```
+Then we obtain a `signac.Directory` instance for our "project"-directory:
+```python
 >>> from signac import Directory
 >>> project_dir = Directory('my_project')
 >>> project_dir
@@ -390,20 +394,33 @@ Directory('my_project', root='/data/')
 Path('/data/my_project')
 >>> print(project_dir)
 'my_project'
->>> project_dir['data']
-Directory('data', root='/data/my_project/')
->>> print(project_dir['data'])
-data
->>> foo42 = project_dir['data/foo_42']
+```
+The `signac.Directory` class works hierarchical, we can immediately obtain a new instance for an arbitrary sub-directory:
+```python
+>>> foo42 = project_dir['foo_42']
 >>> foo42
-Directory('data/foo_42', root='/data/my_project/')
+Directory('foo_42', root='/data/my_project/')
+```
+The file system directory underlying this object may or may not exist yet:
+```python
 >>> foo42.exists()
 False
->>> foo42.make()    # explicit make()
+>>> os.path.isdir(foo42.path)
+False
+```
+We could use the `os` module or some other method to create the directory, or we use the `Directory.make()` function:
+```python
+>>> foo42.make()
 >>> foo42.exists()
 True
+```
+The `Directory` interface provides a few convenience functions, for example for the construction of file paths:
+```python
 >>> print(foo42.fn('hello.txt'))
 /data/my_project/data/foo_42/hello.txt
+```
+One key feature is the ability to store metadata in the form of *attributes* with a directory:
+```python
 >>> foo42.attrs = dict(foo=42)
 >>> print(foo42.attrs)
 {"foo": 42}
