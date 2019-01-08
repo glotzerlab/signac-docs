@@ -768,6 +768,19 @@ class Project:
         """Return a reference to the project's configuration."""
 
     @property
+    def path(self):
+        "Return the path to the project's root directory."
+
+    @property
+    def directory(self):
+        """Return an instance of directory for this project's root directory.
+
+        Equivalent to:
+
+            return Directory(path=self.path)
+        """
+
+    @property
     def workspace(self):
         """Return a reference to the project's workspace instance.
 
