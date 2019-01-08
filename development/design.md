@@ -59,7 +59,7 @@ Non-empty documents are stored in a file called *signac_document.json* within th
 
 **Directory data**
 
-Data encoded and stored in a unique HDF5-file called *signac_data.h5* within the *directory*.
+Data encoded and stored in an HDF5-file called *signac_data.h5* within the *directory*.
 
 **Directory View**
 
@@ -80,11 +80,11 @@ A *workspace* may also contain other arbitrary files, but this usage pattern is 
 
 **Managed directory**
 
-A *directory* that is a direct subdirectory of a workspace.
+A *directory* that is a first-level subdirectory of a workspace.
 
 **Directory Index**
 
-A (by default non-recursive) search index for a directory hat supports the selection and grouping of *directories* residing in it.
+A (by default non-recursive) search index for a directory that supports the selection and grouping of *directories* residing in it.
 
 **Moving a Directory**
 
