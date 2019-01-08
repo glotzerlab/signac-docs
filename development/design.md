@@ -687,7 +687,7 @@ DirectoryIndex('/data/my_project')
 >>> print(len(project_dir['data'].index.find(foo=42)))
 1
 ```
-The `Directory.find()` method is wrapper for `Directory.index.find()`, but returns instances of `DirectoryIndexCursor` instead of an iterator over paths.
+The `Directory.find()` method is a wrapper for `Directory.index.find()`, but returns instances of `DirectoryIndexCursor` instead of an iterator over paths.
 For demonstration we first create a bunch of directories:
 ```python
 >>> for foo in [4, 8, 15, 16, 23, 42]:
@@ -893,9 +893,9 @@ For *managed directories*, modifying the attributes results in an automatic migr
 
 Examples for a simple path assignment:
 ```python
->>> directory.path = '/new/location'  # moves directory directory to /new/location
->>> directory.path = 'new/location'  # moves directory directory to ./new/location
->>> directory.path = project.fn('new/location')  # moves directory directory to <project-root-directory>/new/location
+>>> directory.path = '/new/location'  # moves directory to /new/location
+>>> directory.path = 'new/location'  # moves directory to ./new/location
+>>> directory.path = project.fn('new/location')  # moves directory to <project-root-directory>/new/location
 ```
 
 Assigning new *attributes* for a *managed* directory will result in a *migration*:
@@ -1038,7 +1038,7 @@ For example, we can search multiple directories with a `MultiIndex`:
 >>> other_project_index = NameBasedIndex('/data/other_project/', scheme='foo_{foo}')
 >>> index = MultiIndex(['/data/my_project/workspace/', other_project_index])
 >>> # Initialize a directory for a specific path and attributes:
->>> for subdir in index.find('foo.%exists true'):
+>>> for subdir in index.find('foo.&exists true'):
 ...     subdir
 ...
 Directory('0561266e96c880060d71084ddb7e1f21', root='/data/my_project/workspace/')
