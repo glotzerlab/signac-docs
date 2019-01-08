@@ -546,28 +546,109 @@ class Workspace:
 
 ##### Example API Usage
 
+###### Basics
+
 We can explicitly construct a `Workspace`
 ```python
 >>> Workspace(project_dir['workspace'])
 Workspace('/data/my_project/workspace'])
 ```
-Or use the `.workspace` attribute:
+Or use the `Directory.workspace` attribute:
 ```python
 >>> project_dir['workspace'].workspace
 Workspace('/data/my_project/workspace'])
 ```
-The `Workspace` object then allows us to quickly create directories
-for specific *attributes*:
+The `Workspace` object provides the *attributes id* function that map from *ids* to *attributes*:
 ```python
->>> ws = project_dir['workspace'].workspace
->>> ws.attrs_id(dict(foo=42))
+>>> project_dir['workspace'].workspace.attrs_id(dict(foo=42))
 0300c31b9d55c0196b3848d252e46c0f
->>> ws.get(foo=42)
+```
+In practice we will use the `Directories.get()` function to obtain a `Directory` object instead of an *id*:
+```python
+>>> project_dir['workspace'].get(foo=42)
 Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
->>> print(ws.get(foo=42).attrs)
+>>> project_dir['workspace'].get(foo=42).attrs
 {'foo': 42}
->>> ws.attrs_id.is_valid('0300c31b9d55c0196b3848d252e46c0f')
+```
+
+###### Workspace validity
+
+All first-level directories residing within a workspace are considered *managed directories*.
+That means their *ids* are kept synchronized with their *attributes*.
+For example, we could change the attributes of a managed directory like this:
+```python
+>>> foo42 = project_dir['workspace'].get(foo=42)
+>>> foo42.is_managed()
 True
+>>> foo42.attrs['bar'] = True
+>>> foo42.attrs
+{'foo': 42, 'bar': True}
+>>> foo42
+Directory('11b834f964c4dc2d29c8569ce5417a1e', root='/data/my_project/workspace/')
+```
+
+
+A *Workspace* is considered valid as long as all of its residing first-level directories adhere to the naming scheme imposed by the workspace's *attributes id* function.
+We can check whether a workspace is valid with:
+```python
+>>> ws.is_valid()
+True
+```
+The `Workspace.is_valid()` function's logic is equivalent to:
+```python
+>>> valid = all(subdir.id == ws.attrs_id(subdir.attrs) for subdir in project_dir['workspace'])
+```
+
+###### Repairing an invalid workspace
+
+If we change the *id* of any of the managed directories, we *invalidate* the workspace:
+```python
+>>> foo42.id = 'some_other_name'
+>>> ws.is_valid()
+False
+```
+We can restore the workspace like this:
+```python
+>>> ws.repair()
+>>> ws.is_valid()
+True
+>>> foo42.id
+11b834f964c4dc2d29c8569ce5417a1e
+```
+
+###### Migrating to a new scheme function
+
+We can also specify a different *attributes id* function and use the `repair()` function to migrate the workspace to the new scheme:
+```python
+>>> ws.attrs_id = lambda attrs: 'foo_{foo}_bar_{bar}'.format(**attrs)
+>>> ws.is_valid()
+False
+>>> ws.repair()
+>>> foo42.path
+'/data/my_project/workspace/foo_42_bar_True'
+```
+
+###### Optimization of the workspace validity-check
+
+If we want to optimize the workspace validity-check, we can implement the `AttrsID.valid_id` function, which represents a *necessary*, but not *sufficient* condition for the validity of a managed job's id.
+Assuming that such a validity check that only inspects the id itself is faster than reading the attributes from disk or from cache, this is how we can exploit this to optimize our prototype function shown above:
+```python
+>>> valid = all((ws.attrs_id.valid_id(subdir.id) and subdir.id == ws.attrs_id(subdir.attrs))
+...              for subdir in project_dir['workspace'])
+```
+
+Here is a concrete example for a `valid_id()` function based on our example used above:
+```python
+import re
+
+class MyScheme:
+    @staticmethod
+    def __call__(attrs):
+        return 'foo_{foo}_bar_{bar}'.format(**attrs)
+
+    @staticmethod
+    def valid_id(id):
+        return re.match(r'^foo\_.*\_bar\_.*$', id)
 ```
 
 #### The Cursor interfaces
