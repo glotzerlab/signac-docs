@@ -75,15 +75,19 @@ Illegal return values include: "signac.rc" and ".signacrc".
 A *directory* that contains a *signac configuration file* with the `attrs_id` key that defines a *attributes id* function.
 The default function (`MD5v1`) maps to a 32-character long string of hexadecimal characters.
 
-The purpose of the workspace is to keep the name (id) of each of its subdirectories synchronized with its respective attributes id.
-That means that a change of a directory's attributes automatically triggers a change to its name (id).
-A *workspace* is therefore considered **valid** when it either contains no directories or when all directory ids are equal to their respective attributes id.
+The purpose of the *workspace* is to keep the name (*id*) of each of its subdirectories synchronized with its respective *attributes id*.
+That means that a change of a directory's *attributes* automatically triggers a change to its name (*id*).
+A *workspace* is therefore considered **broken** when there is at least one directory where the directory is not equal to the respective *attributes id*.
 
 A *workspace* may also contain other arbitrary files, but this usage pattern is strongly discouraged as it may lead to file and directory name conflicts.
 
 **Managed directory**
 
 A *directory* that is a first-level subdirectory of a workspace.
+
+**Corrupted managed directory**
+
+A *managed directory* is considered *corrupted* when its *id* is not equal to the containing workspace *attributes id*.
 
 **Directory Index**
 
@@ -432,7 +436,7 @@ The `signac.AttrsID` interface is a basic *callable* with the
 additional `.valid_id()` function which can be used by the *Workspace*
 to identify valid ids through simple inspection.
 This may lead to significant performance improvements for the determination
-of valid workspaces.
+whether a workspace is broken.
 
 ```python
 class AttrsID:
@@ -446,7 +450,7 @@ class AttrsID:
         """Return True if the id is recognized as valid.
 
         This function may be used as *necessary* condition
-        for the identification of a valid workspace.
+        to determine whether a workspace is not broken.
 
         The default function returns True.
         """
@@ -457,6 +461,7 @@ class AttrsID:
 A `signac.Workspace` enables the automatic generation of paths from *attributes*.
 By construction, these paths will correspond to *attributes IDs*, such that directories created using these paths will be *managed directories*.
 Consequently, all directories within any given workspace must have names corresponding to their respective *attributes*.
+A *workspace* is considered *broken* when that is not the case.
 
 A `signac.Workspace` has the following API:
 ```python
@@ -499,45 +504,28 @@ class Workspace:
     def attrs_id(self, attrs):
         """Return a relative path for the given attributes."""
 
-    def get(self, attrs, make=True, **kwargs):
-        """Return a path defined by the attrs_id function.
+    def check(self, exhaustive=False):
+        """Check whether the workspace is broken.
 
-        Optionally initializes the workspace if necessary.
-        When make is True, essentially equivalent to:
+        A workspace is considered broken whenever there is at least one
+        directory with an id that differs from the workspace attributes id.
 
-            self.init()
-            return Directory.init(
-                path=os.path.join(
-                    self.path, self.attrs_id(attrs)),
-                attrs=attrs).path
-
-        :param attrs:
-            The attrs for which we want to open a directory for.
-        :param make:
-            Create the directory if it does not exist yet.
-        :returns:
-            Instance of directory for the given attributes.
-        :raises CorruptedWorkspaceError:
-            If the provided attributes do not match the attributes
-            of the directory at the provided path.
-        :raises KeyError:
-            If the directory corresponding to the attributes does
-            not exist and the make argument is False.
+        :param exhaustive:
+            If True, do not stop after finding the first corrupted directory.
+        :raises WorkspaceBrokenError:
+            In case that one or more directories are corrupted.
         """
 
-    def check(self):
-        """Check whether the workspace is valid.
+    def repair(self, *ids):
+        """Rename all directories where the id does not match the attributes id.
 
-        That means all directories within the workspace path adhere
-        to the specified *attrs id* scheme.
-        """
+        This function recalculates the attributes id for each directory
+        and renames it if necessary.
 
-    def repair(self):
-        """Move all directories within the workspace to the correct paths.
-
-        This function recalculates the path provided by the
-        attrs_id function for all directories within the workspace
-        and moves them if necessary.
+        :param ids:
+            Optionally restrict the repair-operation to a specific set of ids.
+            This function will attempt to repair all corrupted directories if
+            this parameters is omitted.
         """
 
     def __call__(self):
@@ -571,7 +559,7 @@ Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/'
 {'foo': 42}
 ```
 
-###### Workspace validity
+###### Changing attributes of managed directories
 
 All first-level directories residing within a workspace are considered *managed directories*.
 That means their *ids* are kept synchronized with their *attributes*.
@@ -586,58 +574,58 @@ True
 >>> foo42
 Directory('11b834f964c4dc2d29c8569ce5417a1e', root='/data/my_project/workspace/')
 ```
+We see that adding the key `bar` with the value `True` to the *attributes* triggered an automatic change of the *id*  from *0300c31b9d55c0196b3848d252e46c0f* to *11b834f964c4dc2d29c8569ce5417a1e*.
 
+###### Repairing a broken workspace
 
-A *Workspace* is considered valid as long as all of its residing first-level directories adhere to the naming scheme imposed by the workspace's *attributes id* function.
-We can check whether a workspace is valid with:
-```python
->>> ws.is_valid()
-True
-```
-The `Workspace.is_valid()` function's logic is equivalent to:
-```python
->>> valid = all(subdir.id == ws.attrs_id(subdir.attrs) for subdir in project_dir['workspace'])
-```
-
-###### Repairing an invalid workspace
-
-If we change the *id* of any of the managed directories, we *invalidate* the workspace:
+We can *break* the workspace by changing the *id* of a *managed directory* manually:
 ```python
 >>> foo42.id = 'some_other_name'
->>> ws.is_valid()
-False
+>>> ws.check()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+signac.contrib.errors.WorkspaceBrokenError: ['some_other_name']
 ```
-We can restore the workspace like this:
+That is not a problem, because we can restore the workspace easily using the `Workspace.repair` function:
 ```python
 >>> ws.repair()
->>> ws.is_valid()
-True
+>>> ws.check()
 >>> foo42.id
 11b834f964c4dc2d29c8569ce5417a1e
 ```
 
 ###### Migrating to a new scheme function
 
-We can also specify a different *attributes id* function and use the `repair()` function to migrate the workspace to the new scheme:
+Using the `Workspace.repair` function is not only useful to repair accidentally broken workspaces, but can also be used to migrate a workspace after changing the *attributes id* function.
+In the following example, we first change the attrs_id function and then use the repair-function to rename all directories:
 ```python
 >>> ws.attrs_id = lambda attrs: 'foo_{foo}_bar_{bar}'.format(**attrs)
->>> ws.is_valid()
-False
 >>> ws.repair()
 >>> foo42.path
 '/data/my_project/workspace/foo_42_bar_True'
 ```
 
-###### Optimization of the workspace validity-check
+###### Optimization of the workspace check
 
-If we want to optimize the workspace validity-check, we can implement the `AttrsID.valid_id` function, which represents a *necessary*, but not *sufficient* condition for the validity of a managed job's id.
-Assuming that such a validity check that only inspects the id itself is faster than reading the attributes from disk or from cache, this is how we can exploit this to optimize our prototype function shown above:
+The `Workspace.check()` function's logic is roughly equivalent to:
 ```python
->>> valid = all((ws.attrs_id.valid_id(subdir.id) and subdir.id == ws.attrs_id(subdir.attrs))
-...              for subdir in project_dir['workspace'])
+>>> def check_workspace(directory):
+...     for subdir in directory:
+...         assert subdir.id == directory.workspace.attrs_id(subdir.attrs)
+...
 ```
 
-Here is a concrete example for a `valid_id()` function based on our example used above:
+To optimize this check, we can implement the `AttrsID.valid_id` function, which represent a *necessary*, but not a *sufficient* condition that a particular directory is not corrupted.
+Assuming that performing an *id*-validity check is significantly faster than actually loading the *attributes* and computing the *id*, we can optimize our prototype check function shown above like this:
+```python
+>>> def check_workspace(directory):
+...     for subdir in directory:
+...         assert directory.workspace.attrs_id.valid_id(subdir.id) and \
+...             subdir.id == directory.workspace.attrs_id(subdir.attrs)
+...
+```
+
+Here is a concrete example how we could implement a `valid_id()` function:
 ```python
 import re
 
