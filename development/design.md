@@ -979,16 +979,6 @@ Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/'
 Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
 ```
 
-##### The Project data space
-
-The project data space consists of the project workspace **as well as all other directories that are subdirectories of the project root directory**.
-That becomes obvious considering that we can obtain **any** directory by providing a path relative to the project's workspace directory.
-For example, assuming that `~/my_project/` is the project root directory and that there is a directory in `~/my_project/data/my_directory`, we can obtain a directory handle with:
-```python
->>> directory = project['../data/my_directory']
-Directory('../data/my_directory', root='/data/my_project/workspace/')
-```
-
 ### Directory move and migration
 
 A move operation is achieved by assigning the directory a new *path* or a new *ID*.
