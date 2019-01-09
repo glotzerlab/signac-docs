@@ -24,7 +24,7 @@ An INI-style file named "*signac.rc*" or "*.signacrc*".
 
 **Document**
 
-A JSON-encodable mapping.
+A *document* is a JSON-encodable mapping, where the keys must adhere to the lexical rules for *Python identifiers* as defined here: https://docs.python.org/3.7/reference/lexical_analysis.html#identifiers .
 
 **Attributes**
 
