@@ -952,6 +952,7 @@ class Project:
 ```
 
 ##### Example API usage
+
 ```python
 >>> project = Directory('my_project').make_project()
 >>> project
@@ -979,7 +980,7 @@ Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/'
 Directory('0300c31b9d55c0196b3848d252e46c0f', root='/data/my_project/workspace/')
 ```
 
-### Directory move and migration
+#### Directory move and migration
 
 A move operation is achieved by assigning the directory a new *path* or a new *ID*.
 When a directory's attributes are modified, a migration may be achieved by also updating the directory path according to some well-defined scheme.
@@ -1021,7 +1022,7 @@ To further protect the directory metadata against accidental changes, it is reco
 os.chmod(project.workspace.path, 0o755)
 ```
 
-### Finding directories with *Project.find()*
+#### Search Query API
 
 All find-functions will accept queries in three different formats:
 
@@ -1033,13 +1034,13 @@ Furthermore, it is now possible to specify **one** filter that queries both the 
 For example, the following expressions are all equivalent:
 ```python
 >>> find('foo 42 doc.bar true')
->>> find('sp.foo 42 doc.bar true')
->>> find({'sp.foo': 42, 'doc.bar': True})
+>>> find('attrs.foo 42 doc.bar true')
+>>> find({'attrs.foo': 42, 'doc.bar': True})
 >>> find({'foo': 42}, doc={'bar': True})
 >>> find(foo=42, **{'doc.bar': True})
 ```
-The `sp.`-prefix is optional, that means all filter keys that have no prefix are automatically expanded to include this prefix.
-The following prefixes are supported: `sp.`, `doc.`, and `id.`
+The `attrs.`-prefix is optional, that means all filter keys that have no prefix are automatically expanded to include this prefix.
+The following prefixes are supported: `attrs.`, `doc.`, and `id.`
 
 We can consider to support additional prefixes in the future as well, such as `data.`, `isfile.`, etc.
 
