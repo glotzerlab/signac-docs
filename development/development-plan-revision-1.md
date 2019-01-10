@@ -30,6 +30,10 @@ The initial phase is targeted at deciding on the general concept and API for rev
  * writing documentation
  * testing code
  * providing feedback
+1. Consider the implementation of an advisory board constituted by experts in the field who advise the core development team on
+ * the design specification,
+ * the planning and execution of development,
+ * publication and outreach activities.
 1. Consider to switch development platform based on tentative developer team composition.
 1. Create branch *revision-1* based off *master*.
 1. Implement a single minimal module that demonstrates code and documentation style for developers approved by maintainers.
