@@ -24,7 +24,10 @@ An INI-style file named "*signac.rc*" or "*.signacrc*".
 
 **Document**
 
-A *document* is a JSON-encodable mapping, where the keys must adhere to the lexical rules for *Python identifiers* as defined here: https://docs.python.org/3.7/reference/lexical_analysis.html#identifiers .
+A *document* is a JSON-encodable mapping, where the keys **should** adhere to the lexical rules for *Python identifiers* as defined here: https://docs.python.org/3.7/reference/lexical_analysis.html#identifiers .
+Use of keys that do not adhere to these rules leads to *undefined behavior* and a warning may be emitted the first time such a key is encountered.
+
+Furthermore, keywords that start with an underscore (`_`) are generally reserved for internal use and users are discouraged to use such keys.
 
 **Attributes**
 
