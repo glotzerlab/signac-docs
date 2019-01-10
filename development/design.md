@@ -131,6 +131,11 @@ A *signac configuration file* with the `project` configuration key defined.
 
 A *Project* is defined by a *project root directory* and has a default workspace ("workspace").
 
+**Project version**
+
+The specification version used for a specific project can be made explicit via the "version" key within the local configuration file.
+A missing key corresponds to version "0".
+
 **Project (root) directory**
 
 A directory that contains a *project configuration file*.
