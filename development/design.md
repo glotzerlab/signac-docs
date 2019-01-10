@@ -42,6 +42,11 @@ A *document* or null.
 
 A directory on the file system identified by its normalized absolute path and associated with *attributes*.
 
+**Directory version**
+
+The specification version used for a specific directory is stored within a local configuration file.
+A missing key corresponds to version "1.0".
+
 **Directory path**
 
 The normalized absolute path to the directory on the file system.
