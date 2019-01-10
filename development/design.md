@@ -14,6 +14,11 @@ This document contains the design specifications for signac, that includes defin
 * Core maintainers
 * Developers
 
+**Versioning**
+
+This document contains specifications for different versions.
+The version specification is issued by generally following the [semantic versioning standard](https://semver.org/) version 2.0.0, however exceptions may be made on a case by case basis.
+
 ## Version: 1.0
 
 ### Definitions
