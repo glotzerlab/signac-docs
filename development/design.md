@@ -203,19 +203,79 @@ class Path:
     # Other methods which might be expected here, such as islink() etc.
 ```
 
-#### The Directory interface
+#### The AttrsInterface mixin classes
 
-A `signac.Directory` enables users to store and retrieve **data and metadata** for a given *file system path*.
-An instance of `Directory` is constructed given a specific file system path.
-An alternative factory function `Directory.init` accepts a path and a *attrs* argument and sets the *directory attributes* during construction *if and only if* the current *attributes* are null.
-The `Directory` object then supports storing data within the specified directory.
+These classes define the partially abstract interface for the reading and writing of *attributes* for a given path.
 
-A `signac.Directory` has the following API:
+Using mixin classes instead of for example separate functions is motivated by the need to tightly couple the reader and writer implementations.
+Otherwise there is a potential for hazardous bugs where a reader is operating with a different data model compared to the writer.
+
 ```python
-class Directory:
+import abc
+
+class AttrsInterfaceMixin(metaclass=abc.ABCMeta):
+
+    def __init__(self, path):
+        """Initialize a AttrsInterface for this path."""
+        self.path = path
+
+
+class AttrsReaderMixin(AttrsInterfaceMixin):
+
+    @abc.abstractmethod
+    def read(self):
+        """Read and return attributes."""
+
+
+class AttrsReaderWriterMixin(AttrsReaderMixin):
+
+    @abc.abstractmethod
+    def write(self, attrs):
+        """Write attributes to disk for given path."""
+```
+
+##### Example for the definition of a custom attributes reader class
+
+It is unlikely that users will need to manually instantiate this class.
+That said, here is an example of how one could go about it, assuming that attributes are directly encoded within the path:
+```python
+import re
+import os
+
+class MyReader(AttrsReaderMixin):
+
+    def read(self):
+        m = re.match(r'^foo_(?P<foo>\d+)$', os.dirname(self.path))
+        if m:
+            return m.groupdict()
+
+reader = MyReader('/my_project/data/foo_42')
+print(reader.read())
+```
+
+#### The DirectoryView interface
+
+The `signac.DirectoryView` provides an immutable interface to a directory on the file system.
+Its main purpose is to enable the user to interact with immutable data spaces or with data spaces that use a non-standard data model.
+A `DirectoryView` object is constructed with a specific file system path.
+
+Users will interact with the `Directory` class instead of the `DirectoryView` class in the majority of cases.
+However the Directory class is derived from the DirectoryView class which is why it is introduced first.
+```python
+class DirectoryView:
+
+    attrs_interface = StandardCachedAttrsReader
+    """The attributes interface class for the DirectoryView.
+
+    This attribute is a reference to the attributes interface class used
+    for reading attributes for a given path.
+
+    The DirectoryView class requires that the attrs_interface class variable
+    is a subclass of AttrsReaderMixin upon instantiation.
+    """
 
     def __init__(self, path, root=None):
-        """Initialize directory for the given path and root.
+        """Initialize directory view for the given path and root.
 
         The absolute path is constructed by joining root with path.
         The root argument may be omitted in which case path must either
@@ -228,15 +288,195 @@ class Directory:
         not exactly identical since their representation is slightly
         different:
 
-            >>> print(Directory('/path/to/data/my_project'))
+            >>> print(DirectoryView('/path/to/data/my_project'))
             /path/to/data/my_project
-            >>> print(Directory('my_project', '/path/to/data/'))
+            >>> print(DirectoryView('my_project', '/path/to/data/'))
             my_project
         """
 
+    @property  # immutable
+    def path(self):
+        """The normalized absolute path of this directory.
+
+        :returns:
+            The normalized absolute path of this directory.
+        :rtype:
+            Path
+        """
+
+    __fspath__ = path  # A DirectoryView is also a path-like object.
+
+    @property  # immutable
+    def id(self):
+        """Return the path relative to the directory root.
+
+        This function is primarily needed to support the legacy API
+        and is essentially equivalent to:
+
+            if self.root is None:
+                return self.path
+            else:
+                return os.path.relpath(self.path, self.root)
+        """
+
+    __str__ = id
+
+    @property  # immutable
+    def attrs(self):
+        """Return the attributes associated with this directory.
+
+        .. note::
+
+            The attributes are still exposed as AttrsDict, but are not mutable!
+
+        For example:
+
+            >>> print(directory.attrs)
+            {'foo': 42}
+            >>> print(directory.attrs.foo)
+            42
+        """
+
+    def __getitem__(self, path):
+        """Return a directory view with a path relative to this directory.
+
+        Essentially equivalent to:
+
+            return DirectoryView(path=path, root=self.path)
+        """
+
+    def __enter__(self):
+        """Temporarily switch the working directory to this directory.
+
+        For example:
+
+            >>> with directory:
+            ...     print(open('hello.txt').read())
+            ...
+            world!
+        """
+
+    def fn(self, path):  # legacy
+        """Return a path formed from joining this path and path.
+
+        Wrapper for:
+
+            return self.path.join(path)
+        """
+
+    def isfile(self, path):  # legacy
+        """Return True if this path joined with path points to a file.
+
+        Equivalent to:
+
+            return self.path.join(path).isfile()
+        """
+
+    @property
+    def index(self):
+        """Returns the index associated with this directory.
+
+        Essentially equivalent to:
+
+            return DirectoryIndex(self.path, attrs_reader=self.attrs_interface)
+        """
+
+    def find(self, **filter):
+        """Build and search the directory's indexes.
+
+        Wrapper for:
+
+            return DirectoryIterator(self.index.find(**filter))
+        """
+```
+
+##### Example API usage for the DirectoryView
+
+```python
+>>> from signac import DirectoryView
+>>> my_project = DirectoryView('/data/my_project')
+>>> foo_42 = project['foo_42']
+>>> foo_42
+DirectoryView('foo_42', root='/data/my_project/')
+>>> foo_42.path
+Path('/data/my_project/foo_42/')
+>>> foo_42.attrs
+{'foo': 42}
+>>> foo_42.attrs.foo
+42
+```
+The `DirectoryView` interface is in many ways very similar to the `Directory` interface, but any function that would otherwise *change* the data space are not available.
+For example:
+```python
+>>> foo_42.attrs = dict(foo=43)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: The DirectoryView.attrs are immmutable!
+```
+
+##### Examples for defining a custom function for reading attributes
+
+Whenever we are interacting with a non-standard data space, but want to still use the `DirectoryView` interface, we have to provide an alternative method to infer *attributes* for a given path.
+
+For this example we will assume that attributes are directly encoded as part of the file system path.
+Specifically, we use a regular expression to infer the value for *foo* directly from the directory path:
+```python
+class MyAttributesReader(signac.AttributesReaderMixin):
+
+    def read(self):
+        import os, re
+        m = re.match(r'^.*\/foo_\(?P<foo>\d+)$', self.path)
+        if m:
+            return m.groupdict()
+
+class MyDirectoryView:
+    attrs_interface = MyAttributesReader
+```
+We can then use this custom view class for our data space:
+```python
+>>> my_project = MyDirectoryView("/data/my_project")
+>>> my_project['foo_42']
+MyDirectoryView('foo_42', root='/data/my_project/')
+>>> my_project['foo_42'].attrs
+{'foo': 42}
+```
+
+The directory's index class automatically uses the custom attrs interface, so we can do searches as well:
+```python
+>>> for subdir in my_project.find('foo 42'):
+...     subdir
+...
+MyDirectoryView("foo_42", root="/data/my_project")
+```
+
+#### The Directory interface
+
+A `signac.Directory` enables users to store and retrieve **data and metadata** for a given *file system path*.
+Like the `DirectoryView`, an instance of `Directory` is constructed given a specific file system path.
+
+An alternative factory function `Directory.init` accepts a path and a *attrs* argument and sets the *directory attributes* during construction *if and only if* the current *attributes* are null.
+The `Directory` object then supports reading **and storing** data within the specified directory.
+
+A `signac.Directory` has the following API:
+```python
+class Directory(DirectoryView):
+
+    attrs_interface = StandardCachedAttrsReaderWriter
+    """The attributes interface class for the Directory.
+
+    This attribute is a reference to the attributes interface class defined
+    for reading and writing attributes for a given path.
+
+    The Directory class requries that the attrs_interface class variable is
+    a subclass of AttrsReaderWriterMixin upon instantiation.
+    """
+
     @classmethod
     def init(cls, path, attrs=None, force=False):
-        """Initialize directory at path with given attributes.
+        """Alternative initialization method for a directory.
+
+        This function initializes the directory class and directly sets
+        specific attributes directly upon instantiation.
 
         :param path:
             The directory path.
@@ -252,33 +492,6 @@ class Directory:
             not match the provided attributes argument unless
             the force argument is True.
         """
-
-    @property
-    def path(self):
-        """The normalized absolute path of this directory.
-
-        :returns:
-            The normalized absolute path of this directory.
-        :rtype:
-            Path
-        """
-
-    __fspath__ = path  # A Directory is also a path-like object.
-
-    @property
-    def id(self):
-        """Return the path relative to the directory root.
-
-        This function is primarily needed to support the legacy API
-        and is essentially equivalent to:
-
-            if self.root:
-                return os.path.relpath(self.path, self.root)
-            else:
-                return self.path
-        """
-
-    __str__ = id
 
     @property
     def attrs(self):
@@ -303,17 +516,6 @@ class Directory:
             >>>
         """
 
-    def __getitem__(self, path):
-        """Return a directory with a path relative to this directory.
-
-        Equivalent to:
-
-            return Directory(path=path, root=self.path)
-        """
-
-    def exists(self):
-        """Return True if this directory exists on the file system."""
-
     def make(self, recursive=True):
         """Attempt to create this directory on the file system.
 
@@ -332,43 +534,6 @@ class Directory:
             In case that the creation of the directory failed.
         """
 
-    def __enter__(self):
-        """Context manager that temporarily switches into this directory.
-
-        For example:
-
-            >>> with directory:
-            ...     open('hello.txt').write('world!')
-            ...
-            >>> print(open(directory.fn('hello.txt')).read()):
-            world!
-        """
-
-    def fn(self, path):  # legacy
-        """Return a path formed from joining this path and path.
-
-        Wrapper for:
-
-            return self.path.join(path)
-        """
-
-    def isfile(self, path):  # legacy
-        """Return True if this path joined with path points to a file.
-
-        Equivalent to:
-
-            return self.path.join(path).isfile()
-        """
-
-    @property
-    def index(self):
-        """Returns the index associated with this directory.
-
-        Equivalent to:
-
-            return DirectoryIndex(self.path)
-        """
-
     @property
     def workspace(self):
         """Returns the workspace associated with this directory.
@@ -376,14 +541,6 @@ class Directory:
         Equivalent to:
 
             return Workspace(self.path)
-        """
-
-    def find(self, **filter):
-        """Build and search the directory's indexes.
-
-        Wrapper for:
-
-            return DirectoryIterator(self.index.find(**filter))
         """
 
     def get(self, attrs=None, **kwargs):
@@ -739,7 +896,7 @@ A `signac.DirectoryIndex` has the following API:
 class DirectoryIndex:
 
     def __init__(self, path, recursive=False, auto_cache=False
-                 read_attrs=None):
+                 attrs_reader=None):
         """Construct index for path.
 
         :param path:
@@ -748,8 +905,9 @@ class DirectoryIndex:
             Index the directory at path and all of its subdirectories if True.
         :param auto_cache:
             Automatically create a local cache for this directory if True.
-        :param read_attrs:
-            Specify a custom function for reading of attributes.
+        :param attrs_reader:
+            The attributes reader class used for determining attributes for path.
+            Defaults to StandardCachedAttributesReader if not provided.
         """
 
     def build(self, include_documents=False):
@@ -846,201 +1004,6 @@ Some functions can be applied directly without passing it to `apply()`, for exam
 /data/my_project/data/foo_15/hello.txt
 ```
 
-#### The DirectoryView interface
-
-The `signac.DirectoryView` provides an immutable interface to a directory on the file system.
-Its main purpose is to enable the user to interact with immutable data spaces or with data spaces that use a non-standard data model.
-
-A `DirectoryView` object is constructed with a specific file system path.
-Unlike for the `Directory` class, the path needs to point to an **existing directory** on the file system!
-
-```python
-class DirectoryView:
-
-    def __init__(self, path, root=None):
-        """Initialize directory view for the given path and root.
-
-        The absolute path is constructed by joining root with path.
-        The root argument may be omitted in which case path must either
-        be an absolute path or root defaults to the current working
-        directory.
-
-        The main purpose of the root argument is to allow for a
-        shorter presentation of directories. For example, the following
-        two directories point to the same absolute path, but are
-        not exactly identical since their representation is slightly
-        different:
-
-            >>> print(DirectoryView('/path/to/data/my_project'))
-            /path/to/data/my_project
-            >>> print(DirectoryView('my_project', '/path/to/data/'))
-            my_project
-        """
-
-    @property  # immutable
-    def path(self):
-        """The normalized absolute path of this directory.
-
-        :returns:
-            The normalized absolute path of this directory.
-        :rtype:
-            Path
-        """
-
-    __fspath__ = path  # A DirectoryView is also a path-like object.
-
-    @property  # immutable
-    def id(self):
-        """Return the path relative to the directory root.
-
-        This function is primarily needed to support the legacy API
-        and is essentially equivalent to:
-
-            if self.root is None:
-                return self.path
-            else:
-                return os.path.relpath(self.path, self.root)
-        """
-
-    __str__ = id
-
-    @property  # immutable
-    def attrs(self):
-        """Return the attributes associated with this directory.
-
-        .. note::
-
-            The attributes are still exposed as AttrsDict, but are not mutable!
-
-        For example:
-
-            >>> print(directory.attrs)
-            {'foo': 42}
-            >>> print(directory.attrs.foo)
-            42
-        """
-
-    def __getitem__(self, path):
-        """Return a directory view with a path relative to this directory.
-
-        Essentially equivalent to:
-
-            return DirectoryView(path=path, root=self.path)
-        """
-
-    def __enter__(self):
-        """Temporarily switch the working directory to this directory.
-
-        For example:
-
-            >>> with directory:
-            ...     print(open('hello.txt').read())
-            ...
-            world!
-        """
-
-    def fn(self, path):  # legacy
-        """Return a path formed from joining this path and path.
-
-        Wrapper for:
-
-            return self.path.join(path)
-        """
-
-    def isfile(self, path):  # legacy
-        """Return True if this path joined with path points to a file.
-
-        Equivalent to:
-
-            return self.path.join(path).isfile()
-        """
-
-    @property
-    def index(self):
-        """Returns the index associated with this directory.
-
-        Essentially equivalent to:
-
-            return DirectoryIndex(self.path, read_attrs=self.read_attrs)
-        """
-
-    def find(self, **filter):
-        """Build and search the directory's indexes.
-
-        Wrapper for:
-
-            return DirectoryIterator(self.index.find(**filter))
-        """
-
-    @staticmethod
-    def read_attrs(path):
-        """The function used to infer attributes for a given path.
-
-        .. note::
-
-            This function is a `staticmethod` to ensure that attributes are a
-            pure function of the path and to simplify how this function can be
-            overridden.
-        """
-```
-
-##### Example API usage for the DirectoryView
-
-```python
->>> from signac import DirectoryView
->>> my_project = DirectoryView('/data/my_project')
->>> foo_42 = project['foo_42']
->>> foo_42
-DirectoryView('foo_42', root='/data/my_project/')
->>> foo_42.path
-Path('/data/my_project/foo_42/')
->>> foo_42.attrs
-{'foo': 42}
->>> foo_42.attrs.foo
-42
-```
-The `DirectoryView` interface is in many ways very similar to the `Directory` interface, but any function that would otherwise *change* the dataspace are not available.
-For example:
-```python
->>> foo_42.attrs = dict(foo=43)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-AttributeError: The DirectoryView.attrs are immmutable!
-```
-
-##### Examples for defining a custom `read_attrs(path)` function
-
-Whenever we are interacting with a non-standard data space, but want to still use the `DirectoryView` interface, we have to provide an alternative method to infer *attributes* for a given path.
-
-For this example we will assume that attributes are directly encoded as part of the file system path.
-Specifically, we use a regular expression to infer the value for *foo* directly from the directory path:
-```python
->>> import re; from functools import partial
->>> my_attrs_func = partial(re.match, pattern=r"^foo\_(?P<foo>\d+)$")
->>> my_attrs_func("foo_42")
-{'foo': 42}
-```
-Next, we specialize a `DirectoryView` class for this specific data space:
-```python
->>> class MyDirectoryView(DirectoryView):
-...     read_attrs = my_attrs_func
-...
-```
-We can then use this directory view to interact with a specific data space:
-```python
->>> my_project = MyDirectoryView("/data/my_project)")
->>> my_project['foo_42']
-MyDirectoryView("foo_42", root="/data/my_project/")
->>> my_project['foo_42'].attrs()
-{'foo': 42}
-```
-The directory's index class automatically uses the specialized `read_attrs()` function, so we can do searches as well:
-```python
->>> for subdir in my_project.find('foo 42'):
-...     subdir
-...
-MyDirectoryView("foo_42", root="/data/my_project")
-```
 
 #### The Project interface
 
@@ -1098,8 +1061,6 @@ class Project:
         Essentially equivalent to:
 
             return Index(self.workspace.path)
-
-        **IT SHOULD BE POSSIBLE TO OVERWRITE THIS TO USE SOME DIFFERENT SCHEME! (csa)**
         """
 
     def __getitem__(self, id):
