@@ -15,7 +15,7 @@ The development plan will be continually updated to account for changes and refi
 
 ## Phase 1 (Planning)
 
-The initial phase is targeted at deciding on the general concept and API for revision 1 as well as setting up a developer team and obtaining general buy-in by expert users.
+The initial phase is targeted at deciding on the general concept and API for **revision 1** as well as setting up a plan for assembling a developer team and obtaining general buy-in by expert users.
 
 ### Executed by
 
@@ -25,8 +25,44 @@ The initial phase is targeted at deciding on the general concept and API for rev
 
 1. Refine design specifications until consensus among maintainers is reached.
 1. Determine developer team candidate pool and communication channels for outreach.
+1. Create a landing page for new developers (https://development.signac.io/)
+ 1. Current status
+ 1. Development blog
+ 1. Links
+1. Setup the toolchain for
+ 1. Communication
+ 1. Document management
+ 1. Source code management
+ 1. Issue tracking
+ 1. Project task tracking
+
+
+### Deliverables
+
+* A maintainer-approved revision of the design specifications.
+* A team candidate pool and a list of communication channels.
+
+## Phase 2 (Pre-Alpha)
+
+This phase is targeted at creating a minimal prototype which can be used for demonstration purposes, assembling an initial developer team, and setting up the development workflow.
+
+### Executed by
+
+* Core maintainers
+* Core developers
+
+### Steps
+
+1. **KICK-OFF**: Prepare prototype implementation
+ 1. Create branch *revision-1* based off *master*.
+ 1. Implement a single minimal module that demonstrates code and documentation style for developers approved by maintainers.
+ 1. Implement a minimal test module that demonstrates use of the testing framework.
+ 1. Create initial set of development guidelines.
+1. Implement a minimal skeleton prototype that is demonstration-ready (**v1.0.dev0**).
+1. Revise design specifications based on feedback received for prototype.
+1. Implement a minimal prototype that demonstrates paths towards backwards-compatibility (**v1.0.dev1**).
 1. Reach out to candidate developers and users to aggregate a team of people who are interested in contributing by:
- * contributing code
+ * writing code
  * writing documentation
  * testing code
  * providing feedback
@@ -34,67 +70,29 @@ The initial phase is targeted at deciding on the general concept and API for rev
  * the design specification,
  * the planning and execution of development,
  * publication and outreach activities.
-1. Consider to switch development platform based on tentative developer team composition.
-1. Create branch *revision-1* based off *master*.
-1. Implement a single minimal module that demonstrates code and documentation style for developers approved by maintainers.
-1. Implement a minimal test module that demonstrates use of the testing framework approved by maintainers.
-1. Setup development guidelines approved by maintainers.
-1. Identify work packages to be assigned to tentative developer team.
+1. Determine
+ * development platform
+ * communication channels
+ * tentative deadlines
+1. Create
+ * initial work packages
+ * development guidelines (https://development.signac.io)
+ * conceptual outline of the overall revised user documentation
 
-*All steps are executed in parallel, but are roughly ordered by priority.*
-
-### Deliverables
-
-* A maintainer-approved revision of the design specifications.
-* A tentative developer team.
-* A list of users who are willing to provide feedback and conduct alpha- and beta-testing.
-* Minimal module for revised interface.
-* Minimal test module for revised interface.
-* Development guidelines.
-* Work packages for tentative developer team
-
-## Phase 2 (Pre-Alpha)
-
-This phase is targeted at setting up the development workflow and creating an early prototype which can be used to refine the design specifications.
-
-### Executed by
-
-* Core maintainers
-* Development team
-* Interested users
-
-### Steps
-
-1. Refine design specifications until consensus among maintainers is reached.
-1. Implement unit and integration tests for interface described in the design specifications.
-
-    * Write completely separate test modules, but copy & paste code liberally from the current code base as needed.
-
-1. Implement prototype interfaces as described in the design specifications.
-
-    * Implement new classes in completely separate modules and rename existing modules in case of name clashes.
-    * Copy & paste code liberally from current code base as needed.
-    * Rename existing classes as needed, but create an alias in place.
-    * Do not extend existing classes, instead rename them in case of name clashes.
-    * Write only basic documentation as part of the doc-strings.
-
-1. Create a conceptual outline of the overall revised user documentation; doc-strings and the design specifications serve as user documentation at this point.
-
-1. Develop a plan on obtaining backwards-compatibility including a deprecation schedule. Prototype implementations may be implemented where constructive and feasible.
-
-1. Create tagged revision *revision-1-pre-alpha*.
-
-1. Conduct online focus group session on prototype implementation.
-
-*Steps 2-5 are executed in parallel.*
+*Steps xx are executed in parallel.*
 
 ### Deliverables
 
- * Prototype implementation that allows execution of API examples shown in the design specifications.
- * Essential unit and integration tests for revised API pass. Which tests are deemed essential will be decided by the maintainers at a later stage.
+ * Minimal Prototype implementation that allows execution of the core API examples shown in the design specifications.
+ * Team member list with roles for
+  * developers
+  * alpha-testers
+  * beta-testers
+  * advisers
+ * A decision on the development platform (Bitbucket vs. GitHub vs. GitLab etc.)
+ * Work packages and development guidelines for tentative developer team
  * Basic outline of the user documentation.
- * Basic plan on how to maintain backwards compatibility with versions 0.9+.
- * Feedback from users and developers on prototype implementation.
+ * Feedback from users and developers on minimal prototype
 
 ## Phase 3 (Alpha)
 
@@ -103,28 +101,29 @@ This phase is targeted at creating an alpha-version that is fully compliant with
 ### Executed by
 
 * Core maintainers
-* Development team
+* Core developers
+* Developers
 * Alpha-testers
 
 This phase is targeted at polishing the design specifications and revised API, developing  user documentation, and developing prototypes to obtain backwards compatibility.
 
 ### Steps
 
-1. Create new revision of the design specifications taking into account feedback gathered during phase 2 and refine until consensus is reached among maintainers.
-1. Update prototypes and tests with revised design specifications.
-1. The doc-string documentation is extended where needed.
+1. Implement alpha-version that is fully compliant with the revised API and has a test coverage of at least 50%.
+1. Create a deprecation schedule.
 1. Draft a revised version of the overall user documentation.
-1. Create tagged revision *revision-1-alpha*.
+1. Create tagged revision *v1.0.0alpha*.
 1. Obtain feedback from alpha-testers.
 
-*Steps 2-4 are executed in parallel.*
+*Steps xx are executed in parallel.*
 
 ### Deliverables
 
-* Revised design specifications.
 * Full implementation of revised API.
-* Full implementation of all unit and integration tests for revised API.
+* Test coverage of at least 50% of all unit and integration tests.
+* Deprecation schedule
 * Feedback from alpha-testers.
+* Revised design specifications.
 
 ## Phase 4 (Beta)
 
@@ -143,10 +142,10 @@ Furthermore, this version will be used during beta testing to identify any laten
 1. Update implementation and tests with revised design specifications.
 1. Implement compatibility layers necessary to obtain full backwards compatibility.
 
-    Full compatibility may not be possible to achieve in some cases. The core maintainers will decide which tests can be changed or removed.
+    *Full compatibility may not be possible to achieve in some cases. The core maintainers will decide which tests can be changed or removed.*
 
 1. Complete and refine the user documentation on revised API.
-1. Create tagged revision *revision-1-beta*.
+1. Create tagged revision *v1.0.0beta*.
 1. Obtain feedback from beta-testers.
 
 *Steps 2-4 are executed in parallel.*
