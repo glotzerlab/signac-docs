@@ -84,4 +84,15 @@ Contributing Environments to the Package
 ========================================
 
 Users are **highly encouraged** to contribute environment profiles that they developed for their local environments.
-In order to contribute an environment, either simply email them to the package maintainers (see the README for contact information) or create a pull request.
+While there are a few steps, they are almost all entirely automated, with the exception of actually reviewing the scripts your environment generates.
+Once you've written the environment class and the template as described above, contributing the environments to the package involves the following:
+
+  1. Create a new branch of **signac-flow** based on the *develop* branch.
+  2. Add your environment class to the *flow/environments/* directory, and add the corresponding template to the *flow/templates/* directory.
+  3. Run the `tests/test_templates.py` test script. It should fail on your environment, indicating that no reference scripts exist yet.
+  4. Update the `environments` dictionary in the `init` function of `tests/generate_template_reference_data.py`. The dictionary indicates the submission argument combinations that need to be tested for your environment.
+  5. Run the `tests/generate_template_reference_data.py` script, which will create the appropriate reference data in the `tests/template_reference_data.tar.gz` tarball based on your modifications. The `test_templates.py` script should now succeed.
+  6. Run the `tests/extract_templates.py` script, which will extract the tarball into a **signac** project folder.
+  7. Run the `tests/generate_template_review_document.py` script, which will generate docx files in the *tests/compiled_scripts/* directory, one for each environment.
+  8. You should see one named after your new environment class. **Review the generated scripts thoroughly.** This step is critical, as it ensures that the environment is correctly generating scripts for various types of submission.
+  9. Once you've fixed any issues with your environment and template, push your changes and create a pull request. You're done!
