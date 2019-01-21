@@ -23,6 +23,10 @@ Once a project has been created, the next step is to initialize the *data space*
 
 .. literalinclude:: ../../examples/quickstart/init.py
 
+.. code-block:: bash
+
+    ~/my_project $ python init.py
+
 The key is using the Python *project* handle as the interface to initialize jobs (data points) in your data space.
 You can then implement a simple *data space operation* within a ``project.py`` script:
 
