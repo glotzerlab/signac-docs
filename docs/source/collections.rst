@@ -41,6 +41,15 @@ For this, simply *open* a file like this:
 A collection file by default is openend in *append plus* mode, that means it is opened for both reading and writing.
 The :py:func:`~signac.Collection.open` function accepts all standard file open modes, such as `r` for *read-only*, etc.
 
+Large collections can also be stored in a compressed format using gzip for efficiency.
+To use a compressed collection, simply pass in a compression level from 1-9 as a `compresslevel` argument to the :py:class:`signac.Collection` constructor:
+
+.. code-block:: python
+
+    from signac import Collection
+
+    collection = Collection(compresslevel=9)
+
 
 Searching collections
 =====================
