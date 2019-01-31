@@ -7,9 +7,9 @@ Tutorial
 .. sidebar:: License
 
     The code shown in this tutorial is part of the :ref:`examples`.
-    It can be downloaded from the signac-docs_ repository and is released into the `public domain <https://bitbucket.org/glotzer/signac-docs/raw/master/examples/LICENSE>`_.
+    It can be downloaded from the signac-docs_ repository and is released into the `public domain <https://github.com/glotzerlab/signac-docs/blob/master/examples/LICENSE.txt>`_.
 
-.. _signac-docs: https://bitbucket.org/glotzer/signac-docs/
+.. _signac-docs: https://github.com/glotzerlab/signac-docs
 
 This tutorial is designed to step new users through the basics of setting up a **signac** data space, defining and executing a simple workflow, and analyzing the data.
 For the complete code corresponding to this tutorial, see the :ref:`idg_example` example.

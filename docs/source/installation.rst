@@ -51,7 +51,7 @@ For example, to install the signac core package you can execute the following co
 
 .. code:: bash
 
-  git clone https://bitbucket.org/glotzer/signac.git
+  git clone https://github.com/glotzerlab/signac.git
   cd signac
   python setup.py install --user
 

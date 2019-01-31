@@ -6,9 +6,9 @@ Examples
 
 .. sidebar:: License
 
-    All the code shown here can be downloaded from the signac-docs_ repository, and is released into the `public domain <https://bitbucket.org/glotzer/signac-docs/raw/master/examples/LICENSE>`_.
+    All the code shown here can be downloaded from the signac-docs_ repository, and is released into the `public domain <https://github.com/glotzerlab/signac-docs/blob/master/examples/LICENSE.txt>`_.
 
-.. _signac-docs: https://bitbucket.org/glotzer/signac-docs/
+.. _signac-docs: https://github.com/glotzerlab/signac-docs
 
 This is a collection of example projects which are designed to illustrate how to implement certain applications and solutions with **signac**.
 Unlike the tutorial, the examples consist mainly of complete, immediately executable source code with less explanation.

@@ -21,7 +21,7 @@ Contributions
 Contributions to **signac** are very welcome!
 We highly appreciate contributions in the form of **user feedback** and **bug reports** on the `gitter channel <https://gitter.im/signac/Lobby>`_, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <mailto:signac-support@umichedu>`_.
 Developers are invited to contribute to the framework by pull request to the appropriate package repository.
-The source code for all packages is hosted on `bitbucket`_.
+The source code for all packages is hosted on `github`_.
 We recommend discussing new features in form of a proposal on the issue tracker for the appropriate project prior to development.
 
 All code contributed via pull request needs to adhere to the following guidelines:
@@ -34,7 +34,7 @@ All code contributed via pull request needs to adhere to the following guideline
   5. Changes must generally be backwards-compatible.
   6. All packages targeted to be used within high-performance computing environments should support Python versions 2.7+ and 3.4+ and keep the number of *hard* dependencies to a miminum.
 
-.. _bitbucket: https://bitbucket.org/account/user/glotzer/projects/SIG
+.. _github: https://github.com/glotzerlab/
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/
 .. _git-flow: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
