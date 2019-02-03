@@ -71,6 +71,45 @@ This approach makes it also easy to compare the pre- and post-migration states b
 
 .. [#f1] The use of dots in keys is deprecated. Dots will be exclusively used to denote nested keywords in the future.
 
+How to define parameter-dependent operations
+============================================
+
+Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
+That is to ensure reproduciblity of these operations.
+An operation should be a true function of the job's data without any hidden parameters.
+
+Here we show how to define operations that are a function of one or more additional parameters without violating the above mentioned principle.
+Assuming that we have an operation called *foo*, which depends on the a parameter *bar*, here is how we could implement multiple operations that depend on that additional parameter without code duplication:
+
+.. code-block:: python
+
+    class Project(FlowProject):
+        pass
+
+
+    def add_foo_workflow(bar):
+
+        job.doc.setdefault('foo', dict())
+
+        def foo_ran(job):
+            return bar in job.doc.foo
+
+        # Make sure to make the operation-name a function of the parameter(s)!
+        @Project.operation('foo-{})'.format(bar))
+        @Project.post(foo_ran)
+        def foo(job):
+            job.doc.foo[bar] = 'hello world!'
+
+
+   for bar in (4, 8, 15, 16, 42):
+       add_foo_workflow(bar=bar)
+
+
+.. important::
+
+    The operation and condition functions must be defined in a way such that they are **truly independent** from eachother!
+    For instance, the example above would fail if all *foo*-operations had the same name or if they were all writing output to the same location.
+
 .. _rec_external:
 
 How to integrate signac-flow with MATLAB or other software without Python interface
@@ -243,7 +282,6 @@ If you are using the ``run`` command for execution, simply execute the whole scr
         @Project.operation
         def containerized_operation(job):
             pass
-
 
 .. todo::
 
