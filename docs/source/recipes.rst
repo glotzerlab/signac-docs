@@ -79,7 +79,7 @@ That is to ensure reproduciblity of these operations.
 An operation should be a true function of the job's data without any hidden parameters.
 
 Here we show how to define operations that are a function of one or more additional parameters without violating the above mentioned principle.
-Assuming that we have an operation called *foo*, which depends on the a parameter *bar*, here is how we could implement multiple operations that depend on that additional parameter without code duplication:
+Assuming that we have an operation called *foo*, which depends on parameter *bar*, here is how we could implement multiple operations that depend on that additional parameter without code duplication:
 
 .. code-block:: python
 
@@ -101,7 +101,7 @@ Assuming that we have an operation called *foo*, which depends on the a paramete
             job.doc.foo[bar] = 'hello world!'
 
 
-   for bar in (4, 8, 15, 16, 42):
+   for bar in (4, 8, 15, 16, 23, 42):
        add_foo_workflow(bar=bar)
 
 
