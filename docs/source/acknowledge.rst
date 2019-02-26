@@ -4,6 +4,13 @@
 How to cite signac
 ==================
 
+
+.. sidebar:: |badge|
+
+      Consider to place this badge on your slides or the README of your scientific repository.
+
+.. |badge| image:: images/shield-signac.io-blue.svg
+
 Please acknowledge the use of this software within the body of your publication for example by copying or adapting the following formulation:
 
 *The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework [1, 2].*
