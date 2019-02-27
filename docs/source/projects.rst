@@ -166,7 +166,7 @@ Whether a job is opened by state point or job id, an instance of :py:class:`~sig
     '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2'
 
 Evidently, the job's workspace directory is a subdirectory of the project's workspace and is named by the job's id.
-We can use the :py:meth:`Job.fn` convenience function to prepend the this workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
+We can use the :py:meth:`Job.fn` convenience function to prepend the workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
 This function makes it easy to create or open files which are associated with the job:
 
 .. code-block:: python
