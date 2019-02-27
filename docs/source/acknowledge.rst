@@ -10,7 +10,7 @@ How to cite signac
       Consider to place this badge on your slides or the README of your scientific repository.
       See :ref:`badge` for instructions.
 
-.. |badge| image:: images/signac.io-blue.svg
+.. |badge| image:: badge/signac.io-blue.svg
 
 
 Please acknowledge the use of this software within the body of your publication for example by copying or adapting the following formulation:
@@ -61,8 +61,25 @@ To cite these references, you can use the following BibTeX entries:
 Badge
 =====
 
-Use the following code to add this badge |badge| to any README.md accompanying your computational project:
+Place the following badge on your slides or in the README file of your computational project repositories: |badge|
+
+:download:`High-resolution PDF <badge/signac.io-blue.pdf>`
+
+.. rubric:: URL
 
 .. code-block:: html
 
-    [![signac](http://docs.signac.io/en/latest/_images/signac.io-blue.svg)](https://signac.io)
+    http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+
+.. rubric:: Markdown
+
+.. code-block:: html
+
+    [![signac](http://docs.signac.io/en/latest/_badge/signac.io-blue.svg)](https://signac.io)
+
+.. rubric:: reStructuredText
+
+.. code-block:: rst
+
+    .. image:: http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+        :target: https://signac.io
