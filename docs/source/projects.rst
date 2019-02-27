@@ -88,7 +88,8 @@ Specifically, the workspace is divided into sub-directories, where each director
 Each job has a unique address, which is referred to as a *state point*.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
 
-Access a signac job from its workspace directory:
+In addition to obtaining a job handle via the project, you can also access it directly with the :func:`signac.get_job` function.
+For example, you can get a handle on a job by switching into the workspace directory and then calling :func:`signac.get_job`:
 
 .. code-block:: python
 
