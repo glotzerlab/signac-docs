@@ -63,7 +63,11 @@ Badge
 
 Place the following badge on your slides or in the README file of your computational project repositories: |badge|
 
-:download:`High-resolution PDF <badge/signac.io-blue.pdf>`
+.. rubric:: Downloads
+
+* :download:`PDF (high resolution) <badge/signac.io-blue.pdf>`
+* :download:`PNG (high resolution) <badge/signac.io-blue.png>`
+* :download:`SVG (low resolution) <badge/signac.io-blue.svg>`
 
 .. rubric:: URL
 
