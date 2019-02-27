@@ -87,3 +87,5 @@ Place the following badge on your slides or in the README file of your computati
 
     .. image:: http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
         :target: https://signac.io
+
+Badges generated with `shields.io <https://shields.io>`_.
