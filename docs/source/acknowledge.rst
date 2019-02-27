@@ -7,7 +7,7 @@ How to cite signac
 
 .. sidebar:: |badge|
 
-      Consider to place this badge on your slides or the README of your scientific repository.
+      Consider to place this badge on your **slides** or **README** files!
       See :ref:`badge` for instructions.
 
 .. |badge| image:: badge/signac.io-blue.svg
@@ -61,7 +61,7 @@ To cite these references, you can use the following BibTeX entries:
 Badge
 =====
 
-Place the following badge on your slides or in the README file of your computational project repositories: |badge|
+You can add the following badge to your **slides** or **README** files to acknowledge the use of **signac** as part of your project: |badge|
 
 .. rubric:: Downloads
 
