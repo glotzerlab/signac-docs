@@ -8,8 +8,10 @@ How to cite signac
 .. sidebar:: |badge|
 
       Consider to place this badge on your slides or the README of your scientific repository.
+      See :ref:`badge` for instructions.
 
-.. |badge| image:: images/shield-signac.io-blue.svg
+.. |badge| image:: images/signac.io-blue.svg
+
 
 Please acknowledge the use of this software within the body of your publication for example by copying or adapting the following formulation:
 
@@ -52,3 +54,15 @@ To cite these references, you can use the following BibTeX entries:
       doi          = {10.5281/zenodo.1117952},
       url          = {https://doi.org/10.5281/zenodo.1117952}
     }
+
+
+.. _badge:
+
+Badge
+=====
+
+Use the following code to add this badge |badge| to any README.md accompanying your computational project:
+
+.. code-block:: html
+
+    [![signac](http://docs.signac.io/en/latest/_images/signac.io-blue.svg)](https://signac.io)
