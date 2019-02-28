@@ -437,14 +437,26 @@ In addition to selecting by metadata as shown earlier, we can also find and sele
     {'N': 1000, 'kT': 1.0, 'p': 8}
     {'volume': 125.0}
 
-.. note::
 
-    The job document is a feature of the core **signac** package, and can be used even outside the context of a :py:class:`~.flow.FlowProject`.
+Job.data and Job.stores
+-----------------------
 
+The job :py:attr:`~signac.contrib.job.Job.data` attribute provides a dict-like interface to an HDF5-file, which is designed to store large numerical data, such as numpy arrays.
+
+For example:
+
+.. code-block:: python
+
+      with job.data:
+          job.data.my_array = numpy.zeros(64, 32)
+
+You can use the ``data``-attribute to store both built-in types, numpy arrays, and pandas dataframes.
+The ``job.data`` property is a short-cut for ``job.stores['signac_data']``, you can access many different data stores by providing your own name, e.g., ``job.stores.my_data``.
+
+See :ref:`project-job-data` for an in-depth discussion.
 
 Job scripts and cluster submission
 ==================================
-
 
 Generating scripts
 ------------------
