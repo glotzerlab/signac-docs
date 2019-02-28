@@ -83,12 +83,47 @@ Or with the :py:func:`~signac.get_project` function:
 
 .. currentmodule:: signac.contrib.job
 
+Jobs
+----
+
 The central assumption of the **signac** data model is that the *data space* is divisible into individual data points, consisting of data and metadata, which are uniquely addressable in some manner.
 Specifically, the workspace is divided into sub-directories, where each directory corresponds to exactly one :py:class:`Job`.
 Each job has a unique address, which is referred to as a *state point*.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
 
-In addition to obtaining a job handle via the project, you can also access it directly with the :func:`signac.get_job` function.
+A job is essentially just a directory on the file system, which is part of a *project workspace*.
+That directory is called the *job workspace* and contains **all data** associated with that particular job.
+
+You access a job by providing a *state point*, which is a unique key-value mapping describing your data.
+All data associated with your job should be a unique function of the *state point*, e.g., the parameters that go into your physics or machine learning model.
+For example, to store data associated with particular temperature or pressure of a simulation, you would first initialize a project, and then *open* a job like this:
+
+.. code-block:: python
+
+    project = get_project('path/to/my_project')
+    job = project.open_job({'temperature': 20, 'pressure': 1.0})
+    job.init()
+    with open(job.fn('results.txt')) as file:
+        ...
+
+.. tip::
+
+    You only need to call the :meth:`Job.init` function the first time that you are accessing a job.
+    Furthermore, the :meth:`Job.init` function returns itself, so you can abbreviate like this:
+
+    .. code-block:: python
+
+        job = project.open_job({'temperature': 20, 'pressure': 1.0}).init()
+
+The job *state point* represents a **unique address** of your data within one project.
+There can never be two jobs that share the same *state point* within the same project.
+Any other kind of data and metadata that describe your job, but do not represent a unique address should be stored within the :attr:`Job.doc`, which has the exact same interface like the :attr:`Job.sp`, but does not represent a unique address of the job.
+
+.. tip::
+
+    The :class:`Job` interface and the various methods of storing data are described in detail in the :ref:`jobs` section.
+
+In addition to obtaining a job handle via the project ``open_job()`` function, you can also access it directly with the :func:`signac.get_job` function.
 For example, you can get a handle on a job by switching into the workspace directory and then calling :func:`signac.get_job`:
 
 .. code-block:: python
@@ -97,246 +132,6 @@ For example, you can get a handle on a job by switching into the workspace direc
     >>> job = signac.get_job()
     >>> print(job)
     42b7b4f2921788ea14dac5566e6f06d0
-
-.. tip::
-
-    For a full reference of the Job API, please see the :ref:`Python API <python-api-job>`.
-
-.. _project-job-statepoints:
-
-State Points
-------------
-
-A *state point* is a simple mapping of key-value pairs containing metadata describing the job.
-The state point is then used to compute a hash value, called the *job id*, which serves as the unique id for the job.
-The **signac** framework keeps track of all data and metadata by associating each job with a *workspace directory*, which is just a subdirectory of the project workspace.
-This subdirectory is named by the *job id*, therefore guaranteeing a unique file system path for each *job* within the project's *workspace* directory.
-
-.. note::
-
-    Because **signac** assumes that the state point is a unique identifier, multiple jobs cannot share the same state point.
-    A typical remedy for scenarios where, *e.g.*, multiple replicas are required, is to append the replica number to the state point to generate a unique state point.
-
-Both the state point and the job id are equivalent addresses for jobs in the data space.
-To access or modify a data point, obtain an instance of :py:class:`~signac.contrib.job.Job` by passing the associated metadata as a mapping of key-value pairs (for example, as an instance of :py:class:`dict`) into the :py:meth:`~signac.Project.open_job` method.
-
-.. code-block:: python
-
-    # Define a state point:
-    >>> statepoint = {'a': 0}
-    # Get the associated job:
-    >>> job = project.open_job(statepoint)
-    >>> print(job.get_id())
-    9bfd29df07674bc4aa960cf661b5acd2
-
-
-In general an instance of :py:class:`~signac.contrib.job.Job` only gives you a handle to a python object.
-To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
-You can initialize a job **explicitly**, by calling the :py:meth:`~signac.contrib.job.Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
-
-.. code-block:: python
-
-    >>> job = project.open_job({'a': 2})
-    # Job does not exist yet
-    >>> job in project
-    False
-    >>> job.init()
-    # Job now exists
-    >>> job in project
-    True
-
-Once a job has been initialized, it may also be *opened by id* as follows (initialization is required because prior to initialization the job id has not yet been calculated):
-
-.. code-block:: python
-
-    >>> job.init()
-    >>> job2 = project.open_job(id=job.get_id())
-    >>> job == job2
-    True
-
-Whether a job is opened by state point or job id, an instance of :py:class:`~signac.contrib.job.Job` can always be used to retrieve the associated *state point*, the *job id*, and the *workspace* directory with the :py:attr:`~signac.contrib.job.Job.statepoint`, :py:meth:`~signac.contrib.job.Job.get_id`, and :py:meth:`~signac.contrib.job.Job.workspace` methods, respectively:
-
-.. code-block:: python
-
-    >>> print(job.statepoint())
-    {'a': 0}
-    >>> print(job.get_id())
-    9bfd29df07674bc4aa960cf661b5acd2
-    >>> print(job.workspace())
-    '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2'
-
-Evidently, the job's workspace directory is a subdirectory of the project's workspace and is named by the job's id.
-We can use the :py:meth:`Job.fn` convenience function to prepend the workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
-This function makes it easy to create or open files which are associated with the job:
-
-.. code-block:: python
-
-    >>> print(job.fn('newfile.txt'))
-    '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2/newfile.txt'
-
-For convenience, the *state point* may also be accessed via the :py:attr:`~signac.contrib.job.Job.statepoint` or :py:attr:`~signac.contrib.job.Job.sp` attributes, e.g., the value for ``a`` can be printed using either ``print(job.sp.a)`` or ``print(job.statepoint.a)``.
-This also works for **nested** *state points*: ``print(job.sp.b.c)``!
-An additional advantage of accessing the statepoint via the attributes is that these can be directly modified, triggering a recalculation of the job id and a renaming of the job's workspace directory.
-
-.. _project-job-statepoint-modify:
-
-Modifying the State Point
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-As just mentioned, the state point of a job can be changed after initialization.
-A typical example where this may be necessary, is to add previously not needed state point keys.
-Modifying a state point entails modifying the job id which means that the state point file needs to be rewritten and the job's workspace directory is renamed, both of which are computationally cheap operations.
-The user is nevertheless advised **to take great care when modifying a job's state point** since errors may render the data space **inconsistent**.
-
-There are three main options for modifying a job's state point:
-
-    1. Directly via the job's :py:attr:`~signac.contrib.job.Job.statepoint` and :py:attr:`~signac.contrib.job.Job.sp` attributes,
-    2. via the job's :py:meth:`~signac.contrib.job.Job.update_statepoint` method, and
-    3. via the job's :py:meth:`~signac.contrib.job.Job.reset_statepoint` method.
-
-The :py:meth:`~signac.contrib.job.Job.update_statepoint` method provides safeguards against accidental overwriting of existing *state point* values, while :py:meth:`~signac.contrib.job.Job.reset_statepoint` will simply reset the whole *state point* without further questions.
-The :py:attr:`~signac.contrib.job.Job.statepoint` and :py:attr:`~signac.contrib.job.Job.sp` attributes provide the greatest flexibility, but similar to :py:meth:`~signac.contrib.job.Job.reset_statepoint` they provide no additional protection.
-
-.. important::
-
-    Regardless of method, **signac** will always raise a :py:class:`~signac.errors.DestinationExistsError` if a *state point* modification would result in the overwriting of an existing job.
-
-
-The following examples demonstrate how to **add**, **rename** and **delete** *state point* keys using the :py:attr:`~signac.contrib.job.Job.sp` attribute:
-
-To **add a new key** ``b`` to all existing *state points* that do not currently contain this key, execute:
-
-.. code-block:: python
-
-    for job in project:
-        job.sp.setdefault('b', 0)
-
-**Renaming** a state point key from ``b`` to ``c``:
-
-.. code-block:: python
-
-    for job in project:
-        assert 'c' not in job.sp
-        job.sp.c = job.statepoint.pop('b')
-
-To **remove** a state point key ``c``:
-
-.. code-block:: python
-
-    for job in project:
-        if 'c' in job.sp:
-            del job.sp['c']
-
-You can modify **nested** *state points* in-place, but you will need to use dictionaries to add new nested keys, e.g.:
-
-.. code-block:: python
-
-    >>> job.statepoint()
-    {'a': 0}
-    >>> job.sp.b.c = 0  # <-- will raise an AttributeError!!
-
-    # Instead:
-    >>> job.sp.b = {'c': 0}
-
-    # Now you can modify in-place:
-    >>> job.sp.b.c = 1
-
-.. _project-job-document:
-
-The Job Document
-----------------
-
-In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :py:attr:`~Job.document`.
-This *job document* is automatically stored in the job's workspace directory in `JSON`_ format.
-You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attribute.
-
-.. _`JSON`: https://en.wikipedia.org/wiki/JSON
-
-.. code-block:: python
-
-    >>> job = project.open_job(statepoint)
-    >>> job.doc['hello'] = 'world'
-    # or equivalently
-    >>> job.doc.hello = 'world'
-
-Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
-The following examples are all equivalent:
-
-.. code-block:: python
-
-    >>> print(job.document().get('hello'))
-    world
-    >>> print(job.document.hello)
-    world
-    >>> print(job.doc.hello)
-    world
-
-.. tip::
-
-     Use the :py:meth:`Job.document.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
-
-Use cases for the **job document** include, but are not limited to:
-
-  1) **storage** of *lightweight* data,
-  2) Tracking of **runtime information**
-  3) **labeling** of jobs, e.g. to identify error states.
-
-.. tip::
-
-    Large arrays of numerical data are often not conducive to store in the :py:attr:`Job.document`. Text-based formats like JSON can be slower and less precise for floating-point numbers. For this kind of data, consider using the :py:attr:`Job.data` attribute.
-
-.. _project-job-data:
-
-Job Data Storage
-----------------
-
-Large numerical or text data can be stored in :py:attr:`Job.data`.
-This uses a file in `HDF5`_ format to store array-like or dictionary-like information.
-Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
-Unlike the :py:attr:`Job.document`, job data is not searchable.
-
-.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
-
-An example of storing data:
-
-.. code-block:: python
-
-    >>> import numpy as np
-    >>> job = project.open_job(statepoint)
-    >>> job.data['x'] = np.arange(0, 1, 0.01)
-    >>> job.data['hello'] = 'world'
-
-
-Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
-The following examples are all equivalent:
-
-.. code-block:: python
-
-    >>> print(job.data.get('hello'))
-    world
-    >>> print(job.data['hello'])
-    world
-    >>> print(job.data.hello)
-    world
-
-The underlying HDF5-file is openend and flushed after each read- and write-operation.
-You can keep the file explicitily open using a context manager.
-The file is only opened and flushed once in the following example:
-
-.. code-block:: python
-
-    >>> with job.data:
-    ...     job.data['hello'] = 'world'
-    ...     print(job.data.x)
-    ...
-
-.. tip::
-
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
-
-.. warning::
-
-    It is strongly advised that operations on :py:attr:`Job.data` are not performed in parallel, to avoid data corruption.
 
 .. _project-job-finding:
 

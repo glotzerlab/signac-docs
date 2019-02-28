@@ -16,6 +16,7 @@ Managing Data
    :maxdepth: 2
 
    projects
+   jobs
    query
    dashboard
 
