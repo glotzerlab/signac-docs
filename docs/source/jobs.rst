@@ -180,6 +180,17 @@ You can modify **nested** *state points* in-place, but you will need to use dict
     # Now you can modify in-place:
     >>> job.sp.b.c = 1
 
+.. warning::
+
+    The statepoint object behaves like a dictionary in most cases,
+    but because it persists changes to the filesystem, making a copy
+    requires explicitly converting it to a dict. If you need a
+    modifiable copy that will not modify the underlying JSON file,
+    you can access a dict copy of the statepoint by calling it, e.g.
+    ``sp_dict = job.statepoint()`` instead of ``sp = job.statepoint``.
+    For more information, see :class:`~signac.JSONDict`.
+
+
 .. _project-job-document:
 
 The Job Document
