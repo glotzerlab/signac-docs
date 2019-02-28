@@ -19,7 +19,7 @@ A **signac** project is a conceptual entity consisting of three components:
 This division corresponds largely to the definition of a computational project outlined by `Wilson et al.`_
 The primary function of **signac** is to provide a single interface between component **(2)**, the scripts encapsulating the project logic, and component **(1)**, the underlying data generated and manipulated by these operations.
 By maintaining a clearly defined data space that can be easily indexed, **signac** can provide a consistent, homogeneous data access mechanism.
-In the process, **signac**'s maintainance of the data space also effectively functions as an implicit part of component **(3)**, the project's documentation.
+In the process, **signac**'s maintenance of the data space also effectively functions as an implicit part of component **(3)**, the project's documentation.
 
 .. _`Wilson et al.`: https://arxiv.org/abs/1609.00037
 

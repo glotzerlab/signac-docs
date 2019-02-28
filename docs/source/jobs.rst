@@ -324,7 +324,7 @@ Low-level API
 The :class:`~signac.H5Store` class that provides the interface for :attr:`Job.data` implements a dict-like interface to provide a homogeneous interface between :attr:`Job.statepoint`, :attr:`Job.document`, and :attr:`Job.data`.
 However, in some cases it may be desirable to use more *advanced* functions provided by the ``h5py`` library itself, which we consider *low-level* API in this context.
 
-The low-level API is exposed as the :attr:`~signac.H5Store.file` property, which is accesible whenever the store is open.
+The low-level API is exposed as the :attr:`~signac.H5Store.file` property, which is accessible whenever the store is open.
 For example, this is how we could use that to explicitly create an array:
 
 .. code-block:: python
