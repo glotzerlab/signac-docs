@@ -269,7 +269,7 @@ The following examples are all equivalent:
 File handling
 -------------
 
-The underlying HDF5-file is openend and flushed after each read- and write-operation.
+The underlying HDF5 file is openend and flushed after each read- and write-operation.
 You can keep the file explicitily open using a context manager.
 The file is only opened and flushed once in the following example:
 
@@ -329,3 +329,28 @@ For example, this is how we could use that to explicitly create an array:
 Please see the h5py_ documentation for more information on how to interact with ``h5py.File`` objects.
 
 .. _`h5py`: http://docs.h5py.org/en/latest/
+
+
+Job Stores
+==========
+
+As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` within the job workspace directory.
+However, there are some reasons why one would want to operate on multiple different HDF5_ files instead of only one.
+
+ 1. While the HDF5-format is generally mutable, it is fundamentally designed to be used as an immutable data container.
+    It is therefore advantageous to write large arrays to a new file instead of modifying an existing file many times.
+ 2. It easier to synchronize multiple files instead of just one.
+ 3. Multiple operations executed in parallel can operate on different files circumventing file locking issues.
+
+The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job workspace directory.
+In fact, the :attr:`Job.data` container is essentially just an alias for ``job.stores.signac_data``.
+
+For example, to store an array `X` within a file called ``my_data.h5``, one could use the following approach:
+
+.. code-block:: python
+
+    with job.stores.my_data as data:
+        data['X'] = X
+
+
+The :attr:`Job.stores` attribute is an instance of :class:`signac.H5StoreManager` and implements a dict-like interface.
