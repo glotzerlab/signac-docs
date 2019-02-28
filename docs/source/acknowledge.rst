@@ -4,6 +4,15 @@
 How to cite signac
 ==================
 
+
+.. sidebar:: |badge|
+
+      Consider to place this badge on your **slides** or **README** files!
+      See :ref:`badge` for instructions.
+
+.. |badge| image:: badge/signac.io-blue.svg
+
+
 Please acknowledge the use of this software within the body of your publication for example by copying or adapting the following formulation:
 
 *The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework [1, 2].*
@@ -45,3 +54,38 @@ To cite these references, you can use the following BibTeX entries:
       doi          = {10.5281/zenodo.1117952},
       url          = {https://doi.org/10.5281/zenodo.1117952}
     }
+
+
+.. _badge:
+
+Badge
+=====
+
+You can add the following badge to your **slides** or **README** files to acknowledge the use of **signac** as part of your project: |badge|
+
+.. rubric:: Downloads
+
+* :download:`PDF (high resolution) <badge/signac.io-blue.pdf>`
+* :download:`PNG (high resolution) <badge/signac.io-blue.png>`
+* :download:`SVG (low resolution) <badge/signac.io-blue.svg>`
+
+.. rubric:: URL
+
+.. code-block:: html
+
+    http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+
+.. rubric:: Markdown
+
+.. code-block:: html
+
+    [![signac](http://docs.signac.io/en/latest/_badge/signac.io-blue.svg)](https://signac.io)
+
+.. rubric:: reStructuredText
+
+.. code-block:: rst
+
+    .. image:: http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+        :target: https://signac.io
+
+Badges generated with `shields.io <https://shields.io>`_.
