@@ -11,32 +11,29 @@ Overview
 
 A *job* is a directory on the file system, which is part of a *project workspace*.
 That directory is called the *job workspace* and contains **all data** associated with that particular job.
+Every job has a unique address called the *state point*.
 
-Every job has a unique address called the *state point*, which is a key-value mapping representing the job's metadata.
-All data associated with a particular job should be a fuction of the metadata or at least be described by it.
-
-There are multiple ways to associate data and metadata with a particular job.
-We distinguish between data and metadata, where the latter is a description of your data and should be searchable.
 There are two ways to associated metadata with your job:
 
 1. As part of the :attr:`Job.statepoint` (aliased by :attr:`Job.sp`).
 2. As part of the :attr:`Job.document` (aliased by :attr:`Job.doc`).
 
-Both containers have the exact same (dict-like) interface and capabilities, both are indexed (searchable), but only the former represents the unique address of the job.
+Both containers have the exact same (dict-like) interface and capabilities, both are indexed (that means searchable), but only the former represents the unique address of the job.
+In other words, all data associated with a particular job should be a direct or indirect function of the *state point*.
 
 .. important::
 
     Every parameter that, when changed, would invalidate the job's data, should be part of the *state point*; all others should not.
 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
-It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* retroactively.
+It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
 
 You can, but do not have to use the :class:`Job` interface to associate data with a job.
 Any file --with a name and format of your choosing-- that is stored within the job's workspace directory is considered *data associated with the job*.
 
-However, if you do choose to interact with the data through the :class:`Job` interface, there are three main ways of doing so:
+However, if you do choose to interact with the data through the :class:`Job` interface, there are four main ways of doing so:
 
-1. You switch into the job's workspace directory by using it as a context manager (``with job:``).
+1. You temporarily change the working directory to the job's workspace directory by using the job as a context manager (``with job:``).
 2. You use the :meth:`Job.fn` function to construct file paths, where ``job.fn('data.txt')`` is equivalent to ``os.path.join(job.workspace(), 'data.txt')``.
 3. You store (small) JSON-serializable data in the :attr:`Job.document`.
 4. You store (small or large) numerical array-like data in the :attr:`Job.data` container.
@@ -143,6 +140,8 @@ The :py:attr:`Job.statepoint` and :py:attr:`Job.sp` attributes provide the great
 
 
 The following examples demonstrate how to **add**, **rename** and **delete** *state point* keys using the :py:attr:`Job.sp` attribute:
+
+.. _add-sp-keys:
 
 To **add a new key** ``b`` to all existing *state points* that do not currently contain this key, execute:
 
