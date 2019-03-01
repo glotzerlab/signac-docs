@@ -17,7 +17,7 @@ Please acknowledge the use of this software within the body of your publication 
 
   [1] C. S. Adorf, P. M. Dodd, V. Ramasubramani, and S. C. Glotzer. Simple data and workflow management with the signac framework. Comput. Mater. Sci., 146(C):220-229, 2018. DOI:10.1016/j.commatsci.2018.01.035.
 
-  [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Mike Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2581327
+  [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2581327
 
 References for previous release versions can be found `here <https://zenodo.org/badge/latestdoi/72946496>`_.
 A preprint of the paper published in the Journal of Computational Materials Science is available on the `arXiv <https://arxiv.org/abs/1611.03543>`_.
@@ -43,7 +43,7 @@ To cite these references, you can use the following BibTeX entries:
       author       = {Carl Simon Adorf and
                       Vyas Ramasubramani and
                       Bradley D. Dice and
-                      Mike Henry and
+                      Michael M. Henry and
                       Paul M. Dodd and
                       Sharon C. Glotzer},
       title        = {glotzerlab/signac},
