@@ -16,3 +16,7 @@ Most source code shown as part of the documentation is released into the public 
 
 .. literalinclude:: licenses/public_domain.txt
     :language: none
+
+The **signac**, **signac-flow**, and **signac-dashboard** logos & badges are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) license:
+
+.. literalinclude:: licenses/CC_BY_4.0.txt
