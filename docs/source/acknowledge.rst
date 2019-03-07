@@ -93,7 +93,7 @@ Badges generated with `shields.io <https://shields.io>`_.
 Logos
 =====
 
-The **signac**, **signac-flow**, and **signac-dashboard** logos are licensed under the `Creative Commons Attribution 4.0 International (CC BY 4.0) license`_.
+The **signac**, **signac-flow**, and **signac-dashboard** logos & badges are licensed under the `Creative Commons Attribution 4.0 International (CC BY 4.0) license`_.
 This means you can use logos as long as you attribute the logos to the relevant **signac** project.
 
 .. _`Creative Commons Attribution 4.0 International (CC BY 4.0) license`: https://creativecommons.org/licenses/by/4.0/
