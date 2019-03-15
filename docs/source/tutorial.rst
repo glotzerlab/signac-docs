@@ -560,6 +560,69 @@ In addition, **signac** will also keep track of submitted operations in addition
 
 To use this feature, make sure that you are on a system with any of the supported schedulers and then run the ``$ python project.py submit`` command.
 
+As an example, we could submit the operation ``compute_volume`` to the cluster.
+
+``$ python project.py submit -o compute_volume -n 1 -w 1.5``
+
+This command submits to the cluster the operation ``compute_volume`` for the next available 5 jobs, and each job is submitted with a walltime of 1.5 hours.
+We can use the ``--pretend`` option to output the text of the submission document.
+Here is some sample output used on Stampede2, a SLURM-based queuing system:
+
+.. code-block:: bash
+
+    $ python project.py submit -o compute_volume -n 1 -w 1.5 --pretend
+    Query scheduler...
+    Submitting cluster job 'ideal_gas/ee550647/compute_volu/0000/085edda24ead71794f423e0046744a17':
+     - Operation: compute_volume(ee550647e3f707b251eeb094f43d434c)
+    #!/bin/bash
+    #SBATCH --job-name="ideal_gas/ee550647/compute_volu/0000/085edda24ead71794f423e0046744a17"
+    #SBATCH --partition=skx-normal
+    #SBATCH -t 01:30:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=1
+
+    set -e
+    set -u
+
+    cd /scratch/05583/tg848827/ideal_gas_project
+
+    # compute_volume(ee550647e3f707b251eeb094f43d434c)
+    /opt/apps/intel17/python3/3.6.3/bin/python3 project.py exec compute_volume ee550647e3f707b251eeb094f43d434c
+
+We can submit 5 jobs simultaneously by changing ``-n 1`` to ``-n 5``.
+After submitting, if we run ``$ python project.py status -d``, a detailed report is produced that tracks the progress of each job.
+
+.. code-block:: bash
+
+    $ python project.py status -d
+    Query scheduler...
+    Collect job status info: 100%|██████████████████████████████| 10/10 [00:00<00:00, 2500.48it/s]
+    # Overview:
+    Total # of jobs: 10
+
+    label    ratio
+    -------  -------
+    [no labels to show]
+
+    # Detailed View:
+    job_id                            operation           labels
+    --------------------------------  ------------------  --------
+    ee550647e3f707b251eeb094f43d434c  compute_volume [Q]
+    df1794892c1ec0909e5955079754fb0b  compute_volume [Q]
+    71855b321a04dd9ee27ce6c9cc0436f4  compute_volume [Q]
+    dbe8094b72da6b3dd7c8f17abdcb7608  compute_volume [Q]
+    a2fa2b860d0a1df3f5dbaaa3a7798a59  compute_volume [Q]
+    22a51374466c4e01ef0e67e65f73c52e  compute_volume [U]
+    97ac0114bb2269561556b16aef030d43  compute_volume [U]
+    03585df0f87fada67bd0f540c102cce7  compute_volume [U]
+    e5613a5439caeb021ce40a2fc0ebe7ed  compute_volume [U]
+    742c883cbee8e417bbb236d40aea9543  compute_volume [U]
+    [U]:unknown [R]:registered [Q]:queued [A]:active [I]:inactive [!]:requires_attention
+
+Jobs signified with ``Q`` are queued in the cluster; when calling ``python project.py status -d`` again, if ``signac`` queries the cluster to find those jobs have begun running, their status will be reported ``A``.
+
+See the :ref:`cluster-submission` section for further details on how to use the ``submit`` option and the :ref:`environments` section for details on submitting to your particular cluster.
+
 .. todo::
 
     * Add section about signac-dashboard.
