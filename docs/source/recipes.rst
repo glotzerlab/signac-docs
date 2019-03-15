@@ -45,6 +45,21 @@ The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in
 
 .. _document-wide-migration:
 
+Initializing Jobs with Replica Indices
+--------------------------------------
+If you want initialize your workspace with multiple instances of the same statepoint, you may want to include a **replica_index** or **random_seed** parameter in the statepoint.
+
+.. code-block:: python
+
+    num_reps = 3
+    for i in range(num_reps) :
+        for p in range(1, 11):
+            sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
+            job = project.open_job(sp)
+            job.init()
+
+
+
 Apply document-wide changes
 ---------------------------
 
