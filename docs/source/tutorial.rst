@@ -559,14 +559,14 @@ In addition, **signac** will also keep track of submitted operations in addition
 .. _SLURM: https://slurm.schedmd.com/
 
 To use this feature, make sure that you are on a system with any of the supported schedulers and then run the ``$ python project.py submit`` command.
-See the :ref:`cluster-submission` section for further details on how to use the ``submit`` option and the :ref:`environments` section for details on submitting to your particular cluster.
 
 As an example, we could submit the operation ``compute_volume`` to the cluster.
 
 ``$ python project.py submit -o compute_volume -n 1 -w 1.5``
 
 This command submits to the cluster the operation ``compute_volume`` for the next available 5 jobs, and each job is submitted with a walltime of 1.5 hours.
-We can use the ``--pretend`` option to output the text of the submission document:
+We can use the ``--pretend`` option to output the text of the submission document.
+Here is some sample output used on Stampede2, a SLURM-based queuing system:
 
 .. code-block:: bash
 
@@ -620,6 +620,8 @@ After submitting, if we run ``$ python project.py status -d``, a detailed report
     [U]:unknown [R]:registered [Q]:queued [A]:active [I]:inactive [!]:requires_attention
 
 Jobs signified with ``Q`` are queued in the cluster; when calling ``python project.py status -d`` again, if ``signac`` queries the cluster to find those jobs have begun running, their status will be reported ``A``.
+
+See the :ref:`cluster-submission` section for further details on how to use the ``submit`` option and the :ref:`environments` section for details on submitting to your particular cluster.
 
 .. todo::
 
