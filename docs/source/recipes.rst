@@ -47,7 +47,7 @@ The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in
 
 Initializing Jobs with Replica Indices
 --------------------------------------
-If you want initialize your workspace with multiple instances of the same statepoint, you may want to include a **replica_index** or **random_seed** parameter in the statepoint.
+If you want to initialize your workspace with multiple instances of the same statepoint, you may want to include a **replica_index** or **random_seed** parameter in the statepoint.
 
 .. code-block:: python
 
