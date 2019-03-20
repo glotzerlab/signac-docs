@@ -73,19 +73,19 @@ You can add the following badge to your **slides** or **README** files to acknow
 
 .. code-block:: html
 
-    http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+    http://docs.signac.io/en/latest/_images/signac.io-blue.svg
 
 .. rubric:: Markdown
 
 .. code-block:: html
 
-    [![signac](http://docs.signac.io/en/latest/_badge/signac.io-blue.svg)](https://signac.io)
+    [![signac](http://docs.signac.io/en/latest/_images/signac.io-blue.svg)](https://signac.io)
 
 .. rubric:: reStructuredText
 
 .. code-block:: rst
 
-    .. image:: http://docs.signac.io/en/latest/_badge/signac.io-blue.svg
+    .. image:: http://docs.signac.io/en/latest/_images/signac.io-blue.svg
         :target: https://signac.io
 
 Badges generated with `shields.io <https://shields.io>`_.
