@@ -26,7 +26,7 @@ We recommend discussing new features in form of a proposal on the issue tracker 
 
 All code contributed via pull request needs to adhere to the following guidelines:
 
-  1. Most signac packages follow the `git-flow`_ branching model.
+  1. Most signac packages follow the `OneFlow`_ branching model.
      Bug fixes should be implemented in a branch based on ``master``, while new features should be developed within a branch based on ``develop``.
   2. All code needs to adhere to the `PEP8`_ style guide, with the exception that a line may have up to 100 characters.
   3. New features must be properly documented and tested with automated unit tests.
@@ -36,7 +36,7 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. _github: https://github.com/glotzerlab/
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/
-.. _git-flow: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+.. _OneFlow: https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow
 
 .. tip::
 
