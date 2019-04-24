@@ -31,6 +31,11 @@ The code below will open a dashboard for an newly-initialized (empty) project, w
 
 Then launch the dashboard with ``python dashboard.py run``.
 
+Included Modules
+----------------
+
+For a list of available modules and usage instructions, see :ref:`python-api-dashboard-modules`.
+
 Specifying a custom job title
 -----------------------------
 
@@ -64,11 +69,6 @@ Dissecting the Dashboard Structure
 - *Templates* provide the HTML structure of the dashboard's pages, written in Jinja template syntax for rendering content on the server
 - *Modules* are server-side Python code that interface with your **signac** data to display content. Generally, a module will render content from a specific *job* into a *card template*.
 - *Cards* are a type of template that is shown in *grid view* and contains content rendered by a *module*.
-
-Included Modules
-----------------
-
-For a list of available modules and usage instructions, see :ref:`python-api-dashboard-modules`.
 
 Searching jobs
 --------------
