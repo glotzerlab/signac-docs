@@ -4,7 +4,7 @@ The Dashboard
 =============
 
 This chapter describes how to create a dashboard to quickly visualize data stored in a **signac** data space.
-To install the dashboard package, follow the instructions `here <https://docs.signac.io/projects/dashboard/en/latest/installation.html>`_.
+To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
 Getting Started
 ---------------
@@ -27,8 +27,7 @@ The code below will open a dashboard for an newly-initialized (empty) project, w
     from signac_dashboard.modules import ImageViewer
 
     if __name__ == '__main__':
-        dashboard = Dashboard(modules=[ImageViewer()])
-        dashboard.main()
+        Dashboard(modules=[ImageViewer()]).main()
 
 Then launch the dashboard with ``python dashboard.py run``.
 
@@ -54,9 +53,9 @@ To use dashboards hosted by a remote computer, open an SSH tunnel to the remote 
 
 .. code-block:: bash
 
-    ssh username@remote.server.org -L 8888:localhost:8888
+    ssh username@remote.server.org -L 8890:localhost:8888
 
-to forward port 8888 on the host to port 8888 on your local computer.
+to forward port 8888 on the host to port 8890 on your local computer.
 
 Dissecting the Dashboard Structure
 ----------------------------------
@@ -69,79 +68,7 @@ Dissecting the Dashboard Structure
 Included Modules
 ----------------
 
-Defining a module requires a *name* for display, a *context* to determine when the module should be shown (currently only ``'JobContext'`` is supported), and a *template* (written in HTML/Jinja-compatible syntax) where the content will be rendered. An optional ``enabled`` argument can be set to ``False`` to disable the module until it is selected by the user. A module must be a subclass of :py:class:`~signac_dashboard.Module` and define the function :py:meth:`~signac_dashboard.Module.get_cards` which returns an array of dictionaries with properties ``'name'`` and ``'content'``, like so:
-
-.. code-block:: python
-
-    class MyModule(Module):
-
-        def get_cards(self):
-            return [{'name': 'My Module', 'content': render_template('path/to/template.html')}]
-
-Statepoint Parameters
-~~~~~~~~~~~~~~~~~~~~~
-
-The :py:class:`~signac_dashboard.modules.StatepointList` module shows the key-value pairs in the statepoint.
-
-.. code-block:: python
-
-    from signac_dashboard.modules.statepoint_list import StatepointList
-    sp_mod = StatepointList()
-
-Job Document
-~~~~~~~~~~~~
-
-The :py:class:`~signac_dashboard.modules.DocumentList` module shows the key-value pairs in the job document, with long values optionally truncated (default is no truncation).
-
-.. code-block:: python
-
-    from signac_dashboard.modules.document_list import DocumentList
-    doc_mod = DocumentList(max_chars=140)  # Output will be truncated to one tweet length
-
-File List
-~~~~~~~~~
-
-The :py:class:`~signac_dashboard.modules.FileList` module shows a listing of the job's workspace directory with links to each file. This can be very slow since it has to read the disk for every job displayed, use with caution in large signac projects.
-
-.. code-block:: python
-
-    from signac_dashboard.modules.file_list import FileList
-    file_mod = FileList(enabled=False)  # Recommended to disable this module by default
-
-Image Viewer
-~~~~~~~~~~~~
-
-The :py:class:`~signac_dashboard.modules.ImageViewer` module displays images in any format that works with a standard HTML ``<img>`` tag. The module defaults to showing all images of PNG, JPG, or GIF types. A filename or glob can be defined to select specific filenames. Multiple Image Viewer modules can be defined with different filenames or globs to enable/disable cards individually.
-
-.. code-block:: python
-
-    from signac_dashboard.modules.image_viewer import ImageViewer
-    img_mod = ImageViewer()  # Shows all PNG/JPG/GIF images
-    img_mod = ImageViewer(name='Bond Order Diagram', img_globs=['bod.png'])
-
-Video Viewer
-~~~~~~~~~~~~
-
-The :py:class:`~signac_dashboard.modules.VideoViewer` module displays videos using a standard HTML ``<video>`` tag. The module defaults to showing all videos of MP4 or M4V types. A filename or glob can be defined to select specific filenames, which may be of any format supported by your browser with the ``<video>`` tag. A "poster" can be defined, which shows a thumbnail with that filename before the video is started. Videos do not preload by default, since file sizes can be large and there may be many videos on a page. To enable preloading, use the argument ``preload='auto'`` or ``preload='metadata'``. Multiple Video Viewer modules can be defined with different filenames or globs to enable/disable cards individually.
-
-.. code-block:: python
-
-    from signac_dashboard.modules.video_viewer import VideoViewer
-    video_mod = VideoViewer()  # Shows all MP4/M4V videos
-    video_mod = VideoViewer(name='Cool Science Video',
-                            video_globs=['cool_science.mp4'],
-                            poster='cool_science_thumbnail.jpg',
-                            preload='none')
-
-Notes
-~~~~~
-
-The :py:class:`~signac_dashboard.modules.Notes` module uses the ``'notes'`` key in the job document to store plain text, perhaps human-readable descriptions of a job that may be useful in later analysis.
-
-.. code-block:: python
-
-    from signac_dashboard.modules.notes import Notes
-    notes_mod = Notes()
+For a list of available modules and usage instructions, see :ref:`python-api-dashboard-modules`.
 
 Searching jobs
 --------------
