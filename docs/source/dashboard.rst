@@ -5,7 +5,10 @@ The Dashboard
 
 This chapter describes how to create a dashboard to quickly visualize data stored in a **signac** data space.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
-As with any web server, be aware of the :ref:`dashboard-security`.
+
+.. danger::
+
+    As with any web server, be aware of the :ref:`dashboard-security`.
 
 Getting Started
 ---------------
