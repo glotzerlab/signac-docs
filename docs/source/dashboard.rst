@@ -6,6 +6,10 @@ The Dashboard
 This chapter describes how to create a dashboard to quickly visualize data stored in a **signac** data space.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
+.. danger::
+
+    As with any web server, be aware of the :ref:`dashboard-security`.
+
 Getting Started
 ---------------
 
@@ -50,6 +54,8 @@ By creating a class that inherits from :py:class:`~signac_dashboard.Dashboard` (
 
     if __name__ == '__main__':
         MyDashboard().main()
+
+.. _dashboard-remote-ssh:
 
 Running dashboards on a remote host
 -----------------------------------
