@@ -314,3 +314,20 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       3. How to submit a bundle of operations to a cluster.
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
+      
+How to run parallel tasks on a multi-GPU machine
+================================================
+Using Using **signac-flow** on a multi-GPU system, via ``python project.py run --parallel``, all the parallel tasks will be sent to same GPU. In case one wants to run a single task per GPU, but use all GPUs at the same time, the solution is to use
+``python project.py submit --bundle=N --parallel --test | /bin/bash``, where ``N`` is the number of (free) GPUs on the machine. The ``--test`` switch will generate a script which is then piped to the ``bash`` interpreter for execution. To check the script, one can redirect it to a file instead. For this recipe to work, your project folder must contain a ``templates/script.sh`` file with the following contents:
+
+.. code-block:: bash
+
+    {% set cmd_suffix = cmd_suffix|default('') ~ (' &' if parallel else '') %}
+    {% for operation in operations %}
+    export CUDA_VISIBLE_DEVICES={{ loop.index0 }}
+    {{ operation.cmd }}{{ cmd_suffix }}
+    {% endfor %}
+    wait
+
+
+
