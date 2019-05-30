@@ -2,6 +2,13 @@
 Community
 =========
 
+.. _conduct:
+
+Code of Conduct
+---------------
+
+All community members are expected to follow the signac project's `code of conduct <https://signac.io/conduct/>`_
+
 .. _support:
 
 Chat Support
