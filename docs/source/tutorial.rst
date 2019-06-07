@@ -262,6 +262,7 @@ To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed
 
     # project.py
     from flow import FlowProject
+    import os
 
 
     def volume_computed(job):
