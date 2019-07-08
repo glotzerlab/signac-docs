@@ -8,7 +8,6 @@ Welcome to the signac framework documentation!
 
 The **signac** framework supports researchers in managing project-related data with a well-defined indexable storage layout for data and metadata.
 This streamlines post-processing and analysis and makes data collectively accessible.
-The signac framework is a `NumFOCUS Affiliated Project <https://numfocus.org/sponsored-projects/affiliated-projects>`_.
 
 This is the overall **framework documentation**.
 It provides a comprehensive overview on what you can do with packages that are part of the **signac** framework.
