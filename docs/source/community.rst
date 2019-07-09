@@ -4,6 +4,11 @@ Community
 
 .. _conduct:
 
+NumFOCUS
+--------
+
+The signac framework is part of the community of `NumFOCUS Affiliated Projects <https://numfocus.org/sponsored-projects/affiliated-projects>`_.
+
 Code of Conduct
 ---------------
 
