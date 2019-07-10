@@ -123,21 +123,31 @@ Note that default values are ``relative_tolerance = 1e-09`` and ``absolute_toler
 Logical Operators
 -----------------
 
-There are two supported logical operators: ``$and`` and ``$or``.
-To querying with a logical expression, we construct a mapping with the logical-operator as the key and a list of expressions as the value.
+There are three supported logical operators: ``$and``, ``$or``, and ``$not``.
+The first two are unique in that they involve combinations of other query operators.
+To query with one of these two logical expression, we construct a mapping with the logical operator as the key and a list of expressions as the value.
 As usual, the ``$and`` operator matches documents where all the expressions are true, while the ``$or`` expression matches if any documents satisfy the provided expression.
 For example, we can match all documents where *p is greater than 2* **or** *kT=1.0* we could use the following (split onto multiple lines for clarity):
 
 .. code-block:: python
 
     {
-       '$or': [
-                {'p': {'$gt': 2}},    # either match this
-                {'kT': 1.0}           # or this
-              ]
+        '$or': [
+                   {'p': {'$gt': 2}},    # either match this
+                   {'kT': 1.0}           # or this
+               ]
     }
 
 Logical expressions may be nested, but cannot be the *value* of a key-value expression.
+
+For the ``$not`` operator, we again construct a mapping with the operator as the key, but the value is a single expression rather than a list of expressions.
+For example, to find all jobs where a parameter *a* is not close to zero, we could use the following:
+
+.. code-block:: python
+
+    {
+        '$not': {'a': {'$near': 0}}
+    }
 
 .. _exists-operator:
 
