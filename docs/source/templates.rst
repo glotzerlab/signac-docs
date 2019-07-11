@@ -112,6 +112,7 @@ For example, to specify that we want to parallelize a particular operation on **
           print("hello", job)
 
 All directives are essentially conventions, the ``np`` directive in particular means that this particular operation requires 4 processors for execution.
+Note that all directives may be specified as callables, e.g. ``@directives(np = lambda job: job.np)``.
 The following directives are respected by all base templates shipped with **signac-flow**:
 
 .. glossary::
