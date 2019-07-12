@@ -27,6 +27,7 @@ Implementing Workflows
    :maxdepth: 2
 
    operations
+   groups
    flow-project
    cluster_submission
    environments
