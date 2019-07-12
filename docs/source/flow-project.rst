@@ -49,34 +49,48 @@ Defining a workflow
 
 We will reproduce the simple workflow introduced in the previous section by first copying both the ``greeted()`` condition function and the ``hello()`` *operation* function into the ``project.py`` module.
 We then use the :py:func:`~flow.FlowProject.operation` and the :py:func:`~.flow.FlowProject.post` decorator functions to specify that the ``hello()`` operation function is part of our workflow and that it should only be executed if the ``greeted()`` condition is not met.
+The :py:func:`~flow.FlowProject.make_group` is used to allow operations in ``FlowProject`` to be organized into *metaoperations*.
 
 .. code-block:: python
 
     # project.py
     from flow import FlowProject
+    
+    stranger_group = FlowProject.make_group(name='stranger',options='--num-passes=5')
+    friend_group = FlowProject.make_group(name='friend',options='--num-passes=3')
 
 
     class Project(FlowProject):
         pass
-
+        
+    def handshaked(job)
+        return job.isfile('shake_hand.txt')
 
     def greeted(job)
         return job.isfile('hello.txt')
-
-
+    
+ 
     @Project.operation
+    @stranger_group
     @Project.post(greeted)
     def hello(job):
         with job:
             with open('hello.txt', 'w') as file:
                 file.write('world!\n')
-
+                
+    @friend_group
+    @FlowProject.pre.after(stranger_group)
+    @FlowProject.operation
+    def shake(job):
+        with job:
+            with open('shake_hand.txt','w') as file:
+                file.write('Make a friendship!\n')
 
     if __name__ == '__main__':
         Project().main()
 
 We can define both *pre* and *post* conditions, which allow us to define arbitrary workflows as an acyclic graph.
-A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met. In addition, groups from :py:func:`~flow.FlowProject.make_group` are egliable for *pre* and *post* conditions.
 
 .. tip::
 
@@ -146,6 +160,54 @@ If we implemented and integrated the operation and condition functions correctly
         def hello(job):
             return "echo 'hello {}'".format(job)
 
+    For the groups, the function will devided your operations with different tags, like *stranger_group* and *friend_group* in the 
+    following example:
+    
+    .. code-block:: python
+    
+        stranger_group = FlowProject.make_group(name='stranger',options='--num-passes=5')
+        friend_group = FlowProject.make_group(name='friend',options='--num-passes=3')
+    
+    If use the grouping command line:
+    
+    .. code-block:: bash
+        
+        ~/my_project $ python project.py submit --group stranger_group
+    
+    It will be the same as:
+    
+    .. code-block:: bash
+    
+        ~/my_project $ python project.py run -o [operations tagged with *stranger_group*]
+        
+    By ``@stranger_group``, the ``hello()`` will be tagged as *stranger_group*. Groups can be uesd as *pre* and *post* conditions as 
+    well, so that the ``shake()`` will only be available for jobs already executed by operations with *stranger_group* tag, e.g.:
+    
+    .. code-block:: python
+    
+        @Project.operation
+        @stranger_group
+        @Project.post(greeted)
+        def hello(job):
+            with job:
+                with open('hello.txt', 'w') as file:
+                    file.write('world!\n')
+                
+        @friend_group
+        @FlowProject.pre.after(stranger_group)
+        @FlowProject.operation
+        def shake(job):
+            with job:
+                with open('shake_hand.txt','w') as file:
+                    file.write('Make a friendship!\n')
+
+    However, if add ``--exec`` at the end of the command line, the operations will be forcely executed whatever the groups' status is.
+    
+    .. code-block:: bash
+    
+        ~/my_project $ python project run -o [operations] --exec
+        
+    
 The Project Status
 ==================
 
