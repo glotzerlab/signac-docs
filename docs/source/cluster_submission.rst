@@ -24,6 +24,13 @@ Then we can submit operations from the command line with the following command:
       ~/my_project $ python project.py submit
 
 This will submit all *eligible* job-operations to the cluster scheduler and block that specific job-operation from resubmission.
+While the command line including **groups** as following:
+
+.. code-block:: bash
+
+      ~/my_project $ python project.py submit --group [name of the group]
+      
+This will only submit job-operations in the group.
 
 In some cases you can provide additional arguments to the scheduler, such as which partition to submit to, which will then be used by the template script.
 In addition you can always forward any arguments directly to the scheduler as positional arguments.
@@ -44,9 +51,10 @@ Submitting specific Operations
 
 The submission process consists of the following steps:
 
-  1. *Gathering* of all job-operations *eligible* for submission.
-  2. Generation of scripts to execute those job-operations.
-  3. Submission of those scripts to the scheduler.
+  1. *Searching* of groups of all job-operations.
+  2. *Gathering* of all job-operations *eligible* for submission, if *groups*, gathering operations in the groups only.
+  3. Generation of scripts to execute those job-operations.
+  4. Submission of those scripts to the scheduler.
 
 The first step is largely determined by your project *workflow*.
 You can see which operation might be submitted by looking at the output of ``$ python project.py status --detailed``.
@@ -61,7 +69,7 @@ The submission scripts are generated using the same templating system like the `
 
 .. tip::
 
-    Use the ``--pretend`` or ``--test`` option to pre-view the generated submission scripts on screen instead of submitting them.
+    Use the ``--pretend`` or ``--test`` option to pre-view the generated submission scripts on screen instead of submitting them. Use the ``--exec`` to submit **all eligible** job-operations anyway, ignoring the groups tags.
 
 
 Parallelization and Bundling
