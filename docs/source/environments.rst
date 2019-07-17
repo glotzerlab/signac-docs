@@ -29,9 +29,9 @@ That includes the :py:class:`~flow.DefaultTorqueEnvironment` and the :py:class:`
 This means that if you are within an environment with a *Torque* or *Slurm scheduler* you should be immediately able to submit to the cluster.
 
 In addition, **signac-flow** comes with some environments tailored to specific compute clusters that are defined in the :py:mod:`flow.environments` module.
-These environments are also automatically available, but if they conflict with a specific environment of your choice, you can opt out of using these environments by setting the ``flow.IMPORT_ENVIRONMENTS`` signac config variable.
-For instance, to opt out of using these environments for a specific signac project, execute ``signac config set flow.IMPORT_ENVIRONMENTS False`` within that environment.
-This variable may also be set global signac configuration file on a given cluster.
+These environments are also automatically available, but if they conflict with a specific environment of your choice, you can opt out of using these environments by setting the ``flow.auto_import_environments`` signac config variable.
+For instance, to opt out of using these environments for a specific signac project, execute ``signac config set flow.auto_import_environments False`` within that environment.
+This variable may also be set within the global signac configuration file on a given cluster.
 More generally, if you simply wish to force **signac-flow** to use a particular environment, you may do so by setting the environment variable ``SIGNAC_FLOW_ENVIRONMENT`` in your shell.
 
 For a full list of all packaged environments, please see :ref:`supported-environments`.
