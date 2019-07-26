@@ -112,7 +112,7 @@ All directives are essentially conventions, the ``np`` directive in particular m
 
 .. tip::
 
-    Note that all directives may be specified as callables, e.g. ``@directives(np = lambda job: job.np)``.
+    Note that all directives may be specified as callables, e.g. ``@directives(np = lambda job: job.doc.np)``.
 
 Available directives
 --------------------
@@ -127,15 +127,14 @@ The following directives are respected by all base templates shipped with **sign
 
     np
       The total number of processing units required for this operation.
+      The default value for np is "nranks x omp_num_threads", which both default to 1.
 
     nranks
       The number of MPI ranks required for this operation.
       The command will be prefixed with environment specific MPI command, e.g.: ``mpiexec -n 4``.
-      The value for *np* will default to *nranks* unless specified separately.
 
     omp_num_threads
-      The number of OpenMP threads.
-      The value for *np* will default to: "nranks x omp_num_threads" unless otherwise specified.
+      The number of OpenMP threads required for this operation.
 
     ngpu
       The number of GPUs required for this operation.
@@ -160,16 +159,16 @@ Using these directives and their combinations allows us to realize the following
     MPI parallelized:
       ``@flow.directives(nranks=4)``
 
-      This operation will be executed on 4 MPI ranks.
+      This operation requires 4 MPI ranks.
 
     MPI/OpenMP Hybrid:
       ``@flow.directives(nranks=4, omp_num_threads=2)``
 
-      This operation will be executed on 4 MPI ranks with 2 OpenMP threads per rank.
+      This operation requires 4 MPI ranks with 2 OpenMP threads per rank.
 
     GPU:
       ``@flow.directives(ngpu=1)``
 
       The operation requires one GPU for execution.
 
-The :ref:`next section <environments>` provides more details on how to select and possibly define custom environments.
+The :ref:`next section <environments>` provides more details on how to select and define custom environments.
