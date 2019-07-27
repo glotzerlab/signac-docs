@@ -6,10 +6,10 @@ Cluster Submission
 
 While it is always possible to manually submit scripts like the one shown in the :ref:`previous section <project-script>` to a cluster, using the *flow interface* will allows us to **keep track of submitted operations** for example to prevent the resubmission of active operations.
 
-In addition, **signac-flow** uses *environment profiles* to select which **base template** to use for the cluster job script generation.
-All base templates are in essence the same, but will be slightly adapted to the current cluster environment.
-That is because different cluster environments offer different resources and therefore require slightly different options for submission.
-You can check out the available options with the ``python project.py submit --help`` command.
+In addition, **signac-flow** uses :ref:`environment profiles <environments>` to select which :ref:`base template <templates>` to use for the cluster job script generation.
+All base templates are in essence highly similar, but are adapted for a specific cluster environment.
+This is necessary, because different cluster environments offer different resources and use slightly different ways to specify these resources.
+You can check out the available options for the currently active environment with the ``python project.py submit --help`` command.
 
 The *submit* interface
 ======================
@@ -51,13 +51,13 @@ The submission process consists of the following steps:
 The first step is largely determined by your project *workflow*.
 You can see which operation might be submitted by looking at the output of ``$ python project.py status --detailed``.
 You may further reduce the operations to be submitted by selecting specific jobs (*e.g.* with the ``-j``, ``-f``, or ``-d`` options), specific operations (``-o``), or generally reduce the total number of operations to be submitted (``-n``).
-For example the following command would submit up to 5 ``hello`` operations, where *a is less than 5*.
+For example the following command would submit up to 5 ``hello`` operations, where *the state point key a is less than 5*.
 
 .. code-block:: bash
 
     ~/my_project $ python project.py submit -o hello -n 5 -f a.\$lt 5
 
-The submission scripts are generated using the same templating system like the ``script`` command.
+The submission scripts are generated using the same templating system as the ``script`` command.
 
 .. tip::
 
@@ -84,4 +84,91 @@ Without any argument the ``--bundle`` option will bundle **all** eligible job-op
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
-For more information on managing different environments, see the :ref:`next section <environments>`.
+.. _directives:
+
+Submission Directives
+=====================
+
+Executing operations on a cluster environment may involve the specification of resources that are required for said operation
+For this, any :py:class:`~flow.FlowProject` *operation* can be amended with so called *submission directives*.
+For example, to specify that a parallelized operation requires **4** processing units, we would provide the ``np=4`` directive:
+
+.. code-block:: python
+
+    from flow import FlowProject, directives
+    from multiprocessing import Pool
+
+    @FlowProject.operation
+    @directives(np=4)
+    def hello(job):
+        with Pool(4) as pool:
+          print("hello", job)
+
+.. note::
+
+    The directive *np=4* means that the operation **requires** 4 processing units, the operation is not automatically parallelized.
+
+All directives are essentially conventions, the ``np`` directive in particular means that this particular operation requires 4 processors for execution.
+
+.. tip::
+
+    Note that all directives may be specified as callables, e.g. ``@directives(np = lambda job: job.doc.np)``.
+
+Available directives
+--------------------
+
+The following directives are respected by all base templates shipped with **signac-flow**:
+
+.. glossary::
+
+    executable
+      Specify which Python executable should be used to execute this operation.
+      Defaults to the one used to generate the script (:py:attr:`sys.executable`).
+
+    np
+      The total number of processing units required for this operation.
+      The default value for np is "nranks x omp_num_threads", which both default to 1.
+
+    nranks
+      The number of MPI ranks required for this operation.
+      The command will be prefixed with environment specific MPI command, e.g.: ``mpiexec -n 4``.
+
+    omp_num_threads
+      The number of OpenMP threads required for this operation.
+
+    ngpu
+      The number of GPUs required for this operation.
+
+Execution Modes
+---------------
+
+Using these directives and their combinations allows us to realize the following essential execution modes:
+
+.. glossary::
+
+    serial:
+      ``@flow.directives()``
+
+      This operation is a simple serial process, no directive needed.
+
+    parallelized:
+      ``@flow.directives(np=4)``
+
+      This operation requires 4 processing units.
+
+    MPI parallelized:
+      ``@flow.directives(nranks=4)``
+
+      This operation requires 4 MPI ranks.
+
+    MPI/OpenMP Hybrid:
+      ``@flow.directives(nranks=4, omp_num_threads=2)``
+
+      This operation requires 4 MPI ranks with 2 OpenMP threads per rank.
+
+    GPU:
+      ``@flow.directives(ngpu=1)``
+
+      The operation requires one GPU for execution.
+
+The :ref:`next section <environments>` provides more details on how to select and define custom environments.
