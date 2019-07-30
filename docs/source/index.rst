@@ -14,24 +14,31 @@ It provides a comprehensive overview on what you can do with packages that are p
 If you are new to **signac**, the best place to start is to read the :ref:`introduction` and the :ref:`tutorial`.
 
 
-Contents
---------
-
 .. toctree::
    :maxdepth: 2
+   :caption: Getting started
 
    intro
    installation
    quickstart
    tutorial
    reference
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Extra
+
    packages
    examples
    recipes
    tips_and_tricks
 
-   community
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
 
+   GitHub <https://github.com/glotzerlab/signac>
+   community
    license
    acknowledge
 
