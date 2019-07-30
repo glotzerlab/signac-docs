@@ -1,9 +1,9 @@
 .. _introduction:
 .. _overview:
 
-============
-Introduction
-============
+=======
+Concept
+=======
 
 The **signac** framework is designed to simplify the storage, generation and analysis of multidimensional data sets associated with large-scale, file-based computational studies.
 Any computational work that requires you to manage files and execute workflows may benefit from an integration with **signac**.
