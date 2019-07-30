@@ -16,18 +16,18 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting started
+   :caption: Getting Started
 
    intro
    installation
    quickstart
    tutorial
-   reference
 
 .. toctree::
    :maxdepth: 2
-   :caption: Extra
+   :caption: User Guide
 
+   reference
    packages
    examples
    recipes
@@ -37,8 +37,8 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :maxdepth: 2
    :caption: Reference
 
-   GitHub <https://github.com/glotzerlab/signac>
    community
+   GitHub <https://github.com/glotzerlab/signac>
    license
    acknowledge
 
