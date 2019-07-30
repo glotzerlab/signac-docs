@@ -39,6 +39,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
    community
    GitHub <https://github.com/glotzerlab/signac>
+   Twitter <https://twitter.com/signacdata>
    license
    acknowledge
 
