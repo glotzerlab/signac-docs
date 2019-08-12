@@ -269,7 +269,7 @@ To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed
 
 
     def volume_computed(job):
-        return os.path.isfile("volume.txt")
+        return job.isfile("volume.txt")
 
 
     @FlowProject.operation
