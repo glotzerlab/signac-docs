@@ -495,9 +495,9 @@ Let's start by generating a script for the execution of up to two *eligible* ope
     cd /Users/csadorf/ideal_gas_project
 
     # Operation 'compute_volume' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec compute_volume 03585df0f87fada67bd0f540c102cce7
+    python project.py run -o compute_volume -j 03585df0f87fada67bd0f540c102cce7
     # Operation 'compute_volume' for job '22a51374466c4e01ef0e67e65f73c52e':
-    python project.py exec compute_volume 22a51374466c4e01ef0e67e65f73c52e
+    python project.py run -o compute_volume -j 22a51374466c4e01ef0e67e65f73c52e
 
 By default, the generated script will change into the  *project root directory* and then execute the command for each next eligible operation for all selected jobs.
 We then have two ways to run this script.
@@ -525,9 +525,9 @@ Executing the ``script`` command again, we see that it would now execute both th
     cd /Users/csadorf/ideal_gas_project
 
     # Operation 'store_volume_in_document' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec store_volume_in_document 03585df0f87fada67bd0f540c102cce7
+    python project.py run -o store_volume_in_document -j 03585df0f87fada67bd0f540c102cce7
     # Operation 'store_volume_in_json_file' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec store_volume_in_json_file 03585df0f87fada67bd0f540c102cce7
+    python project.py run -o store_volume_in_json_file -j 03585df0f87fada67bd0f540c102cce7
 
 If we wanted to customize the script generation, we could either extend the base template or simply replace the default template with our own.
 To replace the default template, we can put a template script called ``script.sh`` into a directory called ``templates`` within the project root directory.
@@ -548,8 +548,8 @@ Storing the above template within a file called ``templates/script.sh`` will now
    ~/ideal_gas_project $ python project.py script -n 2
    cd /Users/csadorf/ideal_gas_project
 
-   python project.py exec store_volume_in_document 03585df0f87fada67bd0f540c102cce7
-   python project.py exec store_volume_in_json_file 03585df0f87fada67bd0f540c102cce7
+   python project.py run -o store_volume_in_document -j 03585df0f87fada67bd0f540c102cce7
+   python project.py run -o store_volume_in_json_file -j 03585df0f87fada67bd0f540c102cce7
 
 Please see ``$ python project.py script --template-help`` to get more information on how to write and use custom templates.
 
@@ -591,7 +591,7 @@ Here is some sample output used on Stampede2, a SLURM-based queuing system:
     cd /scratch/05583/tg848827/ideal_gas_project
 
     # compute_volume(ee550647e3f707b251eeb094f43d434c)
-    /opt/apps/intel17/python3/3.6.3/bin/python3 project.py exec compute_volume ee550647e3f707b251eeb094f43d434c
+    /opt/apps/intel17/python3/3.6.3/bin/python3 project.py run -o compute_volume -j ee550647e3f707b251eeb094f43d434c
 
 We can submit 5 jobs simultaneously by changing ``-n 1`` to ``-n 5``.
 After submitting, if we run ``$ python project.py status -d``, a detailed report is produced that tracks the progress of each job.
