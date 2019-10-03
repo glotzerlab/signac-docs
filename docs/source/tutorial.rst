@@ -568,7 +568,7 @@ As an example, we could submit the operation ``compute_volume`` to the cluster.
 
 ``$ python project.py submit -o compute_volume -n 1 -w 1.5``
 
-This command submits to the cluster the operation ``compute_volume`` for the next available 5 jobs, and each job is submitted with a walltime of 1.5 hours.
+This command submits to the cluster the operation ``compute_volume`` for the next available 1 job, and each job is submitted with a walltime of 1.5 hours.
 We can use the ``--pretend`` option to output the text of the submission document.
 Here is some sample output used on Stampede2, a SLURM-based queuing system:
 
