@@ -16,16 +16,16 @@ Although the basic options will always be the same, there might be some subtle d
 How to Use Environments
 =======================
 
-Environments are defined by subclassing from the :py:class:`~flow.ComputeEnvironment` class.
-The :py:class:`~flow.ComputeEnvironment` class is a *meta-class* that ensures that all subclasses are automatically globally registered when they are defined.
+Environments are defined by subclassing from the :py:class:`~flow.environment.ComputeEnvironment` class.
+The :py:class:`~flow.environment.ComputeEnvironment` class is a *meta-class* that ensures that all subclasses are automatically globally registered when they are defined.
 This enables us to use environments simply by defining them or importing them from a different module.
-The :py:func:`flow.get_environment` function will go through all defined :py:class:`~flow.ComputeEnvironment` classes and return the one where the :py:meth:`~flow.ComputeEnvironment.is_present` class method returns ``True``.
+The :py:func:`flow.get_environment` function will go through all defined :py:class:`~flow.environment.ComputeEnvironment` classes and return the one where the :py:meth:`~flow.environment.ComputeEnvironment.is_present` class method returns ``True``.
 
 Packaged Environments
 =====================
 
 The package comes with a few *default environments* which are **always available** and designed for specific schedulers.
-That includes the :py:class:`~flow.DefaultTorqueEnvironment` and the :py:class:`~flow.DefaultSlurmEnvironment`.
+That includes the :py:class:`~flow.environment.DefaultTorqueEnvironment` and the :py:class:`~flow.environment.DefaultSlurmEnvironment`.
 This means that if you are within an environment with a *Torque* or *Slurm scheduler* you should be immediately able to submit to the cluster.
 
 In addition, **signac-flow** comes with some environments tailored to specific compute clusters that are defined in the :py:mod:`flow.environments` module.
@@ -39,12 +39,12 @@ For a full list of all packaged environments, please see :ref:`supported-environ
 Defining New Environments
 =========================
 
-In order to implement a new environment, create a new class that inherits from :py:class:`flow.ComputeEnvironment`.
+In order to implement a new environment, create a new class that inherits from :py:class:`flow.environment.ComputeEnvironment`.
 You will need to define a detection algorithm for your environment, by default we use a regular expression that matches the return value of :py:func:`socket.getfqdn()`.
 
 Those are the steps usually required to define a new environment:
 
-  1. Subclass from :py:class:`flow.ComputeEnvironment`.
+  1. Subclass from :py:class:`flow.environment.ComputeEnvironment`.
   2. Determine a `regular expression <https://en.wikipedia.org/wiki/Regular_expression>`_ that would match the output of :py:func:`socket.getfqdn()`.
   3. Create a template and specify the template name as ``template`` class variable.
 
@@ -52,7 +52,7 @@ This is an example for a typical environment class definition:
 
 .. code-block:: python
 
-      class MyUniversityCluster(flow.DefaultTorqueEnvironment):
+      class MyUniversityCluster(flow.environment.DefaultTorqueEnvironment):
 
           hostname_pattern = r'.*\.mycluster\.university\.edu$'  # Matches names like login.mycluster.university.edu
           template = 'mycluster.myuniversity.sh'
