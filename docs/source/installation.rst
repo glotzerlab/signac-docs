@@ -9,7 +9,7 @@ Installation
 .. _pip: https://docs.python.org/3.5/installing/index.html
 
 All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages (See :ref:`package-overview` for more information).
-Most users should install the **signac** and the **signac-flow** packages, which are tested for Python version 2.7.x and 3.4+ and do not have any *hard* dependencies, ensuring that no packages outside the **signac** framework are required for basic functionality.
+Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.5+ and are built for all major platforms.
 Please see the individual package documentation for instructions on how to install additional packages.
 
 
@@ -43,7 +43,7 @@ For a standard installation with pip_, execute:
     If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
 
 
-Installation from Source 
+Installation from Source
 ========================
 
 Alternatively, you can clone any of the package's source code repositories and install them manually.
