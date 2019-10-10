@@ -8,11 +8,6 @@ The **signac-flow** package uses environment profiles to adjust the submission p
 That is because different environments provide different resources and options for the submission of operations to those resources.
 Although the basic options will always be the same, there might be some subtle differences depending on where you want to submit your operations.
 
-.. tip::
-
-    If you are running on a high-performance super computer, add the following line to your ``project.py`` module to import packaged profiles: ``import flow.environments``
-    Please see :ref:`supported-environments` for more information.
-
 How to Use Environments
 =======================
 
