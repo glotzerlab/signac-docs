@@ -13,6 +13,10 @@ Examples
 This is a collection of example projects which are designed to illustrate how to implement certain applications and solutions with **signac**.
 Unlike the tutorial, the examples consist mainly of complete, immediately executable source code with less explanation.
 
+.. note::
+
+    A more comprehensive set of examples is available [here](https://github.com/glotzerlab/signac-examples/tree/master/projects).
+
 .. _idg_example:
 
 Ideal Gas
