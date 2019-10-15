@@ -32,7 +32,7 @@ Contributions
 
 Contributions to **signac** are very welcome!
 We highly appreciate contributions in the form of **user feedback** and **bug reports**.
-Such contributions are best communicated through our `Slack workspace <https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY>`, which we use for developer discussions, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <mailto:signac-support@umichedu>`_.
+Such contributions are best communicated through our `Slack workspace <https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY>`_, which we use for developer discussions, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <mailto:signac-support@umichedu>`_.
 Developers are invited to contribute to the framework by pull request to the appropriate package repository.
 The source code for all packages is hosted on `github`_.
 We recommend discussing new features in form of a proposal on the issue tracker for the appropriate project prior to development.
