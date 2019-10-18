@@ -33,8 +33,9 @@ def initialize(job):
 @Project.operation
 @Project.post(lambda job: 'volume_estimate' in job.document)
 def estimate(job):
-    "Ideal-gas estimate operation."
-    # Calculate volume using ideal gas law
+    "Find volume predicted by ideal gas law as an estimate of the LJ fluid."
+    # Since we are not simulating an ideal gas our simulation volume
+    # may be different than the volume calculated here
     V = job.sp.N * job.sp.kT / job.sp.p
     job.document.volume_estimate = V
 

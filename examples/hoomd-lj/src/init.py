@@ -12,7 +12,7 @@ import numpy as np
 
 
 def main(args, random_seed):
-    project = signac.init_project('Ideal-Gas-Example-Project')
+    project = signac.init_project('Lennard-Jones-Fluid-Example-Project')
     for replication_index in range(args.num_replicas):
         for p in np.linspace(0.5, 5.0, 10):
             statepoint = dict(
