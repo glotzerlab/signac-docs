@@ -86,6 +86,30 @@ This approach makes it also easy to compare the pre- and post-migration states b
 
 .. [#f1] The use of dots in keys is deprecated. Dots will be exclusively used to denote nested keywords in the future.
 
+How to initialize with replica indices
+======================================
+
+Physically, a set of jobs with the same statepoints are required for minimizing accidental errors. Intead of rerun all the jobs, we can replicate jobs with **replica_index**. For example, jobs with 3 copies of each statepoint are generated as following:
+
+.. code-block:: python
+
+    # init.py
+    import signac
+
+    project = signac.init_project('ideal-gas-project')
+    num_reps = 3
+
+    jobs = project.find_jobs({"replica_index.$exists":False})
+    for job in jobs:
+        job.sp['replica_index']=0
+
+    for i in range(num_reps) :
+        for p in range(1, 11):
+            sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
+            job = project.open_job(sp)
+            if(job not in project):
+                job.init()
+
 How to define parameter-dependent operations
 ============================================
 
@@ -120,7 +144,7 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
        add_foo_workflow(bar=bar)
 
 
-.. important::
+.. note::
 
     The operation and condition functions must be defined in a way such that they are **truly independent** from eachother!
     For instance, the example above would fail if all *foo*-operations had the same name or if they were all writing output to the same location.
