@@ -89,7 +89,7 @@ This approach makes it also easy to compare the pre- and post-migration states b
 How to initialize with replica indices
 ======================================
 
-Physically, a set of jobs with the same statepoints are required for minimizing accidental errors. Intead of rerun all the jobs, we can replicate jobs with **replica_index**. For example, jobs with 3 copies of each statepoint are generated as following:
+We often require multiple jobs with the same statepoint to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can simply add a **replica_index** to the statepoint. For example, we can use the following code to generate 3 copies of each statepoint in a workspace:
 
 .. code-block:: python
 
@@ -99,11 +99,11 @@ Physically, a set of jobs with the same statepoints are required for minimizing 
     project = signac.init_project('ideal-gas-project')
     num_reps = 3
 
-    jobs = project.find_jobs({"replica_index.$exists":False})
+    jobs = project.find_jobs({"replica_index.$exists": False})
     for job in jobs:
-        job.sp['replica_index']=0
+        job.sp['replica_index'] = 0
 
-    for i in range(num_reps) :
+    for i in range(num_reps):
         for p in range(1, 11):
             sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
             job = project.open_job(sp)
