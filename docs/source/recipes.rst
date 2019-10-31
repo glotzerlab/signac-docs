@@ -106,9 +106,7 @@ We often require multiple jobs with the same statepoint to collect enough inform
     for i in range(num_reps):
         for p in range(1, 11):
             sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
-            job = project.open_job(sp)
-            if(job not in project):
-                job.init()
+            project.open_job(sp).init()
 
 How to define parameter-dependent operations
 ============================================
