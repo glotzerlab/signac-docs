@@ -15,7 +15,7 @@ Unlike the tutorial, the examples consist mainly of complete, immediately execut
 
 .. note::
 
-    A more comprehensive set of examples is available [here](https://github.com/glotzerlab/signac-examples/tree/master/projects).
+    A more comprehensive set of examples is available in the `signac-examples repository <https://github.com/glotzerlab/signac-examples/tree/master/projects>`_.
 
 .. _idg_example:
 
