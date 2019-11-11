@@ -273,6 +273,26 @@ Finally, instead of modifying the operation implementation, you could use a cust
 
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
+How to enforce the execution of a specific operation for debugging?
+===================================================================
+
+Sometimes it is necessary to repeatly run a specific operation although it is not technically eligible for execution.
+The easiest way to do so is to temporarily add the ``@FlowProject.post.never`` post-condition to that specific operation definition.
+Like the name implies, the ``post.never`` condition is *never* true, so as long as the pre-conditions are met, that operation is *always* eligible for execution.
+For example:
+
+.. code-block:: python
+
+    # [...]
+
+    @Project.operation
+    @Project.pre.after(bar)
+    @Project.post.isfile("foo.txt")
+    @Project.post.never  # TODO: Remove after debugging
+    def foo(job):
+        # ...
+
+Then you could execute the operation for a hypothetical job with id *abc123* for example with ``$ python project.py run -o foo -j abc123``.
 
 How to run in containerized environments
 ========================================
