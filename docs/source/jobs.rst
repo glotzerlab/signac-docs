@@ -255,7 +255,7 @@ An example of storing data:
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> job.data['x'] = np.arange(0, 1, 0.01)
+    >>> job.data['x'] = np.ones([10, 3, 4])
 
 
 Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
@@ -284,29 +284,55 @@ Through a functional interface:
 .. tip::
 
      Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_. 
-     
+    
 Accessing arrays
 ----------------
 
 All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
-However, you can always create an explicit memory copy using the copy-operator ``[()]``:
+For fast and effient data access, NumPy slicing syntax may be used to access data. Here are a few examples with outputs omitted:
+   
+.. code-block:: python
+    
+    >>> with job.data:
+    >>>     job.data.x[0, 0, 0]
+    >>>     job.data.x[1:3, 0, :]
+    >>>     job.data.x[:, 1, 3]
+    
+To load entire arrays to memory, NumPy slicing syntax may be used:
+ 
+.. code-block:: python
+
+    >>> with job.data:
+    >>>     x = job.data.x[:]
+
+You can also create an explicit memory copy of the entire array using the copy-operator ``[()]``:
 
 .. code-block:: python
 
     >>> with job.data:
     ...     x = job.data.x[()]
-   
+
 Subgroups
 --------
-    
-Data may also be written to subgroups:
+The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data.
+
+Data may organized to subgroups:
 
 .. code-block:: python
     
     >> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
     >> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
+
+Data may be accessed as attributes, keys, or through a functional interface. The following examples are all equivelant:
+.. code-block:: python
+    
+    >>> with job.data:
+    >>>     job.data.group.subgroup_1[:]
+    >>>     job.data['group/subgroup_1'][:]
+    >>>     job.data.get('group/subgroup_1')[:]
+
 
 File handling
 -------------
