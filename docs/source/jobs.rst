@@ -265,21 +265,21 @@ To access data as attributes:
 .. code-block:: python
 
     >>> with job.data:
-    >>>     x = job.data.x[:]
+    ...     x = job.data.x[:]
 
 To access data as a key:
 
 .. code-block:: python
 
     >>> with job.data:
-    >>>     x = job.data['x'][:]
+    ...     x = job.data['x'][:]
 
 Through a functional interface:
 
 .. code-block:: python
     
     >>> with job.data:
-    >>>     x = job.data.get('x')[:]
+    ...     x = job.data.get('x')[:]
 
 .. tip::
 
@@ -296,16 +296,16 @@ For fast and effient data access, NumPy slicing syntax may be used to access dat
 .. code-block:: python
     
     >>> with job.data:
-    >>>     job.data.x[0, 0, 0]
-    >>>     job.data.x[1:3, 0, :]
-    >>>     job.data.x[:, 1, 3]
+    ...     job.data.x[0, 0, 0]
+    ...     job.data.x[1:3, 0, :]
+    ...     job.data.x[:, 1, 3]
     
 To load entire arrays to memory, NumPy slicing syntax may be used:
  
 .. code-block:: python
 
     >>> with job.data:
-    >>>     x = job.data.x[:]
+    ...     x = job.data.x[:]
 
 You can also create an explicit memory copy of the entire array using the copy-operator ``[()]``:
 
@@ -314,24 +314,52 @@ You can also create an explicit memory copy of the entire array using the copy-o
     >>> with job.data:
     ...     x = job.data.x[()]
 
-Subgroups
---------
-The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data.
+Data organization
+-----------------
 
-Data may organized to subgroups:
+The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data. Data may be stored in folder-like *groups*:
 
 .. code-block:: python
     
-    >> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
-    >> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
+    >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
+    >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
 Data may be accessed as attributes, keys, or through a functional interface. The following examples are all equivelant:
 .. code-block:: python
     
     >>> with job.data:
-    >>>     job.data.group.subgroup_1[:]
-    >>>     job.data['group/subgroup_1'][:]
-    >>>     job.data.get('group/subgroup_1')[:]
+    ...     job.data.group.subgroup_1[:]
+    ...     job.data['group/subgroup_1'][:]
+    ...     job.data.get('group/subgroup_1')[:]
+    
+Acessing keys
+--------------
+
+*Groups* and keys in :attr:`job.data` behave similarly to dictionaries. To view the keys in a group:
+
+.. code-block:: python
+    
+    >>> print(list(job.data.keys()))
+    ['x', 'group']
+    >>> print(list(job.data.group.keys()))
+    ['subgroup_1', 'subgroup_2']
+
+To test for keys in a group:
+
+.. code-block:: python
+    
+    >>> 'subgroup_1' in job.data
+    False
+    >>> 'subgroup_1' in job.data.group
+    True
+ 
+To iterate through keys in a group (outputs omitted):
+
+.. code-block:: python
+
+    >>> group = job.data.group
+    >>> for key in group:
+    ...     group[key][:]
 
 
 File handling
