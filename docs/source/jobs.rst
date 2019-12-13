@@ -283,8 +283,30 @@ Through a functional interface:
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_. 
      
+Accessing arrays
+----------------
+
+All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
+That is important to enable the storage of massive arrays that do not necessarily fit into memory.
+
+However, you can always create an explicit memory copy using the copy-operator ``[()]``:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     x = job.data.x[()]
+   
+Subgroups
+--------
+    
+Data may also be written to subgroups:
+
+.. code-block:: python
+    
+    >> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
+    >> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
 File handling
 -------------
@@ -314,31 +336,6 @@ Please see the next section for details on accessing arrays.
 .. warning::
 
     It is strongly advised that operations on :py:attr:`Job.data` are not performed in parallel, to avoid data corruption.
-
-Accessing arrays
-----------------
-
-All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
-That is important to enable the storage of massive arrays that do not necessarily fit into memory.
-
-However, you can always create an explicit memory copy using the copy-operator ``[()]``:
-
-.. code-block:: python
-
-    >>> with job.data:
-    ...     x = job.data.x[()]
-    
-
-Subgroups
---------
-    
-Data may also be written to subgroups:
-
-.. code-block:: python
-    
-    >> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
-    >> job.data['group/subgroup_2'] = np.ones([10, 1, 2])    
-
 
 Low-level API
 -------------
