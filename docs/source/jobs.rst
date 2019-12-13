@@ -297,7 +297,7 @@ Accessing arrays
 All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
-For fast and effient data access, NumPy slicing syntax may be used to access data. 
+For fast and efficient data access, NumPy slicing syntax may be used to access data. 
 Here are a few examples with outputs omitted:
    
 .. code-block:: python
