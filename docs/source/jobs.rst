@@ -239,15 +239,14 @@ Use cases for the **job document** include, but are not limited to:
 
 Job Data Storage
 ================
-
-Basics
-------
-
-Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`.
-This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
+Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 
+Data written with :py:attr:`Job.data` is stored in a file named `signac_data.h5` in the associated `job` folder. For cases where `job`-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
+
+Basics
+------
 .. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
 An example of storing data:
@@ -274,7 +273,7 @@ The following examples are all equivalent:
 .. tip::
 
      Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
-
+     
 
 File handling
 -------------
@@ -317,6 +316,8 @@ However, you can always create an explicit memory copy using the copy-operator `
 
     >>> with job.data:
     ...     x = job.data.x[()]
+    
+
 
 Low-level API
 -------------
