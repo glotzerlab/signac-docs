@@ -245,8 +245,12 @@ Like the :py:attr:`Job.document`, this information can be accessed using key-val
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 .. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
-Data written with :py:attr:`Job.data` is stored in a file named `signac_data.h5` in the associated `job` folder. 
+Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.stores`.
+This section will focus on examples and usage of :py:attr:`Job.data`.
+Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated `job` folder.
+Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
 For cases where `job`-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
+Further discussion of :py:attr:`Job.stores` is provided in the folling section, Job Stores.
 
 Reading and Writing data
 -----------------------
