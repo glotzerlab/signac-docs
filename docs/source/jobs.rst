@@ -239,12 +239,14 @@ Use cases for the **job document** include, but are not limited to:
 
 Job Data Storage
 ================
-Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
+Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. 
+This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 .. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
-Data written with :py:attr:`Job.data` is stored in a file named `signac_data.h5` in the associated `job` folder. For cases where `job`-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
+Data written with :py:attr:`Job.data` is stored in a file named `signac_data.h5` in the associated `job` folder. 
+For cases where `job`-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
 
 Reading and Writing data
 -----------------------
@@ -291,7 +293,8 @@ Accessing arrays
 All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
-For fast and effient data access, NumPy slicing syntax may be used to access data. Here are a few examples with outputs omitted:
+For fast and effient data access, NumPy slicing syntax may be used to access data. 
+Here are a few examples with outputs omitted:
    
 .. code-block:: python
     
@@ -317,14 +320,16 @@ You can also create an explicit memory copy of the entire array using the copy-o
 Data organization
 -----------------
 
-The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data. Data may be stored in folder-like *groups*:
+The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data. 
+Data may be stored in folder-like *groups*:
 
 .. code-block:: python
     
     >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
     >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
-Data may be accessed as attributes, keys, or through a functional interface. The following examples are all equivelant:
+Data may be accessed as attributes, keys, or through a functional interface. 
+The following examples are all equivelant:
 .. code-block:: python
     
     >>> with job.data:
@@ -335,7 +340,8 @@ Data may be accessed as attributes, keys, or through a functional interface. The
 Acessing keys
 --------------
 
-*Groups* and keys in :attr:`job.data` behave similarly to dictionaries. To view the keys in a group:
+*Groups* and keys in :attr:`job.data` behave similarly to dictionaries. 
+To view the keys in a group:
 
 .. code-block:: python
     
