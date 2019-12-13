@@ -423,7 +423,7 @@ Please see the h5py_ documentation for more information on how to interact with 
 Job Stores
 ==========
 
-As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` within the job workspace directory.
+As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the job workspace.
 However, there are some reasons why one would want to operate on multiple different HDF5_ files instead of only one.
 
  1. While the HDF5-format is generally mutable, it is fundamentally designed to be used as an immutable data container.
