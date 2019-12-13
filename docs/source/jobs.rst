@@ -333,7 +333,7 @@ Data may be stored in folder-like *groups*:
     >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
 Data may be accessed as attributes, keys, or through a functional interface. 
-The following examples are all equivelant:
+The following examples are all equivalent:
 .. code-block:: python
     
     >>> with job.data:
