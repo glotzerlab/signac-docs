@@ -242,12 +242,12 @@ Job Data Storage
 Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
+.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
 Data written with :py:attr:`Job.data` is stored in a file named `signac_data.h5` in the associated `job` folder. For cases where `job`-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
 
-Basics
-------
-.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
+Reading and Writing data
+-----------------------
 
 An example of storing data:
 
@@ -256,19 +256,30 @@ An example of storing data:
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
     >>> job.data['x'] = np.arange(0, 1, 0.01)
-    >>> job.data['hello'] = 'world'
+
 
 Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
-The following examples are all equivalent:
+
+To access data as attributes:
 
 .. code-block:: python
 
-    >>> print(job.data.get('hello'))
-    world
-    >>> print(job.data['hello'])
-    world
-    >>> print(job.data.hello)
-    world
+    >>> with job.data:
+    >>>     x = job.data.x[:]
+
+To access data as a key:
+
+.. code-block:: python
+
+    >>> with job.data:
+    >>>     x = job.data['x'][:]
+
+Through a functional interface:
+
+.. code-block:: python
+    
+    >>> with job.data:
+    >>>     x = job.data.get('x')[:]
 
 .. tip::
 
@@ -317,6 +328,16 @@ However, you can always create an explicit memory copy using the copy-operator `
     >>> with job.data:
     ...     x = job.data.x[()]
     
+
+Subgroups
+--------
+    
+Data may also be written to subgroups:
+
+.. code-block:: python
+    
+    >> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
+    >> job.data['group/subgroup_2'] = np.ones([10, 1, 2])    
 
 
 Low-level API
