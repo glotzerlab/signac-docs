@@ -341,7 +341,7 @@ The following examples are all equivelant:
     ...     job.data['group/subgroup_1'][:]
     ...     job.data.get('group/subgroup_1')[:]
     
-Acessing keys
+Accessing keys
 --------------
 
 *Groups* and keys in :attr:`job.data` behave similarly to dictionaries. 
