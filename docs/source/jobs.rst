@@ -354,7 +354,7 @@ To view the keys in a group:
     >>> print(list(job.data.group.keys()))
     ['subgroup_1', 'subgroup_2']
 
-To test for keys in a group:
+To check if keys exist in a group:
 
 .. code-block:: python
     
