@@ -324,7 +324,7 @@ You can also create an explicit memory copy of the entire array using the copy-o
 Data organization
 -----------------
 
-The `HDF5`_ format which :attr:`job.data` was built around allows for hierarchical orgaization of data. 
+The `HDF5`_ format used by :attr:`job.data` allows for hierarchical orgaization of data. 
 Data may be stored in folder-like *groups*:
 
 .. code-block:: python
