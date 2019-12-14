@@ -21,7 +21,7 @@
 
 project = 'signac'
 copyright = 'The Regents of the University of Michigan'
-author = 'Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice and others.'
+author = u'Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, Sharon C. Glotzer'
 
 # The short X.Y version
 version = ''
@@ -80,7 +80,15 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+
+# The name of an image file (relative to this directory) to place at the top
+# of the sidebar.
 html_logo = "images/logo.png"
+
+# The name of an image file (within the static path) to use as favicon of the
+# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
+# pixels large.
+html_favicon = "images/favicon.ico"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -92,6 +100,12 @@ html_logo = "images/logo.png"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'css/signac-theme.css',
+]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
