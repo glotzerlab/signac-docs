@@ -298,7 +298,7 @@ All values stored in :attr:`job.data` are returned as copies, except for arrays,
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
 For fast and efficient data access, NumPy slicing syntax may be used to access data. 
-Here are a few examples with outputs omitted:
+Here are a few examples for accessing a three-dimensional array with outputs omitted:
    
 .. code-block:: python
     
