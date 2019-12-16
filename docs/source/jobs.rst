@@ -253,7 +253,7 @@ For cases where job-associated data may be accessed from multiple sources at the
 Further discussion of :py:attr:`Job.stores` is provided in the following section, Job Stores.
 
 Reading and Writing data
------------------------
+------------------------
 
 An example of storing data:
 
