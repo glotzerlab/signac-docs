@@ -294,7 +294,7 @@ The project document is stored in JSON format in the project root directory and 
     >>> print(project.doc.hello)
     'world'
 
-The project data is stored in HDF5 format in a file names ``signac_data.h5`` in the project root directory. 
+The project data is stored in HDF5 format in a file named ``signac_data.h5`` in the project root directory. 
 Although it can be used to store similar types of data as the job document, it is meant for storage of large, array-like or dictionary-like information.
 
 .. code-block:: python
