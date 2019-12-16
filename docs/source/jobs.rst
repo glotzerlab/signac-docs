@@ -327,6 +327,7 @@ Data may be stored in folder-like *groups*:
 
 Data may be accessed as attributes, keys, or through a functional interface. 
 The following examples are all equivalent:
+
 .. code-block:: python
     
     >>> with job.data:
