@@ -223,7 +223,7 @@ The following examples are all equivalent:
 
 .. tip::
 
-     Use the :py:meth:`Job.document.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`).
+     Use the :py:meth:`Job.document.get` method to return ``None`` or another specified default value for missing values. This works exactly like with Python's built-in dictionaries (see :py:meth:`dict.get`).
 
 Use cases for the **job document** include, but are not limited to:
 
