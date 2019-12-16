@@ -314,13 +314,6 @@ To load entire arrays to memory, NumPy slicing syntax may be used:
     >>> with job.data:
     ...     x = job.data.x[:]
 
-You can also create an explicit memory copy of the entire array using the copy-operator ``[()]``:
-
-.. code-block:: python
-
-    >>> with job.data:
-    ...     x = job.data.x[()]
-
 Data organization
 -----------------
 
