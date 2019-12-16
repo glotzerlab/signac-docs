@@ -289,7 +289,7 @@ Through a functional interface:
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries      Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
     
 Accessing arrays
 ----------------
