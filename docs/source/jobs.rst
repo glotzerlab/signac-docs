@@ -317,7 +317,7 @@ To load entire arrays to memory, NumPy slicing syntax may be used:
 Data organization
 -----------------
 
-The `HDF5`_ format used by :attr:`job.data` allows for hierarchical orgaization of data. 
+The `HDF5`_ format used by :attr:`job.data` allows for hierarchical organization of data. 
 Data may be stored in folder-like *groups*:
 
 .. code-block:: python
