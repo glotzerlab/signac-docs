@@ -325,7 +325,7 @@ Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
 Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
-Information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
+Information which needs to be searchable, typically scalars or smaller text-like data, should be stored in the :ref:`job document <project-job-document>`.
 
 
 Data organization
