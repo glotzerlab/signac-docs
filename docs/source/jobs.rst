@@ -243,12 +243,12 @@ Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.s
 This :py:attr:`Job.data` container uses a file in `HDF5 <https://portal.hdfgroup.org/display/HDF5/HDF5>`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
-This section will focus on examples and usage of :py:attr:`Job.data`.
 
 Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated job folder.
 Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
 For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
-Further discussion of :py:attr:`Job.stores` is provided in the following section, Job Stores.
+This section will focus on examples and usage of :py:attr:`Job.data`.
+Further discussion of :py:attr:`Job.stores` is provided in the following topic, **Job Stores**.
 
 Reading and Writing data
 ------------------------
@@ -322,7 +322,8 @@ Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy
     ..      x = job.data.x[()]
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
-Generally, the :py:attr:`job.data` container is intended for large numerical or text data while information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
+Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
+Information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
 
 
 Data organization
@@ -400,7 +401,7 @@ For example, to open the store in read-only mode, you would write:
     ...     print(job.data.x)
 
 Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
-Please see the next section for details on accessing arrays.
+Please see the **Accessing arrays** section for details on accessing arrays.
 
 .. warning::
 
