@@ -209,7 +209,7 @@ You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attr
     # or equivalently
     >>> job.doc.hello = 'world'
 
-Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
+Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface.
 The following examples are all equivalent:
 
 .. code-block:: python
@@ -263,7 +263,7 @@ An example of storing data:
     >>> job.data['x'] = np.ones([10, 3, 4])
 
 
-Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
+Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface:
 
 To access data as an attribute:
 
