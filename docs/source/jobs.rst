@@ -385,7 +385,7 @@ File handling
 -------------
 
 The underlying HDF5 file is opened and flushed after each read- and write-operation.
-You can keep the file explicitily open using a context manager.
+You can keep the file explicitly open using a context manager.
 The file is only opened and flushed once in the following example:
 
 .. code-block:: python
