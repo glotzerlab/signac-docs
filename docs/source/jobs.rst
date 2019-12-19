@@ -282,33 +282,34 @@ To access data as a key:
 Through a functional interface:
 
 .. code-block:: python
-    
+
     >>> with job.data:
     ...     x = job.data.get('x')[:]
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`).
 
 .. _accessing-arrays:
+
 Accessing arrays
 ----------------
 
 All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
-For fast and efficient data access, NumPy slicing syntax may be used to access data. 
+For fast and efficient data access, NumPy slicing syntax may be used to access data.
 Here are a few examples for accessing a three-dimensional array with outputs omitted:
-   
+
 .. code-block:: python
-    
+
     >>> with job.data:
     ...     job.data.x[0, 0, 0]
     ...     job.data.x[1:3, 0, :]
     ...     job.data.x[:, 1, 3]
-    
+
 To load entire arrays to memory, NumPy slicing syntax may be used:
- 
+
 .. code-block:: python
 
     >>> with job.data:
@@ -320,8 +321,8 @@ Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy
 
 .. code-block:: python
 
-    >> with job.data:
-    ..      x = job.data.x[()]
+    >>> with job.data:
+    ...     x = job.data.x[()]
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
 Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
@@ -331,11 +332,11 @@ Information which needs to be searchable, typically scalars or smaller text-like
 Data organization
 -----------------
 
-The `HDF5`_ format used by :attr:`job.data` allows for hierarchical organization of data. 
+The `HDF5`_ format used by :attr:`job.data` allows for hierarchical organization of data.
 Data may be stored in folder-like *groups*:
 
 .. code-block:: python
-    
+
     >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
     >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
@@ -343,20 +344,20 @@ Data may be accessed as attributes, keys, or through a functional interface.
 The following examples are all equivalent:
 
 .. code-block:: python
-    
+
     >>> with job.data:
     ...     job.data.group.subgroup_1[:]
     ...     job.data['group/subgroup_1'][:]
     ...     job.data.get('group/subgroup_1')[:]
-    
+
 Accessing keys
 --------------
 
-*Groups* and keys in :attr:`job.data` behave similarly to dictionaries. 
+*Groups* and keys in :attr:`job.data` behave similarly to dictionaries.
 To view the keys in a group:
 
 .. code-block:: python
-    
+
     >>> print(list(job.data.keys()))
     ['x', 'group']
     >>> print(list(job.data.group.keys()))
@@ -365,12 +366,12 @@ To view the keys in a group:
 To check if keys exist in a group:
 
 .. code-block:: python
-    
+
     >>> 'subgroup_1' in job.data
     False
     >>> 'subgroup_1' in job.data.group
     True
- 
+
 To iterate through keys in a group (outputs omitted):
 
 .. code-block:: python
@@ -392,7 +393,6 @@ The file is only opened and flushed once in the following example:
     >>> with job.data:
     ...     job.data['hello'] = 'world'
     ...     print(job.data.x)
-    ...
 
 The default open-mode is append ("a"), but you can override the open-mode, by using the :meth:`signac.H5Store.open` function explicitly.
 For example, to open the store in read-only mode, you would write:
@@ -450,8 +450,8 @@ For example, to store an array `X` within a file called ``my_data.h5``, one coul
 
 .. code-block:: python
 
-    with job.stores.my_data as data:
-        data['X'] = X
+    >>> with job.stores.my_data as data:
+    ...     data['X'] = X
 
 
 The :attr:`Job.stores` attribute is an instance of :class:`signac.H5StoreManager` and implements a dict-like interface.

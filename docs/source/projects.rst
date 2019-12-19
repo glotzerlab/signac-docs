@@ -294,29 +294,32 @@ The project document is stored in JSON format in the project root directory and 
     >>> print(project.doc.hello)
     'world'
 
-The project data is stored in HDF5 format in a file named ``signac_data.h5`` in the project root directory. 
+The project data is stored in HDF5 format in a file named ``signac_data.h5`` in the project root directory.
 Although it can be used to store similar types of data as the job document, it is meant for storage of large, array-like or dictionary-like information.
 
 .. code-block:: python
 
     >>> project = signac.get_project()
     >>> project.data['x'] = np.ones([10, 3, 4])
- 
+
 Data may be accessed as an attribute, key, or through a functional interface:
 
 To access data as an attribute:
+
 .. code-block:: python
 
     >>> with project.data:
     ...     x = project.data.x[:]
 
 To access data as a key:
+
 .. code-block:: python
 
     >>> with project.data:
     ...     x = project.data['x'][:]
 
 To access data through a functional interface:
+
 .. code-block:: python
 
     >>> with project.data:
