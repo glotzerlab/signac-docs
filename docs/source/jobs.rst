@@ -240,10 +240,9 @@ Use cases for the **job document** include, but are not limited to:
 Job Data Storage
 ================
 Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. 
-This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
+This container uses a file in `HDF5 <https://portal.hdfgroup.org/display/HDF5/HDF5>`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
-.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
 
 Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.stores`.
 This section will focus on examples and usage of :py:attr:`Job.data`.
