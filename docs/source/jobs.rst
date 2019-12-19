@@ -289,7 +289,8 @@ Through a functional interface:
 .. tip::
 
      Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
-    
+
+.. _accessing-arrays:
 Accessing arrays
 ----------------
 
@@ -402,7 +403,7 @@ For example, to open the store in read-only mode, you would write:
     ...     print(job.data.x)
 
 Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
-Please see the **Accessing arrays** section for details on accessing arrays.
+Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
 
 .. warning::
 
