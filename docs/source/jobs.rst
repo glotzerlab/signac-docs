@@ -265,7 +265,7 @@ An example of storing data:
 
 Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
 
-To access data as attributes:
+To access data as an attribute:
 
 .. code-block:: python
 
