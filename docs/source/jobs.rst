@@ -13,12 +13,12 @@ A *job* is a directory on the file system, which is part of a *project workspace
 That directory is called the *job workspace* and contains **all data** associated with that particular job.
 Every job has a unique address called the *state point*.
 
-There are two ways to associated metadata with your job:
+There are two ways to access associated metadata with your job:
 
 1. As part of the :attr:`Job.statepoint` (aliased by :attr:`Job.sp`).
 2. As part of the :attr:`Job.document` (aliased by :attr:`Job.doc`).
 
-Both containers have the exact same (dict-like) interface and capabilities, both are indexed (that means searchable), but only the former represents the unique address of the job.
+Both containers have the exact same (dict-like) interface and capabilities, both are indexed (that means searchable), but only the state point represents the unique address of the job.
 In other words, all data associated with a particular job should be a direct or indirect function of the *state point*.
 
 .. important::
@@ -28,7 +28,7 @@ In other words, all data associated with a particular job should be a direct or 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
 It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
 
-You can, but do not have to use the :class:`Job` interface to associate data with a job.
+You can, but do not have to, use the :class:`Job` interface to associate data with a job.
 Any file --with a name and format of your choosing-- that is stored within the job's workspace directory is considered *data associated with the job*.
 
 However, if you do choose to interact with the data through the :class:`Job` interface, there are four main ways of doing so:
@@ -68,7 +68,7 @@ To access or modify a data point, obtain an instance of :py:class:`Job` by passi
     9bfd29df07674bc4aa960cf661b5acd2
 
 
-In general an instance of :py:class:`Job` only gives you a handle to a python object.
+In general an instance of :py:class:`Job` only gives you a handle to a Python object.
 To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
 You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
@@ -121,7 +121,7 @@ Modifying the State Point
 -------------------------
 
 As just mentioned, the state point of a job can be changed after initialization.
-A typical example where this may be necessary, is to add previously not needed state point keys.
+A typical example where this may be necessary is to add previously unneeded state point keys.
 Modifying a state point entails modifying the job id which means that the state point file needs to be rewritten and the job's workspace directory is renamed, both of which are computationally cheap operations.
 The user is nevertheless advised **to take great care when modifying a job's state point** since errors may render the data space **inconsistent**.
 
@@ -209,7 +209,7 @@ You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attr
     # or equivalently
     >>> job.doc.hello = 'world'
 
-Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
+Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface.
 The following examples are all equivalent:
 
 .. code-block:: python
@@ -223,7 +223,8 @@ The following examples are all equivalent:
 
 .. tip::
 
-     Use the :py:meth:`Job.document.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
+     Use the :py:meth:`Job.document.get` method to return ``None`` or another specified default value for missing values.
+     This works exactly like with Python's built-in dictionaries (see :py:meth:`dict.get`).
 
 Use cases for the **job document** include, but are not limited to:
 
@@ -239,16 +240,19 @@ Use cases for the **job document** include, but are not limited to:
 
 Job Data Storage
 ================
-
-Basics
-------
-
-Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`.
-This container uses a file in `HDF5`_ format to store array-like or dictionary-like information.
+Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.stores`.
+This :py:attr:`Job.data` container uses a file in `HDF5 <https://portal.hdfgroup.org/display/HDF5/HDF5>`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 
-.. _`HDF5`: https://portal.hdfgroup.org/display/HDF5/HDF5
+Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated job folder.
+Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
+For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
+This section will focus on examples and usage of :py:attr:`Job.data`.
+Further discussion of :py:attr:`Job.stores` is provided in the following topic, :ref:`Job Stores <project-job-stores>`.
+
+Reading and Writing data
+------------------------
 
 An example of storing data:
 
@@ -256,54 +260,37 @@ An example of storing data:
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> job.data['x'] = np.arange(0, 1, 0.01)
-    >>> job.data['hello'] = 'world'
-
-Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
-The following examples are all equivalent:
-
-.. code-block:: python
-
-    >>> print(job.data.get('hello'))
-    world
-    >>> print(job.data['hello'])
-    world
-    >>> print(job.data.hello)
-    world
-
-.. tip::
-
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's `built-in dictionaries <https://docs.python.org/3/library/stdtypes.html#dict.get>`_.
+    >>> job.data['x'] = np.ones([10, 3, 4])
 
 
-File handling
--------------
+Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface:
 
-The underlying HDF5 file is openend and flushed after each read- and write-operation.
-You can keep the file explicitily open using a context manager.
-The file is only opened and flushed once in the following example:
+To access data as an attribute:
 
 .. code-block:: python
 
     >>> with job.data:
-    ...     job.data['hello'] = 'world'
-    ...     print(job.data.x)
-    ...
+    ...     x = job.data.x[:]
 
-The default open-mode is append ("a"), but you can override the open-mode, by using the :meth:`signac.H5Store.open` function explicitly.
-For example, to open the store in read-only mode, you would write:
+To access data as a key:
 
 .. code-block:: python
 
-    >>> with job.data.open(mode='r'):
-    ...     print(job.data.x)
+    >>> with job.data:
+    ...     x = job.data['x'][:]
 
-Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
-Please see the next section for details on accessing arrays.
+Through a functional interface:
 
-.. warning::
+.. code-block:: python
 
-    It is strongly advised that operations on :py:attr:`Job.data` are not performed in parallel, to avoid data corruption.
+    >>> with job.data:
+    ...     x = job.data.get('x')[:]
+
+.. tip::
+
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with Python's built-in dictionaries (see :py:meth:`dict.get`).
+
+.. _accessing-arrays:
 
 Accessing arrays
 ----------------
@@ -311,12 +298,116 @@ Accessing arrays
 All values stored in :attr:`job.data` are returned as copies, except for arrays, which are accessed *by reference* and not automatically copied into memory.
 That is important to enable the storage of massive arrays that do not necessarily fit into memory.
 
-However, you can always create an explicit memory copy using the copy-operator ``[()]``:
+For fast and efficient data access, NumPy slicing syntax may be used to access data.
+Here are a few examples for accessing a three-dimensional array with outputs omitted:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     job.data.x[0, 0, 0]
+    ...     job.data.x[1:3, 0, :]
+    ...     job.data.x[:, 1, 3]
+
+To load entire arrays to memory, NumPy slicing syntax may be used:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     x = job.data.x[:]
+
+NumPy slicing (ie. the ``[:]`` operator) may be used to load array-like and text data.
+It cannot be used to load scalar values.
+Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy slicing to load entire arrays or scalars to memory:
 
 .. code-block:: python
 
     >>> with job.data:
     ...     x = job.data.x[()]
+
+A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
+Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
+Information which needs to be searchable, typically scalars or smaller text-like data, should be stored in the :ref:`job document <project-job-document>`.
+
+
+Data organization
+-----------------
+
+The `HDF5`_ format used by :attr:`job.data` allows for hierarchical organization of data.
+Data may be stored in folder-like *groups*:
+
+.. code-block:: python
+
+    >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
+    >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
+
+Data may be accessed as attributes, keys, or through a functional interface.
+The following examples are all equivalent:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     job.data.group.subgroup_1[:]
+    ...     job.data['group/subgroup_1'][:]
+    ...     job.data.get('group/subgroup_1')[:]
+
+Accessing keys
+--------------
+
+*Groups* and keys in :attr:`job.data` behave similarly to dictionaries.
+To view the keys in a group:
+
+.. code-block:: python
+
+    >>> print(list(job.data.keys()))
+    ['x', 'group']
+    >>> print(list(job.data.group.keys()))
+    ['subgroup_1', 'subgroup_2']
+
+To check if keys exist in a group:
+
+.. code-block:: python
+
+    >>> 'subgroup_1' in job.data
+    False
+    >>> 'subgroup_1' in job.data.group
+    True
+
+To iterate through keys in a group (outputs omitted):
+
+.. code-block:: python
+
+    >>> group = job.data.group
+    >>> for key in group:
+    ...     group[key][:]
+
+
+File handling
+-------------
+
+The underlying HDF5 file is opened and flushed after each read- and write-operation.
+You can keep the file explicitly open using a context manager.
+The file is only opened and flushed once in the following example:
+
+.. code-block:: python
+
+    >>> with job.data:
+    ...     job.data['hello'] = 'world'
+    ...     print(job.data.x)
+
+The default open-mode is append (``'a'``), but you can override the open mode by using the :meth:`signac.H5Store.open` function explicitly.
+For example, to open the store in read-only mode, you would write:
+
+.. code-block:: python
+
+    >>> with job.data.open(mode='r'):
+    ...     print(job.data.x)
+
+Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as NumPy arrays.
+Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
+
+.. warning::
+
+    It is recommended to use `file locks <https://pypi.org/project/filelock/>`_ when accessing HDF5 files in parallel, *i.e.*, from multiple operations that are independent from each other.
 
 Low-level API
 -------------
@@ -338,13 +429,14 @@ For example, this is how we could use that to explicitly create an array:
 
 Please see the h5py_ documentation for more information on how to interact with ``h5py.File`` objects.
 
-.. _`h5py`: http://docs.h5py.org/en/latest/
+.. _`h5py`: https://docs.h5py.org/en/stable/
 
+.. _project-job-stores:
 
 Job Stores
 ==========
 
-As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` within the job workspace directory.
+As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the job workspace.
 However, there are some reasons why one would want to operate on multiple different HDF5_ files instead of only one.
 
  1. While the HDF5-format is generally mutable, it is fundamentally designed to be used as an immutable data container.
@@ -359,8 +451,8 @@ For example, to store an array `X` within a file called ``my_data.h5``, one coul
 
 .. code-block:: python
 
-    with job.stores.my_data as data:
-        data['X'] = X
+    >>> with job.stores.my_data as data:
+    ...     data['X'] = X
 
 
 The :attr:`Job.stores` attribute is an instance of :class:`signac.H5StoreManager` and implements a dict-like interface.

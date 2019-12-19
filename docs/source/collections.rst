@@ -68,7 +68,7 @@ The :py:meth:`signac.Collection.find` method uses the framework-wide `query` API
 Command Line Interface
 ======================
 
-To manage and search a collection file directly from the command line, create a python script with the following content:
+To manage and search a collection file directly from the command line, create a Python script with the following content:
 
 .. code-block:: python
 
