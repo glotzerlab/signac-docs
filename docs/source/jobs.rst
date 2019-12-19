@@ -249,7 +249,7 @@ Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5
 Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
 For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
 This section will focus on examples and usage of :py:attr:`Job.data`.
-Further discussion of :py:attr:`Job.stores` is provided in the following topic, **Job Stores**.
+Further discussion of :py:attr:`Job.stores` is provided in the following topic, :ref:`Job Stores <project-job-stores>`.
 
 Reading and Writing data
 ------------------------
@@ -431,6 +431,7 @@ Please see the h5py_ documentation for more information on how to interact with 
 
 .. _`h5py`: http://docs.h5py.org/en/latest/
 
+.. _project-job-stores:
 
 Job Stores
 ==========
