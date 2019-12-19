@@ -402,7 +402,7 @@ For example, to open the store in read-only mode, you would write:
     >>> with job.data.open(mode='r'):
     ...     print(job.data.x)
 
-Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
+Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as NumPy arrays.
 Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
 
 .. warning::
