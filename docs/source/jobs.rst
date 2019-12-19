@@ -239,13 +239,12 @@ Use cases for the **job document** include, but are not limited to:
 
 Job Data Storage
 ================
-Large numerical or text data can be stored in the :py:attr:`Job.data` container, which is an instance of :class:`signac.H5Store`. 
-This container uses a file in `HDF5 <https://portal.hdfgroup.org/display/HDF5/HDF5>`_ format to store array-like or dictionary-like information.
+Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.stores`.
+This :py:attr:`Job.data` container uses a file in `HDF5 <https://portal.hdfgroup.org/display/HDF5/HDF5>`_ format to store array-like or dictionary-like information.
 Like the :py:attr:`Job.document`, this information can be accessed using key-value pairs.
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
-
-Job associated data may be stored through :py:attr:`Job.data` or :py:attr:`Job.stores`.
 This section will focus on examples and usage of :py:attr:`Job.data`.
+
 Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated job folder.
 Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
 For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
@@ -313,18 +312,17 @@ To load entire arrays to memory, NumPy slicing syntax may be used:
     >>> with job.data:
     ...     x = job.data.x[:]
 
-An explicit memory copy operator ``[()]`` may be used instead of NumPy slicing to load entire arrays or scalars to memory:
+NumPy slicing (ie. the ``[:]`` operator) may be used to load array-like and text data.
+It cannot be used to load scalar values.
+Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy slicing to load entire arrays or scalars to memory:
 
 .. code-block:: python
 
     >> with job.data:
-    ..      x - job.data.x[()]
+    ..      x = job.data.x[()]
 
-NumPy slicing may be used to load array-like and text data.
-It cannot be used to load scalar values.
-The explicit memory copy operator ``[()]`` can be used to load scalar data, but cannot be used to load strings.
-As mentioned before, the :py:attr:`job.data` container is intended for large numerical or text data.
-Scalars should be stored in the :ref:`job document <project-job-document>`.
+A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
+Generally, the :py:attr:`job.data` container is intended for large numerical or text data while information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
 
 
 Data organization
