@@ -68,7 +68,7 @@ To access or modify a data point, obtain an instance of :py:class:`Job` by passi
     9bfd29df07674bc4aa960cf661b5acd2
 
 
-In general an instance of :py:class:`Job` only gives you a handle to a python object.
+In general an instance of :py:class:`Job` only gives you a handle to a Python object.
 To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
 You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
@@ -288,7 +288,7 @@ Through a functional interface:
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`).
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with Python's built-in dictionaries (see :py:meth:`dict.get`).
 
 .. _accessing-arrays:
 
