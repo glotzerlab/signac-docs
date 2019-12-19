@@ -254,41 +254,54 @@ Further discussion of :py:attr:`Job.stores` is provided in the following topic, 
 Reading and Writing data
 ------------------------
 
-An example of storing data:
+An example of **writing** data:
 
 .. code-block:: python
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> job.data['x'] = np.ones([10, 3, 4])
+    >>> job.data['some_array'] = np.ones([10, 3, 4])
+    >>> job.data['some_scalar'] = 10
+    >>> job.data['some_string'] = "hello world"
 
 
-Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
+Just like the job *state point* and *document*, individual keys may be **read** either as attributes or through a functional interface.
+Array-like data must be accessed through the context manager.
+Scalars and strings which are not stored in array-like structures may be accessed without the context manager.
 
-To access data as an attribute:
-
-.. code-block:: python
-
-    >>> with job.data:
-    ...     x = job.data.x[:]
-
-To access data as a key:
+To **read** data as an attribute:
 
 .. code-block:: python
 
+    >>> some_scalar = job.data.some_scalar
+    >>> some_string = job.data.some_string
     >>> with job.data:
-    ...     x = job.data['x'][:]
+    ...     some_array = job.data.some_array[:]
+
+To **read** data as a key:
+
+.. code-block:: python
+
+    >>> some_scalar = job.data['some_scalar']
+    >>> some_string = job.data['some_string']
+    >>> with job.data:
+    ...     some_array = job.data['some_array'][:]
 
 Through a functional interface:
 
 .. code-block:: python
     
+    >>> some_scalar = job.data.get('some_scalar')
+    >>> some_string = job.data.get('some_string')
     >>> with job.data:
-    ...     x = job.data.get('x')[:]
+    ...     some_array = job.data.get('some_array')[:]
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`).
+
+More information about the context manager may be found in the :ref:`file handling <file-handling>` section.
+More information about indexing and accessing data may be found in the :ref:`accessing arrays <accessing-arrays>` section below.
 
 .. _accessing-arrays:
 
@@ -304,16 +317,16 @@ Here are a few examples for accessing a three-dimensional array with outputs omi
 .. code-block:: python
     
     >>> with job.data:
-    ...     job.data.x[0, 0, 0]
-    ...     job.data.x[1:3, 0, :]
-    ...     job.data.x[:, 1, 3]
-    
+    ...     job.data.some_array[0, 0, 0]
+    ...     job.data.some_array[1:3, 0, :]
+    ...     job.data.some_array[:, 1, 3]
+
 To load entire arrays to memory, NumPy slicing syntax may be used:
  
 .. code-block:: python
 
     >>> with job.data:
-    ...     x = job.data.x[:]
+    ...     some_array = job.data.some_array[:]
 
 NumPy slicing (ie. the ``[:]`` operator) may be used to load array-like and text data.
 It cannot be used to load scalar values.
@@ -321,10 +334,12 @@ Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy
 
 .. code-block:: python
 
-    >> with job.data:
-    ..      x = job.data.x[()]
+    >>> some_scalar = job.data.some_scalar[()]
+    >>> with job.data:
+    ..      some_array = job.data.some_array[()]
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
+
 Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
 Information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
 
@@ -380,6 +395,7 @@ To iterate through keys in a group (outputs omitted):
     >>> for key in group:
     ...     group[key][:]
 
+.. _file-handling:
 
 File handling
 -------------
@@ -392,7 +408,7 @@ The file is only opened and flushed once in the following example:
 
     >>> with job.data:
     ...     job.data['hello'] = 'world'
-    ...     print(job.data.x)
+    ...     print(job.data.some_array)
     ...
 
 The default open-mode is append ("a"), but you can override the open-mode, by using the :meth:`signac.H5Store.open` function explicitly.
@@ -401,7 +417,7 @@ For example, to open the store in read-only mode, you would write:
 .. code-block:: python
 
     >>> with job.data.open(mode='r'):
-    ...     print(job.data.x)
+    ...     print(job.data.some_array)
 
 Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
 Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
