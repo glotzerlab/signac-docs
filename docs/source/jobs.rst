@@ -407,7 +407,7 @@ Please see the :ref:`accessing arrays <accessing-arrays>` section for details on
 
 .. warning::
 
-    It is recommended to use [file locks](https://pypi.org/project/filelock/) when accessing HDF5-files in parallel, *i.e.*, from multiple operations that are independent from each other.
+    It is recommended to use `file locks <https://pypi.org/project/filelock/>`_ when accessing HDF5 files in parallel, *i.e.*, from multiple operations that are independent from each other.
 
 Low-level API
 -------------
