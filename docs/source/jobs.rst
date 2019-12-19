@@ -405,7 +405,7 @@ Please see the **Accessing arrays** section for details on accessing arrays.
 
 .. warning::
 
-    It is strongly advised that operations on :py:attr:`Job.data` are not performed in parallel, to avoid data corruption.
+    It is recommended to use [file locks](https://pypi.org/project/filelock/) when accessing HDF5-files in parallel, *i.e.*, from multiple operations that are independent from each other.
 
 Low-level API
 -------------
