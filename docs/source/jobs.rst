@@ -429,7 +429,7 @@ For example, this is how we could use that to explicitly create an array:
 
 Please see the h5py_ documentation for more information on how to interact with ``h5py.File`` objects.
 
-.. _`h5py`: http://docs.h5py.org/en/latest/
+.. _`h5py`: https://docs.h5py.org/en/stable/
 
 .. _project-job-stores:
 
