@@ -394,7 +394,7 @@ The file is only opened and flushed once in the following example:
     ...     job.data['hello'] = 'world'
     ...     print(job.data.x)
 
-The default open-mode is append ("a"), but you can override the open-mode, by using the :meth:`signac.H5Store.open` function explicitly.
+The default open-mode is append (``'a'``), but you can override the open mode by using the :meth:`signac.H5Store.open` function explicitly.
 For example, to open the store in read-only mode, you would write:
 
 .. code-block:: python
