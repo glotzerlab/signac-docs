@@ -313,6 +313,20 @@ To load entire arrays to memory, NumPy slicing syntax may be used:
     >>> with job.data:
     ...     x = job.data.x[:]
 
+An explicit memory copy operator ``[()]`` may be used instead of NumPy slicing to load entire arrays or scalars to memory:
+
+.. code-block:: python
+
+    >> with job.data:
+    ..      x - job.data.x[()]
+
+NumPy slicing may be used to load array-like and text data.
+It cannot be used to load scalar values.
+The explicit memory copy operator ``[()]`` can be used to load scalar data, but cannot be used to load strings.
+As mentioned before, the :py:attr:`job.data` container is intended for large numerical or text data.
+Scalars should be stored in the :ref:`job document <project-job-document>`.
+
+
 Data organization
 -----------------
 
@@ -324,7 +338,7 @@ Data may be stored in folder-like *groups*:
     >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
     >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
 
-Data may be accessed as attributes, keys, or through a functional interface. 
+Data may be accessed as attributes, keys, or through a functional interface.
 The following examples are all equivalent:
 
 .. code-block:: python
