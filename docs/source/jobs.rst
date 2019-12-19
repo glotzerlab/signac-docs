@@ -13,12 +13,12 @@ A *job* is a directory on the file system, which is part of a *project workspace
 That directory is called the *job workspace* and contains **all data** associated with that particular job.
 Every job has a unique address called the *state point*.
 
-There are two ways to associated metadata with your job:
+There are two ways to access associated metadata with your job:
 
 1. As part of the :attr:`Job.statepoint` (aliased by :attr:`Job.sp`).
 2. As part of the :attr:`Job.document` (aliased by :attr:`Job.doc`).
 
-Both containers have the exact same (dict-like) interface and capabilities, both are indexed (that means searchable), but only the former represents the unique address of the job.
+Both containers have the exact same (dict-like) interface and capabilities, both are indexed (that means searchable), but only the state point represents the unique address of the job.
 In other words, all data associated with a particular job should be a direct or indirect function of the *state point*.
 
 .. important::
@@ -28,7 +28,7 @@ In other words, all data associated with a particular job should be a direct or 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
 It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
 
-You can, but do not have to use the :class:`Job` interface to associate data with a job.
+You can, but do not have to, use the :class:`Job` interface to associate data with a job.
 Any file --with a name and format of your choosing-- that is stored within the job's workspace directory is considered *data associated with the job*.
 
 However, if you do choose to interact with the data through the :class:`Job` interface, there are four main ways of doing so:
@@ -121,7 +121,7 @@ Modifying the State Point
 -------------------------
 
 As just mentioned, the state point of a job can be changed after initialization.
-A typical example where this may be necessary, is to add previously not needed state point keys.
+A typical example where this may be necessary is to add previously unneeded state point keys.
 Modifying a state point entails modifying the job id which means that the state point file needs to be rewritten and the job's workspace directory is renamed, both of which are computationally cheap operations.
 The user is nevertheless advised **to take great care when modifying a job's state point** since errors may render the data space **inconsistent**.
 
@@ -254,57 +254,43 @@ Further discussion of :py:attr:`Job.stores` is provided in the following topic, 
 Reading and Writing data
 ------------------------
 
-An example of **writing** data:
+An example of storing data:
 
 .. code-block:: python
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> job.data['some_array'] = np.ones([10, 3, 4])
-    >>> job.data['some_scalar'] = 10
-    >>> job.data['some_string'] = "hello world"
+    >>> job.data['x'] = np.ones([10, 3, 4])
 
 
-Just like the job *state point* and *document*, individual keys may be **read** either as attributes or through a functional interface.
-Array-like data must be accessed through the context manager.
-Scalars and strings which are not stored in array-like structures may be accessed without the context manager.
+Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface, *e.g.*.
 
-To **read** data as an attribute:
+To access data as an attribute:
 
 .. code-block:: python
 
-    >>> some_scalar = job.data.some_scalar
-    >>> some_string = job.data.some_string
     >>> with job.data:
-    ...     some_array = job.data.some_array[:]
+    ...     x = job.data.x[:]
 
-To **read** data as a key:
+To access data as a key:
 
 .. code-block:: python
 
-    >>> some_scalar = job.data['some_scalar']
-    >>> some_string = job.data['some_string']
     >>> with job.data:
-    ...     some_array = job.data['some_array'][:]
+    ...     x = job.data['x'][:]
 
 Through a functional interface:
 
 .. code-block:: python
     
-    >>> some_scalar = job.data.get('some_scalar')
-    >>> some_string = job.data.get('some_string')
     >>> with job.data:
-    ...     some_array = job.data.get('some_array')[:]
+    ...     x = job.data.get('x')[:]
 
 .. tip::
 
-     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`).
-
-More information about the context manager may be found in the :ref:`file handling <file-handling>` section.
-More information about indexing and accessing data may be found in the :ref:`accessing arrays <accessing-arrays>` section below.
+     Use the :py:meth:`Job.data.get` method to return ``None`` or another specified default value for missing values. This works exactly like with python's built-in dictionaries (see :py:meth:`dict.get`). 
 
 .. _accessing-arrays:
-
 Accessing arrays
 ----------------
 
@@ -317,16 +303,16 @@ Here are a few examples for accessing a three-dimensional array with outputs omi
 .. code-block:: python
     
     >>> with job.data:
-    ...     job.data.some_array[0, 0, 0]
-    ...     job.data.some_array[1:3, 0, :]
-    ...     job.data.some_array[:, 1, 3]
-
+    ...     job.data.x[0, 0, 0]
+    ...     job.data.x[1:3, 0, :]
+    ...     job.data.x[:, 1, 3]
+    
 To load entire arrays to memory, NumPy slicing syntax may be used:
  
 .. code-block:: python
 
     >>> with job.data:
-    ...     some_array = job.data.some_array[:]
+    ...     x = job.data.x[:]
 
 NumPy slicing (ie. the ``[:]`` operator) may be used to load array-like and text data.
 It cannot be used to load scalar values.
@@ -334,12 +320,10 @@ Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy
 
 .. code-block:: python
 
-    >>> some_scalar = job.data.some_scalar[()]
-    >>> with job.data:
-    ..      some_array = job.data.some_array[()]
+    >> with job.data:
+    ..      x = job.data.x[()]
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
-
 Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
 Information which needs to be searchable and scalars should be stored in the :ref:`job document <project-job-document>`.
 
@@ -395,12 +379,11 @@ To iterate through keys in a group (outputs omitted):
     >>> for key in group:
     ...     group[key][:]
 
-.. _file-handling:
 
 File handling
 -------------
 
-The underlying HDF5 file is openend and flushed after each read- and write-operation.
+The underlying HDF5 file is opened and flushed after each read- and write-operation.
 You can keep the file explicitily open using a context manager.
 The file is only opened and flushed once in the following example:
 
@@ -408,7 +391,7 @@ The file is only opened and flushed once in the following example:
 
     >>> with job.data:
     ...     job.data['hello'] = 'world'
-    ...     print(job.data.some_array)
+    ...     print(job.data.x)
     ...
 
 The default open-mode is append ("a"), but you can override the open-mode, by using the :meth:`signac.H5Store.open` function explicitly.
@@ -417,7 +400,7 @@ For example, to open the store in read-only mode, you would write:
 .. code-block:: python
 
     >>> with job.data.open(mode='r'):
-    ...     print(job.data.some_array)
+    ...     print(job.data.x)
 
 Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as ``numpy.arrays``.
 Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
