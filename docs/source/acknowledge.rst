@@ -10,7 +10,7 @@ How to cite signac
       See :ref:`badge` for instructions.
 
 .. |badge| image:: badge/signac.io-dark.svg
-    :width: 104
+    :height: 25px
     :alt: signac.io
 
 Please acknowledge the use of this software within the body of your publication by copying or adapting the following:
