@@ -242,7 +242,7 @@ We can then execute all operations defined within the project with:
 
     ~/ideal_gas_project $ python project.py run
 
-However, if you execute this in your own terminal, you might have noticed a warning messages printed out at the end, that read similar to:
+However, if you execute this in your own terminal, you might have noticed a warning message printed out at the end, that read similar to:
 
 .. code-block:: none
 
