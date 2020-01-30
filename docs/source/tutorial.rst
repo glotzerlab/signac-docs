@@ -241,18 +241,12 @@ We can then execute all operations defined within the project with:
 .. code-block:: bash
 
     ~/ideal_gas_project $ python project.py run
-    Execute operation 'compute_volume(03585df0f87fada67bd0f540c102cce7)'...
-    Execute operation 'compute_volume(22a51374466c4e01ef0e67e65f73c52e)'...
-    Execute operation 'compute_volume(71855b321a04dd9ee27ce6c9cc0436f4)'...
-    # ...
 
-However, if you execute this in your own terminal, you might have noticed a bunch of warning messages printed out at the end, that read similar to:
+However, if you execute this in your own terminal, you might have noticed a warning message printed out at the end, that looks like:
 
 .. code-block:: none
 
-    Operation 'compute_volume(03585df0f87fada67bd0f540c102cce7)' exceeds max. # of allowed passes (1).
-    Operation 'compute_volume(22a51374466c4e01ef0e67e65f73c52e)' exceeds max. # of allowed passes (1).
-    # and so on
+    WARNING:flow.project:Operation 'compute_volume' has no post-conditions!
 
 That is because by default, the ``run`` command will continue to execute all defined operations until they are considered *completed*.
 An operation is considered completed when all its *post conditions* are met, and it is up to the user to define those post conditions.
