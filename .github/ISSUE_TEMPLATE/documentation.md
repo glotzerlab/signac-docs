@@ -10,15 +10,15 @@ assignees: ''
 
 ### Issue Description
 
-A concise description of the proposed improvement or the problem it solves.
-For example: "I would like to ..." or "It would be nice if it was easier to ...".
+A concise description of the proposed improvement or the issue that is addressed.
+Examples:
+ - "This change improves the overall structure of the tutorial."
+ - "This change fixes the links to the Project class API."
 
-### Proposed solution
+### Proposed change (optional)
 
-A description of how you would like a possible solution to look like.
+A description of how a change to address this issue might look like.
 
-*Proposals for an implementation of the idea are welcome, but not necessary.*
+### Additional context (optional)
 
-### Additional context
-
-Any alternative solutions you might have considered or other information that might be helpful.
+Any alternatives you might have considered or other information that might be helpful.
