@@ -18,7 +18,7 @@ Please acknowledge the use of this software within the body of your publication 
 
   [1] C. S. Adorf, P. M. Dodd, V. Ramasubramani, and S. C. Glotzer. Simple data and workflow management with the signac framework. Comput. Mater. Sci., 146(C):220-229, 2018. DOI:10.1016/j.commatsci.2018.01.035.
 
-  [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2581327
+  [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.2581327
 
 References for previously released versions can be found `here <https://zenodo.org/badge/latestdoi/72946496>`_.
 A preprint of the paper published in the Journal of Computational Materials Science is available on the `arXiv <https://arxiv.org/abs/1611.03543>`_.
@@ -74,19 +74,19 @@ You can add the following badge to **presentation slides** or **README** files t
 
 .. code-block:: html
 
-    http://docs.signac.io/en/latest/_images/signac.io-dark.svg
+    https://docs.signac.io/en/latest/_images/signac.io-dark.svg
 
 .. rubric:: Markdown
 
 .. code-block:: html
 
-    [![signac](http://docs.signac.io/en/latest/_images/signac.io-dark.svg)](https://signac.io)
+    [![signac](https://docs.signac.io/en/latest/_images/signac.io-dark.svg)](https://signac.io)
 
 .. rubric:: reStructuredText
 
 .. code-block:: rst
 
-    .. image:: http://docs.signac.io/en/latest/_images/signac.io-dark.svg
+    .. image:: https://docs.signac.io/en/latest/_images/signac.io-dark.svg
         :target: https://signac.io
 
 Badges generated with `shields.io <https://shields.io>`_.

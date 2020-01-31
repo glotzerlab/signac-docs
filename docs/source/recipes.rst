@@ -197,7 +197,7 @@ MPI-operations with mpi4py or similar
 
 Assuming that your operation is using `mpi4py`_ or similar, you do not have to change your code:
 
-.. _mpi4py: http://mpi4py.scipy.org/docs/
+.. _mpi4py: https://mpi4py.readthedocs.io/
 
 .. code-block:: python
 
@@ -298,7 +298,7 @@ How to run in containerized environments
 ========================================
 
 .. _docker: https://www.docker.com/
-.. _singularity: http://singularity.lbl.gov/
+.. _singularity: https://sylabs.io/docs/
 
 Using **signac-flow** in combination with container systems such as docker_ or singularity_ is easily achieved by modifying the ``executable`` *directive*.
 For example, assuming that we wanted to use a singularity container named ``software.simg``, which is placed within the project root directory, we use the following directive to specify that a given operation is to be executed within then container:

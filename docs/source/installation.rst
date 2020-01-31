@@ -6,7 +6,7 @@ Installation
 
 .. _conda: https://anaconda.org/
 .. _conda-forge: https://conda-forge.github.io
-.. _pip: https://docs.python.org/3.5/installing/index.html
+.. _pip: https://docs.python.org/3/installing/index.html
 
 All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages (See :ref:`package-overview` for more information).
 Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.5+ and are built for all major platforms.
