@@ -6,12 +6,13 @@ How to cite signac
 
 .. sidebar:: |badge|
 
-      Consider to place this badge on your **slides** or **README** files!
+      Consider placing this badge on **presentation slides** or **README** files!
       See :ref:`badge` for instructions.
 
-.. |badge| image:: badge/signac.io-blue.svg
+.. |badge| image:: badge/signac.io-dark.svg
+    :alt: signac.io
 
-Please acknowledge the use of this software within the body of your publication for example by copying or adapting the following formulation:
+Please acknowledge the use of this software within the body of your publication by copying or adapting the following:
 
 *The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework[1,2].*
 
@@ -19,7 +20,7 @@ Please acknowledge the use of this software within the body of your publication 
 
   [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. http://doi.org/10.5281/zenodo.2581327
 
-References for previous release versions can be found `here <https://zenodo.org/badge/latestdoi/72946496>`_.
+References for previously released versions can be found `here <https://zenodo.org/badge/latestdoi/72946496>`_.
 A preprint of the paper published in the Journal of Computational Materials Science is available on the `arXiv <https://arxiv.org/abs/1611.03543>`_.
 
 To cite these references, you can use the following BibTeX entries:
@@ -61,31 +62,31 @@ To cite these references, you can use the following BibTeX entries:
 Badge
 =====
 
-You can add the following badge to your **slides** or **README** files to acknowledge the use of **signac** as part of your project: |badge|
+You can add the following badge to **presentation slides** or **README** files to acknowledge the use of **signac** as part of your project: |badge|
 
 .. rubric:: Downloads
 
-* :download:`PDF (high resolution) <badge/signac.io-blue.pdf>`
-* :download:`PNG (high resolution) <badge/signac.io-blue.png>`
-* :download:`SVG (low resolution) <badge/signac.io-blue.svg>`
+* :download:`PDF (high resolution) <badge/signac.io-dark.pdf>`
+* :download:`PNG (high resolution) <badge/signac.io-dark.png>`
+* :download:`SVG (low resolution) <badge/signac.io-dark.svg>`
 
 .. rubric:: URL
 
 .. code-block:: html
 
-    http://docs.signac.io/en/latest/_images/signac.io-blue.svg
+    http://docs.signac.io/en/latest/_images/signac.io-dark.svg
 
 .. rubric:: Markdown
 
 .. code-block:: html
 
-    [![signac](http://docs.signac.io/en/latest/_images/signac.io-blue.svg)](https://signac.io)
+    [![signac](http://docs.signac.io/en/latest/_images/signac.io-dark.svg)](https://signac.io)
 
 .. rubric:: reStructuredText
 
 .. code-block:: rst
 
-    .. image:: http://docs.signac.io/en/latest/_images/signac.io-blue.svg
+    .. image:: http://docs.signac.io/en/latest/_images/signac.io-dark.svg
         :target: https://signac.io
 
 Badges generated with `shields.io <https://shields.io>`_.
@@ -93,7 +94,7 @@ Badges generated with `shields.io <https://shields.io>`_.
 Logos
 =====
 
-The **signac**, **signac-flow**, and **signac-dashboard** logos & badges are licensed under the `Creative Commons Attribution 4.0 International (CC BY 4.0) license`_.
-This means you can use logos as long as you attribute the logos to the relevant **signac** project.
+The **signac** logos & badges are licensed under the `Creative Commons Attribution 4.0 International (CC BY 4.0) license`_.
+This means you can use logos as long as you attribute the logos to the **signac** project.
 
 .. _`Creative Commons Attribution 4.0 International (CC BY 4.0) license`: https://creativecommons.org/licenses/by/4.0/
