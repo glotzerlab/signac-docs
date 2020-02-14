@@ -69,7 +69,7 @@ We can verify that the initialization worked by examining the *implicit* schema 
     {
      'N': 'int([1000], 1)',
      'kT': 'float([1.0], 1)',
-     'p': 'int([1, 2, 3, ..., 9, 10], 10)',
+     'p': 'int([1, 2, 3, ..., 9], 9)',
     }
 
 
