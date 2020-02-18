@@ -60,7 +60,7 @@ We then use the :py:func:`~flow.FlowProject.operation` and the :py:func:`~.flow.
         pass
 
 
-    def greeted(job)
+    def greeted(job):
         return job.isfile('hello.txt')
 
 
