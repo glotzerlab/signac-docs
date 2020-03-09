@@ -124,28 +124,17 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
         pass
 
 
-    def add_foo_workflow(bar):
-
-        job.doc.setdefault('foo', dict())
-
-        def foo_ran(job):
-            return bar in job.doc.foo
+    def setup_foo_workflow(bar):
 
         # Make sure to make the operation-name a function of the parameter(s)!
-        @Project.operation('foo-{})'.format(bar))
-        @Project.post(foo_ran)
+        @Project.operation(f'foo-{bar}')
+        @Project.post(lambda job: bar in job.doc.get('foo', []))
         def foo(job):
-            job.doc.foo[bar] = 'hello world!'
+            job.doc.setdefault('foo', []).append(bar)
 
+    for bar in (4, 8, 15, 16, 23, 42):
+       setup_foo_workflow(bar=bar)
 
-   for bar in (4, 8, 15, 16, 23, 42):
-       add_foo_workflow(bar=bar)
-
-
-.. note::
-
-    The operation and condition functions must be defined in a way such that they are **truly independent** from eachother!
-    For instance, the example above would fail if all *foo*-operations had the same name or if they were all writing output to the same location.
 
 .. _rec_external:
 
