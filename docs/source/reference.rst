@@ -31,6 +31,7 @@ Implementing Workflows
    cluster_submission
    environments
    templates
+   flow-group
 
 Additional Topics
 =================
