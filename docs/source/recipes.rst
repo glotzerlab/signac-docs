@@ -346,8 +346,8 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
 
-How to use FlowGroups to create Execution Environments
-======================================================
+How to create multiple execution environments for operations
+============================================================
 
 Suppose that for a given project you wanted to run jobs on multiple
 supercomputers, your laptop, and your desktop. On each of these different
