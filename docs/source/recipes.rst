@@ -348,9 +348,10 @@ If you are using the ``run`` command for execution, simply execute the whole scr
 
 How to use FlowGroups to create Execution Environments
 ======================================================
+
 Suppose that for a given project you wanted to run jobs on multiple
 supercomputers, your laptop, and your desktop. On each of these different
-machines different operation directives may be needed. The :py:class:`FlowGroup`
+machines, different operation directives may be needed. The :py:class:`FlowGroup`
 class provides a mechanism to easily specify the different requirements in each
 different environment.
 
@@ -367,15 +368,15 @@ different environment.
    desktop = Project.make_group(name='desktop')
 
    @supercomputer.with_directives(directives=dict(
-      npgu=100, executable="/path/to/container"))
-   @laptop.with_directives(directives=dict(npgu=0))
-   @desktop.with_directives(directives=dict(npgu=1))
+      ngpu=4, executable="/path/to/container"))
+   @laptop.with_directives(directives=dict(ngpu=0))
+   @desktop.with_directives(directives=dict(ngpu=1))
    @Project.operation
    def op1(job):
       pass
 
    @supercomputer.with_directives(directives=dict(
-      nranks=2000, executable="path/to/container"))
+      nranks=40, executable="path/to/container"))
    @laptop.with_directives(directives=dict(nranks=4))
    @desktop.with_directives(directives=dict(nranks=8))
    @Project.operation
@@ -387,10 +388,12 @@ different environment.
 
 
 .. tip::
+
    If each machine will be running different operations, then only decorating
    those operations will also ensure you only run a given operation on the
    'right' machine.
 
 .. tip::
-   To test operations on a login node, a 'test' group could be used that ensured
+
+   To test operations with a small interactive job, a 'test' group could be used that ensured
    that the operations did not try to run on multiple cores or GPUs.

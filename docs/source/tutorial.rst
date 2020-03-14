@@ -379,8 +379,9 @@ Since that seems right, we can then store all other volumes in the respective ``
 
 Grouping Operations
 -------------------
-If we wanted to execute :code:`compute_volume` and
-:code:`store_volume_in_document` together, we currently couldn't even though we
+
+If we wanted to submit :code:`compute_volume` and
+:code:`store_volume_in_document` together to run them in succession, we currently couldn't even though we
 know that :code:`store_volume_in_document` can run immediately after
 :code:`compute_volume`. With the :py:class:`FlowGroup` class we can group the
 two operations together and submit any job that is ready to run
