@@ -357,31 +357,31 @@ different environment.
 
 .. code:: python
 
-   #project.py
-   from flow import FlowProject, directives
+    #project.py
+    from flow import FlowProject, directives
 
-   class Project(FlowProject):
-      pass
+    class Project(FlowProject):
+        pass
 
-   supercomputer = Project.make_group(name='supercomputer')
-   laptop = Project.make_group(name='laptop')
-   desktop = Project.make_group(name='desktop')
+    supercomputer = Project.make_group(name='supercomputer')
+    laptop = Project.make_group(name='laptop')
+    desktop = Project.make_group(name='desktop')
 
-   @supercomputer.with_directives(directives=dict(
-      ngpu=4, executable="/path/to/container"))
-   @laptop.with_directives(directives=dict(ngpu=0))
-   @desktop.with_directives(directives=dict(ngpu=1))
-   @Project.operation
-   def op1(job):
-      pass
+    @supercomputer.with_directives(directives=dict(
+        ngpu=4, executable="/path/to/container"))
+    @laptop.with_directives(directives=dict(ngpu=0))
+    @desktop.with_directives(directives=dict(ngpu=1))
+    @Project.operation
+    def op1(job):
+        pass
 
-   @supercomputer.with_directives(directives=dict(
-      nranks=40, executable="path/to/container"))
-   @laptop.with_directives(directives=dict(nranks=4))
-   @desktop.with_directives(directives=dict(nranks=8))
-   @Project.operation
-   def op2(job):
-      pass
+    @supercomputer.with_directives(directives=dict(
+        nranks=40, executable="path/to/container"))
+    @laptop.with_directives(directives=dict(nranks=4))
+    @desktop.with_directives(directives=dict(nranks=8))
+    @Project.operation
+    def op2(job):
+        pass
 
     if __name__ == '__main__':
         Project().main()
