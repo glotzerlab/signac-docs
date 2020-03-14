@@ -31,23 +31,23 @@ group named ``ex`` which contains the operations ``op1`` and ``op2``.
 
 .. code-block:: python
 
-   # project.py
-   from flow import FlowProject
+    # project.py
+    from flow import FlowProject
 
-   class Project(FlowProject):
+    class Project(FlowProject):
       pass
 
-   ex = Project.make_group(name='ex')
+    ex = Project.make_group(name='ex')
 
-   @ex
-   @Project.operation
-   def op1(job):
-      pass
+    @ex
+    @Project.operation
+    def op1(job):
+        pass
 
-   @ex
-   @Project.operation
-   def op2(job):
-      pass
+    @ex
+    @Project.operation
+    def op2(job):
+        pass
 
     if __name__ == '__main__':
         Project().main()
@@ -58,11 +58,12 @@ is eligible. Resources are requested appropriately whether groups are run in
 serial or parallel.
 
 .. tip::
-   To avoid large resource requests, avoid running multiple operation groups in
-   parallel. Also, when submitting multiple operation groups in serial, remember
-   that the resources requested will match the most computationally intensive
-   operation in that group. To avoid wasting compute time, make sure that you group operations
-   with similar resource requests or that cheaper operations do not run for long.
+
+    To avoid large resource requests, avoid running multiple operation groups in
+    parallel. Also, when submitting multiple operation groups in serial, remember
+    that the resources requested will match the most computationally intensive
+    operation in that group. To avoid wasting compute time, make sure that you group operations
+    with similar resource requests or that cheaper operations do not run for long.
 
 .. _flow-group-specify-directives:
 
@@ -79,25 +80,25 @@ group specific operation directives are used.
 
 .. code-block:: python
    
-   #project.py
-   from flow import FlowProject, directives
+    #project.py
+    from flow import FlowProject, directives
 
-   class Project(FlowProject):
-      pass
+    class Project(FlowProject):
+        pass
 
-   ex = Project.make_group(name='ex')
+    ex = Project.make_group(name='ex')
 
-   @ex.with_directives(directives=dict(ngpu=2))
-   @directives(ngpu=1)
-   @Project.operation
-   def op1(job):
-      pass
+    @ex.with_directives(directives=dict(ngpu=2))
+    @directives(ngpu=1)
+    @Project.operation
+    def op1(job):
+        pass
 
-   @ex.with_directives(directives=dict(nranks=2))
-   @directives(nranks=1)
-   @Project.operation
-   def op2(job):
-      pass
+    @ex.with_directives(directives=dict(nranks=2))
+    @directives(nranks=1)
+    @Project.operation
+    def op2(job):
+        pass
 
     if __name__ == '__main__':
         Project().main()
