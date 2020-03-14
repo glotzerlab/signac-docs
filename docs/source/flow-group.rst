@@ -7,7 +7,7 @@ FlowGroups
 This chapter provides the information to effectively use multiple operation
 groups in submitting and running operations in multiple environments.
 
-.. _definition:
+.. _flow_group_definition:
 
 Definition
 ==========
@@ -18,7 +18,7 @@ and the directives for an operation can be different in every group that it is
 in. Within the source code, all operations are wrapped by singleton groups that
 handle command generation and resource requests for that operation.
 
-.. _basic_usage:
+.. _flow_group_basic_usage:
 
 Basic Usage
 ===========
