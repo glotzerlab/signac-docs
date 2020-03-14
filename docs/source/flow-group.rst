@@ -15,8 +15,10 @@ Definition
 A :py:class:`FlowGroup` is a collection of one or more operation(s) with the
 directives associated with that operation. Operations can be in multiple groups
 and the directives for an operation can be different in every group that it is
-in. Within the source code, all operations are wrapped by singleton groups that
-handle command generation and resource requests for that operation.
+in. Practically, a :py:class:`FlowGroup` acts like a "meta-operation" that can
+be submitted and run identical to operations. In factt, within the source code,
+all operations are wrapped by singleton groups that handle command generation
+and resource requests for that operation.
 
 .. _flow_group_basic_usage:
 
