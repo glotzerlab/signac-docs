@@ -35,7 +35,7 @@ group named ``ex`` which contains the operations ``op1`` and ``op2``.
     from flow import FlowProject
 
     class Project(FlowProject):
-      pass
+        pass
 
     ex = Project.make_group(name='ex')
 
