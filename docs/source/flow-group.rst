@@ -16,7 +16,7 @@ A :py:class:`FlowGroup` is a collection of one or more operation(s) with the
 directives associated with that operation. Operations can be in multiple groups
 and the directives for an operation can be different in every group that it is
 in. Practically, a :py:class:`FlowGroup` acts like a "meta-operation" that can
-be submitted and run identical to operations. In factt, within the source code,
+be submitted and run identical to operations. In fact, within the source code,
 all operations are wrapped by singleton groups that handle command generation
 and resource requests for that operation.
 
@@ -80,7 +80,7 @@ group specific operation directives are used.
 
 .. code-block:: python
    
-    #project.py
+    # project.py
     from flow import FlowProject, directives
 
     class Project(FlowProject):

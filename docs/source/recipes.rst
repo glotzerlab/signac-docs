@@ -355,9 +355,9 @@ machines, different operation directives may be needed. The :py:class:`FlowGroup
 class provides a mechanism to easily specify the different requirements in each
 different environment.
 
-.. code:: python
+.. code-block:: python
 
-    #project.py
+    # project.py
     from flow import FlowProject, directives
 
     class Project(FlowProject):
@@ -368,7 +368,7 @@ different environment.
     desktop = Project.make_group(name='desktop')
 
     @supercomputer.with_directives(directives=dict(
-        ngpu=4, executable="/path/to/container"))
+        ngpu=4, executable="singularity exec --nv /path/to/container python"))
     @laptop.with_directives(directives=dict(ngpu=0))
     @desktop.with_directives(directives=dict(ngpu=1))
     @Project.operation
@@ -376,7 +376,7 @@ different environment.
         pass
 
     @supercomputer.with_directives(directives=dict(
-        nranks=40, executable="path/to/container"))
+        nranks=40, executable="singularity exec /path/to/container python"))
     @laptop.with_directives(directives=dict(nranks=4))
     @desktop.with_directives(directives=dict(nranks=8))
     @Project.operation
