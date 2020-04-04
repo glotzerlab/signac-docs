@@ -4,8 +4,8 @@
 FlowGroups
 ==========
 
-This chapter provides the information to effectively use multiple operation
-groups in submitting and running operations in multiple environments.
+This chapter provides information about submitting and running groups of
+multiple operations with varying directives.
 
 .. _flow_group_definition:
 
