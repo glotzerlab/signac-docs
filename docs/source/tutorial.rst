@@ -345,9 +345,9 @@ Since we are pretending that computing the volume is an expensive operation, we 
     @FlowProject.post.isfile("data.json")
     def store_volume_in_json_file(job):
         with open(job.fn("volume.txt")) as textfile:
+            data = {"volume": float(textfile.read())}
             with open(job.fn("data.json"), "w") as jsonfile:
-                data = {"volume": float(textfile.read())}
-                jsonfile.write(json.dumps(data) + "\n")
+                json.dump(data, jsonfile)
 
     # ...
 
@@ -413,9 +413,9 @@ with it.
     @FlowProject.post.isfile("data.json")
     def store_volume_in_json_file(job):
         with open(job.fn("volume.txt")) as textfile:
+            data = {"volume": float(textfile.read())}
             with open(job.fn("data.json"), "w") as jsonfile:
-                data = {"volume": float(textfile.read())}
-                jsonfile.write(json.dumps(data) + "\n")
+                json.dump(data, jsonfile)
 
     if __name__ == '__main__':
         FlowProject().main()
