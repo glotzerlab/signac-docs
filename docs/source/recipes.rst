@@ -389,11 +389,11 @@ different environment.
 
 .. tip::
 
-   If each machine will be running different operations, then only decorating
-   those operations will also ensure you only run a given operation on the
-   'right' machine.
+   Sometimes, a machine should only run certain operations. To specify that an
+   operation should only run on certain machines, only decorate the operation
+   with the groups for the 'right' machine(s).
 
 .. tip::
 
-   To test operations with a small interactive job, a 'test' group can be used to ensure
-   that the operations do not try to run on multiple cores or GPUs.
+   To test operations with a small interactive job, a 'test' group can be used
+   to ensure that the operations do not try to run on multiple cores or GPUs.
