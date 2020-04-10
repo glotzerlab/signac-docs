@@ -13,11 +13,11 @@ Definition
 ==========
 
 A :py:class:`FlowGroup` is a collection of one or more operation(s) with the
-directives associated with that operation. Operations can be in multiple groups
+directives associated with that operation. An operation can be in multiple groups,
 and the directives for an operation can be different in every group that it is
 in. Practically, a :py:class:`FlowGroup` acts like a "meta-operation" that can
-be submitted and run identical to operations. In fact, within the source code,
-all operations are wrapped by singleton groups that handle command generation
+be submitted and run like an operation. In fact, within the source code,
+each operation is wrapped by a singleton group that handles command generation
 and resource requests for that operation.
 
 .. _flow_group_basic_usage:
@@ -26,7 +26,7 @@ Basic Usage
 ===========
 
 While a :py:class:`FlowGroup` is automatically created for each operation, users must
-manually create multiple operation groups. Below is an example which creates a
+manually create multiple operation groups. Below is an example that creates a
 group named ``ex`` which contains the operations ``op1`` and ``op2``.
 
 .. code-block:: python
@@ -52,31 +52,30 @@ group named ``ex`` which contains the operations ``op1`` and ``op2``.
     if __name__ == '__main__':
         Project().main()
 
-To execute or submit ``ex`` alone, use the ``-o`` option to select the group like you would for a
-regular operation. Groups are eligible if at least one of their operations
+To execute or submit only ``ex``, use the option ``--operation`` (``-o``) to select the group like you would for a
+regular operation. A group is eligible if at least one of its operations
 is eligible. Resources are requested appropriately whether groups are run in
-serial or parallel.
+series or in parallel.
 
 .. tip::
 
     To avoid large resource requests, avoid running multiple operation groups in
-    parallel. Also, when submitting multiple operation groups in serial, remember
+    parallel. Also, when submitting multiple operation groups in serial, note
     that the resources requested will match the most computationally intensive
     operation in that group. To avoid wasting compute time, make sure that you group operations
     with similar resource requests or that cheaper operations do not run for long.
 
 .. _flow-group-specify-directives:
 
-Group Specific Directives
+Group-Specific Directives
 =========================
 
-One of the features of :py:class:`FlowGroup` is the ability to assign directives
-other than the default to an operation in a given group context. This means that
+One of the features of :py:class:`FlowGroup` is the ability to assign custom directives
+to an operation that activate in a given group context. This means that
 groups can function as context-specific execution protocols for operations. To
 configure group-specific operation directives, use the
 :code:`@group.with_directives` decorator provided by the result of
-:code:`FlowProject.make_group`. Below shows an example where default and
-group specific operation directives are used.
+:code:`FlowProject.make_group`. In the following example, :code:`op1` requests one GPU if run by itself or two GPUs if run through the group :code:`ex` (with :code:`python project.py run -o ex`).
 
 .. code-block:: python
    
@@ -94,16 +93,6 @@ group specific operation directives are used.
     def op1(job):
         pass
 
-    @ex.with_directives(directives=dict(nranks=2))
-    @directives(nranks=1)
-    @Project.operation
-    def op2(job):
-        pass
 
     if __name__ == '__main__':
         Project().main()
-
-In this example :code:`op1` requests one GPU if run by itself; however, when run
-through the group (i.e. :code:`python project.py run -o ex`), :code:`op1` will
-request 2 GPUs. A similar change in MPI ranks requested in :code:`op2` occurs
-depending on execution within the group.

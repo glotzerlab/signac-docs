@@ -352,7 +352,7 @@ How to create multiple execution environments for operations
 Suppose that for a given project you wanted to run jobs on multiple
 supercomputers, your laptop, and your desktop. On each of these different
 machines, different operation directives may be needed. The :py:class:`FlowGroup`
-class provides a mechanism to easily specify the different requirements in each
+class provides a mechanism to easily specify the different requirements of each
 different environment.
 
 .. code-block:: python
@@ -395,5 +395,5 @@ different environment.
 
 .. tip::
 
-   To test operations with a small interactive job, a 'test' group could be used that ensured
-   that the operations did not try to run on multiple cores or GPUs.
+   To test operations with a small interactive job, a 'test' group can be used to ensure
+   that the operations do not try to run on multiple cores or GPUs.
