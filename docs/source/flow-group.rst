@@ -77,7 +77,7 @@ if a group contains two operations, ``op1`` and ``op2``, and each
 requests two GPUs, then four GPUs will be requested when run in parallel.
 When running the same group in series, only two GPUs would be requested.
 
-.. _flow-group-specify-directives:
+.. _flow_group_specify_directives:
 
 Group-Specific Directives
 =========================
