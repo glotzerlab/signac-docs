@@ -26,8 +26,8 @@ Basic Usage
 ===========
 
 While a :py:class:`FlowGroup` is automatically created for each operation, users must
-manually create multiple operation groups. Below is an example that creates a
-group named ``ex`` which contains the operations ``op1`` and ``op2``.
+manually create groups that contain more than one operation. Below is an example that creates a
+group named ``ex`` to contain operations ``op1`` and ``op2``.
 
 .. code-block:: python
 
@@ -52,27 +52,30 @@ group named ``ex`` which contains the operations ``op1`` and ``op2``.
     if __name__ == '__main__':
         Project().main()
 
+A group is eligible if
+at least one of its operations is eligible.
 To execute or submit only ``ex``, use the option ``--operation`` (``-o``) to
-select the group like you would for a regular operation. A group is eligible if
-at least one of its operations is eligible. Resources (GPUs, MPI ranks, etc.)
-are requested appropriately whether groups are run in series or in parallel.
+select the group like you would for a regular operation.  
 
-.. Note::
-
-    Parallel execution of groups means that the cumulative total of operation
-    resources will be requested: e.g. if a group contains two operations ``op1``
-    and ``op2`` and each take two GPUs, then four GPUs will be requested if the
-    group is run in paralel.
-
-    When running the same group in series only 2 GPUs will be requested.
 
 .. tip::
 
     To avoid wasting resources when submitting groups with multiple operations,
-    make sure that you group operations with similar resource requests or that
+    make sure that you group operations that require similar resources or that
     cheaper operations do not run for long. Mixing GPU operations with highly
-    parallel CPU and will likely leave either the GPU or CPUs idle when the
+    parallel CPU ones will likely leave either the GPU or CPUs idle while the
     other type of operation is running.
+
+.. _flow_group_running_groups_in_parallel:
+
+Running groups in parallel
+==========================
+
+Groups can be run in parallel. During parallel execution of groups, the
+combined resources (GPUs, MPI ranks, etc.) are requested. For example,
+if a group contains two operations, ``op1`` and ``op2``, and each
+requests two GPUs, then four GPUs will be requested when run in parallel.
+When running the same group in series, only two GPUs would be requested.
 
 .. _flow-group-specify-directives:
 
@@ -84,7 +87,9 @@ to an operation that activate in a given group context. This means that
 groups can function as context-specific execution protocols for operations. To
 configure group-specific operation directives, use the
 :code:`@group.with_directives` decorator provided by the result of
-:code:`FlowProject.make_group`. In the following example, :code:`op1` requests one GPU if run by itself or two GPUs if run through the group :code:`ex` (with :code:`python project.py run -o ex`).
+:code:`FlowProject.make_group`.
+
+In the following example, :code:`op1` requests one GPU if run by itself or two GPUs if run through the group :code:`ex` (with :code:`python project.py run -o ex`).
 
 .. code-block:: python
    

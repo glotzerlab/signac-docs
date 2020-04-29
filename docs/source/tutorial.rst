@@ -381,11 +381,11 @@ Grouping Operations
 -------------------
 
 If we wanted to submit :code:`compute_volume` and
-:code:`store_volume_in_document` together to run them in succession, we currently couldn't even though we
+:code:`store_volume_in_document` together to run in series, we currently couldn't, even though we
 know that :code:`store_volume_in_document` can run immediately after
-:code:`compute_volume`. With the :py:class:`FlowGroup` class we can group the
+:code:`compute_volume`. With the :py:class:`FlowGroup` class, we can group the
 two operations together and submit any job that is ready to run
-:code:`compute_volume`. To do this we create a group and decorate the operations
+:code:`compute_volume`. To do this, we create a group and decorate the operations
 with it.
 
 .. code-block:: python
@@ -420,7 +420,7 @@ with it.
     if __name__ == '__main__':
         FlowProject().main()
 
-We could then run :code:`python project.py run -o volume` or
+We can now run :code:`python project.py run -o volume` or
 :code:`python project.py submit -o volume` to run or submit both operations.
 
 The job document
