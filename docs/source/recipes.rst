@@ -345,3 +345,55 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       3. How to submit a bundle of operations to a cluster.
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
+
+How to create multiple execution environments for operations
+============================================================
+
+Suppose that for a given project you wanted to run jobs on multiple
+supercomputers, your laptop, and your desktop. On each of these different
+machines, different operation directives may be needed. The :py:class:`FlowGroup`
+class provides a mechanism to easily specify the different requirements of each
+different environment.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject, directives
+
+    class Project(FlowProject):
+        pass
+
+    supercomputer = Project.make_group(name='supercomputer')
+    laptop = Project.make_group(name='laptop')
+    desktop = Project.make_group(name='desktop')
+
+    @supercomputer.with_directives(directives=dict(
+        ngpu=4, executable="singularity exec --nv /path/to/container python"))
+    @laptop.with_directives(directives=dict(ngpu=0))
+    @desktop.with_directives(directives=dict(ngpu=1))
+    @Project.operation
+    def op1(job):
+        pass
+
+    @supercomputer.with_directives(directives=dict(
+        nranks=40, executable="singularity exec /path/to/container python"))
+    @laptop.with_directives(directives=dict(nranks=4))
+    @desktop.with_directives(directives=dict(nranks=8))
+    @Project.operation
+    def op2(job):
+        pass
+
+    if __name__ == '__main__':
+        Project().main()
+
+
+.. tip::
+
+   Sometimes, a machine should only run certain operations. To specify that an
+   operation should only run on certain machines, only decorate the operation
+   with the groups for the 'right' machine(s).
+
+.. tip::
+
+   To test operations with a small interactive job, a 'test' group can be used
+   to ensure that the operations do not try to run on multiple cores or GPUs.

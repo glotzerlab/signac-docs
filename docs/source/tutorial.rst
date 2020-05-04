@@ -345,9 +345,9 @@ Since we are pretending that computing the volume is an expensive operation, we 
     @FlowProject.post.isfile("data.json")
     def store_volume_in_json_file(job):
         with open(job.fn("volume.txt")) as textfile:
+            data = {"volume": float(textfile.read())}
             with open(job.fn("data.json"), "w") as jsonfile:
-                data = {"volume": float(textfile.read())}
-                jsonfile.write(json.dumps(data) + "\n")
+                json.dump(data, jsonfile)
 
     # ...
 
@@ -377,6 +377,51 @@ Since that seems right, we can then store all other volumes in the respective ``
 
     We could further simplify our workflow definition by replacing the ``pre(volume_computed)`` condition with ``pre.after(compute_volume)``, which is a short-cut to reuse all of ``compute_volume()``'s post-conditions as pre-conditions for the ``store_volume_in_json_file()`` operation.
 
+Grouping Operations
+-------------------
+
+If we wanted to submit :code:`compute_volume` and
+:code:`store_volume_in_document` together to run in series, we currently couldn't, even though we
+know that :code:`store_volume_in_document` can run immediately after
+:code:`compute_volume`. With the :py:class:`FlowGroup` class, we can group the
+two operations together and submit any job that is ready to run
+:code:`compute_volume`. To do this, we create a group and decorate the operations
+with it.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject
+
+    volume_group = FlowProject.make_group(name='volume')
+
+    @FlowProject.label
+    def volume_computed(job):
+        return job.isfile("volume.txt")
+
+    @volume
+    @FlowProject.operation
+    @FlowProject.post(volume_computed)
+    def compute_volume(job):
+        volume = job.sp.N * job.sp.kT / job.sp.p
+        with open(job.fn('volume.txt'), 'w') as file:
+            file.write(str(volume) + '\n')
+
+    @volume
+    @FlowProject.operation
+    @FlowProject.pre(volume_computed)
+    @FlowProject.post.isfile("data.json")
+    def store_volume_in_json_file(job):
+        with open(job.fn("volume.txt")) as textfile:
+            data = {"volume": float(textfile.read())}
+            with open(job.fn("data.json"), "w") as jsonfile:
+                json.dump(data, jsonfile)
+
+    if __name__ == '__main__':
+        FlowProject().main()
+
+We can now run :code:`python project.py run -o volume` or
+:code:`python project.py submit -o volume` to run or submit both operations.
 
 The job document
 ----------------
