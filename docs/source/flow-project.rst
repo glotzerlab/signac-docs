@@ -214,6 +214,14 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
+We can now parallelize the determination of projet status with processes. This can be done be setting a value for the ``flow.status_parallelization`` configuration as ``process``. Altogether there are 3 valid values for this, ``threads``, ``none``, or ``processes``, where ``threads`` being the default one which uses multithreading to perform parallelization and none leads to no parallelization at all.
+
+You can set the ``flow.status_parallelization`` configuration value by using the command below where the valid values of the attribute ``VALUE`` are given above:
+
+.. code-block:: bash
+
+    ~/my_project $ signac config set flow.status_parallelization VALUE
+
 .. _project-script:
 
 Generating Execution Scripts
