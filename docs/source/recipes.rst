@@ -124,28 +124,17 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
         pass
 
 
-    def add_foo_workflow(bar):
-
-        job.doc.setdefault('foo', dict())
-
-        def foo_ran(job):
-            return bar in job.doc.foo
+    def setup_foo_workflow(bar):
 
         # Make sure to make the operation-name a function of the parameter(s)!
-        @Project.operation('foo-{})'.format(bar))
-        @Project.post(foo_ran)
+        @Project.operation(f'foo-{bar}')
+        @Project.post(lambda job: bar in job.doc.get('foo', []))
         def foo(job):
-            job.doc.foo[bar] = 'hello world!'
+            job.doc.setdefault('foo', []).append(bar)
 
+    for bar in (4, 8, 15, 16, 23, 42):
+       setup_foo_workflow(bar=bar)
 
-   for bar in (4, 8, 15, 16, 23, 42):
-       add_foo_workflow(bar=bar)
-
-
-.. note::
-
-    The operation and condition functions must be defined in a way such that they are **truly independent** from eachother!
-    For instance, the example above would fail if all *foo*-operations had the same name or if they were all writing output to the same location.
 
 .. _rec_external:
 
@@ -356,3 +345,55 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       3. How to submit a bundle of operations to a cluster.
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
+
+How to create multiple execution environments for operations
+============================================================
+
+Suppose that for a given project you wanted to run jobs on multiple
+supercomputers, your laptop, and your desktop. On each of these different
+machines, different operation directives may be needed. The :py:class:`FlowGroup`
+class provides a mechanism to easily specify the different requirements of each
+different environment.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject, directives
+
+    class Project(FlowProject):
+        pass
+
+    supercomputer = Project.make_group(name='supercomputer')
+    laptop = Project.make_group(name='laptop')
+    desktop = Project.make_group(name='desktop')
+
+    @supercomputer.with_directives(directives=dict(
+        ngpu=4, executable="singularity exec --nv /path/to/container python"))
+    @laptop.with_directives(directives=dict(ngpu=0))
+    @desktop.with_directives(directives=dict(ngpu=1))
+    @Project.operation
+    def op1(job):
+        pass
+
+    @supercomputer.with_directives(directives=dict(
+        nranks=40, executable="singularity exec /path/to/container python"))
+    @laptop.with_directives(directives=dict(nranks=4))
+    @desktop.with_directives(directives=dict(nranks=8))
+    @Project.operation
+    def op2(job):
+        pass
+
+    if __name__ == '__main__':
+        Project().main()
+
+
+.. tip::
+
+   Sometimes, a machine should only run certain operations. To specify that an
+   operation should only run on certain machines, only decorate the operation
+   with the groups for the 'right' machine(s).
+
+.. tip::
+
+   To test operations with a small interactive job, a 'test' group can be used
+   to ensure that the operations do not try to run on multiple cores or GPUs.
