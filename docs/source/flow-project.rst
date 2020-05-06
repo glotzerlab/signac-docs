@@ -215,7 +215,7 @@ As shown before, all *eligible* operations can then be executed with:
     ~/my_project $ python project.py run
 
 The status determination is by default parallelized with threads, however this can be turned off or switched to using processes by setting a value for the ``flow.status_parallelization`` configuration key. 
-Possible values are ``thread``, ``process`` or ``none`` with the first one being the implicit default value and the last one turning off all parallelization.
+Possible values are ``thread``, ``process`` or ``none`` with ``thread`` being the default value and ``none`` turning off all parallelization.
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line, for example:
 
