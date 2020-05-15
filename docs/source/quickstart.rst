@@ -6,7 +6,7 @@ Quickstart
 
 .. todo:: Consider replacing this with a screencast!
 
-To get started, first :ref:`install <installation>` **signac** and then setup a new project with:
+To get started, first :ref:`install <installation>` **signac** and  **signac-flow**, then set up a new project with:
 
 .. code-block:: bash
 
@@ -28,7 +28,7 @@ Once a project has been created, the next step is to initialize the *data space*
     ~/my_project $ python init.py
 
 The key is using the Python *project* handle as the interface to initialize jobs (data points) in your data space.
-You can then implement a simple *data space operation* within a ``project.py`` script:
+You can then implement a simple *data space operation* using **signac-flow** within a ``project.py`` script:
 
 .. literalinclude:: ../../examples/quickstart/project.py
 

@@ -11,7 +11,7 @@ Tutorial
 
 .. _signac-docs: https://github.com/glotzerlab/signac-docs
 
-This tutorial is designed to step new users through the basics of setting up a **signac** data space, defining and executing a simple workflow, and analyzing the data.
+This tutorial is designed to step new users through the basics of setting up a **signac** data space, defining and executing a simple workflow with **signac-flow**, and analyzing the data.
 For the complete code corresponding to this tutorial, see the :ref:`idg_example` example.
 
 
@@ -214,7 +214,7 @@ Implementing a simple workflow
 ------------------------------
 
 In many cases, it is desirable to avoid the repeat execution of data space operations, especially if they are not `idempotent <https://en.wikipedia.org/wiki/Idempotence>`_ or are significantly more expensive than our simple example.
-For this, we will incorporate the ``compute_volume()`` function into a workflow using the :py:class:`~.flow.FlowProject` class.
+For this, we will incoporate the ``compute_volume()`` function into a workflow using the package ``signac-flow`` and its :class:`~.flow.FlowProject` class.
 We slightly modify our ``project.py`` script:
 
 .. code-block:: python
