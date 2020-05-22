@@ -58,3 +58,37 @@ For example, to install the signac core package you can execute the following co
 .. note::
 
     If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
+
+
+Build Status
+============
+
+signac
+------
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/signac
+    :target: https://anaconda.org/conda-forge/signac
+    :alt: conda-forge signac
+.. image:: https://img.shields.io/pypi/v/signac
+    :target: https://pypi.org/project/signac/
+    :alt: PyPI signac
+
+signac-flow
+-----------
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/signac-flow
+    :target: https://anaconda.org/conda-forge/signac-flow
+    :alt: conda-forge signac-flow
+.. image:: https://img.shields.io/pypi/v/signac-flow
+    :target: https://pypi.org/project/signac-flow/
+    :alt: PyPI signac-flow
+
+signac-dashboard
+----------------
+
+.. image:: https://img.shields.io/conda/vn/conda-forge/signac-dashboard
+    :target: https://anaconda.org/conda-forge/signac-dashboard
+    :alt: conda-forge signac-dashboard
+.. image:: https://img.shields.io/pypi/v/signac-dashboard
+    :target: https://pypi.org/project/signac-dashboard/
+    :alt: PyPI signac-dashboard
