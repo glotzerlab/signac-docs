@@ -2,12 +2,14 @@
 Community
 =========
 
-.. _conduct:
+.. _numfocus:
 
 NumFOCUS
 --------
 
 The signac framework is part of the community of `NumFOCUS Affiliated Projects <https://numfocus.org/sponsored-projects/affiliated-projects>`_.
+
+.. _conduct:
 
 Code of Conduct
 ---------------
@@ -16,14 +18,17 @@ All community members are expected to follow the signac project's `code of condu
 
 .. _support:
 
-Chat Support
-------------
+Support
+-------
 
-To best way to get support for **signac** is to join the `signac-gitter channel <https://gitter.im/signac/Lobby>`_.
-The developers and other users are usually able to help within a few minutes.
-Alternatively, you can send an email to signac-support@umich.edu.
+The signac community offers real-time user support through the `signac gitter chat room <https://gitter.im/signac/Lobby>`_ and `Slack workspace`_.
+The project's primary communication channel for code development is the Slack workspace.
+Alternatively, you can send an email to `signac-support@umich.edu <signac-support@umich.edu>`_.
 
-Please use the issue tracker of the individual :ref:`packages <package-overview>` to file bug reports or request new features!
+Please use the issue trackers of the individual :ref:`packages <package-overview>` to file bug reports or request new features!
+
+.. _gitter: https://gitter.im/signac/Lobby
+.. _Slack workspace: https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY
 
 .. _contribute:
 
@@ -32,16 +37,18 @@ Contributions
 
 Contributions to **signac** are very welcome!
 We highly appreciate contributions in the form of **user feedback** and **bug reports**.
-Such contributions are best communicated through our `Slack workspace <https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY>`_, which we use for developer discussions, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <mailto:signac-support@umichedu>`_.
+Such contributions are best communicated through our `Slack workspace`_, which we use for developer discussions, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <signac-support@umich.edu>`_.
 Developers are invited to contribute to the framework by pull request to the appropriate package repository.
-The source code for all packages is hosted on `github`_.
+The source code for all packages is hosted on `GitHub`_.
 We recommend discussing new features in form of a proposal on the issue tracker for the appropriate project prior to development.
 
 All code contributed via pull request needs to adhere to the following guidelines:
 
-  * Use the OneFlow_ model of development:
+  * Use the `OneFlow`_ model of development:
+
     - Both new features and bug fixes should be developed in branches based on ``master``.
     - Hotfixes (critical bugs that need to be released *fast*) should be developed in a branch based on the latest tagged release.
+
   * Write code that is compatible with all supported versions of Python (listed in the package ``setup.py`` file).
   * Avoid introducing dependencies -- especially those that might be harder to install in high-performance computing environments.
   * All code needs to adhere to the PEP8_ style guide, with the exception that a line may have up to 100 characters.
@@ -50,7 +57,7 @@ All code contributed via pull request needs to adhere to the following guideline
   * Document any portions of the code that might be less clear to others, especially to new developers.
   * Write API documentation as part of the doc-strings of the package, and put usage information, guides, and concept overviews in the `framework documentation <https://docs.signac.io/>`_, the page you are currently on (`source <https://github.com/glotzerlab/signac-docs/>`_).
 
-.. _github: https://github.com/glotzerlab/
+.. _GitHub: https://github.com/glotzerlab/
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/
 .. _OneFlow: https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow
 
