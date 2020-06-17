@@ -66,17 +66,6 @@ select the group like you would for a regular operation.
     parallel CPU ones will likely leave either the GPU or CPUs idle while the
     other type of operation is running.
 
-.. _flow_group_running_groups_in_parallel:
-
-Running groups in parallel
-==========================
-
-Groups can be run in parallel. During parallel execution of groups, the
-combined resources (GPUs, MPI ranks, etc.) are requested. For example,
-if a group contains two operations, ``op1`` and ``op2``, and each
-requests two GPUs, then four GPUs will be requested when run in parallel.
-When running the same group in series, only two GPUs would be requested.
-
 .. _flow_group_specify_directives:
 
 Group-Specific Directives
