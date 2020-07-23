@@ -70,7 +70,8 @@ All code contributed via pull request needs to adhere to the following guideline
 
         pre-commit install
 
-    To install and run `Pre-commit`_ for all the files preset in the repository, run the following commands:
+    To install and run `Pre-commit`_ for all the files present in the repository, run the following commands:
+
     .. code-block:: bash
 
         pip install pre-commit
