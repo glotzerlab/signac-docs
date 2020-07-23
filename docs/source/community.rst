@@ -70,6 +70,12 @@ All code contributed via pull request needs to adhere to the following guideline
 
         pre-commit install
 
+    To install and run `Pre-commit`_ for all the files preset in the repository, run the following commands:
+    .. code-block:: bash
+
+        pip install pre-commit
+        pre-commit install
+        pre-commit run --all-files
 
 .. _Flake8: https://flake8.pycqa.org/en/latest/
 .. _Pydocs: http://pydocstyle.org/en/4.0.0/index.html
