@@ -95,7 +95,6 @@ html_favicon = "images/favicon.ico"
 # documentation.
 html_theme_options = {
     'collapse_navigation': False, # now show the [+] icon to expand headings in the sidebar. Default=True
-    'navigation_depth': 3, # makes the sidebar less cluttered. Default=4
     'prev_next_buttons_location': 'both' # helps quicken skimming through doc pages. Default='bottom'
 }
 
