@@ -94,9 +94,9 @@ html_favicon = "images/favicon.ico"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'collapse_navigation': False, # shows the [+] icon to expand headings in the sidebar
-    'navigation_depth': 3, # makes the sidebar less cluttered
-    'prev_next_buttons_location': 'both' # helps quicken skimming through doc pages
+    'collapse_navigation': False, # now show the [+] icon to expand headings in the sidebar. Default=True
+    'navigation_depth': 3, # makes the sidebar less cluttered. Default=4
+    'prev_next_buttons_location': 'both' # helps quicken skimming through doc pages. Default='bottom'
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
