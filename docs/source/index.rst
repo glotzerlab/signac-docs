@@ -22,6 +22,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    installation
    quickstart
    tutorial
+   examples
 
 .. toctree::
    :maxdepth: 2
@@ -29,7 +30,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
    reference
    packages
-   examples
    recipes
    tips_and_tricks
 
