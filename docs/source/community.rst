@@ -68,14 +68,13 @@ All code contributed via pull request needs to adhere to the following guideline
 
     .. code-block:: bash
 
+        pip install -r requirements-precommit.txt
         pre-commit install
 
     To install and run `Pre-commit`_ for all the files present in the repository, run the following commands:
 
     .. code-block:: bash
 
-        pip install pre-commit
-        pre-commit install
         pre-commit run --all-files
 
 .. _Flake8: https://flake8.pycqa.org/en/latest/
@@ -85,5 +84,5 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. note::
 
-    **signac** uses specific versions of these packages, which can be found in the requirements file of **signac**, to ensure that code and documentation are compliant.
+    **signac** and **signac-flow** uses specific versions of the dependencies for setting up a pre-commit hook. Please see the file ``requirements-precommit.txt`` of both the repositories for more details.
     Please see the individual package documentation for detailed guidelines on how to contribute to a specific package.
