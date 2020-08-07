@@ -20,6 +20,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
    intro
    installation
+   packages
    quickstart
    tutorial
    examples
@@ -29,7 +30,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :caption: User Guide
 
    reference
-   packages
    recipes
    tips_and_tricks
 
