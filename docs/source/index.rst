@@ -38,6 +38,14 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    tips_and_tricks
 
 .. toctree::
+   :maxdepth: 1
+   :caption: Package API Reference
+
+   signac (core) API <https://docs.signac.io/projects/core/en/latest/api.html>
+   signac-flow API <https://docs.signac.io/projects/flow/en/latest/api.html>
+   signac-dashboard API <https://docs.signac.io/projects/dashboard/en/latest/api.html>
+
+.. toctree::
    :maxdepth: 2
    :caption: Reference
 
