@@ -6,7 +6,7 @@ Quickstart
 
 .. todo:: Consider replacing this with a screencast!
 
-To get started, first :ref:`install <installation>` **signac** and  **signac-flow**, then set up a new project with:
+To get started, first install :doc:`signac<signac:installation>` and :doc:`signac-flow<flow:installation>`. Then set up a new project with:
 
 .. code-block:: bash
 
