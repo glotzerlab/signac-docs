@@ -18,6 +18,8 @@ The links below lead to the package-specific documentation, including a complete
 
 .. rubric:: `signac (core) <signac-core_>`_
 
+:doc:`Installation instructions <signac:installation>`
+
 The *core* **signac** package implements a simple, serverless, distributed database directly on the file system.
 It allows you manage files on the file system and associate them with JSON-encoded metadata.
 
@@ -25,11 +27,15 @@ This metadata is immediately searchable, which allows you to find and select dat
 
 .. rubric:: signac-flow_
 
+:doc:`Installation instructions <flow:installation>`
+
 The **signac-flow** package allows us to implement workflows that operate on a *data space* managed with signac.
 These workflows range from simple, linear workflows, to large workflows with complex dependencies between operations.
 These workflows can be executed directly on the command line or submitted to a cluster scheduling system, which is relevant for users who work in high-performance computing (HPC) environments.
 
 .. rubric:: signac-dashboard_
+
+:doc:`Installation instructions <signac_dashboard:installation>`
 
 The **signac-dashboard** allows users to browse their **signac**-managed data spaces through a web-based GUI.
 The dashboard can be used for visualization and analysis and is very helpful when sharing data with collaborators.
