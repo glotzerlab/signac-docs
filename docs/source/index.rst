@@ -29,7 +29,11 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :maxdepth: 2
    :caption: User Guide
 
-   reference
+   projects
+   jobs
+   document
+   query
+   dashboard
    recipes
    tips_and_tricks
 
