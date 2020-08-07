@@ -27,7 +27,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
+   :caption: Topic Guide
 
    projects
    jobs
