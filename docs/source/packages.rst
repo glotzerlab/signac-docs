@@ -1,7 +1,7 @@
 .. _package-overview:
 
 ==============
-Packages (API)
+Packages
 ==============
 
 .. toctree::
