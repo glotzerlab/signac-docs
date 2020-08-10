@@ -1,8 +1,8 @@
 .. _recipes:
 
-=======
+===============
 Advanced How-To
-=======
+===============
 
 This is a collection of recipes on how to solve typical problems using **signac**.
 

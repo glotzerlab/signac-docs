@@ -1,8 +1,8 @@
 .. _package-overview:
 
-==============
+========
 Packages
-==============
+========
 
 
 The **signac** framework is currently comprised of three packages.
