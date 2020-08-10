@@ -4,12 +4,6 @@
 Packages
 ==============
 
-.. toctree::
-    :hidden:
-
-    signac (core) <https://docs.signac.io/projects/core/>
-    signac-flow <https://docs.signac.io/projects/flow/>
-    signac-dashboard <https://docs.signac.io/projects/dashboard/>
 
 The **signac** framework is currently comprised of three packages.
 You only have to install those that provide the functionality you need, however both **signac-flow** and **signac-dashboard** require the **signac** core package.
