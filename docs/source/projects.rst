@@ -34,7 +34,8 @@ The project interface provides simple and consistent access to the project's und
 
 .. [#f1] You can access a project interface from other locations by explicitly specifying the root directory.
 
-To initialize a project, simply execute ``$ signac init <project-name>`` on the command line inside the desired project directory (create a new project directory if needed).
+To initialize a project, simply execute ``$ signac init <project-name>`` on the command line inside the desired project directory (create a new project directory if needed). See :ref:`cli-init` for more information.
+
 For example, to initialize a **signac** project named *MyProject* in a directory called ``my_project``, execute:
 
 .. code-block:: bash
