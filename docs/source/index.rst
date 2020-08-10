@@ -31,7 +31,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
 
    projects
    jobs
-   document
    query
    dashboard
    recipes
