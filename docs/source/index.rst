@@ -33,6 +33,15 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    jobs
    query
    dashboard
+   operations
+   flow-project
+   cluster_submission
+   environments
+   templates
+   flow-group
+   indexing
+   collections
+   configuration
    recipes
    tips_and_tricks
 
