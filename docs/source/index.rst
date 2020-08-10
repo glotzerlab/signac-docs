@@ -19,8 +19,8 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :caption: Getting Started
 
    intro
-   installation
    packages
+   installation
    quickstart
    tutorial
    examples
