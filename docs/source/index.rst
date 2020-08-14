@@ -19,17 +19,37 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :caption: Getting Started
 
    intro
+   packages
    installation
    quickstart
    tutorial
+   examples
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Package API Reference
+
+   signac (core) API <https://docs.signac.io/projects/core/en/latest/api.html>
+   signac-flow API <https://docs.signac.io/projects/flow/en/latest/api.html>
+   signac-dashboard API <https://docs.signac.io/projects/dashboard/en/latest/api.html>
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
+   :caption: Topic Guide
 
-   reference
-   packages
-   examples
+   projects
+   jobs
+   query
+   dashboard
+   operations
+   flow-project
+   cluster_submission
+   environments
+   templates
+   flow-group
+   indexing
+   collections
+   configuration
    recipes
    tips_and_tricks
 
