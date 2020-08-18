@@ -11,7 +11,7 @@ This is a collection of recipes on how to solve typical problems using **signac*
     Move all recipes below into a 'General' section once we have added more recipes.
 
 
-How to migrate (change) the data space schema.
+Migrating (change) the data space schema.
 ==============================================
 
 Adding/renaming/deleting keys
@@ -60,7 +60,7 @@ If you want to initialize your workspace with multiple instances of the same sta
 
 
 
-Apply document-wide changes
+Applying document-wide changes
 ---------------------------
 
 The safest approach to apply multiple document-wide changes is to replace the document in one operation.
@@ -86,7 +86,7 @@ This approach makes it also easy to compare the pre- and post-migration states b
 
 .. [#f1] The use of dots in keys is deprecated. Dots will be exclusively used to denote nested keywords in the future.
 
-How to initialize with replica indices
+State points with replica indices
 ======================================
 
 We often require multiple jobs with the same statepoint to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can simply add a **replica_index** to the statepoint. For example, we can use the following code to generate 3 copies of each statepoint in a workspace:
@@ -108,7 +108,7 @@ We often require multiple jobs with the same statepoint to collect enough inform
             sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
             project.open_job(sp).init()
 
-How to define parameter-dependent operations
+Parameter-dependent operations
 ============================================
 
 Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
@@ -138,7 +138,7 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 
 .. _rec_external:
 
-How to integrate signac-flow with MATLAB or other software without Python interface
+Using signac-flow with MATLAB or other software without Python interface
 ===================================================================================
 
 The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``flow.cmd`` decorator.
@@ -171,7 +171,7 @@ Executing this operation will store the output of the matlab script within the j
     Clarify that in principle the only Python needed is the definition of the bash command as a string returned from a decorated Python function.
 
 
-How to implement MPI-parallelized operations
+MPI-parallelized operations
 ============================================
 
 There are basically two strategies to implement :class:`~.flow.FlowProject` operations that are MPI-parallelized, one for external programs and one for Python scripts.
@@ -262,7 +262,7 @@ Finally, instead of modifying the operation implementation, you could use a cust
 
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
-How to enforce the execution of a specific operation for debugging
+Force the execution of a specific operation for debugging
 ==================================================================
 
 Sometimes it is necessary to repeatedly run a specific operation although it is not technically eligible for execution.
@@ -283,7 +283,7 @@ For example:
 
 Then you could execute the operation for a hypothetical job with id *abc123*, for example with ``$ python project.py run -o foo -j abc123``, irrespective of whether the ``foo.txt`` file exists or not.
 
-How to run in containerized environments
+Running in containerized environments
 ========================================
 
 .. _docker: https://www.docker.com/
@@ -346,7 +346,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
 
-How to create multiple execution environments for operations
+Multiple execution environments for operations
 ============================================================
 
 Suppose that for a given project you wanted to run jobs on multiple
