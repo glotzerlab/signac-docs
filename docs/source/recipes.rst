@@ -11,7 +11,7 @@ This is a collection of recipes on how to solve typical problems using **signac*
     Move all recipes below into a 'General' section once we have added more recipes.
 
 
-Migrating (change) the data space schema.
+Migrating (changing) the data space schema
 ==============================================
 
 Adding/renaming/deleting keys
@@ -47,7 +47,7 @@ The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in
 
 Initializing Jobs with Replica Indices
 --------------------------------------
-If you want to initialize your workspace with multiple instances of the same statepoint, you may want to include a **replica_index** or **random_seed** parameter in the statepoint.
+If you want to initialize your workspace with multiple instances of the same state point, you may want to include a **replica_index** or **random_seed** parameter in the state point.
 
 .. code-block:: python
 
@@ -86,10 +86,10 @@ This approach makes it also easy to compare the pre- and post-migration states b
 
 .. [#f1] The use of dots in keys is deprecated. Dots will be exclusively used to denote nested keywords in the future.
 
-State points with replica indices
-======================================
+Initializing state points with replica indices
+==============================================
 
-We often require multiple jobs with the same statepoint to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can simply add a **replica_index** to the statepoint. For example, we can use the following code to generate 3 copies of each statepoint in a workspace:
+We often require multiple jobs with the same state point to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can simply add a **replica_index** to the state point. For example, we can use the following code to generate 3 copies of each state point in a workspace:
 
 .. code-block:: python
 
@@ -108,7 +108,7 @@ We often require multiple jobs with the same statepoint to collect enough inform
             sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
             project.open_job(sp).init()
 
-Parameter-dependent operations
+Creating parameter-dependent operations
 ============================================
 
 Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
@@ -262,7 +262,7 @@ Finally, instead of modifying the operation implementation, you could use a cust
 
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
-Force the execution of a specific operation for debugging
+Forcing the execution of a specific operation for debugging
 ==================================================================
 
 Sometimes it is necessary to repeatedly run a specific operation although it is not technically eligible for execution.
@@ -346,7 +346,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       4. How to synchronize between two different compute environments.
       5. How to use **signac** in combination with a docker/singularity container.
 
-Multiple execution environments for operations
+Using multiple execution environments for operations
 ============================================================
 
 Suppose that for a given project you wanted to run jobs on multiple
