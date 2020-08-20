@@ -63,7 +63,7 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. tip::
 
-    During continuous integration, the code and the documentation is checked automatically using `Flake8`_,`Pydocstyle`_, and `Mypy`_.
+    During continuous integration, the code and the documentation is checked automatically using `Flake8`_, `Pydocstyle`_, and `Mypy`_.
     Run the following commands to set up a pre-commit hook, using `Pre-commit`_, that will ensure your code and documentation are compliant before committing:
 
     .. code-block:: bash
@@ -71,7 +71,7 @@ All code contributed via pull request needs to adhere to the following guideline
         pip install -r requirements-precommit.txt
         pre-commit install
 
-    To install and run `Pre-commit`_ for all the files present in the repository, run the following commands:
+    To install and run `Pre-commit`_ for all the files present in the repository, run the following command:
 
     .. code-block:: bash
 
