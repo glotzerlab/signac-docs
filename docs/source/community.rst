@@ -78,7 +78,7 @@ All code contributed via pull request needs to adhere to the following guideline
         pre-commit run --all-files
 
 .. _Flake8: https://flake8.pycqa.org/en/latest/
-.. _Pydocs: http://pydocstyle.org/en/4.0.0/index.html
+.. _Pydocstyle: http://pydocstyle.org/en/4.0.0/index.html
 .. _Mypy: https://mypy.readthedocs.io/en/stable/
 .. _Pre-commit: https://pre-commit.com/
 
