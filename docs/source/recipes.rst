@@ -171,7 +171,7 @@ Executing this operation will store the output of the matlab script within the j
     Clarify that in principle the only Python needed is the definition of the bash command as a string returned from a decorated Python function.
 
 
-MPI-parallelized operations
+Running MPI-parallelized operations
 ===========================
 
 There are basically two strategies to implement :class:`~.flow.FlowProject` operations that are MPI-parallelized, one for external programs and one for Python scripts.
