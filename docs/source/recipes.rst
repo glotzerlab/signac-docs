@@ -12,7 +12,7 @@ This is a collection of recipes on how to solve typical problems using **signac*
 
 
 Migrating (changing) the data space schema
-==============================================
+==========================================
 
 Adding/renaming/deleting keys
 -----------------------------
@@ -61,7 +61,7 @@ If you want to initialize your workspace with multiple instances of the same sta
 
 
 Applying document-wide changes
----------------------------
+------------------------------
 
 The safest approach to apply multiple document-wide changes is to replace the document in one operation.
 Here is an example on how we could recursively replace all dot (.)-characters with the underscore-character in **all** keys [#f1]_:
@@ -109,7 +109,7 @@ We often require multiple jobs with the same state point to collect enough infor
             project.open_job(sp).init()
 
 Creating parameter-dependent operations
-============================================
+=======================================
 
 Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
 That is to ensure reproduciblity of these operations.
@@ -139,7 +139,7 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 .. _rec_external:
 
 Using signac-flow with MATLAB or other software without Python interface
-===================================================================================
+========================================================================
 
 The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``flow.cmd`` decorator.
 Assuming that we have a MATLAB script called ``prog.m`` within the project root directory:
@@ -172,7 +172,7 @@ Executing this operation will store the output of the matlab script within the j
 
 
 MPI-parallelized operations
-============================================
+===========================
 
 There are basically two strategies to implement :class:`~.flow.FlowProject` operations that are MPI-parallelized, one for external programs and one for Python scripts.
 
@@ -263,7 +263,7 @@ Finally, instead of modifying the operation implementation, you could use a cust
 Storing the above template in a file called ``templates/script.sh`` within your project root directory will prepend *every* operation command with ``mpiexec`` and so on.
 
 Forcing the execution of a specific operation for debugging
-==================================================================
+===========================================================
 
 Sometimes it is necessary to repeatedly run a specific operation although it is not technically eligible for execution.
 The easiest way to do so is to temporarily add the ``@FlowProject.post.never`` post-condition to that specific operation definition.
@@ -284,7 +284,7 @@ For example:
 Then you could execute the operation for a hypothetical job with id *abc123*, for example with ``$ python project.py run -o foo -j abc123``, irrespective of whether the ``foo.txt`` file exists or not.
 
 Running in containerized environments
-========================================
+=====================================
 
 .. _docker: https://www.docker.com/
 .. _singularity: https://sylabs.io/docs/
@@ -347,7 +347,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
       5. How to use **signac** in combination with a docker/singularity container.
 
 Using multiple execution environments for operations
-============================================================
+====================================================
 
 Suppose that for a given project you wanted to run jobs on multiple
 supercomputers, your laptop, and your desktop. On each of these different
