@@ -109,7 +109,7 @@ We often require multiple jobs with the same statepoint to collect enough inform
 How to define a grid of state point values
 ==========================================
 
-Many signac data spaces are structured like a "grid," like an exhaustive search or a Cartesian product of multiple sets of input parameters. While this can be done with nested ``for`` loops, that approach can be cumbersome for state points with many keys. Here we offer a helper function that can assist in this kind of initialization:
+Many signac data spaces are structured like a "grid," like an exhaustive search or a Cartesian product of multiple sets of input parameters. While this can be done with nested ``for`` loops, that approach can be cumbersome for state points with many keys. Here we offer a helper function that can assist in this kind of initialization, inspired by `this StackOverflow answer <https://stackoverflow.com/a/5228294>`__:
 
 .. code-block:: python
 
