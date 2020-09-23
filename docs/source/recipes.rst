@@ -58,8 +58,6 @@ If you want to initialize your workspace with multiple instances of the same sta
             job = project.open_job(sp)
             job.init()
 
-
-
 Apply document-wide changes
 ---------------------------
 
@@ -107,6 +105,40 @@ We often require multiple jobs with the same statepoint to collect enough inform
         for p in range(1, 11):
             sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
             project.open_job(sp).init()
+
+How to define a grid of state point values
+==========================================
+
+Many signac data spaces are structured like a "grid" where the goal is an exhaustive search or a Cartesian product of multiple sets of input parameters. While this can be done with nested ``for`` loops, that approach can be cumbersome for state points with many keys. Here we offer a helper function that can assist in this kind of initialization, inspired by `this StackOverflow answer <https://stackoverflow.com/a/5228294>`__:
+
+.. code-block:: python
+
+    # init.py
+    import itertools
+    import signac
+
+    project = signac.init_project('ideal-gas-project')
+
+    def grid(gridspec):
+        """Yields the Cartesian product of a `dict` of iterables.
+        
+        The input ``gridspec`` is a dictionary whose keys correspond to
+        parameter names. Each key is associated with an iterable of the
+        values that parameter could take on. The result is a sequence of
+        dictionaries where each dictionary has one of the unique combinations
+        of the parameter values."""
+        for values in itertools.product(*gridspec.values()):
+            yield dict(zip(gridspec.keys(), values))
+
+    statepoint_grid = {
+        'p': range(1, 11),
+        'kT': [1.0, 5.0, 10.0],
+        'N': [1000, 4000]
+    }
+
+    for sp in grid(statepoint_grid):
+        print('Initializing job', sp)
+        project.open_job(sp).init()
 
 How to define parameter-dependent operations
 ============================================
