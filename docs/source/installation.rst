@@ -9,7 +9,7 @@ Installation
 .. _pip: https://docs.python.org/3/installing/index.html
 
 All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages (See :ref:`package-overview` for more information).
-Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.5+ and are built for all major platforms.
+Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.6+ and are built for all major platforms.
 Please see the individual package documentation for instructions on how to install additional packages.
 
 
