@@ -323,7 +323,7 @@ To access data through a functional interface:
 .. code-block:: python
 
     >>> with project.data:
-    ...     x = project.data.get('x'}[:]
+    ...     x = project.data.get('x')[:]
 
 .. currentmodule:: signac.contrib.job
 

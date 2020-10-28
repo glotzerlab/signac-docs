@@ -63,17 +63,26 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. tip::
 
-    During continuous integration, the code is checked automatically with `Flake8`_.
-    Run the following commands to set up a pre-commit hook that will ensure your code is compliant before committing:
+    During continuous integration, the code and the documentation is checked automatically using `Flake8`_, `Pydocstyle`_, and `Mypy`_.
+    Run the following commands to set up a pre-commit hook, using `Pre-commit`_, that will ensure your code and documentation are compliant before committing:
 
     .. code-block:: bash
 
-        flake8 --install-hook git
-        git config --bool flake8.strict true
+        pip install -r requirements-precommit.txt
+        pre-commit install
 
+    To install and run `Pre-commit`_ for all the files present in the repository, run the following command:
+
+    .. code-block:: bash
+
+        pre-commit run --all-files
 
 .. _Flake8: https://flake8.pycqa.org/en/latest/
+.. _Pydocstyle: http://pydocstyle.org/en/4.0.0/index.html
+.. _Mypy: https://mypy.readthedocs.io/en/stable/
+.. _Pre-commit: https://pre-commit.com/
 
 .. note::
 
+    **signac** and **signac-flow** uses specific versions of the dependencies for setting up a pre-commit hook. Please see the file ``requirements-precommit.txt`` of both the repositories for more details.
     Please see the individual package documentation for detailed guidelines on how to contribute to a specific package.
