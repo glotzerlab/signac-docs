@@ -8,7 +8,27 @@ Installation
 .. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3/installing/index.html
 
-All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages (See :ref:`package-overview` for more information).
+The **signac** framework consists of three packages namely, **signac**, **signac-flow**, and **signac-dashboard** (See :ref:`package-overview` for more information).
+All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages
+
+.. rubric:: `signac (core) <signac-core_>`_
+
+- Implement your own, file based database.
+- Search and manipulate the data in existing **signac** databases.
+- Provides the data management functionality for **signac-flow** and **signac-dashboard**.
+
+.. rubric:: signac-flow_
+
+- Implement workflows on the databases managed with **signac**.
+- Run complex workflows from the command line.
+- Submit jobs to high-performance clusters (HPC).
+- Requires the core **signac** package.
+
+.. rubric:: signac-dashboard_
+
+- Share workspaces through a browser-based GUI.
+- Requires the core **signac** package.
+
 Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.6+ and are built for all major platforms.
 Please see the individual package documentation for instructions on how to install additional packages.
 
@@ -22,7 +42,7 @@ For a standard installation, execute:
 
 .. code-block:: bash
 
-    $ conda install -c conda-forge signac signac-flow
+    $ conda install -c conda-forge signac signac-flow signac-dashboard
 
 .. tip::
 
@@ -36,7 +56,7 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install --user signac signac-flow
+    $ pip install --user signac signac-flow signac-dashboard
 
 .. note::
 
@@ -92,3 +112,7 @@ signac-dashboard
 .. image:: https://img.shields.io/pypi/v/signac-dashboard
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
+
+.. _signac-core: https://docs.signac.io/projects/core/en/latest/installation.html
+.. _signac-flow: https://docs.signac.io/projects/flow/en/latest/installation.html
+.. _signac-dashboard: https://docs.signac.io/projects/dashboard/en/latest/installation.html
