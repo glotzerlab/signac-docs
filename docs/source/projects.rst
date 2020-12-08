@@ -337,7 +337,20 @@ In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, w
     '/home/johndoe/my_project/foo.bar'
 
 
-Be careful when accessing the project-level data concurrently from different running jobs, as the underlying HDF5 file is locked by default, even when data is only being read. If data will only be read, the environment variable ``HDF5_USE_FILE_LOCKING`` can be set to ``FALSE`` to avoid this behaviour. For concurrent writing and reading, you can check |h5py_swmr|_, |multiprocessing_sync|_ or |posix_ipc_semaphores|_.
+.. warning::
+
+    Be careful when accessing the project-level data concurrently from different running jobs, as the underlying HDF5 file is locked by default, even when data is only being read.
+    If data will only be read, the environment variable ``HDF5_USE_FILE_LOCKING`` can be set to ``FALSE`` to avoid this behavior.
+    For concurrent writing and reading, try using one of the following approaches:
+
+    * :ref:`Single Writer Multiple Reader features of h5py <h5py:swmr>`
+    * |multiprocessing_sync|_
+    * |posix_ipc_semaphores|_
+
+.. _multiprocessing_sync: https://docs.python.org/3/library/multiprocessing.html#synchronization-between-processes
+.. |multiprocessing_sync| replace:: the synchronization primitives of the ``multiprocessing`` module
+.. _posix_ipc_semaphores: https://semanchuk.com/philip/posix_ipc/#semaphore
+.. |posix_ipc_semaphores| replace:: the ``posix_ipc`` semaphores
 
 .. _schema-detection:
 
@@ -512,10 +525,3 @@ Projects can also be synchronized using the Python API:
 .. code-block:: python
 
     project.sync('/remote/my_project')
-
-.. _h5py_swmr: https://docs.h5py.org/en/stable/swmr.html
-.. |h5py_swmr| replace:: the Single Writer Multiple Reader (SWMR) features of ``h5py``
-.. _multiprocessing_sync: https://docs.python.org/3/library/multiprocessing.html#synchronization-between-processes
-.. |multiprocessing_sync| replace:: the synchronization primitives of the ``multiprocessing`` module
-.. _posix_ipc_semaphores: http://semanchuk.com/philip/posix_ipc/#semaphore
-.. |posix_ipc_semaphores| replace:: the ``posix_ipc`` semaphores

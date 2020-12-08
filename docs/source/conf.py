@@ -188,6 +188,7 @@ intersphinx_mapping = {
     'flow': ('https://docs.signac.io/projects/flow/en/latest/', None),
     'signac_dashboard': ('https://docs.signac.io/projects/dashboard/en/latest/', None),
     'pymongo': ('https://api.mongodb.com/python/current/', None),
+    'h5py': ('https://docs.h5py.org/en/stable/', None),
 }
 
 # -- Options for todo extension ----------------------------------------------
