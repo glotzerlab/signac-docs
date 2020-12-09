@@ -27,8 +27,20 @@ Alternatively, you can send an email to `signac-support@umich.edu <signac-suppor
 
 Please use the issue trackers of the individual :ref:`packages <package-overview>` to file bug reports or request new features!
 
+Developer meetings are open to the community. The signac Google Calendar is publicly available at this `iCal link`_.
+The Google Calendar is also embedded below:
+
+.. raw:: html
+
+    <iframe
+        src="https://calendar.google.com/calendar/embed?src=6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com"
+        style="border: 0" width="700" height="450" frameborder="0" scrolling="no">
+    </iframe>
+
+
 .. _gitter: https://gitter.im/signac/Lobby
 .. _Slack workspace: https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY
+.. _iCal link: https://calendar.google.com/calendar/ical/6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com/public/basic.ics
 
 .. _contribute:
 
