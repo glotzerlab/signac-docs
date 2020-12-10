@@ -339,13 +339,13 @@ In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, w
 
 .. warning::
 
-    Be careful when accessing the project-level data concurrently from different running jobs, as the underlying HDF5 file is locked by default, even when data is only being read. When trying to read concurrently you may get the following exception:
+    Be careful when accessing the project-level data concurrently from different running jobs, as the underlying HDF5 file is locked by default, even when data is only being read from. When trying to read concurrently you may get the following exception:
 
         .. code-block:: none
 
             OSError: Unable to open file (unable to lock file, errno = 11, error message = 'Resource temporarily unavailable').
 
-    If data will only be read, the environment variable ``HDF5_USE_FILE_LOCKING`` can be set to ``FALSE`` to avoid this behavior.
+    If data will **only** be read concurrently, the environment variable ``HDF5_USE_FILE_LOCKING`` can safely be set to ``FALSE`` to avoid this behavior.
     For concurrent writing and reading, try using one of the following approaches:
 
     * :ref:`Single Writer Multiple Reader features of h5py <h5py:swmr>`
