@@ -8,30 +8,10 @@ Installation
 .. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3/installing/index.html
 
-The **signac** framework consists of three packages namely, **signac**, **signac-flow**, and **signac-dashboard** (See :ref:`package-overview` for more information).
+The **signac** framework consists of three packages namely, **signac**, **signac-flow**, and **signac-dashboard**.
 All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages.
-
-.. rubric:: `signac (core) <signac-core_>`_
-
-- Manage project data with a well-defined indexable storage layout for data and metadata.
-- Search and manipulate the data in existing **signac** projects.
-- Provides the data management functionality for **signac-flow** and **signac-dashboard**.
-
-.. rubric:: signac-flow_
-
-- Implement workflows for projects managed with **signac**.
-- Run complex workflows from the command line.
-- Submit jobs to high-performance clusters (HPC).
-- Requires the core **signac** package.
-
-.. rubric:: signac-dashboard_
-
-- Share workspaces through a browser-based GUI.
-- Visualize job data such as text, images, or video.
-- Requires the core **signac** package.
-
 Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.6+ and are built for all major platforms.
-Please see the individual package documentation for instructions on how to install additional packages.
+For more details about the functionalities of individual packages, please see :ref:`package-overview`.
 
 
 Install with conda
@@ -113,7 +93,3 @@ signac-dashboard
 .. image:: https://img.shields.io/pypi/v/signac-dashboard
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
-
-.. _signac-core: https://docs.signac.io/projects/core/en/latest/installation.html
-.. _signac-flow: https://docs.signac.io/projects/flow/en/latest/installation.html
-.. _signac-dashboard: https://docs.signac.io/projects/dashboard/en/latest/installation.html

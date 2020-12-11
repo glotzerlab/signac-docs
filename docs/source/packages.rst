@@ -21,8 +21,9 @@ The links below lead to the package-specific documentation, including a complete
 
 The *core* **signac** package implements a simple, serverless, distributed database directly on the file system.
 It allows you manage files on the file system and associate them with JSON-encoded metadata.
-
 This metadata is immediately searchable, which allows you to find and select data for specific data sub spaces.
+
+This package also provides the data management functionality for **signac-flow** and **signac-dashboard**.
 
 .. rubric:: signac-flow_
 
