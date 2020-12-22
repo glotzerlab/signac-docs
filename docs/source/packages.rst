@@ -20,10 +20,11 @@ The links below lead to the package-specific documentation, including a complete
     :alt: PyPI signac
 
 The *core* **signac** package implements a simple, serverless, distributed database directly on the file system.
-It allows you manage files on the file system and associate them with JSON-encoded metadata.
-This metadata is immediately searchable, which allows you to find and select data for specific data sub spaces.
+Its features include:
 
-This package also provides the data management functionality for **signac-flow** and **signac-dashboard**.
+- Manage project data with a well-defined indexable storage layout for data and metadata.
+- Search and manipulate the data in existing **signac** projects.
+- Provide the data management functionality for **signac-flow** and **signac-dashboard**.
 
 .. rubric:: signac-flow_
 
@@ -34,9 +35,12 @@ This package also provides the data management functionality for **signac-flow**
     :target: https://pypi.org/project/signac-flow/
     :alt: PyPI signac-flow
 
-The **signac-flow** package allows us to implement workflows that operate on a *data space* managed with signac.
-These workflows range from simple, linear workflows, to large workflows with complex dependencies between operations.
-These workflows can be executed directly on the command line or submitted to a cluster scheduling system, which is relevant for users who work in high-performance computing (HPC) environments.
+The **signac-flow** package allows users to implement workflows that operate on a data space managed with **signac**:
+
+- Implement workflows for projects managed with **signac**.
+- Run workflows from the command line.
+- Submit jobs to high-performance computing (HPC) clusters.
+- Specify workflow dependencies through conditions, allowing execution that can be simple and linear or complex and branched.
 
 .. rubric:: signac-dashboard_
 
@@ -47,8 +51,10 @@ These workflows can be executed directly on the command line or submitted to a c
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
 
-The **signac-dashboard** allows users to browse their **signac**-managed data spaces through a web-based GUI.
-The dashboard can be used for visualization and analysis and is very helpful when sharing data with collaborators.
+The **signac-dashboard** package allows users to browse **signac**-managed data spaces through a web-based GUI:
+
+- Visualize and analyze job data such as text, images, or video.
+- Share and collaborate on workspace data through a browser-based GUI.
 
 .. _signac-core: https://docs.signac.io/projects/core/
 .. _signac-flow: https://docs.signac.io/projects/flow/
