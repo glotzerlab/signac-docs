@@ -24,7 +24,6 @@ It allows users to:
 
 - Manage project data with a well-defined indexable storage layout for data and metadata.
 - Search and manipulate the data in existing **signac** projects.
-- Provide the data management functionality for **signac-flow** and **signac-dashboard**.
 
 .. rubric:: signac-flow_
 
