@@ -20,7 +20,7 @@ The links below lead to the package-specific documentation, including a complete
     :alt: PyPI signac
 
 The *core* **signac** package implements a simple, serverless, distributed database directly on the file system.
-Its features include:
+It allows users to:
 
 - Manage project data with a well-defined indexable storage layout for data and metadata.
 - Search and manipulate the data in existing **signac** projects.
@@ -37,7 +37,7 @@ Its features include:
 
 The **signac-flow** package allows users to implement workflows that operate on a data space managed with **signac**:
 
-- Implement workflows for projects managed with **signac**.
+- Implement workflows for a project data space managed with **signac**.
 - Run workflows from the command line.
 - Submit jobs to high-performance computing (HPC) clusters.
 - Specify workflow dependencies through conditions, allowing execution that can be simple and linear or complex and branched.
@@ -51,7 +51,7 @@ The **signac-flow** package allows users to implement workflows that operate on 
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
 
-The **signac-dashboard** package allows users to browse **signac**-managed data spaces through a web-based GUI:
+The **signac-dashboard** package allows users to browse **signac**-managed data spaces:
 
 - Visualize and analyze job data such as text, images, or video.
 - Share and collaborate on workspace data through a browser-based GUI.
