@@ -35,7 +35,7 @@ It allows users to:
     :target: https://pypi.org/project/signac-flow/
     :alt: PyPI signac-flow
 
-The **signac-flow** package allows users to implement workflows that operate on a data space managed with **signac**:
+The **signac-flow** package allows users to:
 
 - Implement workflows for a project data space managed with **signac**.
 - Run workflows from the command line.
