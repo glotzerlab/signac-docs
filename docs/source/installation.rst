@@ -23,7 +23,7 @@ For a standard installation, execute:
 
 .. code-block:: bash
 
-    $ conda install -c conda-forge signac signac-flow signac-dashboard
+    $ conda install -c conda-forge signac signac-flow
 
 .. tip::
 
@@ -37,7 +37,7 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install --user signac signac-flow signac-dashboard
+    $ pip install --user signac signac-flow
 
 .. note::
 
