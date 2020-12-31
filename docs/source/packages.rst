@@ -39,7 +39,7 @@ It allows users to:
 The **signac-flow** package allows users to:
 
 - Implement reproducible computational workflows for a project data space managed with **signac**.
-- Specify workflow dependencies through conditions, allowing execution that can be simple and linear or complex and branched.
+- Specify operation dependencies with conditions, allowing linear or branched execution
 - Run workflows from the command line.
 - Submit jobs to high-performance computing (HPC) clusters.
 
