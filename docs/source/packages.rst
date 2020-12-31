@@ -6,7 +6,7 @@ Packages
 
 
 The **signac** framework is currently comprised of three packages.
-You only have to install those that provide the functionality you need; however, both **signac-flow** and **signac-dashboard** require the **signac** core package.
+Both **signac-flow** and **signac-dashboard** require the **signac** core package.
 
 The links below lead to the package-specific documentation, including a complete API documentation and changelogs.
 
