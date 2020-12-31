@@ -23,7 +23,9 @@ The *core* **signac** package implements a simple, serverless, distributed datab
 It allows users to:
 
 - Manage project data with a well-defined indexable storage layout for data and metadata.
-- Search and manipulate the data in existing **signac** projects.
+- Search, filter, group, and manipulate the data in existing **signac** projects.
+- Create, track, and archive datasets.
+- Collaborate on data-intensive projects using a common schema.
 
 .. rubric:: signac-flow_
 
