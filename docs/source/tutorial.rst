@@ -399,7 +399,7 @@ with it.
     def volume_computed(job):
         return job.isfile("volume.txt")
 
-    @volume
+    @volume_group
     @FlowProject.operation
     @FlowProject.post(volume_computed)
     def compute_volume(job):
@@ -407,7 +407,7 @@ with it.
         with open(job.fn('volume.txt'), 'w') as file:
             file.write(str(volume) + '\n')
 
-    @volume
+    @volume_group
     @FlowProject.operation
     @FlowProject.pre(volume_computed)
     @FlowProject.post.isfile("data.json")
@@ -420,8 +420,8 @@ with it.
     if __name__ == '__main__':
         FlowProject().main()
 
-We can now run :code:`python project.py run -o volume` or
-:code:`python project.py submit -o volume` to run or submit both operations.
+We can now run :code:`python project.py run -o volume_group` or
+:code:`python project.py submit -o volume_group` to run or submit both operations.
 
 The job document
 ----------------
