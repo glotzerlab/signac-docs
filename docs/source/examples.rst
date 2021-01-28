@@ -31,7 +31,7 @@ Workflow Examples
 Analysis Examples
 =================
 
-The examples below go into greater detail about specific applications of **signac** and use cases that its analysis methods enable, such as user-defined analyses, machine learning, and data visualization.
+The examples below include examples of using **signac** to analyze data, as well as ways of integrating with other software such as pandas and sacred.
 
 
 .. toctree::
