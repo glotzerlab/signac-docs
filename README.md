@@ -7,7 +7,7 @@ To build the documentation, execute
 ```
 #!bash
 $ cd docs
-$ pip install requirements-build.txt
+$ pip install -r requirements.txt
 $ make html
 ```
 
