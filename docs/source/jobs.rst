@@ -407,7 +407,23 @@ Please see the :ref:`accessing arrays <accessing-arrays>` section for details on
 
 .. warning::
 
-    It is recommended to use `file locks <https://pypi.org/project/filelock/>`_ when accessing HDF5 files in parallel, *i.e.*, from multiple operations that are independent from each other.
+    Be careful when accessing the job data concurrently from different running operations, as the underlying HDF5 file is locked by default, even when data is only being read from. When trying to read concurrently you may get the following exception:
+
+        .. code-block:: none
+
+            OSError: Unable to open file (unable to lock file, errno = 11, error message = 'Resource temporarily unavailable').
+
+    If data will **only** be read concurrently, the environment variable ``HDF5_USE_FILE_LOCKING`` can safely be set to ``FALSE`` to avoid this behavior.
+    For concurrent writing and reading, try using one of the following approaches:
+
+    * :ref:`Single Writer Multiple Reader features of h5py <h5py:swmr>`
+    * |multiprocessing_sync|_
+    * |posix_ipc_semaphores|_
+
+.. _multiprocessing_sync: https://docs.python.org/3/library/multiprocessing.html#synchronization-between-processes
+.. |multiprocessing_sync| replace:: the synchronization primitives of the ``multiprocessing`` module
+.. _posix_ipc_semaphores: https://semanchuk.com/philip/posix_ipc/#semaphore
+.. |posix_ipc_semaphores| replace:: the ``posix_ipc`` semaphores
 
 Low-level API
 -------------
