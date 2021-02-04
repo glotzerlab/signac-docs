@@ -1,2 +1,4 @@
-nbsphinx
 jupyter_sphinx
+nbsphinx
+sphinx
+sphinx_rtd_theme
