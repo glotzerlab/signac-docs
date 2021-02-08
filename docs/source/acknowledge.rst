@@ -11,6 +11,9 @@ How to cite signac
 
 .. |badge| image:: badge/signac.io-dark.svg
     :alt: signac.io
+    
+Preferred Citation
+==================
 
 Please acknowledge the use of this software within the body of your publication by copying or adapting the following:
 
@@ -98,3 +101,23 @@ The **signac** logos & badges are licensed under the `Creative Commons Attributi
 This means you can use logos as long as you attribute the logos to the **signac** project.
 
 .. _`Creative Commons Attribution 4.0 International (CC BY 4.0) license`: https://creativecommons.org/licenses/by/4.0/
+
+Additional Publications
+=======================
+
+Below are citations for additional publications about signac.
+
+[3] Vyas Ramasubramani, Carl Simon Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. DOI:10.25080/Majora-4af1f417-016
+  
+.. code-block:: bibtex
+
+      @InProceedings{signac_scipy_2018,
+        author    = { Vyas Ramasubramani and Carl S. Adorf and Paul M. Dodd and Bradley D. Dice and Sharon C. Glotzer },
+        title     = { signac: A Python framework for data and workflow management },
+        booktitle = { Proceedings of the 17th Python in Science Conference },
+        pages     = { 152 - 159 },
+        year      = { 2018 },
+        editor    = { Fatih Akici and David Lippa and Dillon Niederhut and M. Pacer },
+        doi       = { 10.25080/Majora-4af1f417-016 }
+      }
+     
