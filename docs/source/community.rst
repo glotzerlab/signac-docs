@@ -21,7 +21,7 @@ All community members are expected to follow the signac project's `code of condu
 Support
 -------
 
-The signac community offers real-time user support through the `signac gitter chat room <https://gitter.im/signac/Lobby>`_ and `Slack workspace`_.
+The signac community offers real-time user support through the `Slack workspace`_ and `signac gitter chat room <https://gitter.im/signac/Lobby>`_.
 The project's primary communication channel for code development is the Slack workspace.
 Alternatively, you can send an email to `signac-support@umich.edu <signac-support@umich.edu>`_.
 
@@ -38,8 +38,8 @@ The Google Calendar is also embedded below:
     </iframe>
 
 
-.. _gitter: https://gitter.im/signac/Lobby
 .. _Slack workspace: https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY
+.. _gitter: https://gitter.im/signac/Lobby
 .. _iCal link: https://calendar.google.com/calendar/ical/6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com/public/basic.ics
 
 .. _contribute:
@@ -75,12 +75,13 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. tip::
 
-    During continuous integration, the code and the documentation is checked automatically using `Flake8`_, `Pydocstyle`_, and `Mypy`_.
-    Run the following commands to set up a pre-commit hook, using `Pre-commit`_, that will ensure your code and documentation are compliant before committing:
+    During continuous integration, the code and the documentation are formatted and checked automatically using `black`_, `isort`_, `flake8`_, `pydocstyle`_, and `mypy`_.
+    These tools ensure high code quality, establish project standards, and reduce the number of iterations needed in the code review process.
+    Run the following commands to set up a pre-commit hook, using the tool `pre-commit`_, that will ensure your code and documentation are compliant before committing:
 
     .. code-block:: bash
 
-        pip install -r requirements-precommit.txt
+        pip install -r requirements/requirements-precommit.txt
         pre-commit install
 
     To install and run `Pre-commit`_ for all the files present in the repository, run the following command:
@@ -89,12 +90,13 @@ All code contributed via pull request needs to adhere to the following guideline
 
         pre-commit run --all-files
 
-.. _Flake8: https://flake8.pycqa.org/en/latest/
-.. _Pydocstyle: http://pydocstyle.org/en/4.0.0/index.html
-.. _Mypy: https://mypy.readthedocs.io/en/stable/
-.. _Pre-commit: https://pre-commit.com/
+.. _black: https://black.readthedocs.io/en/stable/
+.. _isort: https://pycqa.github.io/isort/
+.. _flake8: https://flake8.pycqa.org/en/latest/
+.. _pydocstyle: http://www.pydocstyle.org/en/stable/
+.. _mypy: https://mypy.readthedocs.io/en/stable/
+.. _pre-commit: https://pre-commit.com/
 
 .. note::
 
-    **signac** and **signac-flow** uses specific versions of the dependencies for setting up a pre-commit hook. Please see the file ``requirements-precommit.txt`` of both the repositories for more details.
     Please see the individual package documentation for detailed guidelines on how to contribute to a specific package.
