@@ -75,9 +75,9 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. tip::
 
-    During continuous integration, the code and the documentation are formatted and checked automatically using `Black`_, `Isort`_, `Flake8`_, `Pydocstyle`_, and `Mypy`_.
+    During continuous integration, the code and the documentation are formatted and checked automatically using `black`_, `isort`_, `flake8`_, `pydocstyle`_, and `mypy`_.
     These tools ensure high code quality, establish project standards, and reduce the number of iterations needed in the code review process.
-    Run the following commands to set up a pre-commit hook, using `Pre-commit`_, that will ensure your code and documentation are compliant before committing:
+    Run the following commands to set up a pre-commit hook, using the tool `pre-commit`_, that will ensure your code and documentation are compliant before committing:
 
     .. code-block:: bash
 
@@ -90,14 +90,13 @@ All code contributed via pull request needs to adhere to the following guideline
 
         pre-commit run --all-files
 
-.. _Black: https://black.readthedocs.io/en/stable/
-.. _Isort: https://pycqa.github.io/isort/
-.. _Flake8: https://flake8.pycqa.org/en/latest/
-.. _Pydocstyle: http://www.pydocstyle.org/en/stable/
-.. _Mypy: https://mypy.readthedocs.io/en/stable/
-.. _Pre-commit: https://pre-commit.com/
+.. _black: https://black.readthedocs.io/en/stable/
+.. _isort: https://pycqa.github.io/isort/
+.. _flake8: https://flake8.pycqa.org/en/latest/
+.. _pydocstyle: http://www.pydocstyle.org/en/stable/
+.. _mypy: https://mypy.readthedocs.io/en/stable/
+.. _pre-commit: https://pre-commit.com/
 
 .. note::
 
-    **signac** and **signac-flow** uses specific versions of the dependencies for setting up a pre-commit hook. Please see the file ``requirements-precommit.txt`` of both the repositories for more details.
     Please see the individual package documentation for detailed guidelines on how to contribute to a specific package.
