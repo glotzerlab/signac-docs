@@ -17,13 +17,21 @@ Preferred Citation
 
 Please acknowledge the use of this software within the body of your publication by copying or adapting the following:
 
-*The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework[1,2].*
+*The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework[1].*
 
-  [1] C. S. Adorf, P. M. Dodd, V. Ramasubramani, and S. C. Glotzer. Simple data and workflow management with the signac framework. Comput. Mater. Sci., 146(C):220-229, 2018. DOI:10.1016/j.commatsci.2018.01.035.
+  [1] Carl S. Adorf, Paul M. Dodd, Vyas Ramasubramani, and Sharon C. Glotzer. Simple data and workflow management with the signac framework. Computational Materials Science, 146(C):220-229, 2018. DOI:10.1016/j.commatsci.2018.01.035.
 
-  [2] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.2581327
+If you make use of signac-flow, we also strongly recommend citing the following publication:
 
-References for previously released versions can be found `here <https://zenodo.org/badge/latestdoi/72946496>`_.
+  [2] Vyas Ramasubramani, Carl Simon Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. DOI:10.25080/Majora-4af1f417-016
+
+If possible, we also recommend including a citation of the associated Zenodo resource:
+
+  [3] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.2581327
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.2581327.svg
+   :target: https://doi.org/10.5281/zenodo.2581327
+
 A preprint of the paper published in the Journal of Computational Materials Science is available on the `arXiv <https://arxiv.org/abs/1611.03543>`_.
 
 To cite these references, you can use the following BibTeX entries:
@@ -43,8 +51,17 @@ To cite these references, you can use the following BibTeX entries:
       pages         = {220-229},
       doi           = {10.1016/j.commatsci.2018.01.035}
     }
+    @InProceedings{signac_scipy_2018,
+      author    = { Vyas Ramasubramani and Carl S. Adorf and Paul M. Dodd and Bradley D. Dice and Sharon C. Glotzer },
+      title     = { signac: A Python framework for data and workflow management },
+      booktitle = { Proceedings of the 17th Python in Science Conference },
+      pages     = { 152 - 159 },
+      year      = { 2018 },
+      editor    = { Fatih Akici and David Lippa and Dillon Niederhut and M. Pacer },
+      doi       = { 10.25080/Majora-4af1f417-016 }
+    }
     @misc{signac_zenodo,
-      author       = {Carl Simon Adorf and
+      author       = {Carl S. Adorf and
                       Vyas Ramasubramani and
                       Bradley D. Dice and
                       Michael M. Henry and
@@ -56,10 +73,7 @@ To cite these references, you can use the following BibTeX entries:
       doi          = {10.5281/zenodo.2581327},
       url          = {https://doi.org/10.5281/zenodo.2581327}
     }
-
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.2581327.svg
-   :target: https://doi.org/10.5281/zenodo.2581327
-
+     
 .. _badge:
 
 Badge
@@ -101,23 +115,3 @@ The **signac** logos & badges are licensed under the `Creative Commons Attributi
 This means you can use logos as long as you attribute the logos to the **signac** project.
 
 .. _`Creative Commons Attribution 4.0 International (CC BY 4.0) license`: https://creativecommons.org/licenses/by/4.0/
-
-Additional Publications
-=======================
-
-Below are citations for additional publications about signac.
-
-[3] Vyas Ramasubramani, Carl Simon Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. DOI:10.25080/Majora-4af1f417-016
-  
-.. code-block:: bibtex
-
-      @InProceedings{signac_scipy_2018,
-        author    = { Vyas Ramasubramani and Carl S. Adorf and Paul M. Dodd and Bradley D. Dice and Sharon C. Glotzer },
-        title     = { signac: A Python framework for data and workflow management },
-        booktitle = { Proceedings of the 17th Python in Science Conference },
-        pages     = { 152 - 159 },
-        year      = { 2018 },
-        editor    = { Fatih Akici and David Lippa and Dillon Niederhut and M. Pacer },
-        doi       = { 10.25080/Majora-4af1f417-016 }
-      }
-     
