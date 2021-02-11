@@ -1,0 +1,3 @@
+[submodule "docs/source/examples"]
+	path = docs/source/examples
+	url = https://github.com/glotzerlab/signac-examples
