@@ -23,11 +23,11 @@ Please acknowledge the use of this software within the body of your publication 
 
 If you make use of signac-flow, we also strongly recommend citing the following publication:
 
-  [2] Vyas Ramasubramani, Carl Simon Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. DOI:10.25080/Majora-4af1f417-016
+  [2] Vyas Ramasubramani, Carl S. Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. DOI:10.25080/Majora-4af1f417-016
 
 If possible, we also recommend including a citation of the associated Zenodo resource:
 
-  [3] Carl Simon Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.2581327
+  [3] Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.2581327
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.2581327.svg
    :target: https://doi.org/10.5281/zenodo.2581327
