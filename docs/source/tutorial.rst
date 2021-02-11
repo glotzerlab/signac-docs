@@ -133,7 +133,7 @@ You can obtain an instance of that class within the project root directory and a
 .. tip::
 
     You can use the ``$ signac shell`` command to launch a Python interpreter with ``signac`` already imported
-    as well as depending on the current working directory, with variables ``project`` and ``job`` set to 
+    as well as depending on the current working directory, with variables ``project`` and ``job`` set to
     :py:func:`~signac.get_project()` and :py:func:`~signac.get_job()` respectively.
 
 

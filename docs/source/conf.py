@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -21,7 +20,7 @@
 
 project = "signac"
 copyright = "The Regents of the University of Michigan"
-author = u"Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, Sharon C. Glotzer"
+author = "Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, Sharon C. Glotzer"
 
 # The short X.Y version
 version = ""

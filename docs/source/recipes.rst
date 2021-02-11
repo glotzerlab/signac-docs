@@ -121,7 +121,7 @@ Many signac data spaces are structured like a "grid" where the goal is an exhaus
 
     def grid(gridspec):
         """Yields the Cartesian product of a `dict` of iterables.
-        
+
         The input ``gridspec`` is a dictionary whose keys correspond to
         parameter names. Each key is associated with an iterable of the
         values that parameter could take on. The result is a sequence of

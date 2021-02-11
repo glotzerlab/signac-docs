@@ -55,7 +55,7 @@ group named ``ex`` to contain operations ``op1`` and ``op2``.
 A group is eligible if
 at least one of its operations is eligible.
 To execute or submit only ``ex``, use the option ``--operation`` (``-o``) to
-select the group like you would for a regular operation.  
+select the group like you would for a regular operation.
 
 
 .. tip::
@@ -81,7 +81,7 @@ configure group-specific operation directives, use the
 In the following example, :code:`op1` requests one GPU if run by itself or two GPUs if run through the group :code:`ex` (with :code:`python project.py run -o ex`).
 
 .. code-block:: python
-   
+
     # project.py
     from flow import FlowProject, directives
 

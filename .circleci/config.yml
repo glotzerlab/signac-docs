@@ -1,0 +1,48 @@
+# CircleCI configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2.1
+
+references:
+  restore_keys: &restore_keys
+    keys:
+      - python-env-v1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements/requirements-precommit.txt" }}-{{ checksum ".pre-commit-config.yaml" }}
+
+  save_key: &save_key
+    key: python-env-v1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements/requirements-precommit.txt" }}-{{ checksum ".pre-commit-config.yaml" }}
+
+jobs:
+  pre-checks:
+    docker:
+      - image: circleci/python:3.9
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          <<: *restore_keys
+
+      - run:
+          name: Install pre-check dependencies
+          command: |
+            pip install --progress-bar off --user -U -r requirements/requirements-precommit.txt
+
+      - run:
+          name: Run pre-checks
+          command: |
+            PRE_COMMIT_HOME=.pre-commit-cache pre-commit run --all-files --show-diff-on-failure
+
+      - save_cache:
+          <<: *save_key
+          paths:
+            - ".pre-commit-cache"
+
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - pre-checks

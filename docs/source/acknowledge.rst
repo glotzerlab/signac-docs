@@ -11,7 +11,7 @@ How to cite signac
 
 .. |badge| image:: badge/signac.io-dark.svg
     :alt: signac.io
-    
+
 Preferred Citation
 ==================
 
@@ -73,7 +73,7 @@ To cite these references, you can use the following BibTeX entries:
       doi          = {10.5281/zenodo.2581327},
       url          = {https://doi.org/10.5281/zenodo.2581327}
     }
-     
+
 .. _badge:
 
 Badge

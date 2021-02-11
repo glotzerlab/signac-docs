@@ -111,7 +111,7 @@ We can then execute this workflow with:
 If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should produce no output the second time, since the ``greeted()`` condition is met for all jobs and the ``hello()`` operation should therefore not be executed.
 
 .. tip::
-   
+
     The ``@with_job`` decorator can be used so the entire operation takes place in the ``job`` context.
     For example:
 
@@ -134,7 +134,7 @@ If we implemented and integrated the operation and condition functions correctly
             with job:
                 with open('hello.txt', 'w') as file:
                     file.write('world!\n')
-    
+
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
     ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
 
@@ -214,7 +214,7 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination is by default parallelized with threads, however this can be turned off or switched to using processes by setting a value for the ``flow.status_parallelization`` configuration key. 
+The status determination is by default parallelized with threads, however this can be turned off or switched to using processes by setting a value for the ``flow.status_parallelization`` configuration key.
 Possible values are ``thread``, ``process`` or ``none`` with ``thread`` being the default value and ``none`` turning off all parallelization.
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line, for example:
