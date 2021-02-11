@@ -4,11 +4,10 @@ This is the primary documentation for the [signac data and workflow management f
 
 To build the documentation, execute
 
-```
-#!bash
-$ cd docs
-$ pip install -r requirements.txt
-$ make html
+```bash
+cd docs
+pip install -r requirements.txt
+make html
 ```
 
 Then open the `build/html/index.html` file with your favorite web browser.
