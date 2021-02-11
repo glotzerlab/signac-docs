@@ -71,15 +71,15 @@ language = None
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path .
 exclude_patterns = [
-    '_build',
-    '_templates',
-    '**.ipynb_checkpoints',
-    'signac-examples/notebooks/index.ipynb',
-    'signac-examples/projects/**',
+    "_build",
+    "_templates",
+    "**.ipynb_checkpoints",
+    "signac-examples/notebooks/index.ipynb",
+    "signac-examples/projects/**",
 ]
 
 # Don't execute notebooks when rendering.
-nbsphinx_execute = 'never'
+nbsphinx_execute = "never"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
