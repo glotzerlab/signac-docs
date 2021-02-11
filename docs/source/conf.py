@@ -74,8 +74,8 @@ exclude_patterns = [
     "_build",
     "_templates",
     "**.ipynb_checkpoints",
-    "signac-examples/notebooks/index.ipynb",
-    "signac-examples/projects/**",
+    "examples/notebooks/index.ipynb",
+    "examples/projects/**",
 ]
 
 # Don't execute notebooks when rendering.
