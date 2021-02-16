@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -21,7 +20,10 @@
 
 project = "signac"
 copyright = "The Regents of the University of Michigan"
-author = u"Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, Sharon C. Glotzer"
+author = (
+    "Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, "
+    "Michael M. Henry, Brandon Butler, Paul M. Dodd, Sharon C. Glotzer"
+)
 
 # The short X.Y version
 version = ""
@@ -105,8 +107,10 @@ html_favicon = "images/favicon.ico"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    "collapse_navigation": False,  # now show the [+] icon to expand headings in the sidebar. Default=True
-    "prev_next_buttons_location": "both",  # helps quicken skimming through doc pages. Default='bottom'
+    "collapse_navigation": False,
+    # now show the [+] icon to expand headings in the sidebar. Default=True
+    "prev_next_buttons_location": "both",
+    # helps quicken skimming through doc pages. Default='bottom'
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
