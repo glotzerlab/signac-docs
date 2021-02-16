@@ -420,8 +420,8 @@ with it.
     if __name__ == '__main__':
         FlowProject().main()
 
-We can now run :code:`python project.py run -o volume_group` or
-:code:`python project.py submit -o volume_group` to run or submit both operations.
+We can now run :code:`python project.py run -o volume` or
+:code:`python project.py submit -o volume` to run or submit both operations.
 
 The job document
 ----------------
