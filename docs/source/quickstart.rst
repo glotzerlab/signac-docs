@@ -21,7 +21,15 @@ To get started, first :ref:`install <installation>` **signac** and  **signac-flo
 
 Once a project has been created, the next step is to initialize the *data space* with, *e.g.*, a script called ``init.py``.:
 
-.. literalinclude:: ../../examples/quickstart/init.py
+.. code-block:: python
+
+    # init.py
+    import signac
+
+    project = signac.get_project()
+
+    for foo in range(3):
+        project.open_job({"foo": foo}).init()
 
 .. code-block:: bash
 
@@ -31,6 +39,19 @@ The key is using the Python *project* handle as the interface to initialize jobs
 You can then implement a simple *data space operation* using **signac-flow** within a ``project.py`` script:
 
 .. literalinclude:: ../../examples/quickstart/project.py
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject
+
+    @FlowProject.operation
+    def hello_job(job):
+        print(f"Hello from job {job.id}, my foo is {job.sp.foo}.")
+
+
+    if __name__ == "__main__":
+        FlowProject().main()
 
 .. currentmodule:: flow
 

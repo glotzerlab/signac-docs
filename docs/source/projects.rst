@@ -482,24 +482,22 @@ Linked Views
 Data space organization by job id is both efficient and flexible, but the obfuscation introduced by the job id makes inspecting the workspace on the command line or *via* a file browser much harder.
 A *linked view* is a directory hierarchy with human-interpretable names that link to to the actual job workspace directories.
 Unlike the default mode for :ref:`data export <data-export>`, no data is copied for the generation of linked views.
+See :py:meth:`~.signac.Project.create_linked_view` for the Python API.
 
-.. automethod:: signac.Project.create_linked_view
-   :noindex:
-
-To create views from the command line use the ``$ signac view`` command.
+To create views from the command line, use the ``$ signac view`` command.
 
 .. important::
 
     When the project data space is changed by adding or removing jobs, simply update the view, by executing :py:meth:`~signac.Project.create_linked_view` or ``$ signac view`` for the same view directory again.
 
 You can limit the *linked view* to a specific data subset by providing a set of *job ids* to the :py:meth:`~signac.Project.create_linked_view` method.
-This works similar for ``$ signac view`` on the command line, but here you can also specify a filter directly:
+This works similarly for ``$ signac view`` on the command line, but here you can also specify a filter directly:
 
 .. code-block:: bash
 
     $ signac view -f a 0
 
-will create a linked view for all jobs, where ``a=0``.
+will create a linked view for all jobs where ``a=0``.
 
 
 .. _synchronization:
