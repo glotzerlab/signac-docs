@@ -399,7 +399,7 @@ with it.
     def volume_computed(job):
         return job.isfile("volume.txt")
 
-    @volume
+    @volume_group
     @FlowProject.operation
     @FlowProject.post(volume_computed)
     def compute_volume(job):
@@ -407,7 +407,7 @@ with it.
         with open(job.fn('volume.txt'), 'w') as file:
             file.write(str(volume) + '\n')
 
-    @volume
+    @volume_group
     @FlowProject.operation
     @FlowProject.pre(volume_computed)
     @FlowProject.post.isfile("data.json")
