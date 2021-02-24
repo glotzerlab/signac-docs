@@ -47,7 +47,7 @@ where only a single job is passed as a parameter.
 Types of Aggregation
 ====================
 
-Currently **signac-flow** allows users to aggregate jobs by:
+Currently, **signac-flow** allows users to aggregate jobs by:
 
 - Grouping them on state point key, an iterable of state point keys whose values define the
   groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
@@ -149,3 +149,39 @@ Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggreg
 Aggregation with FlowGroups
 ===========================
 
+In order to associate aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a
+``aggregator_obj`` parameter in :meth:`~flow.FlowProject.make_group`. By default, no aggregation takes
+place for a :py:class:`FlowGroup`.
+
+.. note::
+
+    Currently, **signac-flow** only allows single :class:`~flow.aggregator` per group, i.e. all the operations present
+    in a :py:class:`FlowGroup` will be using a same :class:`~flow.aggregator` object.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject, aggregator
+
+    class Project(FlowProject):
+        pass
+
+    group = Project.make_group('agg-group', aggregator_obj=aggregator())
+
+    @group
+    @aggregator()
+    @Project.operation
+    def op1(*jobs):
+        pass
+
+    @group
+    @Project.operation
+    def op2(*jobs):
+        pass
+
+    if __name__ == '__main__':
+        Project().main()
+
+In the above example, when the group ``agg-group`` is executed, all the jobs
+in the project are passed as arbitrary arguments for ``op1`` and ``op2``. But if only ``op2`` is
+executed, only a single job is passed as a parameter.
