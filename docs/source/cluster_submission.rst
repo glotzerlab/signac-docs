@@ -27,7 +27,7 @@ This will submit all *eligible* job-operations to the cluster scheduler and bloc
 
 In some cases you can provide additional arguments to the scheduler, such as which partition to submit to, which will then be used by the template script.
 In addition you can always forward any arguments directly to the scheduler as positional arguments.
-For example, if we wanted to specify an account name with a *torque* scheduler, we could use the following command:
+For example, if we wanted to specify an account name with a *PBS* scheduler, we could use the following command:
 
 .. code-block:: bash
 
