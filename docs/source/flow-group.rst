@@ -83,7 +83,7 @@ In the following example, :code:`op1` requests one GPU if run by itself or two G
 .. code-block:: python
 
     # project.py
-    from flow import FlowProject, directives
+    from flow import FlowProject
 
     class Project(FlowProject):
         pass
@@ -91,8 +91,7 @@ In the following example, :code:`op1` requests one GPU if run by itself or two G
     ex = Project.make_group(name='ex')
 
     @ex.with_directives(directives=dict(ngpu=2))
-    @directives(ngpu=1)
-    @Project.operation
+    @Project.operation.with_directives({"ngpu": 1})
     def op1(job):
         pass
 
