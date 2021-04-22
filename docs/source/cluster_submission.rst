@@ -35,6 +35,11 @@ For example, if we wanted to specify an account name with a *PBS* scheduler, we 
 
 Everything after the two dashes ``--`` will not be interpreted by the *submit* interface, but directly forwarded to the scheduler *as is*.
 
+.. warning::
+
+    **signac-flow** relies on the scheduler job name to recognize the status of submitted jobs.
+    Users should not override the job name manually via the command line or a custom template.
+
 Unless you have one of the :ref:`supported schedulers <environments>` installed, you will not be able to submit any operations in your local environment.
 However, **signac-flow** comes with a simple scheduler for testing purposes.
 You can execute it with ``$ simple-scheduler run`` and then follow the instructions on screen.
