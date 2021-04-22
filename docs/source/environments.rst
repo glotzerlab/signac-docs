@@ -73,6 +73,12 @@ As an example on how to write a submission script template, this would be a viab
     {% endblock %}
     {% endblock %}
 
+.. warning::
+
+    The job name must be ``{{ id }}`` in order for **signac-flow** to track the status of job submissions.
+    **signac-flow** relies on the scheduler job name to recognize the status of submitted jobs.
+    Users should not override the job name manually via the command line or a custom template.
+
 
 All templates, which are shipped with the package, are within the *flow/templates/* directory within the package source code.
 
