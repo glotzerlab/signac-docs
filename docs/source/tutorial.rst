@@ -371,7 +371,7 @@ We can verify the output with:
     ~/ideal_gas_project $ cat workspace/742c883cbee8e417bbb236d40aea9543/data.json
     {"volume": 1000.0}
 
-Since that seems right, we can then store all other volumes in the respective ``data.json`` files by executing ``$ python project run``.
+Since that seems right, we can then store all other volumes in the respective ``data.json`` files by executing ``$ python project.py run``.
 
 .. tip::
 
