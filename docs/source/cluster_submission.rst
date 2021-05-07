@@ -62,8 +62,6 @@ For example the following command would submit up to 5 ``hello`` operations, whe
 
     ~/my_project $ python project.py submit -o hello -n 5 -f a.\$lt 5
 
-The submission scripts are generated using the same templating system as the ``script`` command.
-
 .. tip::
 
     Use the ``--pretend`` or ``--test`` option to pre-view the generated submission scripts on screen instead of submitting them.
