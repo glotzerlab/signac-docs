@@ -14,6 +14,35 @@ Therefore, they all follow the same syntax, so you can use the same type of filt
 
     The **signac** framework query API is a subset of the `MongoDB query API <https://docs.mongodb.com/manual/tutorial/query-documents/>`_!
 
+
+Query Namespaces
+================
+
+Filter keys are *namespaced* by the type of the key.
+This means that any filter can be used to simultaneously search for keys in both the job state point and the job document.
+Namespaces are identified by prefixing filter keys with the appropriate prefixes.
+Currently, the following prefixes are recognized:
+
+  * **sp**: job state point
+  * **doc**: document
+
+For example, in order to select all jobs whose state point key *a* has the value "foo" and document key *b* has the value "bar", you would use:
+
+.. code-block:: python
+
+    project.find_jobs({'sp.a': 'foo', 'doc.b': 'bar'})
+
+The default prefix is **sp**, so any filter key that does not have a recognized prefix will be matched against job state points.
+This means that the following query is equivalent to the one above:
+
+.. code-block:: python
+
+    project.find_jobs({'a': 'foo', 'doc.b': 'bar'})
+
+For backwards compatibility, some methods in **signac** such as :py:meth:`~signac.Project.find_jobs()` accept separate ``filter`` and ``doc_filter`` arguments, where keys in the ``doc_filter`` are implicitly prefixed with ``'doc.'`` (and state point prefixes in ``filter`` are implicit).
+However, any combination of ``filter`` and ``doc_filter`` without prefixes can be represented by an appropriately namespaced ``filter``, and the unified approach with prefixes should be preferred.
+
+
 Basic Expressions
 =================
 

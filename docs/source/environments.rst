@@ -20,8 +20,8 @@ Packaged Environments
 =====================
 
 The package comes with a few *default environments* which are **always available** and designed for specific schedulers.
-That includes the :py:class:`~flow.environment.DefaultTorqueEnvironment` and the :py:class:`~flow.environment.DefaultSlurmEnvironment`.
-This means that if you are within an environment with a *Torque* or *Slurm scheduler* you should be immediately able to submit to the cluster.
+That includes the :py:class:`~flow.environment.DefaultPBSEnvironment` and the :py:class:`~flow.environment.DefaultSlurmEnvironment`.
+This means that if you are within an environment with a *PBS* or *Slurm scheduler* you should be immediately able to submit to the cluster.
 
 In addition, **signac-flow** comes with some environments tailored to specific compute clusters that are defined in the :py:mod:`flow.environments` module.
 These environments are also automatically available, but if they conflict with a specific environment of your choice, you can opt out of using these environments by setting the ``flow.import_packaged_environments`` signac config variable.
@@ -47,16 +47,16 @@ This is an example for a typical environment class definition:
 
 .. code-block:: python
 
-      class MyUniversityCluster(flow.environment.DefaultTorqueEnvironment):
+      class MyUniversityCluster(flow.environment.DefaultSlurmEnvironment):
 
           hostname_pattern = r'.*\.mycluster\.university\.edu$'  # Matches names like login.mycluster.university.edu
-          template = 'mycluster.myuniversity.sh'
+          template = 'myuniversity-mycluster.sh'
 
-Then, add the ``mycluster.myuniversity.sh`` template script to the ``templates/`` directory within your project root directory.
+Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`` directory within your project root directory.
 
 .. important::
 
-    The new environment will be automatically registered and used as long as it is either defined within the same module as your :py:class:`~flow.flow.FlowProject` class or its module is imported into the same module.
+    The new environment will be automatically registered and used as long as it is either defined within the same module as your :py:class:`~flow.FlowProject` class or its module is imported into the same module.
 
 As an example on how to write a submission script template, this would be a viable template to define the header for a SLURM scheduler:
 
@@ -72,6 +72,12 @@ As an example on how to write a submission script template, this would be a viab
     #SBATCH --ntasks={{ np_global }}
     {% endblock %}
     {% endblock %}
+
+.. warning::
+
+    The job name must be ``{{ id }}`` in order for **signac-flow** to track the status of job submissions.
+    **signac-flow** relies on the scheduler job name to recognize the status of submitted jobs.
+    Users should not override the job name manually via the command line or a custom template.
 
 
 All templates, which are shipped with the package, are within the *flow/templates/* directory within the package source code.

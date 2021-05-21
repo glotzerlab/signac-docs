@@ -27,13 +27,18 @@ This will submit all *eligible* job-operations to the cluster scheduler and bloc
 
 In some cases you can provide additional arguments to the scheduler, such as which partition to submit to, which will then be used by the template script.
 In addition you can always forward any arguments directly to the scheduler as positional arguments.
-For example, if we wanted to specify an account name with a *torque* scheduler, we could use the following command:
+For example, if we wanted to specify an account name with a *PBS* scheduler, we could use the following command:
 
 .. code-block:: bash
 
       ~/my_project $ python project.py submit -- -l A:my_account_name
 
 Everything after the two dashes ``--`` will not be interpreted by the *submit* interface, but directly forwarded to the scheduler *as is*.
+
+.. warning::
+
+    **signac-flow** relies on the scheduler job name to recognize the status of submitted jobs.
+    Users should not override the job name manually via the command line or a custom template.
 
 Unless you have one of the :ref:`supported schedulers <environments>` installed, you will not be able to submit any operations in your local environment.
 However, **signac-flow** comes with a simple scheduler for testing purposes.

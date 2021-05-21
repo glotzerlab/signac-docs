@@ -68,6 +68,12 @@ To use dashboards hosted by a remote computer, open an SSH tunnel to the remote 
 
 to forward port 8888 on the host to port 8890 on your local computer.
 
+The process looks like this:
+
+1. Open an SSH connection to the remote server with a forwarded port using a command like the one shown above.
+2. Launch signac-dashboard on the remote server, using the remote port you forwarded (port 8888 in the example above).
+3. On your local computer, open your browser to the local port (this is ``http://localhost:8890`` in the example above).
+
 Dissecting the Dashboard Structure
 ----------------------------------
 
