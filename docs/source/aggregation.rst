@@ -80,7 +80,7 @@ In the above example, the jobs will get aggregated in groups of 2 and hence, up 
 
 .. note::
 
-    In case the number of jobs in the project is odd, there will be one aggregate containing only a single job and hence users should be careful while defining the parameters for an *aggregate operation*.
+    In case the number of jobs in the project is odd, there will be one aggregate containing only a single job and hence users should be careful while passing non-default arguments in an *aggregate operation*.
 
 Sorting jobs for aggregation
 ----------------------------
