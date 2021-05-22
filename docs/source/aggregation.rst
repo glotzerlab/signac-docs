@@ -12,8 +12,7 @@ This chapter provides information about the passing aggregates of jobs to operat
 aggregator
 ==========
 
-An :class:`~flow.aggregator` is used as a decorator for an operation function which acts as an entry point to define the type of aggregation to perform while submitting or running the operation function.
-
+An :class:`~flow.aggregator` is used as a decorator for operation functions which allows users to aggregate jobs and pass them as arguments in the operation functions.
 .. code-block:: python
 
     # project.py
@@ -34,9 +33,12 @@ An :class:`~flow.aggregator` is used as a decorator for an operation function wh
     if __name__ == '__main__':
         Project().main()
 
-By default, if :class:`~flow.aggregator` is used as a decorator, aggregate of all the jobs present in the project will be created.
-In the above example, ``op1`` can be referred to as an *aggregate operation* where all the jobs present in the project are passed as arbitraty arguments (or ``*args``) and ``op2`` is a *normal operation* where only a single job is passed as a parameter.
+If :class:`~flow.aggregator` is used with the default arguments, an aggregate of all the jobs present in the project will be created.
+In the above example, ``op1`` can be referred to as an *aggregate operation* where all the jobs present in the project are passed as arbitraty arguments (or ``*args``) and ``op2`` is a *normal operation* where only a single job is passed as an argument.
 
+.. note::
+
+    For an aggregate operation, all the other functionalities like :class:`~flow.FlowProject.pre`, :class:`~flow.FlowProject.post`, callable directives, etc., are required to take the same number of jobs as the operation as arguments.
 
 .. _types_of_aggregation:
 
@@ -76,7 +78,7 @@ Groups Of
     def op4(job1, job2=None):
         pass
 
-In the above example, the jobs will get aggregated in groups of 2 and hence, up to two jobs will be passed as parameters at once.
+In the above example, the jobs will get aggregated in groups of 2 and hence, up to two jobs will be passed as arguments at once.
 
 .. note::
 
@@ -86,7 +88,7 @@ Sorting jobs for aggregation
 ----------------------------
 
 **signac-flow** allows users to define the sorting order of jobs before creating the aggregates with the help of ``sort_by`` parameter and the sorting order can be defined with the help of ``sort_ascending`` parameter.
-By default, when no `sort_by` parameter is specified, the order of the jobs will be decided by the order in which the jobs are iterated in a **signac** project.
+By default, when no ``sort_by`` parameter is specified, the order of the jobs will be decided by the order in which the jobs are iterated in a **signac** project.
 
 .. code-block:: python
 
@@ -139,7 +141,8 @@ Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggreg
 Aggregation with FlowGroups
 ===========================
 
-In order to associate aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`. By default, no aggregation takes place for a :py:class:`FlowGroup`.
+In order to associate aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`.
+By default, no aggregation takes place for a :py:class:`FlowGroup`.
 
 .. note::
 
@@ -169,4 +172,5 @@ In order to associate aggregator object with a :py:class:`FlowGroup`, **signac-f
     if __name__ == '__main__':
         Project().main()
 
-In the above example, when the group ``agg-group`` is executed, all the jobs in the project are passed as arbitrary arguments for ``op1`` and ``op2``. But if only ``op2`` is executed, only a single job is passed as a parameter.
+In the above example, when the group ``agg-group`` is executed using ``python project.py run -o agg-group``, all the jobs in the project are passed as arbitrary arguments for both, ``op1`` and ``op2``.
+But if ``op2`` is executed using ``python project.py run -o op2``, only a single job is passed as an argument because no :class:`~flow.aggregator` is associated with the operation function ``op2``.
