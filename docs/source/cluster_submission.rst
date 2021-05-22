@@ -158,7 +158,7 @@ The following directives are respected by all base templates shipped with **sign
 
 For more detailed information about supported directives, visit the API reference doc of `directives`_.
 
-.. directives: https://docs.signac.io/projects/flow/en/latest/api.html#flow.directives
+.. _directives: https://docs.signac.io/projects/flow/en/latest/api.html#flow.directives
 
 Execution Modes
 ---------------
