@@ -27,4 +27,3 @@ Using this abstraction, **signac** can define workflows on an arbitrary **signac
     Here, the ``init.py`` file initializes an empty project and adds one job with state point ``{"a": 1}``.
     Next, users define a workflow using a subclass of **signac-flow**'s ``FlowProject``.
     The workflow shown has three operations (simulate, analyze, visualize) that, when executed, produce two new files ``results.txt`` and ``plot.png`` in the job directory.
-
