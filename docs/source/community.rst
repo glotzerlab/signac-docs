@@ -21,7 +21,7 @@ All community members are expected to follow the signac project's `code of condu
 Support
 -------
 
-The signac community offers real-time user support through the `Slack workspace`_ and `signac gitter chat room <https://gitter.im/signac/Lobby>`_.
+The signac community offers real-time user support through the `Slack workspace`_.
 The project's primary communication channel for code development is the Slack workspace.
 Alternatively, you can send an email to `signac-support@umich.edu <signac-support@umich.edu>`_.
 
@@ -38,8 +38,7 @@ The Google Calendar is also embedded below:
     </iframe>
 
 
-.. _Slack workspace: https://join.slack.com/t/signac/shared_invite/enQtNzk2MTUxNjU5ODkzLWM1NDFmMzRmMTA2MjFlN2ZiOTQ4MDBjNmIwMmM4YTgyZTQ1ODFkMGNhZTc5M2IwMmE1MWJiOTliN2Y2Y2M3ZDY
-.. _gitter: https://gitter.im/signac/Lobby
+.. _Slack workspace: https://signac.io/slack-invite/
 .. _iCal link: https://calendar.google.com/calendar/ical/6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com/public/basic.ics
 
 .. _contribute:
