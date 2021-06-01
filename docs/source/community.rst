@@ -80,7 +80,7 @@ All code contributed via pull request needs to adhere to the following guideline
 
     .. code-block:: bash
 
-        pip install -r requirements/requirements-precommit.txt
+        pip install pre-commit
         pre-commit install
 
     To install and run `Pre-commit`_ for all the files present in the repository, run the following command:
