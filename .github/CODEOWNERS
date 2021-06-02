@@ -2,3 +2,4 @@
 * @glotzerlab/signac-committers @glotzerlab/signac-contributors
 # Request maintainers for changes in requirements
 docs/requirements.txt @glotzerlab/signac-maintainers
+.pre-commit-config.yaml @glotzerlab/signac-maintainers
