@@ -12,8 +12,6 @@ Tutorial
 .. _signac-docs: https://github.com/glotzerlab/signac-docs
 
 This tutorial is designed to step new users through the basics of setting up a **signac** data space, defining and executing a simple workflow with **signac-flow**, and analyzing the data.
-For the complete code corresponding to this tutorial, see the :ref:`idg_example` example.
-
 
 Basics
 ======
