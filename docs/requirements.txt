@@ -1,4 +1,8 @@
+IPython
+jupyter_client
 jupyter_sphinx
+nbconvert
 nbsphinx
 sphinx
 sphinx_rtd_theme
+sphinxcontrib-bibtex
