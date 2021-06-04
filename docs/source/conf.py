@@ -166,7 +166,7 @@ latex_documents = [
         master_doc,
         "signac.tex",
         "signac Documentation",
-        "Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice",
+        author,
         "manual",
     ),
 ]

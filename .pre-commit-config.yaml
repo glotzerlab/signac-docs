@@ -5,13 +5,15 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.0.1'
     hooks:
-      - id: end-of-file-fixer
-        exclude: 'setup.cfg'
-      - id: trailing-whitespace
-        exclude: 'setup.cfg'
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
       - id: debug-statements
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v2.19.0'
+    rev: 'v2.19.1'
     hooks:
       - id: pyupgrade
         args:
