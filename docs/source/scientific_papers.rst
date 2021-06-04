@@ -7,7 +7,7 @@ Scientific Papers
 The **signac** framework has been cited over 50 times, and has been used in a range of scientific fields with various types of computational workflows.
 Here, we showcase a few examples of scientific papers that have used **signac**.
 We encourage users to add their own publications to this list via a pull request.
-To find additional papers using **signac**, please refer to citations of the articles mentioned in :ref:`acknowledge`.
+To find additional papers using **signac**, please refer to citations of the articles mentioned in :ref:`acknowledge` or `citing works on Google Scholar <https://scholar.google.com/scholar?cites=14270565839129827405,11696507121891896813>`__.
 
 - *Scalable Screening of Soft Matter: A Case Study of Mixtures of Ionic Liquids and Organic Solvents* :cite:`Thompson2019`
 
