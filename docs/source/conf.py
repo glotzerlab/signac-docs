@@ -48,7 +48,11 @@ extensions = [
     "sphinx.ext.autosummary",
     "nbsphinx",
     "jupyter_sphinx",
+    "sphinxcontrib.bibtex",
 ]
+
+# For sphinxcontrib.bibtex.
+bibtex_bibfiles = ["signac.bib"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
