@@ -4,7 +4,7 @@
 Scientific Papers
 =================
 
-The **signac** framework has been cited over 50 times, and has been used in a range of research fields with various types of computational workflows.
+The **signac** framework has been cited over 50 times and has been used in a range of research fields with various types of computational workflows.
 Here, we showcase a few examples of scientific papers that have used **signac**.
 To find additional papers using **signac**, please refer to citations of the articles mentioned in :ref:`acknowledge` or this list of `citing works on Google Scholar <https://scholar.google.com/scholar?cites=14270565839129827405,11696507121891896813>`__.
 
