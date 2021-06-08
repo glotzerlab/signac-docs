@@ -496,105 +496,11 @@ The ``job.data`` property is a short-cut for ``job.stores['signac_data']``, you 
 
 See :ref:`project-job-data` for an in-depth discussion.
 
-Job scripts and cluster submission
-==================================
-
-Generating scripts
-------------------
-
-So far, we executed all operations directly on the command line with the ``run`` command.
-However we can also generate scripts for execution, which is especially relevant if you intend to submit the workflow to a scheduling system typically encountered in high-performance computing (HPC) environments.
-
-Scripts are generated using the `jinja2`_ templating system, but you don't have to worry about that unless you want to change any of the default templates.
-
-.. todo::
-    Once we have templates documentation, point to it here.
-
-.. _jinja2: http://jinja.pocoo.org/
-
-We can generate a script for the execution of the *next eligible operations* with the ``script`` command.
-We need to reset our workflow before we can test that:
-
-.. code-block:: bash
-
-    ~/ideal_gas_project $ rm -r workspace/
-    ~/ideal_gas_project $ python init.py
-
-Let's start by generating a script for the execution of up to two *eligible* operations:
-
-.. code-block:: bash
-
-
-    ~/ideal_gas_project $ python project.py script -n 2
-    set -e
-    set -u
-
-    cd /Users/csadorf/ideal_gas_project
-
-    # Operation 'compute_volume' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec compute_volume 03585df0f87fada67bd0f540c102cce7
-    # Operation 'compute_volume' for job '22a51374466c4e01ef0e67e65f73c52e':
-    python project.py exec compute_volume 22a51374466c4e01ef0e67e65f73c52e
-
-By default, the generated script will change into the  *project root directory* and then execute the command for each next eligible operation for all selected jobs.
-We then have two ways to run this script.
-One option would be to pipe it into a file and then execute it:
-
-.. code-block:: bash
-
-     ~/ideal_gas_project $ python project.py script > run.sh
-     ~/ideal_gas_project $ /bin/bash run.sh
-
-Alternatively, we could pipe it directly into the command processor:
-
-.. code-block:: bash
-
-   ~/ideal_gas_project $ python project.py script | /bin/bash
-
-Executing the ``script`` command again, we see that it would now execute both the ``store_volume_in_document`` and the ``store_volume_in_json_file`` operation, since both share the same pre-conditions:
-
-.. code-block:: bash
-
-    ~/ideal_gas_project $ python project.py script -n 2
-    set -e
-    set -u
-
-    cd /Users/csadorf/ideal_gas_project
-
-    # Operation 'store_volume_in_document' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec store_volume_in_document 03585df0f87fada67bd0f540c102cce7
-    # Operation 'store_volume_in_json_file' for job '03585df0f87fada67bd0f540c102cce7':
-    python project.py exec store_volume_in_json_file 03585df0f87fada67bd0f540c102cce7
-
-If we wanted to customize the script generation, we could either extend the base template or simply replace the default template with our own.
-To replace the default template, we can put a template script called ``script.sh`` into a directory called ``templates`` within the project root directory.
-A simple template script might look like this:
-
-.. code-block:: bash
-
-    cd {{ project.config.project_dir }}
-
-    {% for operation in operations %}
-    {{ operation.cmd }}
-    {% endfor %}
-
-Storing the above template within a file called ``templates/script.sh`` will now change the output of the ``script`` command to:
-
-.. code-block:: bash
-
-   ~/ideal_gas_project $ python project.py script -n 2
-   cd /Users/csadorf/ideal_gas_project
-
-   python project.py exec store_volume_in_document 03585df0f87fada67bd0f540c102cce7
-   python project.py exec store_volume_in_json_file 03585df0f87fada67bd0f540c102cce7
-
-Please see ``$ python project.py script --template-help`` to get more information on how to write and use custom templates.
-
 Submit operations to a scheduling system
-----------------------------------------
+========================================
 
-In addition to executing operations directly on the command line and generating scripts, **signac** can also submit operations to a scheduler such as SLURM_.
-This is essentially equivalent to generating a script as described in the previous section, but in this case the script will also contain the relevant scheduler directives such as the number of processors to request.
+In addition to executing operations directly on the command line, **signac** can also submit operations to a scheduler such as SLURM_.
+The submit command will generate and submit a script containing the operations to run and relevant scheduler directives such as the number of processors to request.
 In addition, **signac** will also keep track of submitted operations in addition to workflow progress, which almost completely automates the submission process as well as preventing the accidental repeated submission of operations.
 
 .. _SLURM: https://slurm.schedmd.com/

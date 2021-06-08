@@ -4,7 +4,7 @@
 Cluster Submission
 ==================
 
-While it is always possible to manually submit scripts like the one shown in the :ref:`previous section <project-script>` to a cluster, using the *flow interface* will allows us to **keep track of submitted operations** for example to prevent the resubmission of active operations.
+While it is always possible to manually write and submit scripts to a cluster, using the *flow interface* to generate and submit scripts on our behalf will allow **signac-flow** to **keep track of submitted operations** and prevent the resubmission of active operations.
 
 In addition, **signac-flow** uses :ref:`environment profiles <environments>` to select which :ref:`base template <templates>` to use for the cluster job script generation.
 All base templates are in essence highly similar, but are adapted for a specific cluster environment.
@@ -64,7 +64,7 @@ For example the following command would submit up to 5 ``hello`` operations, whe
 
 .. tip::
 
-    Use the ``--pretend`` or ``--test`` option to pre-view the generated submission scripts on screen instead of submitting them.
+    Use the ``--pretend`` option to preview the generated submission scripts on screen instead of submitting them.
 
 
 Parallelization and Bundling

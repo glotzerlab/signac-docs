@@ -34,7 +34,8 @@ Executing this script on the command line will give us access to this project's 
 .. code-block:: bash
 
      ~/my_project $ python project.py
-     usage: project.py [-h] [-d] {status,next,run,script,submit,exec} ...
+     Using environment configuration: StandardEnvironment
+     usage: project.py [-h] [-v] [--show-traceback] [--debug] {status,next,run,submit,exec} ...
 
 .. note::
 
@@ -214,63 +215,13 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination is by default parallelized with threads, however this can be turned off or switched to using processes by setting a value for the ``flow.status_parallelization`` configuration key.
-Possible values are ``thread``, ``process`` or ``none`` with ``thread`` being the default value and ``none`` turning off all parallelization.
+The status determination operates in serial by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
+Possible values are ``thread``, ``process`` or ``none`` with ``none`` being the default value (turning off parallelization).
 
-We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line, for example:
+We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line:
 
 .. code-block:: bash
 
     ~/my_project $ signac config set flow.status_parallelization process
 
-.. _project-script:
-
-Generating Execution Scripts
-============================
-
-Instead of executing operations directly we can also create a script for execution.
-If we have any pending operations, a script might look like this:
-
-.. code-block:: bash
-
-    ~/my_project $ python project.py script
-
-    set -e
-    set -u
-
-    cd /Users/csadorf/my_project
-
-    # Operation 'hello' for job '14fb5d016557165019abaac200785048':
-    /Users/csadorf/miniconda3/bin/python project.py exec hello 14fb5d016557165019abaac200785048
-    # Operation 'hello' for job '2af7905ebe91ada597a8d4bb91a1c0fc':
-    /Users/csadorf/miniconda3/bin/python project.py exec hello 2af7905ebe91ada597a8d4bb91a1c0fc
-    # Operation 'hello' for job '42b7b4f2921788ea14dac5566e6f06d0':
-    /Users/csadorf/miniconda3/bin/python project.py exec hello 42b7b4f2921788ea14dac5566e6f06d0
-    # Operation 'hello' for job '9bfd29df07674bc4aa960cf661b5acd2':
-    /Users/csadorf/miniconda3/bin/python project.py exec hello 9bfd29df07674bc4aa960cf661b5acd2
-    # Operation 'hello' for job '9f8a8e5ba8c70c774d410a9107e2a32b':
-    /Users/csadorf/miniconda3/bin/python project.py exec hello 9f8a8e5ba8c70c774d410a9107e2a32b
-
-These scripts can be used for the execution of operations directly, or they could be submitted to a cluster environment for remote execution.
-For more information about how to submit operations for execution to a cluster environment, see the :ref:`cluster-submission` chapter.
-
-This script is generated from a default jinja2_ template, which is shipped with the package.
-We can extend this default template or write our own to cutomize the script generation process.
-
-.. _jinja2: http://jinja.pocoo.org/
-
-Here is an example for such a template, that would essentially generate the same output:
-
-.. code-block:: bash
-
-    cd {{ project.config.project_dir }}
-
-    {% for operation in operations %}
-    operation.cmd
-    {% endfor %}
-
-.. note::
-
-    Unlike the default template, this exemplary template would not allow for ``parallel`` execution.
-
-Checkout the :ref:`next section <cluster-submission>` for a guide on how to submit operations to a cluster environment.
+Check out the :ref:`next section <cluster-submission>` for a guide on how to submit operations to a cluster environment.
