@@ -111,7 +111,7 @@ All directives are essentially conventions, the ``np`` directive in particular m
 
 .. tip::
 
-    Note that all directives may be specified as callables, e.g. ``FlowProject.operation.with_directives{"np" : lambda job: job.doc.np}``.
+    Note that all directives may be specified as callables, e.g. ``FlowProject.operation.with_directives({"np": lambda job: job.doc.np})``.
 
 Available directives
 --------------------

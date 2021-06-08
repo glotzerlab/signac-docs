@@ -266,7 +266,8 @@ Assuming that we have an MPI-parallelized program named ``my_program``, which ex
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
 The ``flow.cmd`` decorator instructs **signac-flow** to interpret the operation as a command rather than a Python function.
-The ``FlowProject.operation.with_directives`` decorator provides additional instructions on how to execute this operation and is not strictly necessary for the example above to work.
+The ``@FlowProject.operation.with_directives(...)`` decorator provides additional instructions on how to execute this operation.
+The decorator ``@FlowProject.operation`` does not assign any directives to the operation.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
 
 .. todo::
@@ -326,7 +327,7 @@ For example, assuming that we wanted to use a singularity container named ``soft
 
 .. code-block:: jinja
 
-    @Project.operation.with_directives({"executable": 'singularity exec software.simg python'})
+    @Project.operation.with_directives({"executable": "singularity exec software.simg python"})
     def containerized_operation(job):
         pass
 
