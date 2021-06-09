@@ -129,6 +129,15 @@ The following directives are respected by all base templates shipped with **sign
       Specify which Python executable should be used to execute this operation.
       Defaults to the one used to generate the script (:py:attr:`sys.executable`).
 
+    fork
+      The fork directive can be set to True to enforce that a particular operation is always executed within a subprocess and not within the Python interpreter's process even if there are no other reasons that would prevent that.
+
+    memory
+      The memory to request for this operation.
+
+    ngpu
+      The number of GPUs required for this operation.
+
     np
       The total number of processing units required for this operation.
       The default value for np is "nranks x omp_num_threads", which both default to 1.
@@ -140,8 +149,13 @@ The following directives are respected by all base templates shipped with **sign
     omp_num_threads
       The number of OpenMP threads required for this operation.
 
-    ngpu
-      The number of GPUs required for this operation.
+    processor_fraction
+      Fraction of a resource to use on a single operation.
+
+    walltime
+      The number of hours to request for executing this job.
+
+For more detailed information about supported directives, visit the API reference doc of `directives <https://docs.signac.io/projects/flow/en/latest/api.html#flow.directives>`_.
 
 Execution Modes
 ---------------
