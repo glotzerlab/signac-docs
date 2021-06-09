@@ -131,7 +131,7 @@ The following directives are respected by all base templates shipped with **sign
       Defaults to the one used to generate the script (:py:attr:`sys.executable`).
 
     fork
-      The fork directive can be set to True to enforce that a particular operation is always executed within a subprocess and not within the Python interpreter’s process even if there are no other reasons that would prevent that.
+      The fork directive can be set to True to enforce that a particular operation is always executed within a subprocess and not within the Python interpreter's process even if there are no other reasons that would prevent that.
 
     memory
       The memory to request for this operation.
