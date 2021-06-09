@@ -253,21 +253,21 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
 MPI-operations with ``flow.cmd``
 --------------------------------
 
-Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``flow.directives`` decorator.
+Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``FlowProject.operation.with_directives`` decorator.
 This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
 
 Assuming that we have an MPI-parallelized program named ``my_program``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
 
 .. code-block:: python
 
-    @FlowProject.operation
+    @FlowProject.operation.with_directives({"np": 2})
     @flow.cmd
-    @flow.directives(np=2)
     def hello_mpi(job):
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
 The ``flow.cmd`` decorator instructs **signac-flow** to interpret the operation as a command rather than a Python function.
-The ``flow.directives`` decorator provides additional instructions on how to execute this operation and is not strictly necessary for the example above to work.
+The ``@FlowProject.operation.with_directives(...)`` decorator provides additional instructions on how to execute this operation.
+The decorator ``@FlowProject.operation`` does not assign any directives to the operation.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
 
 .. todo::
@@ -276,7 +276,7 @@ However, some script templates, including those designed for HPC cluster submiss
 
 .. tip::
 
-  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``flow.directives(np=lambda job: job.sp.system_size // 1000)``.
+  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``FlowProject.operation.with_directives({"np": lambda job: job.sp.system_size // 1000})``.
 
 
 MPI-operations with custom script templates
@@ -327,8 +327,7 @@ For example, assuming that we wanted to use a singularity container named ``soft
 
 .. code-block:: jinja
 
-    @Project.operation
-    @flow.directives(executable='singularity exec software.simg python')
+    @Project.operation.with_directives({"executable": "singularity exec software.simg python"})
     def containerized_operation(job):
         pass
 
