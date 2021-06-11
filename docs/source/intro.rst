@@ -21,7 +21,7 @@ Using this abstraction, **signac** can define workflows on an arbitrary **signac
 
     Overview of the **signac** framework.
     When a project is initialized (such as `signac init` on the command line) a `workspace/` directory is created.
-    Each job is uniquely identified by a set of user-defined state points, which are formatted as dictionaries.
+    Each job is identified by its `state point`,  a _unique_ dictionary that contains relevant parameters describing the job.
     The workspace holds a directory for each job, containing JSON files that store the state point and job document.
     The job directory name is a hash of the state point's contents.
     Here, the ``init.py`` file initializes an empty project and adds one job with state point ``{"a": 1}``.
