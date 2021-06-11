@@ -20,7 +20,7 @@ Using this abstraction, **signac** can define workflows on an arbitrary **signac
 .. figure:: images/signac_data_space.png
 
     Overview of the **signac** framework.
-    When a project is created, a workspace directory is intialized on disk.
+    When a project is initialized (such as `signac init` on the command line) a `workspace/` directory is created.
     Each job is uniquely identified by a set of user-defined state points, which are formatted as dictionaries.
     The workspace holds a directory for each job, containing JSON files that store the state point and job document.
     The job directory name is a hash of the state point's contents.
