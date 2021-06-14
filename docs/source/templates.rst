@@ -56,14 +56,10 @@ The third line is the actual command that we want to add and the fourth line ens
 The base template
 =================
 
-The **signac-flow** package will select a different base script template depending on whether you are simply generating a script using the ``script`` command or whether you are submitting to a scheduling system with ``submit``.
-In the latter case, the base script template is selected based on whether you are on any of the :ref:`officially supported environments <supported-environments>`, and if not, whether one of the known scheduling systems (e.g. Slurm, PBS, or LSF) is available.
+The **signac-flow** package will select the base script template depending on whether you are on any of the :ref:`officially supported environments <supported-environments>`, and if not, whether one of the known scheduling systems (e.g. Slurm, PBS, or LSF) is available.
 This is a short illustration of that heuristic:
 
 .. code-block:: bash
-
-    # The `script` command always uses the same base script template:
-    project.py script --> base_script='base_script.sh'
 
     # On system with SLURM scheduler:
     project.py submit --> base_script='slurm.sh' (extends 'base_script.sh')

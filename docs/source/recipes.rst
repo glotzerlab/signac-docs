@@ -196,7 +196,7 @@ Then, we could implement a simple operation that passes it some metadata paramet
     def compute_volume(job):
         return "matlab -r 'prog {job.sp.foo} {job.sp.bar}' > {job.ws}/output.txt"
 
-Executing this operation will store the output of the matlab script within the job's workspace within a file called ``output.txt``.
+Executing this operation will store the output of the MATLAB script within the job's workspace within a file called ``output.txt``.
 
 .. todo::
 
@@ -208,11 +208,6 @@ Running MPI-parallelized operations
 ===================================
 
 There are basically two strategies to implement :class:`~.flow.FlowProject` operations that are MPI-parallelized, one for external programs and one for Python scripts.
-
-.. tip::
-
-    Fully functional scripts can be found in the signac-docs repository under ``examples/MPI``.
-
 
 MPI-operations with mpi4py or similar
 -------------------------------------
