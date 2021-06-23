@@ -87,7 +87,7 @@ Without any argument the ``--bundle`` option will bundle **all** eligible job-op
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
-.. _directives:
+.. _cluster_submission_directives:
 
 Submission Directives
 =====================
