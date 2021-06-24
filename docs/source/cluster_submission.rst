@@ -4,7 +4,7 @@
 Cluster Submission
 ==================
 
-While it is always possible to manually submit scripts like the one shown in the :ref:`previous section <project-script>` to a cluster, using the *flow interface* will allows us to **keep track of submitted operations** for example to prevent the resubmission of active operations.
+While it is always possible to manually write and submit scripts to a cluster, using the *flow interface* to generate and submit scripts on our behalf will allow **signac-flow** to **keep track of submitted operations** and prevent the resubmission of active operations.
 
 In addition, **signac-flow** uses :ref:`environment profiles <environments>` to select which :ref:`base template <templates>` to use for the cluster job script generation.
 All base templates are in essence highly similar, but are adapted for a specific cluster environment.
@@ -62,11 +62,9 @@ For example the following command would submit up to 5 ``hello`` operations, whe
 
     ~/my_project $ python project.py submit -o hello -n 5 -f a.\$lt 5
 
-The submission scripts are generated using the same templating system as the ``script`` command.
-
 .. tip::
 
-    Use the ``--pretend`` or ``--test`` option to pre-view the generated submission scripts on screen instead of submitting them.
+    Use the ``--pretend`` option to preview the generated submission scripts on screen instead of submitting them.
 
 
 Parallelization and Bundling
@@ -89,7 +87,7 @@ Without any argument the ``--bundle`` option will bundle **all** eligible job-op
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
-.. _directives:
+.. _cluster_submission_directives:
 
 Submission Directives
 =====================
@@ -100,11 +98,10 @@ For example, to specify that a parallelized operation requires **4** processing 
 
 .. code-block:: python
 
-    from flow import FlowProject, directives
+    from flow import FlowProject
     from multiprocessing import Pool
 
-    @FlowProject.operation
-    @directives(np=4)
+    @FlowProject.operation.with_directives({"np": 4})
     def hello(job):
         with Pool(4) as pool:
           print("hello", job)
@@ -117,7 +114,7 @@ All directives are essentially conventions, the ``np`` directive in particular m
 
 .. tip::
 
-    Note that all directives may be specified as callables, e.g. ``@directives(np = lambda job: job.doc.np)``.
+    Note that all directives may be specified as callables, e.g. ``FlowProject.operation.with_directives({"np": lambda job: job.doc.np})``.
 
 Available directives
 --------------------
@@ -130,6 +127,15 @@ The following directives are respected by all base templates shipped with **sign
       Specify which Python executable should be used to execute this operation.
       Defaults to the one used to generate the script (:py:attr:`sys.executable`).
 
+    fork
+      The fork directive can be set to True to enforce that a particular operation is always executed within a subprocess and not within the Python interpreter's process even if there are no other reasons that would prevent that.
+
+    memory
+      The memory to request for this operation.
+
+    ngpu
+      The number of GPUs required for this operation.
+
     np
       The total number of processing units required for this operation.
       The default value for np is "nranks x omp_num_threads", which both default to 1.
@@ -141,8 +147,13 @@ The following directives are respected by all base templates shipped with **sign
     omp_num_threads
       The number of OpenMP threads required for this operation.
 
-    ngpu
-      The number of GPUs required for this operation.
+    processor_fraction
+      Fraction of a resource to use on a single operation.
+
+    walltime
+      The number of hours to request for executing this job.
+
+For more detailed information about supported directives, visit the API reference doc of `directives <https://docs.signac.io/projects/flow/en/latest/api.html#flow.directives>`_.
 
 Execution Modes
 ---------------
@@ -152,27 +163,27 @@ Using these directives and their combinations allows us to realize the following
 .. glossary::
 
     serial:
-      ``@flow.directives()``
+      ``@FlowProject.operation.with_directives()``
 
       This operation is a simple serial process, no directive needed.
 
     parallelized:
-      ``@flow.directives(np=4)``
+      ``@FlowProject.operation.with_directives({"np": 4})``
 
       This operation requires 4 processing units.
 
     MPI parallelized:
-      ``@flow.directives(nranks=4)``
+      ``@FlowProject.operation.with_directives({"nranks": 4})``
 
       This operation requires 4 MPI ranks.
 
     MPI/OpenMP Hybrid:
-      ``@flow.directives(nranks=4, omp_num_threads=2)``
+      ``@FlowProject.operation.with_directives({"nranks": 4, "omp_num_threads": 2})``
 
       This operation requires 4 MPI ranks with 2 OpenMP threads per rank.
 
     GPU:
-      ``@flow.directives(ngpu=1)``
+      ``@FlowProject.operation.with_directives({"ngpu": 1})``
 
       The operation requires one GPU for execution.
 

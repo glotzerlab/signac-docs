@@ -1,24 +1,29 @@
+ci:
+  autoupdate_schedule: quarterly
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.0.1'
     hooks:
-      - id: end-of-file-fixer
-        exclude: 'setup.cfg'
-      - id: trailing-whitespace
-        exclude: 'setup.cfg'
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
       - id: debug-statements
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v2.16.0'
+    rev: 'v2.19.1'
     hooks:
       - id: pyupgrade
         args:
           - --py36-plus
-  - repo: https://github.com/pycqa/isort
+  - repo: https://github.com/PyCQA/isort
     rev: '5.8.0'
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: '21.5b1'
+    rev: '21.5b2'
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -28,7 +33,24 @@ repos:
         args:
           - --max-line-length=100
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 0.8.1
+    rev: 0.10.0
     hooks:
       - id: nbqa-black
       - id: nbqa-pyupgrade
+  - repo: https://github.com/FlamingTempura/bibtex-tidy
+    rev: '3559fc3b264d67441cbfcaec53500cbd66cefc7e'
+    hooks:
+      - id: bibtex-tidy
+        args:
+          - --omit=abstract,keywords,archiveprefix,mendeley-tags,pmid,eprint,arxivid
+          - --curly
+          - --numeric
+          - --space=2
+          - --align=0
+          - --sort=key,type,author,-year
+          - --duplicates=key,doi,citation
+          - --strip-enclosing-braces
+          - --drop-all-caps
+          - --sort-fields=title,shorttitle,author,year,month,day,journal,booktitle,location,on,publisher,address,series,volume,number,pages,doi,isbn,issn,url,urldate,copyright,category,note,metadata
+          - --remove-empty-fields
+          - --no-remove-dupe-fields

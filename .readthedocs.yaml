@@ -1,0 +1,12 @@
+version: 2
+
+python:
+  version: 3
+  install:
+    - requirements: docs/requirements.txt
+
+sphinx:
+  fail_on_warning: true
+
+submodules:
+  include: all
