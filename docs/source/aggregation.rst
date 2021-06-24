@@ -92,7 +92,7 @@ In the above example, the jobs will get aggregated in groups of 2 and hence, up 
 Sorting jobs for aggregation
 ----------------------------
 
-Aggregators allow users to define the sorting order of jobs with the ``sort_by`` parameter.
+Aggregators allow users to sort the jobs before creating aggregates with the ``sort_by`` parameter.
 The sorting order can be defined with the ``sort_ascending`` parameter.
 By default, when no ``sort_by`` parameter is specified, the order of the jobs will be decided by the iteration order of the **signac** project.
 
