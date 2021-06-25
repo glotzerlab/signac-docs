@@ -182,4 +182,5 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
         Project().main()
 
 In the above example, when the group ``agg-group`` is executed using ``python project.py run -o agg-group``, all the jobs in the project are passed as positional arguments for both ``op1`` and ``op2``.
+If ``op1`` is executed using ``python project.py run -o op1``, all the jobs in the project are passed as positional arguments because a :class:`~flow.aggregator` is associated with the operation function ``op1`` (separately from the aggregator used for ``agg-group``).
 If ``op2`` is executed using ``python project.py run -o op2``, only a single job is passed as an argument because no :class:`~flow.aggregator` is associated with the operation function ``op2``.
