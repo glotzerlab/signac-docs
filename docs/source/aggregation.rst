@@ -136,7 +136,7 @@ The aggregate id is sensitive to the order of the jobs in the aggregate.
 
     The id of an aggregate containing one job is that job's id.
 
-In order to distinguish between aggregate id and a job id, for an aggregate of more than one job the aggregate id of that aggregate will always have a prefix ``agg-``.
+In order to distinguish between an aggregate id and a job id, the id of aggregates with more than one job will always have a prefix ``agg-``.
 
 Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggregate_id`.
 
