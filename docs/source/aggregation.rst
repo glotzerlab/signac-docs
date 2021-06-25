@@ -165,7 +165,7 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
     class Project(FlowProject):
         pass
 
-    group = Project.make_group('agg-group', group_aggregator=aggregator())
+    group = Project.make_group("agg-group", group_aggregator=aggregator())
 
     @group
     @aggregator()
