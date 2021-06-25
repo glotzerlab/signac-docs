@@ -59,7 +59,7 @@ Currently, **signac-flow** allows users to aggregate jobs in the following ways:
 Group By
 --------
 
-:class:`~flow.aggregator.groupby` allows users to aggregate jobs by grouping them on state point key, an iterable of state point keys whose values define the groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
+:class:`~flow.aggregator.groupby` allows users to aggregate jobs by grouping them by a state point key, an iterable of state point keys whose values define the groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
 
 .. code-block:: python
 
