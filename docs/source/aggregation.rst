@@ -33,7 +33,7 @@ See also the Python documentation about :ref:`argument unpacking <python:tut-unp
     def op2(job):
         pass
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         Project().main()
 
 If :class:`~flow.aggregator` is used with the default arguments, it will create a single aggregate containing all the jobs present in the project.
