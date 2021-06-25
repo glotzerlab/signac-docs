@@ -178,7 +178,7 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
     def op2(*jobs):
         pass
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         Project().main()
 
 In the above example, when the group ``agg-group`` is executed using ``python project.py run -o agg-group``, all the jobs in the project are passed as positional arguments for both ``op1`` and ``op2``.
