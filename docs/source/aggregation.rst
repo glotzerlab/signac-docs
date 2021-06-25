@@ -113,6 +113,7 @@ Selecting jobs for aggregation
 ------------------------------
 
 **signac-flow** allows users to selectively choose which jobs to pass into operation functions.
+This can be used to generate aggregates from only the selected jobs, excluding any jobs that do not meet the selection criteria.
 
 .. code-block:: python
 
