@@ -4,7 +4,7 @@
 Aggregation
 ===========
 
-This chapter provides information about the passing aggregates of jobs to operation functions.
+This chapter provides information about passing aggregates of jobs to operation functions.
 
 
 .. _aggregator_definition:
