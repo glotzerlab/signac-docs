@@ -89,7 +89,7 @@ In the above example, the jobs will get aggregated in groups of 2 and hence, up 
 
     In case the number of jobs in the project in this example is odd, there will be one aggregate containing only a single job.
     In general, the last aggregate from :class:`~flow.aggregator.groupsof` will contain the remaining jobs if the aggregate size does not evenly divide the number of jobs in the project.
-    Users should be careful while passing non-default arguments in an *aggregate operation*.
+    If a remainder is expected and valid, users should make sure that the operation function can be called with the reduced number of arguments (e.g. by using `*jobs*` or providing default arguments as shown above).
 
 Sorting jobs for aggregation
 ----------------------------
