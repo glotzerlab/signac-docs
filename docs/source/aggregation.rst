@@ -48,11 +48,13 @@ In the example above, ``op1`` is an *aggregate operation* where all the jobs pre
 Types of Aggregation
 ====================
 
-Currently, **signac-flow** allows users to aggregate jobs by:
+Currently, **signac-flow** allows users to aggregate jobs in the following ways:
 
-- Grouping them on state point key, an iterable of state point keys whose values define the groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
-- Generating aggregates of a given size.
-- Using custom aggregator function when greater flexibility is needed.
+- _All jobs_: All of the project's jobs are passed to the operation function.
+- _Group by state point key(s)_: The aggregates are grouped by one or more state point keys.
+- _Group by arbitrary key-function_: The aggregates are grouped by keys determined by a key-function that expects an instance of :class:`~.signac.contrib.job.Job` and return the grouping key.
+- Grouping into aggregates of a specific size.
+- Using a completely custom aggregator function when even greater flexibility is needed.
 
 Group By
 --------
