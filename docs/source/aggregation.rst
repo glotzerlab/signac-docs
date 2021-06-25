@@ -150,7 +150,7 @@ Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggreg
 Aggregation with FlowGroups
 ===========================
 
-In order to associate aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`.
+In order to associate an aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`.
 By default, no aggregation takes place for a :py:class:`FlowGroup`.
 
 .. note::
