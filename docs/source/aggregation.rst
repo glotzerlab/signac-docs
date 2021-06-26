@@ -41,7 +41,7 @@ In the example above, ``op1`` is an *aggregate operation* where all the jobs pre
 
 .. tip::
 
-    The concept of aggregation may be easier to understand if one realizes that "normal" operation functions are equivalent to *aggregate operation* functions with an aggregate group size of one job.
+    The concept of aggregation may be easier to understand if one realizes that "normal" operation functions are equivalent to aggregate operation functions with an aggregate group size of one job.
 
 
 .. note::
