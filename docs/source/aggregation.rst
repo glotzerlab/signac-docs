@@ -9,7 +9,7 @@ This chapter provides information about passing aggregates of jobs to operation 
 
 .. _aggregator_definition:
 
-aggregator
+Definition
 ==========
 
 An :class:`~flow.aggregator` is used as a decorator for operation functions which accept a variable number of positional arguments, ``*jobs``.
