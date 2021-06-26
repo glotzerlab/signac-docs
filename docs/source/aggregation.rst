@@ -37,7 +37,12 @@ See also the Python documentation about :ref:`argument unpacking <python:tut-unp
         Project().main()
 
 If :class:`~flow.aggregator` is used with the default arguments, it will create a single aggregate containing all the jobs present in the project.
-In the example above, ``op1`` is an *aggregate operation* where all the jobs present in the project are passed as a variable number of positional arguments (via ``*jobs``), while ``op2`` is a normal operation where only a single job is passed as an argument.
+In the example above, ``op1`` is an *aggregate operation* where all the jobs present in the project are passed as a variable number of positional arguments (via ``*jobs``), while ``op2`` is an operation where only a single job is passed as an argument.
+
+.. tip::
+
+    The concept of aggregation may be easier to understand if one realizes that "normal" operation functions are equivalent to *aggregate operation* functions with an aggregate group size of one job.
+
 
 .. note::
 
