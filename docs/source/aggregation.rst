@@ -46,7 +46,7 @@ In the example above, ``op1`` is an *aggregate operation* where all the jobs pre
 
 .. note::
 
-    For an aggregate operation, all conditions like :class:`~flow.FlowProject.pre` or :class:`~flow.FlowProject.post`, callable directives, and other features are required to take the same number of jobs as the operation as arguments.
+    For an aggregate operation, all conditions like :py:func:`~flow.FlowProject.pre` or :py:func:`~flow.FlowProject.post`, callable directives, and other features are required to take the same number of jobs as the operation as arguments.
 
 .. _types_of_aggregation:
 
