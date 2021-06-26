@@ -46,7 +46,7 @@ In the example above, ``op1`` is an *aggregate operation* where all the jobs pre
 
 .. note::
 
-    For an aggregate operation, all conditions like :py:func:`~flow.FlowProject.pre` or :py:func:`~flow.FlowProject.post`, callable directives, and other features are required to take the same number of jobs as the operation as arguments.
+    For an aggregate operation, all conditions like :func:`~flow.FlowProject.pre` or :func:`~flow.FlowProject.post`, callable directives, and other features are required to take the same number of jobs as the operation as arguments.
 
 .. _types_of_aggregation:
 
@@ -64,7 +64,7 @@ Currently, **signac-flow** allows users to aggregate jobs in the following ways:
 Group By
 --------
 
-:class:`~flow.aggregator.groupby` allows users to aggregate jobs by grouping them by a state point key, an iterable of state point keys whose values define the groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
+:meth:`~flow.aggregator.groupby` allows users to aggregate jobs by grouping them by a state point key, an iterable of state point keys whose values define the groupings, or an arbitrary callable of :class:`~signac.contrib.job.Job`.
 
 .. code-block:: python
 
@@ -79,7 +79,7 @@ So, all the jobs having the same value of **temperature** in their state point w
 Groups Of
 ---------
 
-:class:`~flow.aggregator.groupsof` allows users to aggregate jobs by generating aggregates of a given size.
+:meth:`~flow.aggregator.groupsof` allows users to aggregate jobs by generating aggregates of a given size.
 
 .. code-block:: python
 
@@ -93,7 +93,7 @@ In the above example, the jobs will get aggregated in groups of 2 and hence, up 
 .. note::
 
     In case the number of jobs in the project in this example is odd, there will be one aggregate containing only a single job.
-    In general, the last aggregate from :class:`~flow.aggregator.groupsof` will contain the remaining jobs if the aggregate size does not evenly divide the number of jobs in the project.
+    In general, the last aggregate from :meth:`~flow.aggregator.groupsof` will contain the remaining jobs if the aggregate size does not evenly divide the number of jobs in the project.
     If a remainder is expected and valid, users should make sure that the operation function can be called with the reduced number of arguments (e.g. by using ``*jobs`` or providing default arguments as shown above).
 
 Sorting jobs for aggregation
@@ -143,11 +143,11 @@ The aggregate id is sensitive to the order of the jobs in the aggregate.
 
 In order to distinguish between an aggregate id and a job id, the id of aggregates with more than one job will always have a prefix ``agg-``.
 
-Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggregate_id`.
+Users can generate the aggregate id of an aggregate using :func:`flow.get_aggregate_id`.
 
 .. tip::
 
-    Users can also pass an aggregate id to the ``--job-id`` command-line flag provided by **signac-flow** in ``run``, ``submit``, and ``exec``.
+    Users can also pass an aggregate id to the ``--job-id`` command line flag provided by **signac-flow** in ``run``, ``submit``, and ``exec``.
 
 
 .. _aggregation_with_flow_groups:
@@ -155,12 +155,12 @@ Users can generate the aggregate id of an aggregate using :meth:`flow.get_aggreg
 Aggregation with FlowGroups
 ===========================
 
-In order to associate an aggregator object with a :py:class:`FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`.
-By default, no aggregation takes place for a :py:class:`FlowGroup`.
+In order to associate an aggregator object with a :class:`~flow.project.FlowGroup`, **signac-flow** provides a ``group_aggregator`` parameter in :meth:`~flow.FlowProject.make_group`.
+By default, no aggregation takes place for a :class:`FlowGroup`.
 
 .. note::
 
-    All the operations in a :py:class:`FlowGroup` will use the same :class:`~flow.aggregator` object provided to the group's ``group_aggregator`` parameter.
+    All the operations in a :class:`~flow.project.FlowGroup` will use the same :class:`~flow.aggregator` object provided to the group's ``group_aggregator`` parameter.
 
 .. code-block:: python
 
