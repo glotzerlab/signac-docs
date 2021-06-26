@@ -49,7 +49,7 @@ Defining a workflow
 ===================
 
 We will reproduce the simple workflow introduced in the previous section by first copying both the ``greeted()`` condition function and the ``hello()`` *operation* function into the ``project.py`` module.
-We then use the :py:func:`~flow.FlowProject.operation` and the :py:func:`~.flow.FlowProject.post` decorator functions to specify that the ``hello()`` operation function is part of our workflow and that it should only be executed if the ``greeted()`` condition is not met.
+We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.FlowProject.post` decorator functions to specify that the ``hello()`` operation function is part of our workflow and that it should only be executed if the ``greeted()`` condition is not met.
 
 .. code-block:: python
 
