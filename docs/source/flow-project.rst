@@ -11,22 +11,22 @@ This chapter describes how to setup a complete workflow via the implementation o
 Setup and Interface
 ===================
 
-To implement a more automated workflow, we can subclass a :py:class:`~flow.FlowProject`:
+To implement an automated workflow using **signac flow**, we create a subclass of :py:class:`~flow.FlowProject`, here named :py:class:`~MyProject`:
 
 .. code-block:: python
 
     # project.py
     from flow import FlowProject
 
-    class Project(FlowProject):
+    class MyProject(FlowProject):
         pass
 
     if __name__ == '__main__':
-        Project().main()
+        MyProject().main()
 
 .. tip::
 
-    You can generate boiler-plate templates like the one above with the ``$ flow init`` function.
+    The ``$ flow init`` function will generate a boiler-plate ``project.py`` like the one above.
     There are multiple different templates available via the ``-t/--template`` option.
 
 Executing this script on the command line will give us access to this project's specific command line interface:
@@ -39,7 +39,7 @@ Executing this script on the command line will give us access to this project's 
 
 .. note::
 
-    You can have **multiple** implementations of :py:class:`~flow.FlowProject` that all operate on the same **signac** project!
+    You can have **multiple** implementations of :py:class:`~flow.FlowProject` that all operate on the same **signac** data space!
     This may be useful, for example, if you want to implement two very distinct workflows that operate on the same data space.
     Simply put those in different modules, *e.g.*, ``project_a.py`` and ``project_b.py``.
 
