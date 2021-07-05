@@ -48,8 +48,68 @@ Executing this script on the command line will give us access to this project's 
 Defining a workflow
 ===================
 
-We will reproduce the simple workflow introduced in the previous section by first copying both the ``greeted()`` condition function and the ``hello()`` *operation* function into the ``project.py`` module.
-We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.FlowProject.post` decorator functions to specify that the ``hello()`` operation function is part of our workflow and that it should only be executed if the ``greeted()`` condition is not met.
+This chapter introduces the two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations` and :ref:`conditions`.
+
+
+.. _operations:
+
+It is highly recommended to divide individual modifications of your project's data space into distinct functions.
+
+In this context, an *operation* is defined as a unary function where its only argument is aninstance of :py:class:`~signac.contrib.job.Job`.
+
+
+We will demonstrate this concept with a simple example.
+Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
+
+.. code-block:: python
+
+    # init.py
+    import signac
+
+    project = signac.init_project('MyProject')
+    for i in range(10):
+        project.open_job({'a': i}).init()
+
+
+A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
+
+.. code-block:: python
+    # project.py
+
+    from flow import FlowProject
+
+
+    class Project(FlowProject):
+        pass
+
+    @Project.operation
+    def hello(job):
+        print('hello', job)
+        with job:
+            with open('hello.txt', 'w') as file:
+                file.write('world!\n')
+
+    if __name__ == '__main__':
+        Project().main()
+
+
+.. _conditions:
+
+Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello()`` operation function is part of our workflow. If we run ``python project.py run``, signac-flow will execute all ``hello()`` for all jobs in the project.
+
+However, we only want to perform ``hello()`` if ``hello.txt`` does not yet exist in the ``job``'s workspace. To do this, need to create a condition function named ``greeted()`` that tells us if ``hello.txt`` already exits in the job workspace:
+
+.. code-block:: python
+    # project.py
+
+    ...
+
+    def greeted(job):
+        return job.isfile('hello.txt')
+
+To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello()`` operation function should only be executed if the ``greeted()`` condition is not met.
+
+The entirety of the code is as follows:
 
 .. code-block:: python
 
@@ -78,6 +138,8 @@ We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.F
 
 We can define both *pre* and *post* conditions, which allow us to define arbitrary workflows as an acyclic graph.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+
+.. TODO: link to pre and post condition API doc here?
 
 .. tip::
 

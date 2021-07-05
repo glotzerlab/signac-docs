@@ -1,33 +1,7 @@
 .. _basics:
 
-=========================
-Operations and Conditions
-=========================
 
-This chapter introduces the two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations` and :ref:`conditions`.
 
-.. _operations:
-
-Data Space Operations
-=====================
-
-Concept
--------
-
-It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-In this context, a *data space operation* is defined as a unary function with an instance of :py:class:`~signac.contrib.job.Job` as its only argument.
-
-We will demonstrate this concept with a simple example.
-Let's initialize a project with a few jobs, by executing the following script within a ``~/my_project`` directory:
-
-.. code-block:: python
-
-    # init.py
-    import signac
-
-    project = signac.init_project('MyProject')
-    for i in range(10):
-        project.open_job({'a': i}).init()
 
 A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory could then be implemented like this:
 
