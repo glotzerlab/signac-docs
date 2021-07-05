@@ -43,6 +43,7 @@ repos:
       - id: bibtex-tidy
         args:
           - --omit=abstract,keywords,archiveprefix,mendeley-tags,pmid,eprint,arxivid
+          - --wrap=90
           - --curly
           - --numeric
           - --space=2

@@ -17,62 +17,49 @@ Preferred Citation
 
 Please acknowledge the use of this software within the body of your publication by copying or adapting the following:
 
-*The computational workflow in general and data management in particular for this publication was primarily supported by the signac data management framework[1].*
+*The computational workflow and data management for this publication was supported by the signac data management framework [ADRG18].*
 
-  [1] Carl S. Adorf, Paul M. Dodd, Vyas Ramasubramani, and Sharon C. Glotzer. Simple data and workflow management with the signac framework. Computational Materials Science, 146(C):220-229, 2018. `DOI:10.1016/j.commatsci.2018.01.035 <https://doi.org/10.1016/j.commatsci.2018.01.035>`__.
+.. bibliography::
+    :filter: False
 
-If you make use of signac-flow, we also strongly recommend citing the following publication:
+    signac_commat
 
-  [2] Vyas Ramasubramani, Carl S. Adorf, Paul M. Dodd, Bradley D. Dice, and Sharon C. Glotzer. signac: A Python framework for data and workflow management. Proceedings of the 17th Python in Science Conference, 152-159, 2018. `DOI:10.25080/Majora-4af1f417-016 <https://doi.org/10.25080/Majora-4af1f417-016>`__.
+A preprint of this paper is also available as `arXiv:1611.03543 <https://arxiv.org/abs/1611.03543>`__.
+
+--------
+
+If you make use of **signac-flow**, we also strongly recommend citing the following publication:
+
+.. bibliography::
+    :filter: False
+
+    signac_scipy_2018
+
+--------
+
+If your paper makes use of the **signac-flow** features for aggregation, groups, and bundling or **signac** features for synced collections, consider citing:
+
+.. bibliography::
+    :filter: False
+
+    signac_scipy_2021
+
+--------
 
 If possible, we also recommend including a citation of the associated Zenodo resource:
 
-  [3] Carl S. Adorf, Vyas Ramasubramani, Bradley D. Dice, Michael M. Henry, Paul M. Dodd, & Sharon C. Glotzer. (2019, February 28). glotzerlab/signac (Version 1.0.0). Zenodo. `DOI:10.5281/zenodo.2581327 <https://doi.org/10.5281/zenodo.2581327>`__.
+.. bibliography::
+    :filter: False
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.2581327.svg
-   :target: https://doi.org/10.5281/zenodo.2581327
+    signac_zenodo
 
-A preprint of the paper published in the Journal of Computational Materials Science is available on the `arXiv <https://arxiv.org/abs/1611.03543>`_.
+--------
 
 To cite these references, you can use the following BibTeX entries:
 
-.. code-block:: bibtex
 
-    @article{signac_commat,
-      author        = {Carl S. Adorf and
-                       Paul M. Dodd and
-                       Vyas Ramasubramani and
-                       Sharon C. Glotzer},
-      title         = {Simple data and workflow management with the signac framework},
-      journal       = {Comput. Mater. Sci.},
-      volume        = {146},
-      number        = {C},
-      year          = {2018},
-      pages         = {220-229},
-      doi           = {10.1016/j.commatsci.2018.01.035}
-    }
-    @InProceedings{signac_scipy_2018,
-      author    = { Vyas Ramasubramani and Carl S. Adorf and Paul M. Dodd and Bradley D. Dice and Sharon C. Glotzer },
-      title     = { signac: A Python framework for data and workflow management },
-      booktitle = { Proceedings of the 17th Python in Science Conference },
-      pages     = { 152 - 159 },
-      year      = { 2018 },
-      editor    = { Fatih Akici and David Lippa and Dillon Niederhut and M. Pacer },
-      doi       = { 10.25080/Majora-4af1f417-016 }
-    }
-    @misc{signac_zenodo,
-      author       = {Carl S. Adorf and
-                      Vyas Ramasubramani and
-                      Bradley D. Dice and
-                      Michael M. Henry and
-                      Paul M. Dodd and
-                      Sharon C. Glotzer},
-      title        = {glotzerlab/signac},
-      month        = feb,
-      year         = 2019,
-      doi          = {10.5281/zenodo.2581327},
-      url          = {https://doi.org/10.5281/zenodo.2581327}
-    }
+.. literalinclude:: acknowledge.bib
+    :language: bibtex
 
 .. _badge:
 
