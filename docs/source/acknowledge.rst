@@ -37,7 +37,7 @@ If you make use of **signac-flow**, we also strongly recommend citing the follow
 
 --------
 
-If your paper makes use of the **signac-flow** features for aggregation, groups, and bundling or **signac** features for synced collections, consider citing:
+If your paper makes use of the **signac-flow** features for aggregation or groups, or **signac** features for synced collections, consider citing:
 
 .. bibliography::
     :filter: False
