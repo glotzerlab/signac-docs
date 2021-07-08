@@ -11,7 +11,7 @@ This chapter describes how to setup a complete workflow via the implementation o
 Setup and Interface
 ===================
 
-To implement an automated workflow using **signac flow**, we create a subclass of :py:class:`~flow.FlowProject`, here named :py:class:`~MyProject`:
+To implement an automated workflow using **signac-flow**, we create a subclass of :py:class:`~flow.FlowProject`, here named ``MyProject``:
 
 .. code-block:: python
 
@@ -26,7 +26,7 @@ To implement an automated workflow using **signac flow**, we create a subclass o
 
 .. tip::
 
-    The ``$ flow init`` function will generate a boiler-plate ``project.py`` like the one above.
+    The ``$ flow init`` function will generate a minimal ``project.py`` file like the one above.
     There are multiple different templates available via the ``-t/--template`` option.
 
 Executing this script on the command line will give us access to this project's specific command line interface:
@@ -55,7 +55,7 @@ This chapter introduces the two **fundamental concepts** for the implementation 
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
 
-In this context, an *operation* is defined as a unary function where its only argument is aninstance of :py:class:`~signac.contrib.job.Job`.
+In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
 
 
 We will demonstrate this concept with a simple example.
@@ -95,9 +95,10 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 
 .. _conditions:
 
-Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello()`` operation function is part of our workflow. If we run ``python project.py run``, signac-flow will execute all ``hello()`` for all jobs in the project.
+Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow. If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
 
-However, we only want to perform ``hello()`` if ``hello.txt`` does not yet exist in the ``job``'s workspace. To do this, need to create a condition function named ``greeted()`` that tells us if ``hello.txt`` already exits in the job workspace:
+However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
+To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
 
 .. code-block:: python
     # project.py
@@ -107,7 +108,7 @@ However, we only want to perform ``hello()`` if ``hello.txt`` does not yet exist
     def greeted(job):
         return job.isfile('hello.txt')
 
-To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello()`` operation function should only be executed if the ``greeted()`` condition is not met.
+To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello`` operation function should only be executed if the ``greeted`` condition is not met.
 
 The entirety of the code is as follows:
 
