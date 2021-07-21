@@ -213,7 +213,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A condition function which is supposed to be shown in the **status** view is called a *label-function*.
+A condition function which will be shown in the **status** view is called a *label-function*.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
@@ -270,7 +270,7 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination operates in serial by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
+The status determination operates in series by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
 Possible values are ``thread``, ``process`` or ``none`` with ``none`` being the default value (turning off parallelization).
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line:
