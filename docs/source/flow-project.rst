@@ -48,7 +48,6 @@ Executing this script on the command line will give us access to this project's 
 Operations
 ==========
 
-
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
 
 In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
@@ -136,7 +135,7 @@ The entirety of the code is as follows:
     if __name__ == '__main__':
         MyProject().main()
 
-We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as an acyclic graph.
+We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
 
 .. tip::
@@ -169,7 +168,7 @@ We can then execute this workflow with:
     hello 2b985fa90138327bef586f9ad87fc310
     # ...
 
-If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should produce no output the second time, since the ``greeted`` condition is met for all jobs and the ``hello`` operation should therefore not be executed.
+If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should not execute any operations the second time, since the ``greeted`` condition is met for all jobs and the ``hello`` operation should therefore not be executed.
 
 .. tip::
 
