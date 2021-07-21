@@ -177,7 +177,7 @@ We then generate a *detailed* status view with:
 
 .. code-block:: bash
 
-    ~/my_project.py status --detailed --stack --pretty
+    ~/my_project $ python project.py status --detailed --stack --pretty
     Collect job status info: 100%|█████████████████████████████████████████████| 10/10
     # Overview:
     Total # of jobs: 10
