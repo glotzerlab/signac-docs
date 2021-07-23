@@ -268,7 +268,7 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination operates in series by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
+Status is determined sequentially by default, because typically the overhead costs of using threads/processes are large. However, this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
 Possible values are ``thread``, ``process`` or ``none`` with ``none`` being the default value (turning off parallelization).
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line:
