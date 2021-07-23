@@ -53,7 +53,6 @@ It is highly recommended to divide individual modifications of your project's da
 
 In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
 
-
 We will demonstrate this concept with a simple example.
 Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
@@ -66,7 +65,6 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
     project = signac.init_project('MyProject')
     for i in range(10):
         project.open_job({'a': i}).init()
-
 
 A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
 
