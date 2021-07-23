@@ -52,7 +52,7 @@ extensions = [
 ]
 
 # For sphinxcontrib.bibtex.
-bibtex_bibfiles = ["signac.bib"]
+bibtex_bibfiles = ["signac.bib", "acknowledge.bib"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

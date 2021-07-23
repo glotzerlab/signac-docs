@@ -4,7 +4,8 @@
 The FlowProject
 ===============
 
-This chapter describes how to setup a complete workflow via the implementation of a :py:class:`~flow.FlowProject`. It includes two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations <operations>` and :ref:`conditions <conditions>`.
+This chapter describes how to setup a complete workflow via the implementation of a :py:class:`~flow.FlowProject`.
+It includes two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations <operations>` and :ref:`conditions <conditions>`.
 
 .. _project-setup:
 
@@ -47,7 +48,6 @@ Executing this script on the command line will give us access to this project's 
 
 Operations
 ==========
-
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
 
@@ -134,7 +134,7 @@ The entirety of the code is as follows:
     if __name__ == '__main__':
         MyProject().main()
 
-We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as an acyclic graph.
+We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
 
 .. tip::
@@ -167,7 +167,7 @@ We can then execute this workflow with:
     hello 2b985fa90138327bef586f9ad87fc310
     # ...
 
-If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should produce no output the second time, since the ``greeted`` condition is met for all jobs and the ``hello`` operation should therefore not be executed.
+If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should not execute any operations the second time, since the ``greeted`` condition is met for all jobs and the ``hello`` operation should therefore not be executed.
 
 .. tip::
 
@@ -211,7 +211,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A condition function which is supposed to be shown in the **status** view is called a *label-function*.
+A condition function which will be shown in the **status** view is called a *label-function*.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
@@ -268,7 +268,7 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination operates in serial by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
+The status determination operates in series by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
 Possible values are ``thread``, ``process`` or ``none`` with ``none`` being the default value (turning off parallelization).
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line:
