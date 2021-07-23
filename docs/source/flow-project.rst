@@ -5,28 +5,29 @@ The FlowProject
 ===============
 
 This chapter describes how to setup a complete workflow via the implementation of a :py:class:`~flow.FlowProject`.
+It includes two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations <operations>` and :ref:`conditions <conditions>`.
 
 .. _project-setup:
 
 Setup and Interface
 ===================
 
-To implement a more automated workflow, we can subclass a :py:class:`~flow.FlowProject`:
+To implement an automated workflow using **signac-flow**, we create a subclass of :py:class:`~flow.FlowProject`, here named ``MyProject``:
 
 .. code-block:: python
 
     # project.py
     from flow import FlowProject
 
-    class Project(FlowProject):
+    class MyProject(FlowProject):
         pass
 
     if __name__ == '__main__':
-        Project().main()
+        MyProject().main()
 
 .. tip::
 
-    You can generate boiler-plate templates like the one above with the ``$ flow init`` function.
+    The ``$ flow init`` command will generate a minimal ``project.py`` file like the one above.
     There are multiple different templates available via the ``-t/--template`` option.
 
 Executing this script on the command line will give us access to this project's specific command line interface:
@@ -39,17 +40,75 @@ Executing this script on the command line will give us access to this project's 
 
 .. note::
 
-    You can have **multiple** implementations of :py:class:`~flow.FlowProject` that all operate on the same **signac** project!
+    You can have **multiple** implementations of :py:class:`~flow.FlowProject` that all operate on the same **signac** data space!
     This may be useful, for example, if you want to implement two very distinct workflows that operate on the same data space.
     Simply put those in different modules, *e.g.*, ``project_a.py`` and ``project_b.py``.
 
-.. _workflow-definition:
+.. _operations:
 
-Defining a workflow
-===================
+Operations
+==========
 
-We will reproduce the simple workflow introduced in the previous section by first copying both the ``greeted()`` condition function and the ``hello()`` *operation* function into the ``project.py`` module.
-We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.FlowProject.post` decorator functions to specify that the ``hello()`` operation function is part of our workflow and that it should only be executed if the ``greeted()`` condition is not met.
+It is highly recommended to divide individual modifications of your project's data space into distinct functions.
+
+In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
+
+We will demonstrate this concept with a simple example.
+Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
+
+.. code-block:: python
+
+    # init.py
+
+    import signac
+
+    project = signac.init_project('MyProject')
+    for i in range(10):
+        project.open_job({'a': i}).init()
+
+A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
+
+.. code-block:: python
+
+    # project.py
+
+    from flow import FlowProject
+
+    class MyProject(FlowProject):
+        pass
+
+    @MyProject.operation
+    def hello(job):
+        print('hello', job)
+        with job:
+            with open('hello.txt', 'w') as file:
+                file.write('world!\n')
+
+
+    if __name__ == '__main__':
+        MyProject().main()
+
+
+.. _conditions:
+
+Conditions
+==========
+
+Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow.
+If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
+
+However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
+To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
+
+
+.. code-block:: python
+
+    def greeted(job):
+        return job.isfile('hello.txt')
+
+To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello`` operation function should only be executed if the ``greeted`` condition is *not* met.
+
+The entirety of the code is as follows:
 
 .. code-block:: python
 
@@ -57,7 +116,7 @@ We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.F
     from flow import FlowProject
 
 
-    class Project(FlowProject):
+    class MyProject(FlowProject):
         pass
 
 
@@ -65,8 +124,8 @@ We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.F
         return job.isfile('hello.txt')
 
 
-    @Project.operation
-    @Project.post(greeted)
+    @MyProject.operation
+    @MyProject.post(greeted)
     def hello(job):
         with job:
             with open('hello.txt', 'w') as file:
@@ -74,9 +133,9 @@ We then use the :py:meth:`~flow.FlowProject.operation` and the :py:meth:`~flow.F
 
 
     if __name__ == '__main__':
-        Project().main()
+        MyProject().main()
 
-We can define both *pre* and *post* conditions, which allow us to define arbitrary workflows as an acyclic graph.
+We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
 
 .. tip::
@@ -86,9 +145,9 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
     .. code-block:: python
 
-        @Project.operation
-        @Project.pre(cheap_condition)
-        @Project.pre(expensive_condition)
+        @MyProject.operation
+        @MyProject.pre(cheap_condition)
+        @MyProject.pre(expensive_condition)
         def hello(job):
             pass
 
@@ -109,7 +168,7 @@ We can then execute this workflow with:
     hello 2b985fa90138327bef586f9ad87fc310
     # ...
 
-If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should produce no output the second time, since the ``greeted()`` condition is met for all jobs and the ``hello()`` operation should therefore not be executed.
+If we implemented and integrated the operation and condition functions correctly, calling the ``run`` command twice should not execute any operations the second time, since the ``greeted`` condition is met for all jobs and the ``hello`` operation should therefore not be executed.
 
 .. tip::
 
@@ -118,9 +177,9 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
-        @Project.operation
-        @Project.post(greeted)
-        @Project.with_job
+        @MyProject.operation
+        @MyProject.post(greeted)
+        @MyProject.with_job
         def hello(job):
             with open('hello.txt', 'w') as file:
                 file.write('world!\n')
@@ -129,8 +188,8 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
-        @Project.operation
-        @Project.post(greeted)
+        @MyProject.operation
+        @MyProject.post(greeted)
         def hello(job):
             with job:
                 with open('hello.txt', 'w') as file:
@@ -141,7 +200,7 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
-        @Project.operation
+        @MyProject.operation
         @with_job
         @cmd
         def hello(job):
@@ -153,19 +212,14 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A condition function which is supposed to be shown in the **status** view is called a *label-function*.
+A *label-function* is a condition function which will be shown in the **status** view.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
 
-    # project.py
-    # ...
-
-    @Project.label
+    @MyProject.label
     def greeted(job):
         return job.isfile('hello.txt')
-
-    # ...
 
 We will reset the workflow for only a few jobs to get a more interesting *status* view:
 
@@ -215,7 +269,8 @@ As shown before, all *eligible* operations can then be executed with:
 
     ~/my_project $ python project.py run
 
-The status determination operates in serial by default, because typically the overhead costs of using threads/processes are large. However this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
+Status is determined sequentially by default, because typically the overhead costs of using threads/processes are large.
+However, this can be configured by setting a value for the ``flow.status_parallelization`` configuration key.
 Possible values are ``thread``, ``process`` or ``none`` with ``none`` being the default value (turning off parallelization).
 
 We can set the ``flow.status_parallelization`` configuration value by directly editing the configuration file(s) or via the command line:
