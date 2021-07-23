@@ -27,7 +27,7 @@ To implement an automated workflow using **signac-flow**, we create a subclass o
 
 .. tip::
 
-    The ``$ flow init`` function will generate a minimal ``project.py`` file like the one above.
+    The ``$ flow init`` command will generate a minimal ``project.py`` file like the one above.
     There are multiple different templates available via the ``-t/--template`` option.
 
 Executing this script on the command line will give us access to this project's specific command line interface:
@@ -211,7 +211,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A condition function which will be shown in the **status** view is called a *label-function*.
+A *label-function* is a condition function which will be shown in the **status** view.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
