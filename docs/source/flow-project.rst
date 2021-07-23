@@ -94,7 +94,8 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 Conditions
 ==========
 
-Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow. If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
+Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow.
+If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
 
 However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
 To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
