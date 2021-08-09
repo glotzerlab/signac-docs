@@ -48,7 +48,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    templates
    flow-group
    aggregation
-   indexing
    collections
    configuration
    recipes
