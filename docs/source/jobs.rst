@@ -64,7 +64,7 @@ To access or modify a data point, obtain an instance of :py:class:`Job` by passi
     >>> statepoint = {'a': 0}
     # Get the associated job:
     >>> job = project.open_job(statepoint)
-    >>> print(job.get_id())
+    >>> print(job.id)
     9bfd29df07674bc4aa960cf661b5acd2
 
 
@@ -88,7 +88,7 @@ Once a job has been initialized, it may also be *opened by id* as follows (initi
 .. code-block:: python
 
     >>> job.init()
-    >>> job2 = project.open_job(id=job.get_id())
+    >>> job2 = project.open_job(id=job.id)
     >>> job == job2
     True
 
@@ -98,7 +98,7 @@ Whether a job is opened by state point or job id, an instance of :py:class:`Job`
 
     >>> print(job.statepoint())
     {'a': 0}
-    >>> print(job.get_id())
+    >>> print(job.id)
     9bfd29df07674bc4aa960cf661b5acd2
     >>> print(job.workspace())
     '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2'

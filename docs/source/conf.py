@@ -48,7 +48,11 @@ extensions = [
     "sphinx.ext.autosummary",
     "nbsphinx",
     "jupyter_sphinx",
+    "sphinxcontrib.bibtex",
 ]
+
+# For sphinxcontrib.bibtex.
+bibtex_bibfiles = ["signac.bib", "acknowledge.bib"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -166,7 +170,7 @@ latex_documents = [
         master_doc,
         "signac.tex",
         "signac Documentation",
-        "Carl Simon Adorf, Vyas Ramasubramani, Bradley Dice",
+        author,
         "manual",
     ),
 ]
