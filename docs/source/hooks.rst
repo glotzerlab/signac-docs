@@ -4,7 +4,7 @@
 Hooks
 =====
 
-This chapter provides information setting up hooks at the operation and project level.
+This chapter provides information about hooks.
 
 
 .. _hooks_introduction:
@@ -28,6 +28,12 @@ Hooks can be installed at the :ref:`operation level <_operation_hooks>`
 or at the :ref:`flow-project level<_project-level_hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
+.. note::
+
+Hooks are run in the environment of the python process from which you call **flow**.
+For this reason,
+hooks will not have access to modules in a singularity container if you use that as your execution directive.
+
 .. _operation_hooks:
 
 Operation Hooks
@@ -36,20 +42,95 @@ Operation Hooks
 Hooks may be added to individual operations using decorators.
 The :py:class:`~flow.hook` decorator tells :py:class`~signac` to run a
 hook (or set of hooks) when an operation reaches any of the following triggers:
-* :py:class:`~flow.hook.on_start` will execute when the operation begins execution.
-* :py:class:`~flow.hook.on_finish` will execute when the operation exits, with or without error.
-* :py:class:`~flow.hook.on_success` will execute when the operation exits without error.
-* :py:class:`~flow.hook.on_fail` will execute when the operation exits with error.
+* :py:meth:`~flow.hook.on_start` will execute when the operation begins execution.
+* :py:meth:`~flow.hook.on_finish` will execute when the operation exits, with or without error.
+* :py:meth:`~flow.hook.on_success` will execute when the operation exits without error.
+* :py:meth:`~flow.hook.on_fail` will execute when the operation exits with error.
 
 The :py:class:`~flow.hook` decorator accepts objects as a function of the job operation
 (:py:class:`~flow.project.JobOperation`).
-The decorators :py:class:`~flow.hook.on_start`, :py:class:`~flow.hook.on_start`, and :py:class:`~flow.hook.on_start`
+The decorators :py:meth:`~flow.hook.on_start`, :py:meth:`~flow.hook.on_finish`, and :py:class:`~flow.hook.on_start`
 accept functions with two parameters: the operation name and the :py:class:`Job` object.
-The decorator :py:class:`hook.on_fail`, accepts functions with three parameters: the operation name, the output error,
+The decorator :py:meth:`~flow.hook.on_fail`, accepts functions with three parameters: the operation name, the output error,
 and the :py:class:`Job` object.
+
+:py:class:`~flow.hook` can be used to store basic information about the execution of a job operation to the job document.
+
+In the following example, either the function ``store_success_to_doc`` executes after the
+:py:class:`~flow.project.JobOperation`, ``foo``, exits without error, or ``store_error_to_doc`` executes after ``foo``
+exits with error:
+
+.. code-block:: python
+    # project.py
+    from flow import FlowProject
+
+    class Project(FlowProject):
+        pass
+
+    def store_success_to_doc(operation_name, job):
+        job.doc.update({f'{operation_name}_success': True})
+
+    def store_error_to_doc(operation_name, error, job):
+        job.doc.update({f'{operation_name}_success': False})
+
+    @FlowProject.operation
+    @FlowProject.hook.on_success(store_success_to_doc)
+    @FlowProject.hook.on_fail(store_error_to_doc)
+    @FlowProject.post.isfile("result.txt")
+    def foo(job):
+        if job.sp.a == 0:
+            # Have jobs with statepoint 'a' == 0 fail
+            raise ValueError
+
+    if __name__ == '__main__':
+       FlowProject().main()
+
+If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run,
+and ``job.doc.get("foo_success") == True``.
+
+If ``foo`` is executed using ``python project.py run -o foo -f a 0``, a ``ValueError`` is raised.
+The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == False``.
+
+.. note::
+
+    Unlike :py:meth:`~flow.hook.on_start`, :py:meth:`~flow.hook.on_finish`, and :py:meth:`~flow.hook.on_on_success`,
+    which accept functions that take 2 arguments,
+    :py:meth:`~flow.hook.on_fail` accepts functions that take 3 arguments.
 
 .. _project-level_hooks:
 
 Project-Level Hooks
 ===================
-placeholder
+
+In some cases, it may be desirable to install the same set of hooks for all operations in a project.
+A custom set of hooks may be installed by a custom ``install_hooks`` method:
+
+.. code-block:: python
+    # project.py
+    from flow import FlowProject #etc
+
+    class Project(FlowProject):
+        pass
+
+    ...  # Define various job operations
+
+    def set_job_doc(key):
+        def set_true(operation_name, job):
+            job.doc[f"{operation_name}_{key}"] = True
+        return set_true
+
+    def set_job_doc_with_error():
+        def set_false(operation_name, error, job):
+            job.doc[f"{operation_name}_success"] = True
+        return set_false
+
+    class ProjectLevelHooks:
+
+        def install_hooks(self, project):
+            project.hooks.on_start.append(set_job_doc("start"))
+            project.hooks.on_success.append(set_job_doc("success"))
+            project.hooks.on_fail.append(set_job_doc_with_error())
+
+
+    if __name__ == '__main__':
+        ProjectLevelHooks().install_hooks(Project()).main()
