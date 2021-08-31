@@ -30,9 +30,9 @@ Project-level hooks are called for every operation in the flow project.
 
 .. note::
 
-Hooks are run in the environment of the python process from which you call **flow**.
-For this reason,
-hooks will not have access to modules in a singularity container if you use that as your execution directive.
+    Hooks are run in the environment of the python process from which you call **flow**.
+    For this reason,
+    hooks will not have access to modules in a singularity container if you use that as your execution directive.
 
 .. _operation hooks:
 
