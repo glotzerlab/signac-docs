@@ -24,8 +24,8 @@ For example, operation failures may be tracked in the job document.
 Hooks also make it possible to record the git commit ID upon execution of an operation,
 allowing users to track which version of code was used to run the operation.
 
-Hooks can be installed at the :ref:`operation level <_operation_hooks>`
-or at the :ref:`flow-project level<_project-level_hooks>`.
+Hooks can be installed at the :ref:`operation level <operation hooks>`
+or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
 .. note::
@@ -34,7 +34,7 @@ Hooks are run in the environment of the python process from which you call **flo
 For this reason,
 hooks will not have access to modules in a singularity container if you use that as your execution directive.
 
-.. _operation_hooks:
+.. _operation hooks:
 
 Operation Hooks
 ===============
@@ -61,6 +61,7 @@ In the following example, either the function ``store_success_to_doc`` executes 
 exits with error:
 
 .. code-block:: python
+
     # project.py
     from flow import FlowProject
 
@@ -94,18 +95,19 @@ The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == Fal
 .. note::
 
     Unlike :py:meth:`~flow.hook.on_start`, :py:meth:`~flow.hook.on_finish`, and :py:meth:`~flow.hook.on_on_success`,
-    which accept functions that take 2 arguments,
-    :py:meth:`~flow.hook.on_fail` accepts functions that take 3 arguments.
+    which accept functions that take ``operation_name`` and ``job`` as arguments,
+    :py:meth:`~flow.hook.on_fail` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
-.. _project-level_hooks:
+.. _project-level hooks:
 
 Project-Level Hooks
 ===================
 
-In some cases, it may be desirable to install the same set of hooks for all operations in a project.
+In some cases, it may be desirable to install the same hook or set of hooks for all operations in a project.
 A custom set of hooks may be installed by a custom ``install_hooks`` method:
 
 .. code-block:: python
+
     # project.py
     from flow import FlowProject #etc
 
