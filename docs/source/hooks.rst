@@ -133,4 +133,4 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
         project.hooks.on_start.append(set_job_doc("start"))
         project.hooks.on_success.append(set_job_doc("success"))
         project.hooks.on_fail.append(set_job_doc_with_error())
-        project.main()       
+        project.main()
