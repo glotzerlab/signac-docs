@@ -127,14 +127,10 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
             job.doc[f"{operation_name}_success"] = True
         return set_false
 
-    class ProjectLevelHooks:
-
-        def install_hooks(self, project):
-            project.hooks.on_start.append(set_job_doc("start"))
-            project.hooks.on_success.append(set_job_doc("success"))
-            project.hooks.on_fail.append(set_job_doc_with_error())
-            return project
-
 
     if __name__ == '__main__':
-        ProjectLevelHooks().install_hooks(Project()).main()
+        project = Project()
+        project.hooks.on_start.append(set_job_doc("start"))
+        project.hooks.on_success.append(set_job_doc("success"))
+        project.hooks.on_fail.append(set_job_doc_with_error())
+        project.main()       
