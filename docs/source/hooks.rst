@@ -38,21 +38,21 @@ Operation Hooks
 ===============
 
 Hooks may be added to individual operations using decorators.
-The :py:class:`~flow.hook` decorator tells :py:class`~signac` to run a
+The :py:class:`~flow.add_hook` decorator tells :py:class`~signac` to run a
 hook (or set of hooks) when an operation reaches any of the following triggers:
-* :py:meth:`~flow.hook.on_start` will execute when the operation begins execution.
-* :py:meth:`~flow.hook.on_finish` will execute when the operation exits, with or without error.
-* :py:meth:`~flow.hook.on_success` will execute when the operation exits without error.
-* :py:meth:`~flow.hook.on_fail` will execute when the operation exits with error.
+* :py:meth:`~flow.add_hook.on_start` will execute when the operation begins execution.
+* :py:meth:`~flow.add_hook.on_finish` will execute when the operation exits, with or without error.
+* :py:meth:`~flow.add_hook.on_success` will execute when the operation exits without error.
+* :py:meth:`~flow.add_hook.on_fail` will execute when the operation exits with error.
 
-The :py:class:`~flow.hook` decorator accepts objects as a function of the job operation
+The :py:class:`~flow.add_hook` decorator accepts objects as a function of the job operation
 (:py:class:`~flow.project.JobOperation`).
-The decorators :py:meth:`~flow.hook.on_start`, :py:meth:`~flow.hook.on_finish`, and :py:class:`~flow.hook.on_start`
+The decorators :py:meth:`~flow.add_hook.on_start`, :py:meth:`~flow.add_hook.on_finish`, and :py:class:`~flow.add_hook.on_start`
 accept functions with two parameters: the operation name and the :py:class:`Job` object.
-The decorator :py:meth:`~flow.hook.on_fail`, accepts functions with three parameters: the operation name, the output error,
+The decorator :py:meth:`~flow.add_hook.on_fail`, accepts functions with three parameters: the operation name, the output error,
 and the :py:class:`Job` object.
 
-:py:class:`~flow.hook` can be used to store basic information about the execution of a job operation to the job document.
+:py:class:`~flow.add_hook` can be used to store basic information about the execution of a job operation to the job document.
 
 In the following example, either the function ``store_success_to_doc`` executes after the
 :py:class:`~flow.project.JobOperation`, ``foo``, exits without error, or ``store_error_to_doc`` executes after ``foo``
@@ -73,8 +73,8 @@ exits with error:
         job.doc.update({f'{operation_name}_success': False})
 
     @FlowProject.operation
-    @FlowProject.hook.on_success(store_success_to_doc)
-    @FlowProject.hook.on_fail(store_error_to_doc)
+    @FlowProject.add_hook.on_success(store_success_to_doc)
+    @FlowProject.add_hook.on_fail(store_error_to_doc)
     @FlowProject.post.isfile("result.txt")
     def foo(job):
         if job.sp.a == 0:
@@ -92,9 +92,9 @@ The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == Fal
 
 .. note::
 
-    Unlike :py:meth:`~flow.hook.on_start`, :py:meth:`~flow.hook.on_finish`, and :py:meth:`~flow.hook.on_on_success`,
+    Unlike :py:meth:`~flow.add_hook.on_start`, :py:meth:`~flow.add_hook.on_finish`, and :py:meth:`~flow.add_hook.on_on_success`,
     which accept functions that take ``operation_name`` and ``job`` as arguments,
-    :py:meth:`~flow.hook.on_fail` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
+    :py:meth:`~flow.add_hook.on_fail` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 .. _project-level hooks:
 
