@@ -12,7 +12,7 @@ Introduction
 One of the goals of the :py:class:`~signac` framework is to make it easy to track the provenance of research data
 and to ensure its reproducibility.
 Hooks make it possible to track these state changes in a project.
-In general, a hook is a function that is called at a certain time.
+In general, a hook is a function that is called at a specific point relative to the execution of an operation.
 
 Hooks execute code adjacent to key steps of an operation,
 such as when it begins, finishes, or fails (called *triggers*).
