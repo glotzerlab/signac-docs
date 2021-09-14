@@ -4,9 +4,6 @@
 Hooks
 =====
 
-This chapter provides information about hooks.
-
-
 .. _hooks_introduction:
 
 Introduction
