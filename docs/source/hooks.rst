@@ -15,8 +15,9 @@ Hooks make it possible to track these state changes in a project.
 In general, a hook is a function that is called at a specific point relative to the execution of an operation.
 
 Hooks execute code adjacent to key steps of an operation,
-such as when it begins, finishes, or fails (called *triggers*).
-This helps track where data for each run came from, and which operations were applied to them.
+such as when it begins, finishes, or fails. These events are
+called triggers with respect to hooks.
+Hooks help track where the data for each execution came from, and which operations were applied to them.
 For example, operation failures may be tracked in the job document.
 Hooks also make it possible to record the git commit ID upon execution of an operation,
 allowing users to track which version of code was used to run the operation.
@@ -29,7 +30,7 @@ Project-level hooks are called for every operation in the flow project.
 
     Hooks are run in the environment of the python process from which you call **flow**.
     For this reason,
-    hooks will not have access to modules in a singularity container if you use that as your execution directive.
+    hooks will not have access to modules in a container if you use that as your execution directive.
 
 .. _operation hooks:
 
