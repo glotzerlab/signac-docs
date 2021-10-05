@@ -13,17 +13,17 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v2.20.0'
+    rev: 'v2.29.0'
     hooks:
       - id: pyupgrade
         args:
           - --py36-plus
   - repo: https://github.com/PyCQA/isort
-    rev: '5.9.1'
+    rev: '5.9.3'
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: '21.6b0'
+    rev: '21.9b0'
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -33,12 +33,12 @@ repos:
         args:
           - --max-line-length=100
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 0.13.1
+    rev: 1.1.1
     hooks:
       - id: nbqa-black
       - id: nbqa-pyupgrade
   - repo: https://github.com/FlamingTempura/bibtex-tidy
-    rev: '59929ccba5fa85b9bf8ca1d35fedf92206651959'
+    rev: '202d00956e59231b22c547b485305690597be0c0'
     hooks:
       - id: bibtex-tidy
         args:
