@@ -23,11 +23,6 @@ To create an empty collection, simply call the default constructor:
     collection = Collection()
 
 You can then add documents with the :py:meth:`signac.Collection.insert_one` method.
-Alternatively you can pass an iterable of documents as the first argument, such as the return value of the :py:meth:`signac.Project.index` method:
-
-.. code-block:: python
-
-    index_collection = Collection(project.index())
 
 By default, the collection is stored purely in memory.
 But you can use the :py:class:`signac.Collection` container also to manage collections **directly on disk**.
