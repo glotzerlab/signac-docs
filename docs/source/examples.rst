@@ -22,20 +22,24 @@ Workflow Examples
 
     examples/notebooks/signac_1*
 
-
-.. todo::
-
-    Add Pumpkin example.
-    Add MD with Gromacs example.
-
 Analysis Examples
 =================
 
-The examples below include examples of using **signac** to analyze data, as well as ways of integrating with other software such as pandas and sacred.
-
+The examples below include examples of using **signac** to analyze data, as well as ways of integrating with other software.
 
 .. toctree::
     :maxdepth: 1
     :glob:
 
     examples/notebooks/signac_2*
+
+Aggregation Examples
+====================
+
+This set of examples demonstrate :ref:`aggregation`.
+
+.. toctree::
+    :maxdepth: 1
+    :glob:
+
+    examples/notebooks/signac_3*
