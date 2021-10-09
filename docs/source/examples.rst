@@ -16,6 +16,8 @@ Unlike the tutorial, the examples consist mainly of complete, immediately execut
 Workflow Examples
 =================
 
+The sections within this chapter introduce the **signac** framework and demonstrate how to implement a simple, but complete computational workflow.
+
 .. toctree::
     :maxdepth: 1
     :glob:
@@ -25,7 +27,7 @@ Workflow Examples
 Analysis Examples
 =================
 
-The examples below include examples of using **signac** to analyze data, as well as ways of integrating with other software.
+The examples below use **signac** to analyze data and demonstrate integrations with other software.
 
 .. toctree::
     :maxdepth: 1
@@ -36,7 +38,7 @@ The examples below include examples of using **signac** to analyze data, as well
 Aggregation Examples
 ====================
 
-This set of examples demonstrate :ref:`aggregation`.
+This set of examples demonstrates :ref:`aggregation`.
 
 .. toctree::
     :maxdepth: 1
