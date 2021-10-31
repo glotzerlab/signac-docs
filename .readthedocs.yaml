@@ -5,7 +5,7 @@ build:
         python: "3"
 python:
     install:
-        - requirements: doc/requirements.txt
+        - requirements: docs/requirements.txt
 submodules:
     include: all
     recursive: true
