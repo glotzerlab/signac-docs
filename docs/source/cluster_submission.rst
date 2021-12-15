@@ -67,27 +67,37 @@ For example the following command would submit up to 5 ``hello`` operations, whe
     Use the ``--pretend`` option to preview the generated submission scripts on screen instead of submitting them.
 
 
-Parallelization and Bundling
-============================
+Bundling
+========
 
-By default all eligible job-operations will be submitted as separate cluster jobs.
-This is usually the best model for clusters that provide shared compute partitions.
-However, sometimes it is beneficial to execute multiple operations within one cluster job, especially if the compute cluster can only make reservation for full nodes.
+By default, all eligible job-operations will be submitted as separate cluster jobs.
+This is usually the best model for clusters that provide shared compute partitions
+because it allows the cluster scheduler to optimize the scheduling of your job.
+However, sometimes it is beneficial to execute multiple operations within one cluster job,
+like if the compute cluster can only make reservation for full nodes or if there is a limit to the number of cluster jobs you can submit to the cluster scheduler's queue.
 
-You can place multiple job-operations within one cluster submission with the ``--bundle`` option.
-For example, the following command will bundle up to 5 job-operations to be executed in parallel into a single cluster submission:
+.. _cluster_submission_directives:
+
+You can execute multiple job-operations in serial within one cluster submission with the ``--bundle`` option.
+For example, the following command will bundle up to five job-operations to be executed into a single cluster submission:
 
 .. code-block:: bash
 
-    ~/my_project $ python project.py submit --bundle=5 --parallel
+    ~/my_project $ python project.py submit --bundle=5
 
-Without any argument the ``--bundle`` option will bundle **all** eligible job-operations into a single cluster job.
+Without any argument, the ``--bundle`` option will bundle **all** eligible job-operations into a single cluster job.
 
 .. tip::
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
-.. _cluster_submission_directives:
+By default, the submit command will run bundled job-operations in serial. It is possible to run multiple CPU processes in parallel, as long as the operating system assigns running threads to any available CPU cores, which is not available on all compute clusters.
+The ``--parallel`` flag will start the bundled job-operations and run them as background processes. Ensure that the processes are correctly assigned to the requested resources before using this option.
+
+.. warning::
+
+   The ``--parallel`` flag will not distribute operations among multiple GPUs. Use aggregation instead. (TODO: link to tutorial)
+
 
 Submission Directives
 =====================
