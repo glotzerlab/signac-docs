@@ -74,10 +74,8 @@ By default, all eligible job-operations will be submitted as separate cluster jo
 This is usually the best model for clusters that provide shared compute partitions because it allows the cluster scheduler to optimize the scheduling of your job.
 However, sometimes it is beneficial to execute multiple operations within one cluster job, like if the compute cluster can only make reservation for full nodes or if there is a limit to the number of cluster jobs you can submit to the cluster scheduler's queue.
 
-.. _cluster_submission_directives:
-
-You can execute multiple job-operations in serial within one cluster submission with the ``--bundle`` option.
-For example, the following command will bundle up to five job-operations to be executed into a single cluster submission:
+You can execute multiple job-operations in serial per cluster job submission with the ``--bundle`` option.
+For example, the following command will bundle up to five job-operations to be executed in each cluster submission:
 
 .. code-block:: bash
 
@@ -97,6 +95,7 @@ The ``--parallel`` flag will start the bundled job-operations and run them as ba
 
    The ``--parallel`` option will not distribute operations among multiple GPUs. Use aggregation instead. (TODO: link to tutorial)
 
+.. _cluster_submission_directives:
 
 Submission Directives
 =====================
