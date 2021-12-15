@@ -95,7 +95,7 @@ The ``--parallel`` flag will start the bundled job-operations and run them as ba
 
 .. warning::
 
-   The ``--parallel`` flag will not distribute operations among multiple GPUs. Use aggregation instead. (TODO: link to tutorial)
+   The ``--parallel`` option will not distribute operations among multiple GPUs. Use aggregation instead. (TODO: link to tutorial)
 
 
 Submission Directives
