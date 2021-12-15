@@ -71,10 +71,8 @@ Bundling
 ========
 
 By default, all eligible job-operations will be submitted as separate cluster jobs.
-This is usually the best model for clusters that provide shared compute partitions
-because it allows the cluster scheduler to optimize the scheduling of your job.
-However, sometimes it is beneficial to execute multiple operations within one cluster job,
-like if the compute cluster can only make reservation for full nodes or if there is a limit to the number of cluster jobs you can submit to the cluster scheduler's queue.
+This is usually the best model for clusters that provide shared compute partitions because it allows the cluster scheduler to optimize the scheduling of your job.
+However, sometimes it is beneficial to execute multiple operations within one cluster job, like if the compute cluster can only make reservation for full nodes or if there is a limit to the number of cluster jobs you can submit to the cluster scheduler's queue.
 
 .. _cluster_submission_directives:
 
@@ -91,7 +89,8 @@ Without any argument, the ``--bundle`` option will bundle **all** eligible job-o
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
-By default, the submit command will run bundled job-operations in serial. It is possible to run multiple CPU processes in parallel, as long as the operating system assigns running threads to any available CPU cores, which is not available on all compute clusters.
+By default, the submit command will run bundled job-operations in serial.
+It is possible to run multiple CPU processes in parallel, as long as the operating system assigns running threads to any available CPU cores, which is not the default behavior on all compute clusters.
 The ``--parallel`` flag will start the bundled job-operations and run them as background processes. Ensure that the processes are correctly assigned to the requested resources before using this option.
 
 .. warning::
