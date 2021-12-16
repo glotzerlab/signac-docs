@@ -176,7 +176,7 @@ If we implemented and integrated the operation and condition functions correctly
     For example:
 
     .. code-block:: python
-        
+
         from flow import with_job
 
         @MyProject.operation
