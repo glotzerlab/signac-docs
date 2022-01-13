@@ -177,9 +177,11 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
+        from flow import with_job
+
         @MyProject.operation
         @MyProject.post(greeted)
-        @MyProject.with_job
+        @with_job
         def hello(job):
             with open('hello.txt', 'w') as file:
                 file.write('world!\n')
