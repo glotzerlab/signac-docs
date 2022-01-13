@@ -94,7 +94,7 @@ The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == Fal
 .. note::
 
     Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_finish`,
-    and :py:meth:`~flow.FlowProject.add_hook.on_on_success`,
+    and :py:meth:`~flow.FlowProject.add_hook.on_success`,
     which accept functions that take ``operation_name`` and ``job`` as arguments,
     :py:meth:`~flow.FlowProject.add_hook.on_fail` accepts functions that take ``operation_name``, ``error``,
     and ``job`` as arguments.
