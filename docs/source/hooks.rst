@@ -108,8 +108,8 @@ Project-Level Hooks
 
 In some cases, it may be desirable to install the same hook or set of hooks for all operations in a project.
 For example, to create a  project level hook that sets a job document key, ``f"{operation_name}_start"`` to ``True`` at the start of execution:
- 
- .. code-block:: python 
+
+ .. code-block:: python
 
     # project.py
     from flow import FlowProject #etc
@@ -164,8 +164,7 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
             self.project.hooks.on_fail.append(set_job_doc_with_error())
             return self.project
 
-    
+
     if __name__ == '__main__':
         project = Project()
         ProjectHooks(project).main()
-
