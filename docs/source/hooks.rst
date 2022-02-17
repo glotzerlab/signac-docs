@@ -18,7 +18,7 @@ Hooks execute code adjacent to key steps of an operation,
 such as when it begins, finishes, or fails. These events are
 called triggers.
 
-For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`, 
+For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`,
 while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
 
 Hooks help track where an execution's data originated, and which operations were applied to the data.
@@ -129,7 +129,7 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
             job.doc[f"{operation_name}_success"] = True
         return set_false
 
-    
+
     # Custom function to install project level hooks
     def install_hooks(project):
         project.hooks.on_start.append(set_job_doc("start"))
