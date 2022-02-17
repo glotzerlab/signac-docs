@@ -18,7 +18,7 @@ Hooks execute code adjacent to key steps of an operation,
 such as when it begins, finishes, or fails. These events are
 called triggers.
 
-For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`, 
+For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`,
 while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
 
 Hooks help track where an execution's data originated, and which operations were applied to the data.
@@ -88,10 +88,10 @@ exits with error:
        FlowProject().main()
 
 If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run,
-and ``job.doc.get("foo_success") == True``.
+and `job.doc.foo_success` will be ``True``.
 
 If ``foo`` is executed using ``python project.py run -o foo -f a 0``, a ``ValueError`` is raised.
-The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == False``.
+The hook triggered ``on_fail`` will run, and ``job.doc.foo_success`` will be ``False``.
 
 .. note::
 
