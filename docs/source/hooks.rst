@@ -129,7 +129,7 @@ For example, to create a  project level hook that sets a job document key, ``f"{
         project.main()
 
 
-A custom set of hooks may be installed by a custom ``install_hooks`` method:
+A custom set of hooks may also be installed by a custom ``install_hooks`` method:
 
 .. code-block:: python
 
