@@ -107,6 +107,28 @@ Project-Level Hooks
 ===================
 
 In some cases, it may be desirable to install the same hook or set of hooks for all operations in a project.
+For example, to create a  project level hook that sets a job document key, ``f"{operation_name}_start"`` to ``True`` at the start of execution:
+ 
+ .. code-block:: python 
+
+    # project.py
+    from flow import FlowProject #etc
+
+
+    class Project(FlowProject):
+        pass
+
+
+    def track_start(operation_name, job):
+        job.doc[f"{operation_name}_start"] = True
+
+
+    if __name__ == '__main__':
+        project = Project()
+        project.hooks.on_start.append(track_start)
+        project.main()
+
+
 A custom set of hooks may be installed by a custom ``install_hooks`` method:
 
 .. code-block:: python
@@ -119,26 +141,31 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
 
     ...  # Define various job operations
 
-    def set_job_doc(key):
-        def set_true(operation_name, job):
-            job.doc[f"{operation_name}_{key}"] = True
-        return set_true
 
-    def set_job_doc_with_error():
-        def set_false(operation_name, error, job):
-            job.doc[f"{operation_name}_success"] = True
-        return set_false
+    # Define custom hooks class. This can be done in a seperate file and imported into the project.py file.
+    class ProjectHooks:
+
+        def __init__(self, project):
+            self.project = project
+
+        def set_job_doc(self, key):
+            def set_true(operation_name, job):
+                job.doc[f"{operation_name}_{key}"] = True
+            return set_true
+
+        def set_job_doc_with_error(self):
+            def set_false(operation_name, error, job):
+                job.doc[f"{operation_name}_success"] = True
+            return set_false
+
+        def install_hooks(self):
+            self.project.hooks.on_start.append(set_job_doc("start"))
+            self.project.hooks.on_success.append(set_job_doc("success"))
+            self.project.hooks.on_fail.append(set_job_doc_with_error())
+            return self.project
 
     
-    # Custom function to install project level hooks
-    def install_hooks(project):
-        project.hooks.on_start.append(set_job_doc("start"))
-        project.hooks.on_success.append(set_job_doc("success"))
-        project.hooks.on_fail.append(set_job_doc_with_error())
-        return project
-
-
     if __name__ == '__main__':
         project = Project()
-        project = install_hooks(project)
-        project.main()
+        ProjectHooks(project).main()
+
