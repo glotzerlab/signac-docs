@@ -88,10 +88,10 @@ exits with error:
        FlowProject().main()
 
 If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run,
-and ``job.doc.get("foo_success") == True``.
+and `job.doc.foo_success` will be ``True``.
 
 If ``foo`` is executed using ``python project.py run -o foo -f a 0``, a ``ValueError`` is raised.
-The hook triggered ``on_fail`` will run, and ``job.doc.get("foo_success") == False``.
+The hook triggered ``on_fail`` will run, and ``job.doc.foo_success`` will be ``False``.
 
 .. note::
 
