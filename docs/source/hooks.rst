@@ -17,9 +17,12 @@ In general, a hook is a function that is called at a specific point relative to 
 Hooks execute code adjacent to key steps of an operation,
 such as when it begins, finishes, or fails. These events are
 called triggers.
+
+For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`, 
+while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
+
 Hooks help track where an execution's data originated, and which operations were applied to the data.
-For example, operation failures may be tracked in the job document.
-Hooks also make it possible to record the git commit ID upon execution of an operation,
+For examples, users may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon execution of an operation,
 allowing users to track which version of code was used to run the operation.
 
 Hooks can be installed at the :ref:`operation level <operation hooks>`
@@ -126,10 +129,16 @@ A custom set of hooks may be installed by a custom ``install_hooks`` method:
             job.doc[f"{operation_name}_success"] = True
         return set_false
 
-
-    if __name__ == '__main__':
-        project = Project()
+    
+    # Custom function to install project level hooks
+    def install_hooks(project):
         project.hooks.on_start.append(set_job_doc("start"))
         project.hooks.on_success.append(set_job_doc("success"))
         project.hooks.on_fail.append(set_job_doc_with_error())
+        return project
+
+
+    if __name__ == '__main__':
+        project = Project()
+        project = install_hooks(project)
         project.main()
