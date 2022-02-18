@@ -11,7 +11,7 @@ Introduction
 
 One of the goals of the :py:class:`~signac` framework is to make it easy to track the provenance of research data
 and to ensure its reproducibility.
-Hooks make it possible to track these state changes in a project.
+Hooks make it possible to track state changes to each job in a project.
 In general, a hook is a function that is called at a specific point relative to the execution of an operation.
 
 Hooks execute code adjacent to key steps of an operation,
@@ -21,7 +21,7 @@ called triggers.
 For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`,
 while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
 
-Hooks help track where an execution's data originated, and which operations were applied to the data.
+Hooks can be used to track where a job's data originated and which operations were applied to the data.
 For examples, users may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon execution of an operation,
 allowing users to track which version of code was used to run the operation.
 
