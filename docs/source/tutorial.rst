@@ -379,8 +379,8 @@ Grouping Operations
 -------------------
 
 If we wanted to submit :code:`compute_volume` and
-:code:`store_volume_in_document` together to run in series, we currently couldn't, even though we
-know that :code:`store_volume_in_document` can run immediately after
+:code:`store_volume_in_json_file` together to run in series, we currently couldn't, even though we
+know that :code:`store_volume_in_json_file` can run immediately after
 :code:`compute_volume`. With the :py:class:`FlowGroup` class, we can group the
 two operations together and submit any job that is ready to run
 :code:`compute_volume`. To do this, we create a group and decorate the operations
