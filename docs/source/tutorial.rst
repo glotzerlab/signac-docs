@@ -391,7 +391,7 @@ with it.
     # project.py
     from flow import FlowProject
     import json
-    
+
     volume_group = FlowProject.make_group(name='volume')
 
     @FlowProject.label
