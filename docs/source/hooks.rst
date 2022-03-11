@@ -145,7 +145,7 @@ A custom set of hooks may also be installed at the project level by a custom ``i
     ...  # Define various job operations
 
 
-    # Define custom hooks class. This can be done in a seperate file and imported into the project.py file.
+    # Define custom hooks class. This can be done in a separate file and imported into the project.py file.
     class ProjectHooks:
 
         def __init__(self, project):
