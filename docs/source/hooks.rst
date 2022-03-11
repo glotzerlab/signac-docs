@@ -11,16 +11,14 @@ Introduction
 
 One of the goals of the **signac** framework is to make it easy to track the provenance of research data
 and to ensure its reproducibility.
-
 Hooks make it possible to track state changes to each job in a **signac** project as the :ref:`FlowProject<flow-project>` operates on it.
 
 A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
 A hook is triggered when an operation starts, exits, succeeds, or fails.
 
-For example, operation success may be tracked by setting a job document key ``job.doc.operation_success`` to ``True`` or ``False`` as appropriate.
-
-Or, you may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon execution of an operation,
-allowing users to track which version of code was used to run the operation.
+A basic use case is to log the error of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
+Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation,
+allowing them to track which version of code ran the operation.
 
 Hooks can be installed at the :ref:`operation level <operation hooks>`
 or at the :ref:`flow-project level<project-level hooks>`, as shown below.
