@@ -24,6 +24,7 @@ Hook Triggers
 =============
 
 The following triggers are provided:
+
 1. :py:meth:`~flow.FlowProject.add_hook.on_start` will execute when the operation begins execution.
 2. :py:meth:`~flow.FlowProject.add_hook.on_exit` will execute when the operation exits, with or without error.
 3. :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
