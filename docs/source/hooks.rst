@@ -28,12 +28,12 @@ The following triggers are provided:
 1. :py:meth:`~flow.FlowProject.add_hook.on_start` will execute when the operation begins execution.
 2. :py:meth:`~flow.FlowProject.add_hook.on_exit` will execute when the operation exits, with or without error.
 3. :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
-4. :py:meth:`~flow.FlowProject.add_hook.on_error` will execute when the operation exits with error.
+4. :py:meth:`~flow.FlowProject.add_hook.on_exception` will execute when the operation exits with error.
 
 Hooks can be installed at the :ref:`operation level <operation hooks>` or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
-The hooks created with triggers :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success` require two arguments: the operation name and the job object. Hooks created to trigger :py:meth:`~flow.FlowProject.add_hook.on_error` require three arguments: the operation name, the output error, and the job object.
+The hooks created with triggers :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success` require two arguments: the operation name and the job object. Hooks created to trigger :py:meth:`~flow.FlowProject.add_hook.on_exception` require three arguments: the operation name, the output error, and the job object.
 
 .. note::
 
@@ -51,8 +51,8 @@ The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` t
 The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
 
 The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
-The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
-Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
+The decorator :py:meth:`~flow.FlowProject.add_hook.on_exception`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
+Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_exception` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
@@ -75,7 +75,7 @@ Otherwise, ``store_success_to_doc`` executes.
 
     @FlowProject.operation
     @FlowProject.add_hook.on_success(store_success_to_doc)
-    @FlowProject.add_hook.on_error(store_error_to_doc)
+    @FlowProject.add_hook.on_exception(store_error_to_doc)
     @FlowProject.post.isfile("result.txt")
     def error_on_a_0(job):
         if job.sp.a == 0:
@@ -88,7 +88,7 @@ Otherwise, ``store_success_to_doc`` executes.
 If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
 
 If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
-The hook triggered ``on_error`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
+The hook triggered ``on_exception`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
 
 .. _project-level hooks:
@@ -163,7 +163,7 @@ A custom set of hooks may also be installed at the project level by a custom ``i
         def install_hooks(self):
             self.project.hooks.on_start.append(set_job_doc("start"))
             self.project.hooks.on_success.append(set_job_doc("success"))
-            self.project.hooks.on_error.append(set_job_doc_with_error())
+            self.project.hooks.on_exception.append(set_job_doc_with_error())
             return self.project
 
 
