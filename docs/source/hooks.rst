@@ -33,6 +33,8 @@ The following triggers are provided:
 Hooks can be installed at the :ref:`operation level <operation hooks>` or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
+The hooks created with triggers :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success` require two arguments: the operation name and the job object. Hooks created to trigger :py:meth:`~flow.FlowProject.add_hook.on_error` require three arguments: the operation name, the output error, and the job object.
+
 .. note::
 
     Hooks are run in the environment of the python process from which you call FlowProject.main().
@@ -48,10 +50,8 @@ The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` t
 
 The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
 
-
 The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
 The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
-
 Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 
