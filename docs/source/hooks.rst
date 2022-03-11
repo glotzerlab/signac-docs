@@ -73,17 +73,18 @@ Otherwise, ``store_success_to_doc`` executes.
     def store_error_to_doc(operation_name, error, job):
         job.doc.update({f'{operation_name}_success': False})
 
-    @FlowProject.operation
-    @FlowProject.add_hook.on_success(store_success_to_doc)
-    @FlowProject.add_hook.on_exception(store_error_to_doc)
-    @FlowProject.post.isfile("result.txt")
+    @Project.operation
+    @Project.operation_hooks.on_success(store_success_to_doc)
+    @Project.operation_hooks.on_exception(store_error_to_doc)
+    @Project.post.isfile("result.txt")
     def error_on_a_0(job):
         if job.sp.a == 0:
             # Have jobs with statepoint 'a' == 0 fail
             raise ValueError
 
     if __name__ == '__main__':
-       FlowProject().main()
+       Project().main()
+
 
 If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
 
