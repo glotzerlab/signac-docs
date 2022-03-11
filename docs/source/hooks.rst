@@ -36,7 +36,7 @@ Project-level hooks are called for every operation in the flow project.
 .. note::
 
     Hooks are run in the environment of the python process from which you call **flow**.
-    For this reason, hooks will not have access to modules in a container if you use that as your execution directive.
+    For this reason, hooks will not have access to modules in a container specified in the :term:`executable directive<executable>`.
 
 .. _operation hooks:
 
