@@ -47,8 +47,13 @@ Hooks may be added to individual operations using decorators.
 The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` to run a hook (or set of hooks) when an operation reaches the specified trigger.
 
 The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
+
+
 The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
 The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
+
+Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
+
 
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
 In the following example, when our test operation ``error_on_a_0`` generates an error, the function ``store_error_to_doc`` executes.
@@ -85,9 +90,6 @@ If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --
 If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
 The hook triggered ``on_error`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
-.. note::
-
-    Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 .. _project-level hooks:
 
