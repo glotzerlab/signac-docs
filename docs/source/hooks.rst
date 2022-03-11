@@ -9,7 +9,7 @@ Hooks
 Introduction
 ============
 
-One of the goals of the :py:class:`~signac` framework is to make it easy to track the provenance of research data
+One of the goals of the **signac** framework is to make it easy to track the provenance of research data
 and to ensure its reproducibility.
 Hooks make it possible to track state changes to each job in a project.
 In general, a hook is a function that is called at a specific point relative to the execution of an operation.
