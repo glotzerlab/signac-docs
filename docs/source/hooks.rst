@@ -97,7 +97,7 @@ Project-Level Hooks
 ===================
 
 In some cases, it may be desirable to install the same hook or set of hooks for all operations in a project.
-For example, to create a project level hook that sets a job document key, ``f"{operation_name}_start"`` to ``True`` at the start of execution:
+This example appends the start time of each operation to a list in the job document.
 
  .. code-block:: python
 
