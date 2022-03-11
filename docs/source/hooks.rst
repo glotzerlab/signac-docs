@@ -17,11 +17,9 @@ Hooks can be used to track where a job's data originated and which operations we
 A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
 A hook is triggered when an operation starts, exits, succeeds, or fails.
 
-For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`,
-while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
+For example, operation success may be tracked by setting a job document key `job.doc.operation_success` to `True` or `False` as appropriate.
 
-
-For examples, users may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon execution of an operation,
+Or, you may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon execution of an operation,
 allowing users to track which version of code was used to run the operation.
 
 Hooks can be installed at the :ref:`operation level <operation hooks>`
