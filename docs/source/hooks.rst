@@ -131,7 +131,7 @@ This example appends the start time of each operation to a list in the job docum
         project.main()
 
 
-A custom set of hooks may also be installed by a custom ``install_hooks`` method:
+A custom set of hooks may also be installed at the project level by a custom ``install_hooks`` method.
 
 .. code-block:: python
 
