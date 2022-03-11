@@ -101,21 +101,33 @@ For example, to create a project level hook that sets a job document key, ``f"{o
 
  .. code-block:: python
 
-    # project.py
-    from flow import FlowProject #etc
-
+    from flow import FlowProject
 
     class Project(FlowProject):
         pass
 
+    @Project.operation
+    @Project.post.true('test_ran')
+    def do_operation(job):
+        job.doc.test_ran = True
 
-    def track_start(operation_name, job):
-        job.doc[f"{operation_name}_start"] = True
+    @Project.operation
+    @Project.pre.after(do_operation)
+    @Project.post.false('test_ran')
+    def undo_operation(job):
+        job.doc.test_ran = False
 
+    def track_start_time(operation_name, job):
+        import time
+        current_time = time.strftime('%b %d, %Y at %l:%M:%S %p %Z')
+        doc_key = f'{operation_name}_start_times'
+        times = job.doc.get(doc_key, [])
+        times.append(current_time)
+        job.doc[doc_key] = times
 
     if __name__ == '__main__':
         project = Project()
-        project.hooks.on_start.append(track_start)
+        project.project_hooks.on_start.append(track_start_time)
         project.main()
 
 
@@ -124,7 +136,7 @@ A custom set of hooks may also be installed by a custom ``install_hooks`` method
 .. code-block:: python
 
     # project.py
-    from flow import FlowProject #etc
+    from flow import FlowProject
 
     class Project(FlowProject):
         pass
