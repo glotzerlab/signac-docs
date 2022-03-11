@@ -20,8 +20,19 @@ A basic use case is to log the error of an operation by creating a hook that set
 Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation,
 allowing them to track which version of code ran the operation.
 
+.. _hook_triggers:
+
+Hook Triggers
+=============
+
+The following triggers are provided:
+1. :py:meth:`~flow.FlowProject.add_hook.on_start` will execute when the operation begins execution.
+2. :py:meth:`~flow.FlowProject.add_hook.on_exit` will execute when the operation exits, with or without error.
+3. :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
+4. :py:meth:`~flow.FlowProject.add_hook.on_error` will execute when the operation exits with error.
+
 Hooks can be installed at the :ref:`operation level <operation hooks>`
-or at the :ref:`flow-project level<project-level hooks>`, as shown below.
+or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
 .. note::
@@ -37,11 +48,7 @@ Operation Hooks
 
 Hooks may be added to individual operations using decorators.
 The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` to run a
-hook (or set of hooks) when an operation reaches any of the following triggers:
-    * :py:meth:`~flow.FlowProject.add_hook.on_start` will execute when the operation begins execution.
-    * :py:meth:`~flow.FlowProject.add_hook.on_exit` will execute when the operation exits, with or without error.
-    * :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
-    * :py:meth:`~flow.FlowProject.add_hook.on_error` will execute when the operation exits with error.
+hook (or set of hooks) when an operation reaches the specified trigger.
 
 The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation
 (:py:class:`~flow.project.JobOperation`).
