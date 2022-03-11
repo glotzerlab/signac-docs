@@ -9,16 +9,14 @@ Hooks
 Introduction
 ============
 
-One of the goals of the **signac** framework is to make it easy to track the provenance of research data
-and to ensure its reproducibility.
+One of the goals of the **signac** framework is to make it easy to track the provenance of research data and to ensure its reproducibility.
 Hooks make it possible to track state changes to each job in a **signac** project as the :ref:`FlowProject<flow-project>` operates on it.
 
 A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
 A hook is triggered when an operation starts, exits, succeeds, or fails.
 
 A basic use case is to log the error of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
-Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation,
-allowing them to track which version of code ran the operation.
+Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
 
 .. _hook_triggers:
 
@@ -31,15 +29,13 @@ The following triggers are provided:
 3. :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
 4. :py:meth:`~flow.FlowProject.add_hook.on_error` will execute when the operation exits with error.
 
-Hooks can be installed at the :ref:`operation level <operation hooks>`
-or at the :ref:`flow-project level<project-level hooks>`.
+Hooks can be installed at the :ref:`operation level <operation hooks>` or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
 .. note::
 
     Hooks are run in the environment of the python process from which you call **flow**.
-    For this reason,
-    hooks will not have access to modules in a container if you use that as your execution directive.
+    For this reason, hooks will not have access to modules in a container if you use that as your execution directive.
 
 .. _operation hooks:
 
@@ -47,21 +43,15 @@ Operation Hooks
 ===============
 
 Hooks may be added to individual operations using decorators.
-The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` to run a
-hook (or set of hooks) when an operation reaches the specified trigger.
+The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` to run a hook (or set of hooks) when an operation reaches the specified trigger.
 
-The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation
-(:py:class:`~flow.project.JobOperation`).
-The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit`
-accept functions with two parameters: the operation name and the :py:class:`Job` object.
-The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error,
-and the :py:class:`Job` object.
+The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
+The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
+The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
 
 :py:class:`~flow.FlowProject.add_hook` can be used to store basic information about the execution of a job operation in the job document.
 
-In the following example, either the function ``store_success_to_doc`` executes after the
-:py:class:`~flow.project.JobOperation`, ``foo``, exits without error, or ``store_error_to_doc`` executes after ``foo``
-exits with error:
+In the following example, either the function ``store_success_to_doc`` executes after the :py:class:`~flow.project.JobOperation`, ``foo``, exits without error, or ``store_error_to_doc`` executes after ``foo`` exits with error:
 
 .. code-block:: python
 
@@ -89,19 +79,14 @@ exits with error:
     if __name__ == '__main__':
        FlowProject().main()
 
-If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run,
-and `job.doc.foo_success` will be ``True``.
+If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run, and `job.doc.foo_success` will be ``True``.
 
 If ``foo`` is executed using ``python project.py run -o foo -f a 0``, a ``ValueError`` is raised.
 The hook triggered ``on_error`` will run, and ``job.doc.foo_success`` will be ``False``.
 
 .. note::
 
-    Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,
-    and :py:meth:`~flow.FlowProject.add_hook.on_success`,
-    which accept functions that take ``operation_name`` and ``job`` as arguments,
-    :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``,
-    and ``job`` as arguments.
+    Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_error` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 .. _project-level hooks:
 
@@ -109,7 +94,7 @@ Project-Level Hooks
 ===================
 
 In some cases, it may be desirable to install the same hook or set of hooks for all operations in a project.
-For example, to create a  project level hook that sets a job document key, ``f"{operation_name}_start"`` to ``True`` at the start of execution:
+For example, to create a project level hook that sets a job document key, ``f"{operation_name}_start"`` to ``True`` at the start of execution:
 
  .. code-block:: python
 
