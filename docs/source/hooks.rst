@@ -15,7 +15,7 @@ Hooks make it possible to track state changes to each job in a **signac** projec
 A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
 A hook is triggered when an operation starts, exits, succeeds, or fails.
 
-A basic use case is to log the error of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
+A basic use case is to log the success/failure of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
 Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
 
 .. _hook_triggers:
