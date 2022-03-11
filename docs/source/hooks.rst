@@ -11,12 +11,10 @@ Introduction
 
 One of the goals of the **signac** framework is to make it easy to track the provenance of research data
 and to ensure its reproducibility.
-Hooks make it possible to track state changes to each job in a project.
-In general, a hook is a function that is called at a specific point relative to the execution of an operation.
+Hooks make it possible to track state changes to each job in a **signac** project as the :ref:`FlowProject<flow-project>` operates on it.
 
-Hooks execute code adjacent to key steps of an operation,
-such as when it begins, finishes, or fails. These events are
-called triggers.
+A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
+A hook is triggered when an operation starts, exits, succeeds, or fails.
 
 For example, operation failures may be tracked in the job document as `job.doc['operation_success'] = False`,
 while operation successes may be tracked in the job document as `job.doc['operation_success'] = True`.
