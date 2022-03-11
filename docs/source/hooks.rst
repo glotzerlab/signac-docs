@@ -50,9 +50,9 @@ The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a functi
 The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
 The decorator :py:meth:`~flow.FlowProject.add_hook.on_error`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
 
-:py:class:`~flow.FlowProject.add_hook` can be used to store basic information about the execution of a job operation in the job document.
-
-In the following example, either the function ``store_success_to_doc`` executes after the :py:class:`~flow.project.JobOperation`, ``foo``, exits without error, or ``store_error_to_doc`` executes after ``foo`` exits with error:
+An operation hook can be used to store basic information about the execution of a job operation in the job document.
+In the following example, when our test operation ``error_on_a_0`` generates an error, the function ``store_error_to_doc`` executes.
+Otherwise, ``store_success_to_doc`` executes.
 
 .. code-block:: python
 
@@ -72,7 +72,7 @@ In the following example, either the function ``store_success_to_doc`` executes 
     @FlowProject.add_hook.on_success(store_success_to_doc)
     @FlowProject.add_hook.on_error(store_error_to_doc)
     @FlowProject.post.isfile("result.txt")
-    def foo(job):
+    def error_on_a_0(job):
         if job.sp.a == 0:
             # Have jobs with statepoint 'a' == 0 fail
             raise ValueError
@@ -80,10 +80,10 @@ In the following example, either the function ``store_success_to_doc`` executes 
     if __name__ == '__main__':
        FlowProject().main()
 
-If ``foo`` is executed using ``python project.py run -o foo -f a 1``, the hook triggered ``on_success`` will run, and `job.doc.foo_success` will be ``True``.
+If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and `job.doc.error_on_a_0_success` will be ``True``.
 
-If ``foo`` is executed using ``python project.py run -o foo -f a 0``, a ``ValueError`` is raised.
-The hook triggered ``on_error`` will run, and ``job.doc.foo_success`` will be ``False``.
+If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
+The hook triggered ``on_error`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
 .. note::
 
