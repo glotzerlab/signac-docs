@@ -157,15 +157,15 @@ A custom set of hooks may also be installed at the project level by a custom ``i
                 job.doc[f"{operation_name}_{key}"] = True
             return set_true
 
-        def set_job_doc_with_error(self):
+        def set_job_doc_with_error(self, key):
             def set_false(operation_name, error, job):
-                job.doc[f"{operation_name}_success"] = False
+                job.doc[f"{operation_name}_{key}"] = False
             return set_false
 
         def install_hooks(self):
             self.project.project_hooks.on_start.append(self.set_job_doc("start"))
             self.project.project_hooks.on_success.append(self.set_job_doc("success"))
-            self.project.project_hooks.on_exception.append(self.set_job_doc_with_error())
+            self.project.project_hooks.on_exception.append(self.set_job_doc_with_error("success"))
             return self.project
 
 
