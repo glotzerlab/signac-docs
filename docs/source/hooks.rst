@@ -126,7 +126,7 @@ The hook appends the current time to a list in the job document that is named ba
 
     if __name__ == '__main__':
         project = Project()
-        project.project_hooks.on_start.append(track_start_time)
+        project.project_hooks.on_start = [track_start_time]
         project.main()
 
 
