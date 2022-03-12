@@ -95,7 +95,7 @@ Project-Level Hooks
 
 It may be desirable to install the same hook or set of hooks for all operations in a project.
 In the following example FlowProject, the hook ``track_start_time`` is triggered when each operation starts.
-The hook appends the current time to the list in the job document, named based on the name of the operation.
+The hook appends the current time to a list in the job document that is named based on the name of the operation.
 
  .. code-block:: python
 
