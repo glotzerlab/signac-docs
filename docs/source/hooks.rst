@@ -13,14 +13,14 @@ One of the goals of the **signac** framework is to make it easy to track the pro
 Hooks make it possible to track state changes to each job in a **signac** project as the :ref:`FlowProject<flow-project>` operates on it.
 
 A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
-A hook is triggered when an operation starts, exits, succeeds, or raises and exception.
+A hook is triggered when an operation starts, exits, succeeds, or raises an exception.
 
 A basic use case is to log the success/failure of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
 Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
 
 .. _hook_triggers:
 
-Hook Triggers
+Triggers
 =============
 
 The following triggers are provided:
@@ -52,7 +52,7 @@ The :py:class:`~flow.FlowProject.operation_hooks` decorator accepts objects as a
 
 
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
-In the following example, when our test operation ``error_on_a_0`` generates an error, the function ``store_error_to_doc`` executes.
+In the following example, when our test operation ``error_on_a_0`` generates an error, the hook function ``store_error_to_doc`` executes.
 Otherwise, ``store_success_to_doc`` executes.
 
 .. code-block:: python
@@ -82,9 +82,9 @@ Otherwise, ``store_success_to_doc`` executes.
        Project().main()
 
 
-If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
+If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
 
-If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
+If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
 The hook triggered ``on_exception`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
 
