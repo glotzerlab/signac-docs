@@ -171,4 +171,5 @@ A custom set of hooks may also be installed at the project level by a custom ``i
 
     if __name__ == '__main__':
         project = Project()
-        ProjectHooks(project).install_hooks().main()
+        project = ProjectHooks(project).install_hooks()
+        project.main()
