@@ -50,7 +50,6 @@ The :py:class:`~flow.FlowProject.operation_hooks` decorator tells :py:class:`~si
 
 The :py:class:`~flow.FlowProject.operation_hooks` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
 
-The decorators :py:meth:`~flow.FlowProject.operation_hooks.on_start` and  :py:meth:`~flow.FlowProject.operation_hooks.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
 
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
 In the following example, when our test operation ``error_on_a_0`` generates an error, the function ``store_error_to_doc`` executes.
