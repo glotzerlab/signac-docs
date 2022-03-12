@@ -30,7 +30,7 @@ The following triggers are provided:
 3. :py:meth:`~flow.FlowProject.operation_hooks.on_success` will execute when the operation exits without error.
 4. :py:meth:`~flow.FlowProject.operation_hooks.on_exception` will execute when the operation exits with error.
 
-Hooks can be installed at the :ref:`operation level <operation hooks>` or at the :ref:`flow-project level<project-level hooks>`.
+Hooks can be installed at the :ref:`operation level <operation-hooks>` or at the :ref:`flow-project level<project-level-hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
 The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`,  and :py:meth:`~flow.FlowProject.operation_hooks.on_success` require two arguments: the operation name and the :py:class:`signac.contrib.job.Job` object. Hooks created to trigger :py:meth:`~flow.FlowProject.operation_hooks.on_exception` require three arguments: the operation name, the output error, and the job object.
@@ -40,7 +40,7 @@ The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_s
     Hooks are run in the environment of the python process from which you call FlowProject.main().
     For this reason, hooks will not have access to modules in a container specified in the :term:`executable directive<executable>`.
 
-.. _operation hooks:
+.. _operation-hooks:
 
 Operation Hooks
 ===============
@@ -89,7 +89,7 @@ If ``error_on_a_0`` is executed using ``python project.py run -o error_on_a_0 --
 The hook triggered ``on_exception`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
 
-.. _project-level hooks:
+.. _project-level-hooks:
 
 Project-Level Hooks
 ===================
