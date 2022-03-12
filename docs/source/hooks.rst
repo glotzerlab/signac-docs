@@ -10,13 +10,14 @@ Introduction
 ============
 
 One of the goals of the **signac** framework is to make it easy to track the provenance of research data and to ensure its reproducibility.
-Hooks make it possible to track state changes to each job in a **signac** project as the :ref:`FlowProject<flow-project>` operates on it.
+Hooks make it possible to execute user-defined functions before or after :ref:`FlowProject<flow-project>` operations act on a **signac** project.
+For example, hooks can be used to track state changes before and after each operation.
 
-A hook is a function that is called at a specific point relative to the execution of a **signac-flow** :ref:`operation<operations>`.
-A hook is triggered when an operation starts, exits, succeeds, or raises an exception.
+A hook is a function that is called at a specific time relative to the execution of a **signac-flow** :ref:`operation <operations>`.
+A hook can be triggered when an operation starts, exits, succeeds, or raises an exception.
 
 A basic use case is to log the success/failure of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
-Additionally, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
+As another example, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
 
 .. _hook_triggers:
 
@@ -26,19 +27,20 @@ Triggers
 The following triggers are provided:
 
 1. :py:meth:`~flow.FlowProject.operation_hooks.on_start` will execute when the operation begins execution.
-2. :py:meth:`~flow.FlowProject.operation_hooks.on_exit` will execute when the operation exits, with or without error.
-3. :py:meth:`~flow.FlowProject.operation_hooks.on_success` will execute when the operation exits without error.
-4. :py:meth:`~flow.FlowProject.operation_hooks.on_exception` will execute when the operation exits with error.
+2. :py:meth:`~flow.FlowProject.operation_hooks.on_exit` will execute when the operation exits, with or without an exception.
+3. :py:meth:`~flow.FlowProject.operation_hooks.on_success` will execute when the operation exits without an exception.
+4. :py:meth:`~flow.FlowProject.operation_hooks.on_exception` will execute when the operation exits with an exception.
 
-Hooks can be installed at the :ref:`operation level <operation-hooks>` or at the :ref:`flow-project level<project-level-hooks>`.
-Project-level hooks are called for every operation in the flow project.
+Hooks can be installed at the :ref:`operation level <operation-hooks>` or at the :ref:`FlowProject level <project-level-hooks>`.
+FlowProject-level hooks are called for every operation in the FlowProject.
 
-The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`,  and :py:meth:`~flow.FlowProject.operation_hooks.on_success` require two arguments: the operation name and the :py:class:`signac.contrib.job.Job` object. Hooks created to trigger :py:meth:`~flow.FlowProject.operation_hooks.on_exception` require three arguments: the operation name, the output error, and the job object.
+The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`, and :py:meth:`~flow.FlowProject.operation_hooks.on_success` require two arguments: the operation name and the :py:class:`signac.contrib.job.Job` object.
+Hooks created to trigger :py:meth:`~flow.FlowProject.operation_hooks.on_exception` require three arguments: the operation name, the output error, and the job object.
 
 .. note::
 
-    Hooks are run in the environment of the python process from which you call FlowProject.main().
-    For this reason, hooks will not have access to modules in a container specified in the :term:`executable directive<executable>`.
+    Hooks are run in the Python process where ``FlowProject.main()`` is called.
+    For this reason, hooks will not have access to modules in a container specified in the :term:`executable directive <executable>`.
 
 .. _operation-hooks:
 
@@ -46,13 +48,12 @@ Operation Hooks
 ===============
 
 Hooks may be added to individual operations using decorators.
-The :py:class:`~flow.FlowProject.operation_hooks` decorator tells :py:class:`~signac` to run a hook (or set of hooks) when an operation reaches the specified trigger.
+The :py:class:`~flow.FlowProject.operation_hooks` decorator tells **signac-flow** to run a hook (or set of hooks) when an operation reaches the specified trigger.
 
 The :py:class:`~flow.FlowProject.operation_hooks` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
 
-
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
-In the following example, when our test operation ``error_on_a_0`` generates an error, the hook function ``store_error_to_doc`` executes.
+In the following example, when the test operation ``error_on_a_0`` raises an exception, the hook function ``store_error_to_doc`` executes.
 Otherwise, ``store_success_to_doc`` executes.
 
 .. code-block:: python
@@ -76,10 +77,10 @@ Otherwise, ``store_success_to_doc`` executes.
     def error_on_a_0(job):
         if job.sp.a == 0:
             # Have jobs with statepoint 'a' == 0 fail
-            raise ValueError
+            raise RuntimeError("Cannot process jobs with a == 0.")
 
     if __name__ == '__main__':
-       Project().main()
+        Project().main()
 
 
 If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
@@ -158,7 +159,7 @@ A custom set of hooks may also be installed at the project level by a custom ``i
 
         def set_job_doc_with_error(self):
             def set_false(operation_name, error, job):
-                job.doc[f"{operation_name}_success"] = True
+                job.doc[f"{operation_name}_success"] = False
             return set_false
 
         def install_hooks(self):
