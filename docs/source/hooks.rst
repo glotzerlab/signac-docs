@@ -83,7 +83,7 @@ Otherwise, ``store_success_to_doc`` executes.
         Project().main()
 
 
-If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 1``, the hook triggered ``on_success`` will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
+If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 1``, the ``on_success`` hook trigger will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
 
 If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 0``, a ``ValueError`` is raised.
 The hook triggered ``on_exception`` will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
