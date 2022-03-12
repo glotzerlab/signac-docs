@@ -142,8 +142,10 @@ A custom set of hooks may also be installed at the project level by a custom ``i
     class Project(FlowProject):
         pass
 
-    ...  # Define various job operations
-
+    @Project.operation
+    @Project.post.true('test_ran')
+    def do_operation(job):
+        job.doc.test_ran = True
 
     # Define custom hooks class. This can be done in a separate file and imported into the project.py file.
     class ProjectHooks:
@@ -162,12 +164,12 @@ A custom set of hooks may also be installed at the project level by a custom ``i
             return set_false
 
         def install_hooks(self):
-            self.project.hooks.on_start.append(set_job_doc("start"))
-            self.project.hooks.on_success.append(set_job_doc("success"))
-            self.project.hooks.on_exception.append(set_job_doc_with_error())
+            self.project.project_hooks.on_start.append(self.set_job_doc("start"))
+            self.project.project_hooks.on_success.append(self.set_job_doc("success"))
+            self.project.project_hooks.on_exception.append(self.set_job_doc_with_error())
             return self.project
 
 
     if __name__ == '__main__':
         project = Project()
-        ProjectHooks(project).main()
+        ProjectHooks(project).install_hooks().main()
