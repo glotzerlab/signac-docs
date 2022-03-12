@@ -25,15 +25,15 @@ Hook Triggers
 
 The following triggers are provided:
 
-1. :py:meth:`~flow.FlowProject.add_hook.on_start` will execute when the operation begins execution.
-2. :py:meth:`~flow.FlowProject.add_hook.on_exit` will execute when the operation exits, with or without error.
-3. :py:meth:`~flow.FlowProject.add_hook.on_success` will execute when the operation exits without error.
-4. :py:meth:`~flow.FlowProject.add_hook.on_exception` will execute when the operation exits with error.
+1. :py:meth:`~flow.FlowProject.operation_hooks.on_start` will execute when the operation begins execution.
+2. :py:meth:`~flow.FlowProject.operation_hooks.on_exit` will execute when the operation exits, with or without error.
+3. :py:meth:`~flow.FlowProject.operation_hooks.on_success` will execute when the operation exits without error.
+4. :py:meth:`~flow.FlowProject.operation_hooks.on_exception` will execute when the operation exits with error.
 
 Hooks can be installed at the :ref:`operation level <operation hooks>` or at the :ref:`flow-project level<project-level hooks>`.
 Project-level hooks are called for every operation in the flow project.
 
-The hooks created with triggers :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success` require two arguments: the operation name and the job object. Hooks created to trigger :py:meth:`~flow.FlowProject.add_hook.on_exception` require three arguments: the operation name, the output error, and the job object.
+The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`,  and :py:meth:`~flow.FlowProject.operation_hooks.on_success` require two arguments: the operation name and the job object. Hooks created to trigger :py:meth:`~flow.FlowProject.operation_hooks.on_exception` require three arguments: the operation name, the output error, and the job object.
 
 .. note::
 
@@ -46,13 +46,13 @@ Operation Hooks
 ===============
 
 Hooks may be added to individual operations using decorators.
-The :py:class:`~flow.FlowProject.add_hook` decorator tells :py:class:`~signac` to run a hook (or set of hooks) when an operation reaches the specified trigger.
+The :py:class:`~flow.FlowProject.operation_hooks` decorator tells :py:class:`~signac` to run a hook (or set of hooks) when an operation reaches the specified trigger.
 
-The :py:class:`~flow.FlowProject.add_hook` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
+The :py:class:`~flow.FlowProject.operation_hooks` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
 
-The decorators :py:meth:`~flow.FlowProject.add_hook.on_start` and  :py:meth:`~flow.FlowProject.add_hook.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
-The decorator :py:meth:`~flow.FlowProject.add_hook.on_exception`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
-Unlike :py:meth:`~flow.FlowProject.add_hook.on_start`, :py:meth:`~flow.FlowProject.add_hook.on_exit`,  and :py:meth:`~flow.FlowProject.add_hook.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.add_hook.on_exception` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
+The decorators :py:meth:`~flow.FlowProject.operation_hooks.on_start` and  :py:meth:`~flow.FlowProject.operation_hooks.on_exit` accept functions with two parameters: the operation name and the :py:class:`Job` object.
+The decorator :py:meth:`~flow.FlowProject.operation_hooks.on_exception`, accepts functions with three parameters: the operation name, the output error, and the :py:class:`Job` object.
+Unlike :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`,  and :py:meth:`~flow.FlowProject.operation_hooks.on_success`, which accept functions that take ``operation_name`` and ``job`` as arguments, :py:meth:`~flow.FlowProject.operation_hooks.on_exception` accepts functions that take ``operation_name``, ``error``, and ``job`` as arguments.
 
 
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
