@@ -10,7 +10,7 @@ Introduction
 ============
 
 One of the goals of the **signac** framework is to make it easy to track the provenance of research data and to ensure its reproducibility.
-Hooks make it possible to execute user-defined functions before or after :ref:`FlowProject<flow-project>` operations act on a **signac** project.
+Hooks make it possible to execute user-defined functions before or after :ref:`FlowProject <flow-project>` operations act on a **signac** project.
 For example, hooks can be used to track state changes before and after each operation.
 
 A hook is a function that is called at a specific time relative to the execution of a **signac-flow** :ref:`operation <operations>`.
@@ -22,7 +22,7 @@ As another example, a user may record the `git commit ID <https://git-scm.com/bo
 .. _hook_triggers:
 
 Triggers
-=============
+========
 
 The following triggers are provided:
 
@@ -34,8 +34,8 @@ The following triggers are provided:
 Hooks can be installed at the :ref:`operation level <operation-hooks>` or at the :ref:`FlowProject level <project-level-hooks>`.
 FlowProject-level hooks are called for every operation in the FlowProject.
 
-The hooks created with triggers :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`, and :py:meth:`~flow.FlowProject.operation_hooks.on_success` require two arguments: the operation name and the :py:class:`signac.contrib.job.Job` object.
-Hooks created to trigger :py:meth:`~flow.FlowProject.operation_hooks.on_exception` require three arguments: the operation name, the output error, and the job object.
+Hooks triggered by :py:meth:`~flow.FlowProject.operation_hooks.on_start`, :py:meth:`~flow.FlowProject.operation_hooks.on_exit`, and :py:meth:`~flow.FlowProject.operation_hooks.on_success` are called with two arguments: the operation name (or group name) and the :py:class:`signac.contrib.job.Job` object (or ``*jobs`` if used with aggregation).
+Hooks triggered by :py:meth:`~flow.FlowProject.operation_hooks.on_exception` are called with three arguments: the operation name (or group name), the exception raised, and the job (or ``*jobs`` if used with aggregation).
 
 .. note::
 
@@ -50,11 +50,9 @@ Operation Hooks
 Hooks may be added to individual operations using decorators.
 The :py:class:`~flow.FlowProject.operation_hooks` decorator tells **signac-flow** to run a hook (or set of hooks) when an operation reaches the specified trigger.
 
-The :py:class:`~flow.FlowProject.operation_hooks` decorator accepts objects as a function of the job operation (:py:class:`~flow.project.JobOperation`).
-
 An operation hook can be used to store basic information about the execution of a job operation in the job document.
-In the following example, when the test operation ``error_on_a_0`` raises an exception, the hook function ``store_error_to_doc`` executes.
-Otherwise, ``store_success_to_doc`` executes.
+In the following example, if the test operation ``error_on_a_0`` raises an exception, the hook function ``store_error_to_doc`` will be executed.
+Otherwise, ``store_success_to_doc`` will be executed.
 
 .. code-block:: python
 
@@ -73,7 +71,6 @@ Otherwise, ``store_success_to_doc`` executes.
     @Project.operation
     @Project.operation_hooks.on_success(store_success_to_doc)
     @Project.operation_hooks.on_exception(store_error_to_doc)
-    @Project.post.isfile("result.txt")
     def error_on_a_0(job):
         if job.sp.a == 0:
             # Have jobs with statepoint 'a' == 0 fail
@@ -83,9 +80,9 @@ Otherwise, ``store_success_to_doc`` executes.
         Project().main()
 
 
-If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 1``, the ``on_success`` hook trigger will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
+If the operation ``error_on_a_0`` is executed on jobs with state point key ``a`` equal to 1 using ``python project.py run --operation error_on_a_0 --filter a 1``, the ``on_success`` hook trigger will run, and ``job.doc.error_on_a_0_success`` will be ``True``.
 
-If ``error_on_a_0`` is executed using ``python project.py run --operation error_on_a_0 --filter a 0``, a ``RuntimeError`` is raised.
+If the operation ``error_on_a_0`` is executed on jobs with state point key ``a`` equal to 0 using ``python project.py run --operation error_on_a_0 --filter a 0``, a ``RuntimeError`` is raised.
 The ``on_exception`` hook trigger will run, and ``job.doc.error_on_a_0_success`` will be ``False``.
 
 
