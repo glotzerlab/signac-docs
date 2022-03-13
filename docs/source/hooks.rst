@@ -73,7 +73,7 @@ Otherwise, ``store_success_to_doc`` will be executed.
     @Project.operation_hooks.on_exception(store_error_to_doc)
     def error_on_a_0(job):
         if job.sp.a == 0:
-            # Have jobs with statepoint 'a' == 0 fail
+            # Have jobs with state point 'a' == 0 fail
             raise RuntimeError("Cannot process jobs with a == 0.")
 
     if __name__ == '__main__':
