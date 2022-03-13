@@ -117,9 +117,8 @@ The hook appends the current time to a list in the job document that is named ba
         import time
         current_time = time.strftime('%b %d, %Y at %l:%M:%S %p %Z')
         doc_key = f'{operation_name}_start_times'
-        times = job.doc.get(doc_key, [])
-        times.append(current_time)
-        job.doc[doc_key] = times
+        job.doc.setdefault(doc_key, [])
+        job.doc[doc_key].append(current_time)
 
     if __name__ == '__main__':
         project = Project()
