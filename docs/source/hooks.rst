@@ -145,9 +145,6 @@ A custom set of hooks may also be installed at the project level by a custom ``i
     # This can be done in a separate file and imported into the project.py file.
     class ProjectHooks:
 
-        def __init__(self, project):
-            self.project = project
-
         def set_job_doc(self, key):
             def set_true(operation_name, job):
                 job.doc[f"{operation_name}_{key}"] = True
@@ -158,14 +155,14 @@ A custom set of hooks may also be installed at the project level by a custom ``i
                 job.doc[f"{operation_name}_{key}"] = False
             return set_false
 
-        def install_hooks(self):
-            self.project.project_hooks.on_start.append(self.set_job_doc("start"))
-            self.project.project_hooks.on_success.append(self.set_job_doc("success"))
-            self.project.project_hooks.on_exception.append(self.set_job_doc_with_error("success"))
-            return self.project
+        def install_hooks(self, project):
+            project.project_hooks.on_start.append(self.set_job_doc("start"))
+            project.project_hooks.on_success.append(self.set_job_doc("success"))
+            project.project_hooks.on_exception.append(self.set_job_doc_with_error("success"))
+            return project
 
 
     if __name__ == '__main__':
         project = Project()
-        project = ProjectHooks(project).install_hooks()
+        project = ProjectHooks().install_hooks(project)
         project.main()
