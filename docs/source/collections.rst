@@ -30,7 +30,7 @@ For this, simply *open* a file like this:
 
 .. code-block:: python
 
-    with Collection.open('my_collection.txt') as collection:
+    with Collection.open("my_collection.txt") as collection:
         pass
 
 A collection file by default is openend in *append plus* mode, that means it is opened for both reading and writing.

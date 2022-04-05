@@ -18,6 +18,7 @@ You can start a dashboard to visualize **signac** project data in the browser, b
 .. code-block:: python
 
     from signac_dashboard import Dashboard
+
     Dashboard().main()
 
 Start a Dashboard
@@ -30,7 +31,7 @@ The code below will open a dashboard for an newly-initialized (empty) project, w
     from signac_dashboard import Dashboard
     from signac_dashboard.modules import ImageViewer
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         Dashboard(modules=[ImageViewer()]).main()
 
 Then launch the dashboard with ``python dashboard.py run``.
@@ -48,11 +49,11 @@ By creating a class that inherits from :py:class:`~signac_dashboard.Dashboard` (
 .. code-block:: python
 
     class MyDashboard(Dashboard):
-
         def job_title(self, job):
-            return 'Concentration(A) = {}'.format(job.sp['conc_A'])
+            return "Concentration(A) = {}".format(job.sp["conc_A"])
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         MyDashboard().main()
 
 .. _dashboard-remote-ssh:

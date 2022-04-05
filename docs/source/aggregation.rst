@@ -21,17 +21,21 @@ See also the Python documentation about :ref:`argument unpacking <python:tut-unp
     # project.py
     from flow import FlowProject, aggregator
 
+
     class Project(FlowProject):
         pass
+
 
     @aggregator()
     @Project.operation
     def op1(*jobs):
         print("Number of jobs in aggregate:", len(jobs))
 
+
     @Project.operation
     def op2(job):
         pass
+
 
     if __name__ == "__main__":
         Project().main()
@@ -167,10 +171,13 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
     # project.py
     from flow import FlowProject, aggregator
 
+
     class Project(FlowProject):
         pass
 
+
     group = Project.make_group("agg-group", group_aggregator=aggregator())
+
 
     @group
     @aggregator()
@@ -178,10 +185,12 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
     def op1(*jobs):
         pass
 
+
     @group
     @Project.operation
     def op2(*jobs):
         pass
+
 
     if __name__ == "__main__":
         Project().main()

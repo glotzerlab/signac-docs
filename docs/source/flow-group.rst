@@ -34,22 +34,27 @@ group named ``ex`` to contain operations ``op1`` and ``op2``.
     # project.py
     from flow import FlowProject
 
+
     class Project(FlowProject):
         pass
 
-    ex = Project.make_group(name='ex')
+
+    ex = Project.make_group(name="ex")
+
 
     @ex
     @Project.operation
     def op1(job):
         pass
 
+
     @ex
     @Project.operation
     def op2(job):
         pass
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         Project().main()
 
 A group is eligible if
@@ -85,10 +90,13 @@ In the following example, :code:`op1` requests one GPU if run by itself or two G
     # project.py
     from flow import FlowProject
 
+
     class Project(FlowProject):
         pass
 
-    ex = Project.make_group(name='ex')
+
+    ex = Project.make_group(name="ex")
+
 
     @ex.with_directives({"ngpu": 2})
     @Project.operation.with_directives({"ngpu": 1})
@@ -96,5 +104,5 @@ In the following example, :code:`op1` requests one GPU if run by itself or two G
         pass
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         Project().main()
