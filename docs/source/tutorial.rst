@@ -44,10 +44,10 @@ We then proceed by initializing the data space within a Python script called ``i
     # init.py
     import signac
 
-    project = signac.init_project('ideal-gas-project')
+    project = signac.init_project("ideal-gas-project")
 
     for p in range(1, 10):
-        sp = {'p': p, 'kT': 1.0, 'N': 1000}
+        sp = {"p": p, "kT": 1.0, "N": 1000}
         job = project.open_job(sp)
         job.init()
 
@@ -123,7 +123,7 @@ You interact with the **signac** project on the command line using the ``signac`
 You can also interact with the project within Python *via* the :py:class:`signac.Project` class.
 You can obtain an instance of that class within the project root directory and all sub-directories with:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> import signac
     >>> project = signac.get_project()
@@ -137,7 +137,7 @@ You can obtain an instance of that class within the project root directory and a
 
 Iterating through all jobs within the data space is then as easy as:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> for job in project:
     ...     print(job)
@@ -149,7 +149,7 @@ Iterating through all jobs within the data space is then as easy as:
 
 We can iterate through a select set of jobs with the :py:meth:`~signac.Project.find_jobs` method in combination with a query expression:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> for job in project.find_jobs({"kT": 1.0, "p.$lt": 3.0}):
     ...     print(job, job.sp.p)
@@ -190,8 +190,9 @@ Let's store the volume within our data space in a file called ``volume.txt``, by
 
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
-        with open(job.fn('volume.txt'), 'w') as file:
-            file.write(str(volume) + '\n')
+        with open(job.fn("volume.txt"), "w") as file:
+            file.write(str(volume) + "\n")
+
 
     project = signac.get_project()
     for job in project:
@@ -224,11 +225,11 @@ We slightly modify our ``project.py`` script:
     @FlowProject.operation
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
-        with open(job.fn('volume.txt'), 'w') as file:
-            file.write(str(volume) + '\n')
+        with open(job.fn("volume.txt"), "w") as file:
+            file.write(str(volume) + "\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         FlowProject().main()
 
 The :py:meth:`~.flow.FlowProject.operation` decorator identifies the ``compute_volume`` function as an *operation function* of our project.
@@ -268,11 +269,11 @@ To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed
     @FlowProject.post(volume_computed)
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
-        with open(job.fn('volume.txt'), 'w') as file:
-            file.write(str(volume) + '\n')
+        with open(job.fn("volume.txt"), "w") as file:
+            file.write(str(volume) + "\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         FlowProject().main()
 
 .. tip::
@@ -308,6 +309,7 @@ For this we transform the ``volume_computed()`` function into a *label function*
     def volume_computed(job):
         return job.isfile("volume.txt")
 
+
     # ...
 
 We can then view the project's status with the ``status`` command:
@@ -336,7 +338,9 @@ Since we are pretending that computing the volume is an expensive operation, we 
     # project.py
     from flow import FlowProject
     import json
+
     # ...
+
 
     @FlowProject.operation
     @FlowProject.pre(volume_computed)
@@ -346,6 +350,7 @@ Since we are pretending that computing the volume is an expensive operation, we 
             data = {"volume": float(textfile.read())}
             with open(job.fn("data.json"), "w") as jsonfile:
                 json.dump(data, jsonfile)
+
 
     # ...
 
@@ -392,19 +397,22 @@ with it.
     from flow import FlowProject
     import json
 
-    volume_group = FlowProject.make_group(name='volume')
+    volume_group = FlowProject.make_group(name="volume")
+
 
     @FlowProject.label
     def volume_computed(job):
         return job.isfile("volume.txt")
+
 
     @volume_group
     @FlowProject.operation
     @FlowProject.post(volume_computed)
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
-        with open(job.fn('volume.txt'), 'w') as file:
-            file.write(str(volume) + '\n')
+        with open(job.fn("volume.txt"), "w") as file:
+            file.write(str(volume) + "\n")
+
 
     @volume_group
     @FlowProject.operation
@@ -416,7 +424,8 @@ with it.
             with open(job.fn("data.json"), "w") as jsonfile:
                 json.dump(data, jsonfile)
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         FlowProject().main()
 
 We can now run :code:`python project.py run -o volume` or
@@ -435,9 +444,10 @@ Let's add another operation to our ``project.py`` script that stores the volume 
      # project.py
      # ...
 
+
      @FlowProject.operation
      @FlowProject.pre.after(compute_volume)
-     @FlowProject.post(lambda job: 'volume' in job.document)
+     @FlowProject.post(lambda job: "volume" in job.document)
      def store_volume_in_document(job):
          with open(job.fn("volume.txt")) as textfile:
              job.document.volume = float(textfile.read())
