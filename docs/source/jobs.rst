@@ -58,10 +58,10 @@ This subdirectory is named by the *job id*, therefore guaranteeing a unique file
 Both the state point and the job id are equivalent addresses for jobs in the data space.
 To access or modify a data point, obtain an instance of :py:class:`Job` by passing the associated metadata as a mapping of key-value pairs (for example, as an instance of :py:class:`dict`) into the :py:meth:`~signac.Project.open_job` method.
 
-.. code-block:: python
+.. code-block:: pycon
 
     # Define a state point:
-    >>> statepoint = {'a': 0}
+    >>> statepoint = {"a": 0}
     # Get the associated job:
     >>> job = project.open_job(statepoint)
     >>> print(job.id)
@@ -72,9 +72,9 @@ In general an instance of :py:class:`Job` only gives you a handle to a Python ob
 To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
 You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> job = project.open_job({'a': 2})
+    >>> job = project.open_job({"a": 2})
     # Job does not exist yet
     >>> job in project
     False
@@ -85,7 +85,7 @@ You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` meth
 
 Once a job has been initialized, it may also be *opened by id* as follows (initialization is required because prior to initialization the job id has not yet been calculated):
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> job.init()
     >>> job2 = project.open_job(id=job.id)
@@ -94,7 +94,7 @@ Once a job has been initialized, it may also be *opened by id* as follows (initi
 
 Whether a job is opened by state point or job id, an instance of :py:class:`Job` can always be used to retrieve the associated *state point*, the *job id*, and the *workspace* directory with the :py:attr:`Job.statepoint`, :py:meth:`Job.get_id`, and :py:meth:`Job.workspace` methods, respectively:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> print(job.statepoint())
     {'a': 0}
@@ -107,9 +107,9 @@ Evidently, the job's workspace directory is a subdirectory of the project's work
 We can use the :py:meth:`Job.fn` function to prepend the workspace path to a file name; ``job.fn(filename)`` is equivalent to ``os.path.join(job.workspace(), filename)``.
 This function makes it easy to create or open files which are associated with the job:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> print(job.fn('newfile.txt'))
+    >>> print(job.fn("newfile.txt"))
     '/home/johndoe/my_project/workspace/9bfd29df07674bc4aa960cf661b5acd2/newfile.txt'
 
 For convenience, the *state point* may also be accessed via the :py:attr:`Job.statepoint` or :py:attr:`Job.sp` attributes, e.g., the value for ``a`` can be printed using either ``print(job.sp.a)`` or ``print(job.statepoint.a)``.
@@ -148,34 +148,34 @@ To **add a new key** ``b`` to all existing *state points* that do not currently 
 .. code-block:: python
 
     for job in project:
-        job.sp.setdefault('b', 0)
+        job.sp.setdefault("b", 0)
 
 **Renaming** a state point key from ``b`` to ``c``:
 
 .. code-block:: python
 
     for job in project:
-        assert 'c' not in job.sp
-        job.sp.c = job.statepoint.pop('b')
+        assert "c" not in job.sp
+        job.sp.c = job.statepoint.pop("b")
 
 To **remove** a state point key ``c``:
 
 .. code-block:: python
 
     for job in project:
-        if 'c' in job.sp:
-            del job.sp['c']
+        if "c" in job.sp:
+            del job.sp["c"]
 
 You can modify **nested** *state points* in-place, but you will need to use dictionaries to add new nested keys, e.g.:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> job.statepoint()
     {'a': 0}
     >>> job.sp.b.c = 0  # <-- will raise an AttributeError!!
 
     # Instead:
-    >>> job.sp.b = {'c': 0}
+    >>> job.sp.b = {"c": 0}
 
     # Now you can modify in-place:
     >>> job.sp.b.c = 1
@@ -202,19 +202,19 @@ You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attr
 
 .. _`JSON`: https://en.wikipedia.org/wiki/JSON
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> job = project.open_job(statepoint)
-    >>> job.doc['hello'] = 'world'
+    >>> job.doc["hello"] = "world"
     # or equivalently
-    >>> job.doc.hello = 'world'
+    >>> job.doc.hello = "world"
 
 Just like the job *state point*, individual keys may be accessed either as attributes or through a functional interface.
 The following examples are all equivalent:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> print(job.document().get('hello'))
+    >>> print(job.document().get("hello"))
     world
     >>> print(job.document.hello)
     world
@@ -256,35 +256,38 @@ Reading and Writing data
 
 An example of storing data:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> import numpy as np
     >>> job = project.open_job(statepoint)
-    >>> job.data['x'] = np.ones([10, 3, 4])
+    >>> job.data["x"] = np.ones([10, 3, 4])
 
 
 Just like the job *state point* and *document*, individual keys may be accessed either as attributes or through a functional interface:
 
 To access data as an attribute:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
     ...     x = job.data.x[:]
+    ...
 
 To access data as a key:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
-    ...     x = job.data['x'][:]
+    ...     x = job.data["x"][:]
+    ...
 
 Through a functional interface:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
-    ...     x = job.data.get('x')[:]
+    ...     x = job.data.get("x")[:]
+    ...
 
 .. tip::
 
@@ -301,28 +304,31 @@ That is important to enable the storage of massive arrays that do not necessaril
 For fast and efficient data access, NumPy slicing syntax may be used to access data.
 Here are a few examples for accessing a three-dimensional array with outputs omitted:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
     ...     job.data.x[0, 0, 0]
     ...     job.data.x[1:3, 0, :]
     ...     job.data.x[:, 1, 3]
+    ...
 
 To load entire arrays to memory, NumPy slicing syntax may be used:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
     ...     x = job.data.x[:]
+    ...
 
 NumPy slicing (ie. the ``[:]`` operator) may be used to load array-like and text data.
 It cannot be used to load scalar values.
 Instead, the explicit memory copy operator ``[()]`` may be used instead of NumPy slicing to load entire arrays or scalars to memory:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
     ...     x = job.data.x[()]
+    ...
 
 A caveat of the explicit memory copy operator ``[()]`` is that it cannot be used to load strings.
 Generally, the :py:attr:`job.data` container is intended for large numerical or text data.
@@ -335,20 +341,21 @@ Data organization
 The `HDF5`_ format used by :attr:`job.data` allows for hierarchical organization of data.
 Data may be stored in folder-like *groups*:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> job.data['group/subgroup_1'] = np.ones([10, 3, 2])
-    >>> job.data['group/subgroup_2'] = np.ones([10, 1, 2])
+    >>> job.data["group/subgroup_1"] = np.ones([10, 3, 2])
+    >>> job.data["group/subgroup_2"] = np.ones([10, 1, 2])
 
 Data may be accessed as attributes, keys, or through a functional interface.
 The following examples are all equivalent:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
     ...     job.data.group.subgroup_1[:]
-    ...     job.data['group/subgroup_1'][:]
-    ...     job.data.get('group/subgroup_1')[:]
+    ...     job.data["group/subgroup_1"][:]
+    ...     job.data.get("group/subgroup_1")[:]
+    ...
 
 Accessing keys
 --------------
@@ -356,7 +363,7 @@ Accessing keys
 *Groups* and keys in :attr:`job.data` behave similarly to dictionaries.
 To view the keys in a group:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> print(list(job.data.keys()))
     ['x', 'group']
@@ -365,20 +372,21 @@ To view the keys in a group:
 
 To check if keys exist in a group:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> 'subgroup_1' in job.data
+    >>> "subgroup_1" in job.data
     False
-    >>> 'subgroup_1' in job.data.group
+    >>> "subgroup_1" in job.data.group
     True
 
 To iterate through keys in a group (outputs omitted):
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> group = job.data.group
     >>> for key in group:
     ...     group[key][:]
+    ...
 
 
 File handling
@@ -388,19 +396,21 @@ The underlying HDF5 file is opened and flushed after each read- and write-operat
 You can keep the file explicitly open using a context manager.
 The file is only opened and flushed once in the following example:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
-    ...     job.data['hello'] = 'world'
+    ...     job.data["hello"] = "world"
     ...     print(job.data.x)
+    ...
 
 The default open-mode is append (``'a'``), but you can override the open mode by using the :meth:`signac.H5Store.open` function explicitly.
 For example, to open the store in read-only mode, you would write:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> with job.data.open(mode='r'):
+    >>> with job.data.open(mode="r"):
     ...     print(job.data.x)
+    ...
 
 Explicitly opening the underlying file by either using the context manager or the ``open()`` function is required when reading and writing arrays, such as NumPy arrays.
 Please see the :ref:`accessing arrays <accessing-arrays>` section for details on accessing arrays.
@@ -434,10 +444,11 @@ However, in some cases it may be desirable to use more *advanced* functions prov
 The low-level API is exposed as the :attr:`~signac.H5Store.file` property, which is accessible whenever the store is open.
 For example, this is how we could use that to explicitly create an array:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.data:
-    ...     dset = job.data.file.create_dataset("X", (64, 32), dtype='f4')
+    ...     dset = job.data.file.create_dataset("X", (64, 32), dtype="f4")
+    ...
 
 .. note::
 
@@ -465,10 +476,11 @@ In fact, the :attr:`Job.data` container is essentially just an alias for ``job.s
 
 For example, to store an array `X` within a file called ``my_data.h5``, one could use the following approach:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with job.stores.my_data as data:
-    ...     data['X'] = X
+    ...     data["X"] = X
+    ...
 
 
 The :attr:`Job.stores` attribute is an instance of :class:`signac.H5StoreManager` and implements a dict-like interface.

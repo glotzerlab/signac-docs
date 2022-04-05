@@ -42,13 +42,13 @@ For example, extracting the volume from a particular job originally consisted of
 
 .. code-block:: python
 
-    volume = float(open(job.fn('volume.txt')).read())
+    volume = float(open(job.fn("volume.txt")).read())
 
 Now, we instead need to adjust the filename for each job:
 
 .. code-block:: python
 
-    volume = float(open(job.fn('volume_pressure_{}.txt'.format(job.sp.p))).read())
+    volume = float(open(job.fn("volume_pressure_{}.txt".format(job.sp.p))).read())
 
 In general, it is desirable to keep the filenames across the workspace as uniform as possible.
 

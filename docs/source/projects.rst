@@ -45,9 +45,9 @@ For example, to initialize a **signac** project named *MyProject* in a directory
 
 You can alternatively initialize your project within Python with the :py:func:`~signac.init_project` function:
 
-.. code-block:: python
+.. code-block:: pycon
 
-    >>> project = signac.init_project('MyProject')
+    >>> project = signac.init_project("MyProject")
 
 This will create a configuration file which contains the name of the project.
 The directory that contains this configuration file is the project's root directory.
@@ -70,7 +70,7 @@ You can access your signac :py:class:`~signac.Project` and the associated *data 
 
 Or with the :py:func:`~signac.get_project` function:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> import signac
     >>> project = signac.get_project()
@@ -100,10 +100,10 @@ For example, to store data associated with particular temperature or pressure of
 
 .. code-block:: python
 
-    project = get_project('path/to/my_project')
-    job = project.open_job({'temperature': 20, 'pressure': 1.0})
+    project = get_project("path/to/my_project")
+    job = project.open_job({"temperature": 20, "pressure": 1.0})
     job.init()
-    with open(job.fn('results.txt')) as file:
+    with open(job.fn("results.txt")) as file:
         ...
 
 .. tip::
@@ -113,7 +113,7 @@ For example, to store data associated with particular temperature or pressure of
 
     .. code-block:: python
 
-        job = project.open_job({'temperature': 20, 'pressure': 1.0}).init()
+        job = project.open_job({"temperature": 20, "pressure": 1.0}).init()
 
 The job *state point* represents a **unique address** of your data within one project.
 There can never be two jobs that share the same *state point* within the same project.
@@ -126,7 +126,7 @@ Any other kind of data and metadata that describe your job, but do not represent
 In addition to obtaining a job handle via the project ``open_job()`` function, you can also access it directly with the :func:`signac.get_job` function.
 For example, you can get a handle on a job by switching into the workspace directory and then calling :func:`signac.get_job`:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> import signac
     >>> job = signac.get_job()
@@ -159,7 +159,7 @@ For example, to iterate over all jobs that have a *state point* parameter ``b=0`
 
 .. code-block:: python
 
-    for job in project.find_jobs({'b': 0}):
+    for job in project.find_jobs({"b": 0}):
         pass
 
 For more information on how to search for specific jobs in Python and on the command line, please see the :ref:`query` chapter.
@@ -188,14 +188,14 @@ If *a* was a state point variable in a project's parameter space, we can quickly
 
 .. code-block:: python
 
-    for a, group in project.groupby('a'):
+    for a, group in project.groupby("a"):
         print(a, list(group))
 
 Similarly, we can group by values in the job document as well. Here, we group all jobs in the project by a job document key *b*:
 
 .. code-block:: python
 
-    for b, group in project.groupbydoc('b'):
+    for b, group in project.groupbydoc("b"):
         print(b, list(group))
 
 
@@ -207,7 +207,7 @@ For example, we can group jobs by state point parameters *c* and *d*:
 
 .. code-block:: python
 
-    for (c, d), group in project.groupby(('c', 'd')):
+    for (c, d), group in project.groupby(("c", "d")):
         print(c, d, list(group))
 
 
@@ -219,7 +219,7 @@ As an example, we can first select all jobs, where the state point key *e* is eq
 
 .. code-block:: python
 
-    for f, group in project.find_jobs({'e': 1}).groupby('f'):
+    for f, group in project.find_jobs({"e": 1}).groupby("f"):
         print(f, list(group))
 
 
@@ -232,7 +232,9 @@ Here is an example using an anonymous *lambda* function as the grouping function
 
 .. code-block:: python
 
-    for (d, count), group in project.groupby(lambda job: (job.sp['d'], job.document['count'])):
+    for (d, count), group in project.groupby(
+        lambda job: (job.sp["d"], job.document["count"])
+    ):
         print(d, count, list(group))
 
 
@@ -246,7 +248,7 @@ To **move** a job to a different project, use the :py:meth:`~signac.contrib.job.
 
 .. code-block:: python
 
-    other_project = get_project(root='/path/to/other_project')
+    other_project = get_project(root="/path/to/other_project")
 
     for job in jobs_to_move:
         job.move(other_project)
@@ -285,11 +287,11 @@ To support the centralization of project-level data, **signac** offers simple fa
 For one, **signac** provides a *project document* and *project data* analogous to the :ref:`job document <project-job-document>` and :ref:`job data <project-job-data>`.
 The project document is stored in JSON format in the project root directory and can be used to store similar types of data to the job document.
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> project = signac.get_project()
-    >>> project.doc['hello'] = 'world'
-    >>> print(project.doc().get('hello'))
+    >>> project.doc["hello"] = "world"
+    >>> print(project.doc().get("hello"))
     'world'
     >>> print(project.doc.hello)
     'world'
@@ -297,43 +299,46 @@ The project document is stored in JSON format in the project root directory and 
 The project data is stored in HDF5 format in a file named ``signac_data.h5`` in the project root directory.
 Although it can be used to store similar types of data as the job document, it is meant for storage of large, array-like or dictionary-like information.
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> project = signac.get_project()
-    >>> project.data['x'] = np.ones([10, 3, 4])
+    >>> project.data["x"] = np.ones([10, 3, 4])
 
 Data may be accessed as an attribute, key, or through a functional interface:
 
 To access data as an attribute:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with project.data:
     ...     x = project.data.x[:]
+    ...
 
 To access data as a key:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with project.data:
-    ...     x = project.data['x'][:]
+    ...     x = project.data["x"][:]
+    ...
 
 To access data through a functional interface:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> with project.data:
-    ...     x = project.data.get('x')[:]
+    ...     x = project.data.get("x")[:]
+    ...
 
 .. currentmodule:: signac.contrib.job
 
 In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, which is analogous to the :py:meth:`Job.fn` method described above:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> print(project.root_directory())
     '/home/johndoe/my_project/'
-    >>> print(project.fn('foo.bar'))
+    >>> print(project.fn("foo.bar"))
     '/home/johndoe/my_project/foo.bar'
 
 
@@ -371,12 +376,12 @@ Assuming that we initialize our data space with two state point keys, ``a`` and 
 
     for a in range(3):
         for b in (True, False):
-            project.open_job({'a': a, 'b': b}).init()
+            project.open_job({"a": a, "b": b}).init()
 
 
 Then we can use the :py:meth:`~signac.Project.detect_schema` method to get a basic summary of keys within the project's data space and their respective range:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> print(project.detect_schema())
     {
@@ -527,4 +532,4 @@ Projects can also be synchronized using the Python API:
 
 .. code-block:: python
 
-    project.sync('/remote/my_project')
+    project.sync("/remote/my_project")

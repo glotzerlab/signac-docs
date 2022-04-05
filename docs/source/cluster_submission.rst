@@ -101,10 +101,11 @@ For example, to specify that a parallelized operation requires **4** processing 
     from flow import FlowProject
     from multiprocessing import Pool
 
+
     @FlowProject.operation.with_directives({"np": 4})
     def hello(job):
         with Pool(4) as pool:
-          print("hello", job)
+            print("hello", job)
 
 .. note::
 

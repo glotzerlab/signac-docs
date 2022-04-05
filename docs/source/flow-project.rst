@@ -19,10 +19,12 @@ To implement an automated workflow using **signac-flow**, we create a subclass o
     # project.py
     from flow import FlowProject
 
+
     class MyProject(FlowProject):
         pass
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         MyProject().main()
 
 .. tip::
@@ -62,9 +64,9 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
 
     import signac
 
-    project = signac.init_project('MyProject')
+    project = signac.init_project("MyProject")
     for i in range(10):
-        project.open_job({'a': i}).init()
+        project.open_job({"a": i}).init()
 
 A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
 
@@ -74,18 +76,20 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 
     from flow import FlowProject
 
+
     class MyProject(FlowProject):
         pass
 
+
     @MyProject.operation
     def hello(job):
-        print('hello', job)
+        print("hello", job)
         with job:
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         MyProject().main()
 
 
@@ -104,7 +108,7 @@ To do this, we need to create a condition function named ``greeted`` that tells 
 .. code-block:: python
 
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello`` operation function should only be executed if the ``greeted`` condition is *not* met.
 
@@ -121,18 +125,18 @@ The entirety of the code is as follows:
 
 
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 
     @MyProject.operation
     @MyProject.post(greeted)
     def hello(job):
         with job:
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         MyProject().main()
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
@@ -179,12 +183,13 @@ If we implemented and integrated the operation and condition functions correctly
 
         from flow import with_job
 
+
         @MyProject.operation
         @MyProject.post(greeted)
         @with_job
         def hello(job):
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
     Is the same as:
 
@@ -194,8 +199,8 @@ If we implemented and integrated the operation and condition functions correctly
         @MyProject.post(greeted)
         def hello(job):
             with job:
-                with open('hello.txt', 'w') as file:
-                    file.write('world!\n')
+                with open("hello.txt", "w") as file:
+                    file.write("world!\n")
 
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
     ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
@@ -221,7 +226,7 @@ We can convert any condition function into a label function by adding the :py:me
 
     @MyProject.label
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 We will reset the workflow for only a few jobs to get a more interesting *status* view:
 

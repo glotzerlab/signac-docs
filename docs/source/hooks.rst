@@ -59,14 +59,18 @@ Otherwise, ``store_success_to_doc`` will be executed.
     # project.py
     from flow import FlowProject
 
+
     class Project(FlowProject):
         pass
 
+
     def store_success_to_doc(operation_name, job):
-        job.doc.update({f'{operation_name}_success': True})
+        job.doc.update({f"{operation_name}_success": True})
+
 
     def store_error_to_doc(operation_name, error, job):
-        job.doc.update({f'{operation_name}_success': False})
+        job.doc.update({f"{operation_name}_success": False})
+
 
     @Project.operation
     @Project.operation_hooks.on_success(store_success_to_doc)
@@ -75,7 +79,8 @@ Otherwise, ``store_success_to_doc`` will be executed.
         if job.sp.a == 0:
             raise RuntimeError("Cannot process jobs with a == 0.")
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         Project().main()
 
 
@@ -98,28 +103,34 @@ The hook appends the current time to a list in the job document that is named ba
 
     from flow import FlowProject
 
+
     class Project(FlowProject):
         pass
 
+
     @Project.operation
-    @Project.post.true('test_ran')
+    @Project.post.true("test_ran")
     def do_operation(job):
         job.doc.test_ran = True
 
+
     @Project.operation
     @Project.pre.after(do_operation)
-    @Project.post.false('test_ran')
+    @Project.post.false("test_ran")
     def undo_operation(job):
         job.doc.test_ran = False
 
+
     def track_start_time(operation_name, job):
         import time
-        current_time = time.strftime('%b %d, %Y at %l:%M:%S %p %Z')
-        doc_key = f'{operation_name}_start_times'
+
+        current_time = time.strftime("%b %d, %Y at %l:%M:%S %p %Z")
+        doc_key = f"{operation_name}_start_times"
         job.doc.setdefault(doc_key, [])
         job.doc[doc_key].append(current_time)
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         project = Project()
         project.project_hooks.on_start = [track_start_time]
         project.main()
@@ -132,35 +143,41 @@ A custom set of hooks may also be installed at the project level by a custom ``i
     # project.py
     from flow import FlowProject
 
+
     class Project(FlowProject):
         pass
 
+
     @Project.operation
-    @Project.post.true('test_ran')
+    @Project.post.true("test_ran")
     def do_operation(job):
         job.doc.test_ran = True
 
+
     # Define custom hooks class.
     class ProjectHooks:
-
         def set_job_doc(self, key):
             def set_true(operation_name, job):
                 job.doc[f"{operation_name}_{key}"] = True
+
             return set_true
 
         def set_job_doc_with_error(self, key):
             def set_false(operation_name, error, job):
                 job.doc[f"{operation_name}_{key}"] = False
+
             return set_false
 
         def install_hooks(self, project):
             project.project_hooks.on_start.append(self.set_job_doc("start"))
             project.project_hooks.on_success.append(self.set_job_doc("success"))
-            project.project_hooks.on_exception.append(self.set_job_doc_with_error("success"))
+            project.project_hooks.on_exception.append(
+                self.set_job_doc_with_error("success")
+            )
             return project
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         project = Project()
         project = ProjectHooks().install_hooks(project)
         project.main()
