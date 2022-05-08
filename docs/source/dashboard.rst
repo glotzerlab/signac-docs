@@ -11,7 +11,7 @@ To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
     As with any web server, be aware of the :ref:`dashboard-security`.
 
 Quickstart
------------------
+----------
 
 The code below will open a dashboard for an existing **signac** project.
 Write the file ``dashboard.py`` containing:
