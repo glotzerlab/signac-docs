@@ -24,11 +24,11 @@ Write the file ``dashboard.py`` containing:
 
     modules = [
         StatepointList(),
-        DocumentList(context='JobContext'),
-        DocumentList(context='ProjectContext'),
-        ImageViewer(context='JobContext'),
-        ImageViewer(context='ProjectContext'),
-        Schema()
+        DocumentList(context="JobContext"),
+        DocumentList(context="ProjectContext"),
+        ImageViewer(context="JobContext"),
+        ImageViewer(context="ProjectContext"),
+        Schema(),
     ]
 
     if __name__ == "__main__":
