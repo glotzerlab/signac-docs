@@ -3,43 +3,52 @@
 The Dashboard
 =============
 
-This chapter describes how to create a dashboard to quickly visualize data stored in a **signac** data space.
+The signac dashboard visualizes data stored in a **signac** project.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
 .. danger::
 
     As with any web server, be aware of the :ref:`dashboard-security`.
 
-Getting Started
----------------
+Quickstart
+----------
 
-You can start a dashboard to visualize **signac** project data in the browser, by importing the :py:class:`~signac_dashboard.Dashboard` class and calling its :py:meth:`~signac_dashboard.Dashboard.main` method.
-
-.. code-block:: python
-
-    from signac_dashboard import Dashboard
-
-    Dashboard().main()
-
-Start a Dashboard
------------------
-
-The code below will open a dashboard for an newly-initialized (empty) project, with no jobs and one module loaded. Write the file ``dashboard.py`` with these contents:
+The code below will open a dashboard for an existing **signac** project.
+Write the file ``dashboard.py`` containing:
 
 .. code-block:: python
 
+    # dashboard.py
     from signac_dashboard import Dashboard
-    from signac_dashboard.modules import ImageViewer
+    from signac_dashboard.modules import StatepointList, DocumentList, ImageViewer, Schema
+
+    modules = [
+        StatepointList(),
+        DocumentList(context="JobContext"),
+        DocumentList(context="ProjectContext"),
+        ImageViewer(context="JobContext"),
+        ImageViewer(context="ProjectContext"),
+        Schema(),
+    ]
 
     if __name__ == "__main__":
-        Dashboard(modules=[ImageViewer()]).main()
+        Dashboard(modules=modules).main()
 
-Then launch the dashboard with ``python dashboard.py run``.
+Launch the dashboard with ``python dashboard.py run --port 8888`` and open http://localhost:8888/jobs/ in your web browser.
 
-Included Modules
+Once the dashboard is open, use the "Views" panel in the sidebar to switch the view from list view to grid view.
+Select which module's cards to show using the "Modules" panel in the sidebar.
+Select "Project" in the sidebar to display cards for the project.
+
+
+
+Included modules
 ----------------
 
-For a list of available modules and usage instructions, see :ref:`python-api-dashboard-modules`.
+A module turns select information from the job directory or project directory into cards displayed on the dashboard.
+
+See the :ref:`full list of available modules and their options<python-api-dashboard-modules>`.
+
 
 Specifying a custom job title
 -----------------------------
@@ -75,10 +84,10 @@ The process looks like this:
 2. Launch signac-dashboard on the remote server, using the remote port you forwarded (port 8888 in the example above).
 3. On your local computer, open your browser to the local port (this is ``http://localhost:8890`` in the example above).
 
-Dissecting the Dashboard Structure
+Dissecting the dashboard structure
 ----------------------------------
 
-- *Jobs* are how **signac** manages data. Each job has a statepoint (which contains job metadata) and a document (for persistent storage of key-value pairs). Jobs can be displayed in *list view* or *grid view*. The list view provides quick descriptions and status information from many jobs, while the grid view is intended to show text and media content from one or more jobs.
+- Jobs can be displayed in *list view* or *grid view*. The list view provides quick descriptions and status information from many jobs, while the grid view is intended to show text and media content from one or more jobs.
 - *Templates* provide the HTML structure of the dashboard's pages, written in Jinja template syntax for rendering content on the server
 - *Modules* are server-side Python code that interface with your **signac** data to display content. Generally, a module will render content from a specific *job* into a *card template*.
 - *Cards* are a type of template that is shown in *grid view* and contains content rendered by a *module*.
