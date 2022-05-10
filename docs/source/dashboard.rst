@@ -3,7 +3,7 @@
 The Dashboard
 =============
 
-The signac dashboard visualizes data stored in a **signac** project.
+The **signac-dashboard** visualizes data stored in a **signac** project.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
 .. danger::
@@ -37,7 +37,7 @@ Write the file ``dashboard.py`` containing:
 Launch the dashboard with ``python dashboard.py run --port 8888`` and open http://localhost:8888/jobs/ in your web browser.
 
 Once the dashboard is open, use the "Views" panel in the sidebar to switch the view from list view to grid view.
-Select which module's cards to show using the "Modules" panel in the sidebar.
+Select which modules' cards to show using the "Modules" panel in the sidebar.
 Select "Project" in the sidebar to display cards for the project.
 
 
@@ -47,7 +47,7 @@ Included modules
 
 A module turns select information from the job directory or project directory into cards displayed on the dashboard.
 
-See the :ref:`full list of available modules and their options<python-api-dashboard-modules>`.
+See the :ref:`full list of available modules and their options <python-api-dashboard-modules>`.
 
 
 Specifying a custom job title
