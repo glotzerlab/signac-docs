@@ -477,8 +477,8 @@ In addition to selecting by metadata as shown earlier, we can also find and sele
 
 .. code-block:: bash
 
-    ~/ideal_gas_project $ signac find --doc-filter volume.\$lte 125 --show
-    Interpreted filter arguments as '{"volume.$lte": 125}'.
+    ~/ideal_gas_project $ signac find doc.volume.\$lte 125 --show
+    Interpreted filter arguments as '{"doc.volume.$lte": 125}'.
     df1794892c1ec0909e5955079754fb0b
     {'N': 1000, 'kT': 1.0, 'p': 10}
     {'volume': 100.0}
