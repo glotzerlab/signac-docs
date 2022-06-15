@@ -437,3 +437,37 @@ different environment.
 
    To test operations with a small interactive job, a 'test' group can be used
    to ensure that the operations do not try to run on multiple cores or GPUs.
+
+Pass options to operations run through containers or another environment
+========================================================================
+
+When executing an operation in a container (e.g. Singularity or Docker) or a different environment
+``FlowGroups`` can be used to passed options to an ``exec`` command. Below is an example which shows
+how to use this feature to get debug information from an operation executed in a container.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject
+
+    class Project(flow.FlowProject):
+        pass
+
+
+    debug = Project.make_group("debug", run_options="--debug")
+
+    # Other decorators can be applied like normal.
+    @Project.post.isfile("a.txt")
+    # Must be first decorator.
+    @debug
+    @Project.operation.with_directives({"executable": "/path/to/container exec python3"})
+    def op1(job):
+        with open(job.fn("a.txt"), "w") as fh:
+            fh.write("hello world")
+
+
+    if __name__ == "__main__":
+        Project().main()
+
+
+To run the operation with debugging, use ``python3 project.py run -o debug``.
