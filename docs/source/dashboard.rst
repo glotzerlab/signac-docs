@@ -95,4 +95,8 @@ Dissecting the dashboard structure
 Searching jobs
 --------------
 
-The search bar accepts JSON-formatted queries in the same way as the ``signac find`` command-line tool, including the query namespaces ``'sp.'`` and ``'doc.'``. For example, using the query ``{"sp.a": 1, "doc.b": 2}`` will return all jobs where the job statepoint ``a`` has the value ``1`` and the job document ``b`` has the value 2.
+The search bar accepts queries like the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
+
+Simple queries can be entered readably like **"sp.a 1 doc.b 2"**. This example will return all jobs where the job statepoint ``a`` has the value ``1`` and the job document ``b`` has the value ``2``.
+
+The full :ref:`query` can be used for complex expressions. The example query becomes ``{"sp.a": 1, "doc.b": 2}``.
