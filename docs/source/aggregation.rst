@@ -107,7 +107,6 @@ By default, when no ``sort_by`` parameter is specified, the order of the jobs wi
 
 .. code-block:: python
 
-    @
     @Project.operation(
             aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False))
     def op5(*jobs):
@@ -125,7 +124,6 @@ This can be used to generate aggregates from only the selected jobs, excluding a
 
 .. code-block:: python
 
-    @
     @Project.operation(aggregator=aggregator(select=lambda job: job.sp.temperature > 0))
     def op6(*jobs):
         pass
