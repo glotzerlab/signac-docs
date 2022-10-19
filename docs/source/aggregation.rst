@@ -108,7 +108,8 @@ By default, when no ``sort_by`` parameter is specified, the order of the jobs wi
 .. code-block:: python
 
     @Project.operation(
-            aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False))
+        aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False)
+    )
     def op5(*jobs):
         pass
 
