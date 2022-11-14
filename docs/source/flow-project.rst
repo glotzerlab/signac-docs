@@ -310,6 +310,8 @@ Users have the option to hide the progress bar when generating the status view.
 
         class MyProject(flow.FlowProject):
             pass
+
+
         project = MyProject.init_project()
         project.print_status(detailed=True, parameters=["p"], no_progress=True)
 
