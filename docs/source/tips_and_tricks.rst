@@ -62,3 +62,16 @@ One of the main advantages of using **signac** for data management is that the s
 That also means that existing ids will change and scripts that used them in a hard-coded fashion will fail.
 
 Whenever you find yourself hard-coding ids into your code, consider replacing it with a function that uses the :py:meth:`~.signac.Project.find_jobs` function instead.
+
+
+How do I achieve optimal performance? What are the practical scaling limits for project sizes?
+----------------------------------------------------------------------------------------------
+
+Because **signac** uses a filesystem backend, there are some practical limitations for project size.
+On a system with a fast SSD, a project can hold about 100,000 jobs before the latency for various operations (searching, filtering, iteration) becomes unwieldy.
+Some **signac** projects have scaled up to 1,000,000 jobs or more, but the performance can be slower.
+This is especially difficult on network file systems found on HPC clusters, because accessing many small files is expensive compared to accessing fewer large files.
+If your project needs to explore a large parameter space with many jobs, consider a state point schema that allows you to do more work with fewer jobs, instead of a small amount of work for many jobs, perhaps by reducing one dimension of the parameter space being explored.
+After adding or removing jobs, it is recommended to run the CLI command ``$ signac update-cache`` or the Python method ``Project.update_cache()`` to update the persistent (centralized) cache of all state points in the project.
+For workflows implemented with **signac-flow**, the choice of pre-conditions and post-conditions can have a dramatic effect on performance.
+In particular, conditions that check for file existence, like ``FlowProject.post.isfile``, are typically much faster than conditions that require reading a file's contents.
