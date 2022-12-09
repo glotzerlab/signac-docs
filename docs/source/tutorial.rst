@@ -265,8 +265,8 @@ To tell the :py:class:`~.flow.FlowProject` class when an operation is *completed
         return job.isfile("volume.txt")
 
 
-    @FlowProject.operation
     @FlowProject.post(volume_computed)
+    @FlowProject.operation
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
         with open(job.fn("volume.txt"), "w") as file:
@@ -342,9 +342,9 @@ Since we are pretending that computing the volume is an expensive operation, we 
     # ...
 
 
-    @FlowProject.operation
     @FlowProject.pre(volume_computed)
     @FlowProject.post.isfile("data.json")
+    @FlowProject.operation
     def store_volume_in_json_file(job):
         with open(job.fn("volume.txt")) as textfile:
             data = {"volume": float(textfile.read())}
@@ -406,8 +406,8 @@ with it.
 
 
     @volume_group
-    @FlowProject.operation
     @FlowProject.post(volume_computed)
+    @FlowProject.operation
     def compute_volume(job):
         volume = job.sp.N * job.sp.kT / job.sp.p
         with open(job.fn("volume.txt"), "w") as file:
@@ -415,9 +415,9 @@ with it.
 
 
     @volume_group
-    @FlowProject.operation
     @FlowProject.pre(volume_computed)
     @FlowProject.post.isfile("data.json")
+    @FlowProject.operation
     def store_volume_in_json_file(job):
         with open(job.fn("volume.txt")) as textfile:
             data = {"volume": float(textfile.read())}
@@ -445,9 +445,9 @@ Let's add another operation to our ``project.py`` script that stores the volume 
      # ...
 
 
-     @FlowProject.operation
      @FlowProject.pre.after(compute_volume)
      @FlowProject.post(lambda job: "volume" in job.document)
+     @FlowProject.operation
      def store_volume_in_document(job):
          with open(job.fn("volume.txt")) as textfile:
              job.document.volume = float(textfile.read())

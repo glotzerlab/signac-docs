@@ -108,15 +108,15 @@ The hook appends the current time to a list in the job document that is named ba
         pass
 
 
-    @Project.operation
     @Project.post.true("test_ran")
+    @Project.operation
     def do_operation(job):
         job.doc.test_ran = True
 
 
-    @Project.operation
     @Project.pre.after(do_operation)
     @Project.post.false("test_ran")
+    @Project.operation
     def undo_operation(job):
         job.doc.test_ran = False
 
@@ -148,8 +148,8 @@ A custom set of hooks may also be installed at the project level by a custom ``i
         pass
 
 
-    @Project.operation
     @Project.post.true("test_ran")
+    @Project.operation
     def do_operation(job):
         job.doc.test_ran = True
 

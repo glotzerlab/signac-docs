@@ -128,8 +128,8 @@ The entirety of the code is as follows:
         return job.isfile("hello.txt")
 
 
-    @MyProject.operation
     @MyProject.post(greeted)
+    @MyProject.operation
     def hello(job):
         with job:
             with open("hello.txt", "w") as file:
@@ -149,9 +149,9 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.pre(cheap_condition)
         @MyProject.pre(expensive_condition)
+        @MyProject.operation
         def hello(job):
             pass
 
@@ -184,8 +184,8 @@ If we implemented and integrated the operation and condition functions correctly
         from flow import with_job
 
 
-        @MyProject.operation
         @MyProject.post(greeted)
+        @MyProject.operation
         @with_job
         def hello(job):
             with open("hello.txt", "w") as file:
@@ -195,8 +195,8 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.post(greeted)
+        @MyProject.operation
         def hello(job):
             with job:
                 with open("hello.txt", "w") as file:
