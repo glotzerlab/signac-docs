@@ -26,8 +26,7 @@ See also the Python documentation about :ref:`argument unpacking <python:tut-unp
         pass
 
 
-    @aggregator()
-    @Project.operation
+    @Project.operation(aggregator=aggregator())
     def op1(*jobs):
         print("Number of jobs in aggregate:", len(jobs))
 
@@ -72,8 +71,7 @@ Group By
 
 .. code-block:: python
 
-    @aggregator.groupby("temperature")
-    @Project.operation
+    @Project.operation(aggregator=aggregator.groupby("temperature"))
     def op3(*jobs):
         pass
 
@@ -87,8 +85,7 @@ Groups Of
 
 .. code-block:: python
 
-    @aggregator.groupsof(2)
-    @Project.operation
+    @Project.operation(aggregator=aggregator.groupsof(2))
     def op4(job1, job2=None):
         pass
 
@@ -109,8 +106,8 @@ By default, when no ``sort_by`` parameter is specified, the order of the jobs wi
 
 .. code-block:: python
 
-    @aggregator.groupsof(2, sort_by="temperature", sort_ascending=False)
-    @Project.operation
+    @Project.operation(
+        aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False))
     def op5(*jobs):
         pass
 
@@ -126,8 +123,7 @@ This can be used to generate aggregates from only the selected jobs, excluding a
 
 .. code-block:: python
 
-    @aggregator(select=lambda job: job.sp.temperature > 0)
-    @Project.operation
+    @Project.operation(aggregator=aggregator(select=lambda job: job.sp.temperature > 0))
     def op6(*jobs):
         pass
 
@@ -180,8 +176,7 @@ By default, no aggregation takes place for a :py:class:`FlowGroup`.
 
 
     @group
-    @aggregator()
-    @Project.operation
+    @Project.operation(aggregator=aggregator())
     def op1(*jobs):
         pass
 
