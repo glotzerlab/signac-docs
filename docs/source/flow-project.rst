@@ -128,6 +128,7 @@ The entirety of the code is as follows:
         return job.isfile("hello.txt")
 
 
+    # The condition must appear after (above) the operation decorator.
     @MyProject.post(greeted)
     @MyProject.operation
     def hello(job):
@@ -141,6 +142,8 @@ The entirety of the code is as follows:
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+These are added after (above) a `~flow.FlowProject.operation` decorator.
+Using these decorators before declaring a function an operation is an error.
 
 .. tip::
 
