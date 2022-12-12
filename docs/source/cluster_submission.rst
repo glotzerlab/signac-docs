@@ -88,7 +88,7 @@ Without any argument, the ``--bundle`` option will bundle **all** eligible job-o
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
 
 By default, the submit command will run bundled job-operations in serial.
-It is possible to run multiple CPU processes in parallel, as long as the operating system assigns running threads to any available CPU cores, which is not the default behavior on all compute clusters.
+It is possible to run bundled jobs in parallel (when executing on the CPU), as long as the operating system assigns running threads to any available CPU cores, which is **not** the default behavior on all compute clusters.
 The ``--parallel`` flag will start the bundled job-operations and run them as background processes. Ensure that the processes are correctly assigned to the requested resources before using this option.
 
 .. warning::
