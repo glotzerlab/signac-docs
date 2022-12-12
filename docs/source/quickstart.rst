@@ -43,6 +43,7 @@ You can then implement a simple *data space operation* using **signac-flow** wit
     # project.py
     from flow import FlowProject
 
+
     @FlowProject.operation
     def hello_job(job):
         print(f"Hello from job {job.id}, my foo is {job.sp.foo}.")

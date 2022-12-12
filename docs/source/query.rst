@@ -30,14 +30,14 @@ For example, in order to select all jobs whose state point key *a* has the value
 
 .. code-block:: python
 
-    project.find_jobs({'sp.a': 'foo', 'doc.b': 'bar'})
+    project.find_jobs({"sp.a": "foo", "doc.b": "bar"})
 
 The default prefix is **sp**, so any filter key that does not have a recognized prefix will be matched against job state points.
 This means that the following query is equivalent to the one above:
 
 .. code-block:: python
 
-    project.find_jobs({'a': 'foo', 'doc.b': 'bar'})
+    project.find_jobs({"a": "foo", "doc.b": "bar"})
 
 For backwards compatibility, some methods in **signac** such as :py:meth:`~signac.Project.find_jobs()` accept separate ``filter`` and ``doc_filter`` arguments, where keys in the ``doc_filter`` are implicitly prefixed with ``'doc.'`` (and state point prefixes in ``filter`` are implicit).
 However, any combination of ``filter`` and ``doc_filter`` without prefixes can be represented by an appropriately namespaced ``filter``, and the unified approach with prefixes should be preferred.
@@ -54,7 +54,7 @@ For example, in order to select all jobs whose state point key *a* has the value
 
 .. code-block:: python
 
-    project.find_jobs({'a': 42})
+    project.find_jobs({"a": 42})
 
 Select All
 ----------
@@ -81,9 +81,9 @@ For example, assuming that we have a list of documents with values *N*, *kT*, an
 
 .. code-block:: python
 
-    1: {'N': 1000, 'kT': 1.0, 'p': 1}
-    2: {'N': 1000, 'kT': 1.2, 'p': 2}
-    3: {'N': 1000, 'kT': 1.3, 'p': 3}
+    1: {"N": 1000, "kT": 1.0, "p": 1}
+    2: {"N": 1000, "kT": 1.2, "p": 2}
+    3: {"N": 1000, "kT": 1.3, "p": 3}
     ...
 
 We can select the 2nd document with ``{'p': 2}``, but also ``{'N': 1000, 'p': 2}`` or any other matching combination.
@@ -98,9 +98,9 @@ For example, if the documents shown in the example above were all nested like th
 
 .. code-block:: python
 
-    1: {'statepoint': {'N': 1000, 'kT': 1.0, 'p': 1}}
-    2: {'statepoint': {'N': 1000, 'kT': 1.2, 'p': 2}}
-    3: {'statepoint': {'N': 1000, 'kT': 1.3, 'p': 3}}
+    1: {"statepoint": {"N": 1000, "kT": 1.0, "p": 1}}
+    2: {"statepoint": {"N": 1000, "kT": 1.2, "p": 2}}
+    3: {"statepoint": {"N": 1000, "kT": 1.3, "p": 3}}
     ...
 
 Then we would use ``{'statepoint.p': 2}`` instead of ``{'statepoint': {'p': 2}}`` as filter argument.
@@ -120,7 +120,7 @@ If we wanted to match all documents where *p is greater than 2*, we would use th
 
 .. code-block:: python
 
-    {'p': {'$gt': 2}}
+    {"p": {"$gt": 2}}
 
 Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select *all all jobs withe p values greater than 2*.
 Here is a complete list of all available **arithmetic operators**:
@@ -155,17 +155,12 @@ Logical Operators
 There are three supported logical operators: ``$and``, ``$or``, and ``$not``.
 The first two are unique in that they involve combinations of other query operators.
 To query with one of these two logical expression, we construct a mapping with the logical operator as the key and a list of expressions as the value.
-As usual, the ``$and`` operator matches documents where all the expressions are true, while the ``$or`` expression matches if any documents satisfy the provided expression.
-For example, we can match all documents where *p is greater than 2* **or** *kT=1.0* we could use the following (split onto multiple lines for clarity):
+As usual, the ``$and`` operator matches documents where all the expressions are true, while the ``$or`` expression matches if documents satisfy any of the provided expressions.
+For example, to find all documents where *p is greater than 2* **or** *kT=1.0*, we could use the following:
 
 .. code-block:: python
 
-    {
-        '$or': [
-                   {'p': {'$gt': 2}},    # either match this
-                   {'kT': 1.0}           # or this
-               ]
-    }
+    {"$or": [{"p": {"$gt": 2}}, {"kT": 1.0}]}
 
 Logical expressions may be nested, but cannot be the *value* of a key-value expression.
 
@@ -174,9 +169,7 @@ For example, to find all jobs where a parameter *a* is not close to zero, we cou
 
 .. code-block:: python
 
-    {
-        '$not': {'a': {'$near': 0}}
-    }
+    {"$not": {"a": {"$near": 0}}}
 
 .. _exists-operator:
 
@@ -196,7 +189,7 @@ This operator may be used to determine whether specific keys have values, that a
 
 .. code-block:: python
 
-    {'p': {'$in': [1, 2, 3]}}
+    {"p": {"$in": [1, 2, 3]}}
 
 This would return all documents where the value for *p* is either 1, 2, or 3.
 The usage of ``$nin`` is equivalent, and will return all documents where the value is *not in* the given array.
@@ -211,7 +204,7 @@ For example, to match all documents where the value for *protocol* contains the 
 
 .. code-block:: python
 
-    {'protocol': {'$regex': 'assembly'}}
+    {"protocol": {"$regex": "assembly"}}
 
 This operator internally applies the :py:func:`re.search` function and will never match if the value is not of type ``str``.
 
@@ -220,7 +213,7 @@ you would use:
 
 .. code-block:: python
 
-   {'protocol': {'$regex': r'^(?!.*assembly).*$'}}
+   {"protocol": {"$regex": r"^(?!.*assembly).*$"}}
 
 .. _negative lookaround: https://www.regular-expressions.info/lookaround.html
 
@@ -238,7 +231,7 @@ For example, to match all documents, where the value of the key *N* is of intege
 
 .. code-block:: python
 
-    {'N': {'$type': 'int'}}
+    {"N": {"$type": "int"}}
 
 Other supported types include *float*, *str*, *bool*, *list*, and *null*.
 
@@ -252,7 +245,7 @@ For example, instead of using the regex-operator, as shown above, we could write
 
 .. code-block:: python
 
-    {'protocol': {'$where': 'lambda x: "assembly" in x'}}
+    {"protocol": {"$where": 'lambda x: "assembly" in x'}}
 
 
 .. _simplified-filter:
