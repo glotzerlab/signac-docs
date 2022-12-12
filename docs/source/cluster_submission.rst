@@ -93,7 +93,7 @@ The ``--parallel`` flag will start the bundled job-operations and run them as ba
 
 .. warning::
 
-    The ``--parallel`` option will not distribute operations among multiple GPUs. Use aggregation instead. (TODO: link to tutorial)
+    The ``--parallel`` option will not distribute operations among multiple GPUs. Use :ref:`aggregation<_aggregation>` instead.
     To distribute across multiple GPUs, clusters may require a split MPI communicator.
     An example of this behavior can be found in the `signac-examples project flow.aggregation-mpi <https://github.com/glotzerlab/signac-examples/tree/master/projects/flow.aggregation-mpi>`__.
 
