@@ -97,6 +97,6 @@ Searching jobs
 
 The search bar uses the :ref:`query syntax <query>` of the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
 
-Simple queries can be entered readably like **"sp.a 1 doc.b 2"**. This example will return all jobs where the job statepoint ``a`` has the value ``1`` and the job document ``b`` has the value ``2``.
+Queries checking for values can be entered without the JSON formatting (for example **"sp.a 1 doc.b 2"**). This example will return all jobs where the job statepoint ``a`` has the value ``1`` and the job document ``b`` has the value ``2``.
 
 The full :ref:`query` can be used for complex expressions. The example query becomes ``{"sp.a": 1, "doc.b": 2}``.
