@@ -95,7 +95,7 @@ Dissecting the dashboard structure
 Searching jobs
 --------------
 
-The search bar accepts queries like the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
+The search bar uses the :ref:`query syntax <query>` of the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
 
 Simple queries can be entered readably like **"sp.a 1 doc.b 2"**. This example will return all jobs where the job statepoint ``a`` has the value ``1`` and the job document ``b`` has the value ``2``.
 
