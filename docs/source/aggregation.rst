@@ -12,7 +12,8 @@ This chapter provides information about passing aggregates of jobs to operation 
 Definition
 ==========
 
-An :py:class:`~flow.aggregator` is used as a decorator for operation functions which accept a variable number of positional arguments, ``*jobs``.
+An :py:class:`~flow.aggregator` creates generators of aggregates for use in operation functions via `FlowProject.operation`.
+Such functions may accept a variable number of positional arguments, ``*jobs``.
 The argument ``*jobs`` is unpacked into an *aggregate*, defined as an ordered tuple of jobs.
 See also the Python documentation about :ref:`argument unpacking <python:tut-unpacking-arguments>`.
 
@@ -107,7 +108,8 @@ By default, when no ``sort_by`` parameter is specified, the order of the jobs wi
 .. code-block:: python
 
     @Project.operation(
-        aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False))
+        aggregator=aggregator.groupsof(2, sort_by="temperature", sort_ascending=False)
+    )
     def op5(*jobs):
         pass
 

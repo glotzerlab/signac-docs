@@ -179,7 +179,7 @@ If we implemented and integrated the operation and condition functions correctly
 
 .. tip::
 
-    The ``@with_job`` decorator can be used so the entire operation takes place in the ``job`` context.
+    The ``with_job`` keyword argument can be used so the entire operation takes place in the ``job`` context.
     For example:
 
     .. code-block:: python
@@ -188,8 +188,7 @@ If we implemented and integrated the operation and condition functions correctly
 
 
         @MyProject.post(greeted)
-        @MyProject.operation
-        @with_job
+        @MyProject.operation(with_job=True)
         def hello(job):
             with open("hello.txt", "w") as file:
                 file.write("world!\n")
@@ -206,13 +205,11 @@ If we implemented and integrated the operation and condition functions correctly
                     file.write("world!\n")
 
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
-    ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
+    ``with_job`` also works with the ``cmd`` keyword argument:
 
     .. code-block:: python
 
-        @MyProject.operation
-        @with_job
-        @cmd
+        @MyProject.operation(with_job=True, cmd=True)
         def hello(job):
             return "echo 'hello {}'".format(job)
 
