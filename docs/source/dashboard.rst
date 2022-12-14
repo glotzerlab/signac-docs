@@ -34,7 +34,9 @@ Write the file ``dashboard.py`` containing:
     if __name__ == "__main__":
         Dashboard(modules=modules).main()
 
-Launch the dashboard with ``python dashboard.py run --port 8888`` and open http://localhost:8888/jobs/ in your web browser.
+Launch the dashboard with ``python dashboard.py run --port 8888``.
+The terminal output provides access instructions: ``To access this server, connect to: http://localhost:8888/login?token=<hidden>``.
+Using your web browser, navigate to this URL (with the full token provided on the terminal) to open and login to the dashboard.
 
 Once the dashboard is open, use the "Views" panel in the sidebar to switch the view from list view to grid view.
 Select which modules' cards to show using the "Modules" panel in the sidebar.
