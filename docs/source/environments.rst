@@ -49,8 +49,8 @@ This is an example for a typical environment class definition:
 
       class MyUniversityCluster(flow.environment.DefaultSlurmEnvironment):
 
-          hostname_pattern = r'.*\.mycluster\.university\.edu$'  # Matches names like login.mycluster.university.edu
-          template = 'myuniversity-mycluster.sh'
+          hostname_pattern = r".*\.mycluster\.university\.edu$"  # Matches names like login.mycluster.university.edu
+          template = "myuniversity-mycluster.sh"
 
 Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`` directory within your project root directory.
 

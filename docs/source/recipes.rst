@@ -26,11 +26,11 @@ For example, in the tutorial we are modeling a gas using the ideal gas law, but 
 
 Since the ideal gas law can be considered a special case of the equation above with :math:`a=b=0`, we could migrate all jobs with:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> for job in project:
-    ...     job.sp.setdefault('a', 0)
-    ...     job.sp.setdefault('b', 0)
+    ...     job.sp.setdefault("a", 0)
+    ...     job.sp.setdefault("b", 0)
     ...
 
 The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in case that they are not already present.
@@ -52,9 +52,9 @@ If you want to initialize your workspace with multiple instances of the same sta
 .. code-block:: python
 
     num_reps = 3
-    for i in range(num_reps) :
+    for i in range(num_reps):
         for p in range(1, 11):
-            sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
+            sp = {"p": p, "kT": 1.0, "N": 1000, "replica_index": i}
             job = project.open_job(sp)
             job.init()
 
@@ -72,9 +72,10 @@ Here is an example on how we could recursively replace all dot (.)-characters wi
 
     def migrate(doc):
         if isinstance(doc, Mapping):
-            return {k.replace('.', '_'): migrate(v) for k, v in doc.items()}
+            return {k.replace(".", "_"): migrate(v) for k, v in doc.items()}
         else:
             return doc
+
 
     for job in signac.get_project():
         job.sp = migrate(job.sp)
@@ -94,16 +95,16 @@ We often require multiple jobs with the same state point to collect enough infor
     # init.py
     import signac
 
-    project = signac.init_project('ideal-gas-project')
+    project = signac.init_project("ideal-gas-project")
     num_reps = 3
 
     jobs = project.find_jobs({"replica_index.$exists": False})
     for job in jobs:
-        job.sp['replica_index'] = 0
+        job.sp["replica_index"] = 0
 
     for i in range(num_reps):
         for p in range(1, 11):
-            sp = {'p': p, 'kT': 1.0, 'N': 1000, "replica_index": i}
+            sp = {"p": p, "kT": 1.0, "N": 1000, "replica_index": i}
             project.open_job(sp).init()
 
 Defining a grid of state point values
@@ -117,7 +118,8 @@ Many signac data spaces are structured like a "grid" where the goal is an exhaus
     import itertools
     import signac
 
-    project = signac.init_project('ideal-gas-project')
+    project = signac.init_project("ideal-gas-project")
+
 
     def grid(gridspec):
         """Yields the Cartesian product of a `dict` of iterables.
@@ -131,14 +133,11 @@ Many signac data spaces are structured like a "grid" where the goal is an exhaus
         for values in itertools.product(*gridspec.values()):
             yield dict(zip(gridspec.keys(), values))
 
-    statepoint_grid = {
-        'p': range(1, 11),
-        'kT': [1.0, 5.0, 10.0],
-        'N': [1000, 4000]
-    }
+
+    statepoint_grid = {"p": range(1, 11), "kT": [1.0, 5.0, 10.0], "N": [1000, 4000]}
 
     for sp in grid(statepoint_grid):
-        print('Initializing job', sp)
+        print("Initializing job", sp)
         project.open_job(sp).init()
 
 Creating parameter-dependent operations
@@ -160,13 +159,14 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
     def setup_foo_workflow(bar):
 
         # Make sure to make the operation-name a function of the parameter(s)!
-        @Project.operation(f'foo-{bar}')
-        @Project.post(lambda job: bar in job.doc.get('foo', []))
+        @Project.post(lambda job: bar in job.doc.get("foo", []))
+        @Project.operation(f"foo-{bar}")
         def foo(job):
-            job.doc.setdefault('foo', []).append(bar)
+            job.doc.setdefault("foo", []).append(bar)
+
 
     for bar in (4, 8, 15, 16, 23, 42):
-       setup_foo_workflow(bar=bar)
+        setup_foo_workflow(bar=bar)
 
 
 .. _rec_external:
@@ -221,6 +221,7 @@ Assuming that your operation is using `mpi4py`_ or similar, you do not have to c
     @FlowProject.operation
     def hello_mpi(job):
         from mpi4py import MPI
+
         print("Hello from rank", MPI.COMM_WORLD.Get_rank())
 
 You could run this operation directly with: ``mpiexec -n 2 python project.py run -o hello_mpi``.
@@ -238,10 +239,11 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
     .. code-block:: python
 
         from mpi4py import MPI
+
         comm = MPI.COMM_WORLD
 
         if comm.Get_rank() == 0:
-            job.doc.foo = 'abc'
+            job.doc.foo = "abc"
         comm.barrier()
 
 
@@ -302,11 +304,13 @@ For example:
 
     # [...]
 
-    @Project.operation
+
     @Project.pre.after(bar)
     @Project.post.isfile("foo.txt")
     @Project.post.never  # TODO: Remove after debugging
+    @Project.operation
     def foo(job):
+        pass
         # ...
 
 Then you could execute the operation for a hypothetical job with id *abc123*, for example with ``$ python project.py run -o foo -j abc123``, irrespective of whether the ``foo.txt`` file exists or not.
@@ -348,7 +352,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
     .. code-block:: python
 
         def on_container(func):
-            return flow.directives(executable='singularity exec software.simg python')(func)
+            return flow.directives(executable="singularity exec software.simg python")(func)
 
 
         @on_container
@@ -387,30 +391,39 @@ different environment.
     # project.py
     from flow import FlowProject, directives
 
+
     class Project(FlowProject):
         pass
 
-    supercomputer = Project.make_group(name='supercomputer')
-    laptop = Project.make_group(name='laptop')
-    desktop = Project.make_group(name='desktop')
 
-    @supercomputer.with_directives(directives=dict(
-        ngpu=4, executable="singularity exec --nv /path/to/container python"))
+    supercomputer = Project.make_group(name="supercomputer")
+    laptop = Project.make_group(name="laptop")
+    desktop = Project.make_group(name="desktop")
+
+
+    @supercomputer.with_directives(
+        directives=dict(
+            ngpu=4, executable="singularity exec --nv /path/to/container python"
+        )
+    )
     @laptop.with_directives(directives=dict(ngpu=0))
     @desktop.with_directives(directives=dict(ngpu=1))
     @Project.operation
     def op1(job):
         pass
 
-    @supercomputer.with_directives(directives=dict(
-        nranks=40, executable="singularity exec /path/to/container python"))
+
+    @supercomputer.with_directives(
+        directives=dict(nranks=40, executable="singularity exec /path/to/container python")
+    )
     @laptop.with_directives(directives=dict(nranks=4))
     @desktop.with_directives(directives=dict(nranks=8))
     @Project.operation
     def op2(job):
         pass
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         Project().main()
 
 
@@ -424,3 +437,41 @@ different environment.
 
    To test operations with a small interactive job, a 'test' group can be used
    to ensure that the operations do not try to run on multiple cores or GPUs.
+
+Passing command line options to operations run in a container or other environment
+==================================================================================
+
+When executing an operation in a container (e.g. Singularity or Docker) or a different environment,
+the operation will not receive command line flags from the submitting process. ``FlowGroups`` can be
+used to pass options to an ``exec`` command. This example shows how to use the `run_options`
+argument to tell an operation executed in a container to run in debug mode.
+
+.. code-block:: python
+
+    # project.py
+    from flow import FlowProject
+
+
+    class Project(flow.FlowProject):
+        pass
+
+
+    # Anything in run_options will be passed to the forked exec command when the operation is run.
+    # Here we just pass the debug flag.
+    debug = Project.make_group("debug", run_options="--debug")
+
+
+    @debug
+    @Project.post.isfile("a.txt")
+    @Project.operation.with_directives({"executable": "/path/to/container exec python3"})
+    def op1(job):
+        with open(job.fn("a.txt"), "w") as fh:
+            fh.write("hello world")
+
+
+    if __name__ == "__main__":
+        Project().main()
+
+
+To run the operation with debugging, run the group called "debug" with ``python3 project.py run -o
+debug``.

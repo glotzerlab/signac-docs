@@ -19,10 +19,12 @@ To implement an automated workflow using **signac-flow**, we create a subclass o
     # project.py
     from flow import FlowProject
 
+
     class MyProject(FlowProject):
         pass
 
-    if __name__ == '__main__':
+
+    if __name__ == "__main__":
         MyProject().main()
 
 .. tip::
@@ -62,9 +64,9 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
 
     import signac
 
-    project = signac.init_project('MyProject')
+    project = signac.init_project("MyProject")
     for i in range(10):
-        project.open_job({'a': i}).init()
+        project.open_job({"a": i}).init()
 
 A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
 
@@ -74,18 +76,20 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 
     from flow import FlowProject
 
+
     class MyProject(FlowProject):
         pass
 
+
     @MyProject.operation
     def hello(job):
-        print('hello', job)
+        print("hello", job)
         with job:
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         MyProject().main()
 
 
@@ -104,7 +108,7 @@ To do this, we need to create a condition function named ``greeted`` that tells 
 .. code-block:: python
 
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 To complete this component of the workflow, we use the :py:meth:`~flow.FlowProject.post` decorator function to specify that the ``hello`` operation function should only be executed if the ``greeted`` condition is *not* met.
 
@@ -121,22 +125,35 @@ The entirety of the code is as follows:
 
 
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 
-    @MyProject.operation
+    # Pre/post condition decorators must appear on a line above the operation decorator
+    # so that the condition decorator is added after the operation decorator.
     @MyProject.post(greeted)
+    @MyProject.operation
     def hello(job):
         with job:
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
 
-    if __name__ == '__main__':
+    if __name__ == "__main__":
         MyProject().main()
+
+
+.. note::
+
+    Decorators execute from the bottom to the top. For example, in the code block above
+    ``@MyProject.operation`` is run before ``@MyProject.post(greeted)``. The code is roughly
+    equivalent to ``MyProject.post(greeted)(MyProject.operation(hello))``. See `Python's official
+    documentation <https://docs.python.org/3/reference/compound_stmts.html#function-definitions>`__
+    for more information.
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+These are added above a `~flow.FlowProject.operation` decorator.
+Using these decorators before declaring a function an operation is an error.
 
 .. tip::
 
@@ -145,9 +162,9 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.pre(cheap_condition)
         @MyProject.pre(expensive_condition)
+        @MyProject.operation
         def hello(job):
             pass
 
@@ -172,37 +189,37 @@ If we implemented and integrated the operation and condition functions correctly
 
 .. tip::
 
-    The ``@with_job`` decorator can be used so the entire operation takes place in the ``job`` context.
+    The ``with_job`` keyword argument can be used so the entire operation takes place in the ``job`` context.
     For example:
 
     .. code-block:: python
 
-        @MyProject.operation
+        from flow import with_job
+
+
         @MyProject.post(greeted)
-        @MyProject.with_job
+        @MyProject.operation(with_job=True)
         def hello(job):
-            with open('hello.txt', 'w') as file:
-                file.write('world!\n')
+            with open("hello.txt", "w") as file:
+                file.write("world!\n")
 
     Is the same as:
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.post(greeted)
+        @MyProject.operation
         def hello(job):
             with job:
-                with open('hello.txt', 'w') as file:
-                    file.write('world!\n')
+                with open("hello.txt", "w") as file:
+                    file.write("world!\n")
 
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
-    ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
+    ``with_job`` also works with the ``cmd`` keyword argument:
 
     .. code-block:: python
 
-        @MyProject.operation
-        @with_job
-        @cmd
+        @MyProject.operation(with_job=True, cmd=True)
         def hello(job):
             return "echo 'hello {}'".format(job)
 
@@ -219,7 +236,7 @@ We can convert any condition function into a label function by adding the :py:me
 
     @MyProject.label
     def greeted(job):
-        return job.isfile('hello.txt')
+        return job.isfile("hello.txt")
 
 We will reset the workflow for only a few jobs to get a more interesting *status* view:
 

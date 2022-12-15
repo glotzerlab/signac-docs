@@ -84,10 +84,10 @@ You can omit the ``-p/--password`` argument, in which case the password will not
 
 We can now connect to this host with:
 
-.. code-block:: python
+.. code-block:: pycon
 
     >>> import signac
-    >>> db = signac.get_database('mydatabase', hostname='example')
+    >>> db = signac.get_database("mydatabase", hostname="example")
 
 The ``hostname`` argument defaults to the first configured host and can always be omitted if there is only one configured host.
 
