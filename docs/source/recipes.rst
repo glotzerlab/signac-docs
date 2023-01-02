@@ -157,7 +157,6 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 
 
     def setup_foo_workflow(bar):
-
         # Make sure to make the operation-name a function of the parameter(s)!
         @Project.post(lambda job: bar in job.doc.get("foo", []))
         @Project.operation(f"foo-{bar}")
