@@ -399,7 +399,8 @@ different environment.
 
     @supercomputer(
         directives={
-            "ngpu": 4, "executable": "singularity exec --nv /path/to/container python"
+            "ngpu": 4,
+            "executable": "singularity exec --nv /path/to/container python",
         }
     )
     @laptop(directives={"ngpu": 0})
