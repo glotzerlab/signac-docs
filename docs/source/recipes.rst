@@ -245,10 +245,10 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
         comm.barrier()
 
 
-MPI-operations with through command line
-----------------------------------------
+MPI-operations using the command line
+-------------------------------------
 
-Alternatively, you can implement an MPI-parallelized operation with the ``cmd`` keyword argument with the ``FlowProject.operation`` decorator.
+Alternatively, you can implement an MPI-parallelized operation with the ``cmd`` keyword argument of the ``FlowProject.operation`` decorator.
 This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
 
 Assuming that we have an MPI-parallelized program named ``my_program``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
