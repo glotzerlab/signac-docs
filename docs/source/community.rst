@@ -60,7 +60,7 @@ All code contributed via pull request needs to adhere to the following guideline
     - Both new features and bug fixes should be developed in branches based on ``master``.
     - Hotfixes (critical bugs that need to be released *fast*) should be developed in a branch based on the latest tagged release.
 
-  * Write code that is compatible with all supported versions of Python (listed in the package ``setup.py`` file).
+  * Write code that is compatible with all supported versions of Python (listed in the package ``pyproject.toml`` file).
   * Avoid introducing dependencies -- especially those that might be harder to install in high-performance computing environments.
   * All code needs to adhere to the PEP8_ style guide, with the exception that a line may have up to 100 characters.
   * Create `unit tests <https://en.wikipedia.org/wiki/Unit_testing>`_  and `integration tests <ttps://en.wikipedia.org/wiki/Integration_testing>`_ that cover the common cases and the corner cases of the code.
