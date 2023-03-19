@@ -4,7 +4,7 @@
 Jobs
 ====
 
-.. currentmodule:: signac.contrib.job
+.. currentmodule:: signac.job
 
 Overview
 ========
@@ -74,12 +74,10 @@ You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` meth
 
 .. code-block:: pycon
 
-    >>> job = project.open_job({"a": 2})
-    # Job does not exist yet
+    >>> job = project.open_job({"a": 2})  # Job does not exist yet
     >>> job in project
     False
-    >>> job.init()
-    # Job now exists
+    >>> job.init()  # Job now exists
     >>> job in project
     True
 
@@ -188,15 +186,16 @@ You can modify **nested** *state points* in-place, but you will need to use dict
     modifiable copy that will not modify the underlying JSON file,
     you can access a dict copy of the statepoint by calling it, e.g.
     ``sp_dict = job.statepoint()`` instead of ``sp = job.statepoint``.
-    For more information, see :class:`~signac.JSONDict`.
+    For more information, see :attr:`signac.JSONDict`.
 
 
 .. _project-job-document:
 
+
 The Job Document
 ================
 
-In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :py:attr:`~Job.document`.
+In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :attr:`Job.document`.
 This *job document* is automatically stored in the job's workspace directory in `JSON`_ format.
 You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attribute.
 
@@ -246,7 +245,7 @@ Like the :py:attr:`Job.document`, this information can be accessed using key-val
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 
 Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated job folder.
-Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
+Data written with ``Job.stores['key_name']`` is stored in a file named ``key_name.h5``.
 For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
 This section will focus on examples and usage of :py:attr:`Job.data`.
 Further discussion of :py:attr:`Job.stores` is provided in the following topic, :ref:`Job Stores <project-job-stores>`.

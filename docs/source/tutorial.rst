@@ -3,8 +3,6 @@
 ========
 Tutorial
 ========
-######## IMPORTANT #######
-All of the example outputs on Stampede2 need to be refreshed since our output format has changed substantially over time.
 
 .. sidebar:: License
 
