@@ -12,8 +12,8 @@ To get started, first :ref:`install <installation>` **signac** and  **signac-flo
 
     ~ $ mkdir my_project
     ~ $ cd my_project/
-    ~/my_project $ signac init MyProject
-    Initialized project 'MyProject'.
+    ~/my_project $ signac init
+    Initialized project.
 
 .. important::
 
@@ -61,11 +61,9 @@ Operations can be executed for all of your jobs with:
 .. code-block:: bash
 
     ~/my_project $ python project.py run
-    Execute operation 'hello_job(15e548a2d943845b33030e68801bd125)'...
-    Hello from job 15e548a2d943845b33030e68801bd125, my foo is '1'.
-    Execute operation 'hello_job(2b985fa90138327bef586f9ad87fc310)'...
-    Hello from job 2b985fa90138327bef586f9ad87fc310, my foo is '2'.
-    Execute operation 'hello_job(7f3e901b4266f28348b38721c099d612)'...
-    Hello from job 7f3e901b4266f28348b38721c099d612, my foo is '0'.
+    Hello from job 15e548a2d943845b33030e68801bd125, my foo is 1.
+    Hello from job 7f3e901b4266f28348b38721c099d612, my foo is 0.
+    Hello from job 2b985fa90138327bef586f9ad87fc310, my foo is 2.
+    WARNING:flow.project:Operation 'hello_job' has no postconditions!
 
 See the :ref:`tutorial` for a more detailed introduction to how to use **signac** to manage data and implement workflows.
