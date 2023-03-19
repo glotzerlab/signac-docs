@@ -49,7 +49,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    flow-group
    aggregation
    hooks
-   collections
    configuration
    recipes
    tips_and_tricks
