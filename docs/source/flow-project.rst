@@ -52,9 +52,7 @@ Operations
 ==========
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-
-In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
-
+In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.contrib.job.Job`.
 We will demonstrate this concept with a simple example.
 Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
@@ -91,6 +89,11 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 
     if __name__ == "__main__":
         MyProject().main()
+
+.. tip:
+
+    By default operations only act on a single job and can simply be defined with the signature `def op(job)`.
+    When using :ref:`aggregate operations <aggregation>`, it is recommended to define operations as accepting a variadic list of ``*jobs`` parameters so that the operation is not restricted to a specific aggregate size.
 
 
 .. _conditions:
@@ -151,7 +154,7 @@ The entirety of the code is as follows:
     for more information.
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
-A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+A operation is only executed if **all** preconditions are met, and at *at least one* postcondition is not met.
 These are added above a `~flow.FlowProject.operation` decorator.
 Using these decorators before declaring a function an operation is an error.
 
@@ -229,7 +232,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A *label-function* is a condition function which will be shown in the **status** view.
+A *label function* is a condition function which will be shown in the **status** view.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
@@ -238,13 +241,13 @@ We can convert any condition function into a label function by adding the :py:me
     def greeted(job):
         return job.isfile("hello.txt")
 
-We will reset the workflow for only a few jobs to get a more interesting *status* view:
+We will reset the workflow for only a few jobs to get a more interesting status view:
 
 .. code-block:: bash
 
     ~/my_project $ signac find a.\$lt 5 | xargs -I{} rm workspace/{}/hello.txt
 
-We then generate a *detailed* status view with:
+We then generate a detailed status view with:
 
 .. code-block:: bash
 
