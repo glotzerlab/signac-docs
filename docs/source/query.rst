@@ -253,7 +253,7 @@ A simplified expression consists of key-value pairs in alternation.
 The first argument will then be interpreted as the first key, the second argument as the first value, the third argument as the second key, and so on.
 If you provide an odd number of arguments, the last value will default to ``{'$exists': True}``.
 Querying via operator is supported using the ``.``-operator.
-Finally, you can use ``/<regex>/`` intead of ``{'$regex': '<regex>'}`` for regular expressions.
+Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
 The following list shows simplified expressions on the left and their equivalent standard expression on the right.
 

@@ -144,7 +144,7 @@ Creating parameter-dependent operations
 =======================================
 
 Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
-That is to ensure reproduciblity of these operations.
+That is to ensure reproducibility of these operations.
 An operation should be a true function of the job's data without any hidden parameters.
 
 Here we show how to define operations that are a function of one or more additional parameters without violating the above mentioned principle.
@@ -339,7 +339,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
     This means that the actual submission, (e.g. ``python project.py submit`` or similar) will need to be executed with a **local** Python executable.
 
     To avoid issues with dependencies that are only available in the container image, move imports into the operation function.
-    Condition functions will be executed during the submission process to determine *what* to submit, so depedencies for those must be installed into the local environment as well.
+    Condition functions will be executed during the submission process to determine *what* to submit, so dependencies for those must be installed into the local environment as well.
 
 .. tip::
 

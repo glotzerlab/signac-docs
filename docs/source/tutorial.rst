@@ -126,7 +126,7 @@ In our example, **signac** detected that the values for *kT* and *N* are constan
 
 .. note::
 
-    Make sure to update the view paths by executing the ``$ signac view`` command (or equivalently with the :py:meth:`~signac.Project.create_linked_view` method) everytime you add or remove jobs from your data space.
+    Make sure to update the view paths by executing the ``$ signac view`` command (or equivalently with the :py:meth:`~signac.Project.create_linked_view` method) every time you add or remove jobs from your data space.
 
 
 Interacting with the **signac** project
