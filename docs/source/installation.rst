@@ -37,11 +37,7 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install --user signac signac-flow
-
-.. note::
-
-    If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
+    $ pip install signac signac-flow
 
 
 Installation from Source
