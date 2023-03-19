@@ -90,7 +90,7 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
     if __name__ == "__main__":
         MyProject().main()
 
-.. tip:
+.. tip::
 
     By default operations only act on a single job and can simply be defined with the signature `def op(job)`.
     When using :ref:`aggregate operations <aggregation>`, it is recommended to define operations as accepting a variadic list of ``*jobs`` parameters so that the operation is not restricted to a specific aggregate size.
@@ -155,7 +155,7 @@ The entirety of the code is as follows:
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
 A operation is only executed if **all** preconditions are met, and at *at least one* postcondition is not met.
-These are added above a `~flow.FlowProject.operation` decorator.
+These are added above a :attr:`~flow.FlowProject.operation` decorator.
 Using these decorators before declaring a function an operation is an error.
 
 .. tip::

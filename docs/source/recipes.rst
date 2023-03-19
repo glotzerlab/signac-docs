@@ -440,7 +440,7 @@ Passing command line options to operations run in a container or other environme
 
 When executing an operation in a container (e.g. Singularity or Docker) or a different environment,
 the operation will not receive command line flags from the submitting process. ``FlowGroups`` can be
-used to pass options to an ``exec`` command. This example shows how to use the `run_options`
+used to pass options to an ``exec`` command. This example shows how to use the ``run_options``
 argument to tell an operation executed in a container to run in debug mode.
 
 .. code-block:: python

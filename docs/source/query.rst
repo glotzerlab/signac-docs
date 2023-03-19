@@ -84,7 +84,7 @@ We can select the 2nd document with ``{'p': 2}``, but also ``{'N': 1000, 'p': 2}
 Nested Keys
 -----------
 
-To match **nested** keys, avoid nesting the filter arguments, but instead use the `.`-operator.
+To match **nested** keys, avoid nesting the filter arguments, but instead use the ``.``-operator.
 For example, if the documents shown in the example above were all nested like this:
 
 .. code-block:: python
@@ -252,7 +252,7 @@ For example, instead of ``{'p': 2}``, you can simply type ``p 2``.
 A simplified expression consists of key-value pairs in alternation.
 The first argument will then be interpreted as the first key, the second argument as the first value, the third argument as the second key, and so on.
 If you provide an odd number of arguments, the last value will default to ``{'$exists': True}``.
-Querying via operator is supported using the `.`-operator.
+Querying via operator is supported using the ``.``-operator.
 Finally, you can use ``/<regex>/`` intead of ``{'$regex': '<regex>'}`` for regular expressions.
 
 The following list shows simplified expressions on the left and their equivalent standard expression on the right.

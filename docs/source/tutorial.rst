@@ -58,9 +58,9 @@ Initially, the ``.signac`` directory will contain the minimal configuration info
     ~/ideal_gas_project $ python init.py
     ~/ideal_gas_project $ ls -a
     .               ..              .signac         init.py         workspace
-    ~/ideal_gas_project $ ls .signac   
+    ~/ideal_gas_project $ ls .signac
     config
-    ~/ideal_gas_project $ cat .signac/config 
+    ~/ideal_gas_project $ cat .signac/config
     schema_version = 2
 
 
@@ -118,7 +118,7 @@ Each leaf node in the directory tree contains a ``job`` directory, which is a sy
 
 .. code-block:: bash
 
-    ~/ideal_gas_project $ ls view/p/1   
+    ~/ideal_gas_project $ ls view/p/1
     job
 
 To minimize the directory tree depth, the linked view constructed is the most compact representation of the data space, in the sense that any parameters that do not vary across the entire data space are omitted from the directory tree.

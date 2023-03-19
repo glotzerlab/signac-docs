@@ -473,7 +473,7 @@ However, there are some reasons why one would want to operate on multiple differ
 The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job workspace directory.
 In fact, the :attr:`Job.data` container is essentially just an alias for ``job.stores.signac_data``.
 
-For example, to store an array `X` within a file called ``my_data.h5``, one could use the following approach:
+For example, to store an array ``X`` within a file called ``my_data.h5``, one could use the following approach:
 
 .. code-block:: pycon
 
