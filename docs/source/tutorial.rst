@@ -323,6 +323,7 @@ For this we transform the ``volume_computed()`` function into a *label function*
 
     # ...
 
+
     @Project.label
     def volume_computed(job):
         return job.isfile("volume.txt")
@@ -367,6 +368,7 @@ Since we are pretending that computing the volume is an expensive operation, we 
 
     # ...
 
+
     @Project.pre(volume_computed)
     @Project.post.isfile("data.json")
     @Project.operation
@@ -375,6 +377,7 @@ Since we are pretending that computing the volume is an expensive operation, we 
             data = {"volume": float(textfile.read())}
             with open(job.fn("data.json"), "w") as jsonfile:
                 json.dump(data, jsonfile)
+
 
     # ...
 
@@ -439,6 +442,7 @@ To do this, we create a group and decorate the operations with it.
                 json.dump(data, jsonfile)
         Project().main()
 
+
     # ...
 
 
@@ -455,6 +459,7 @@ Let's add another operation to our ``project.py`` script that stores the volume 
 .. code-block:: python
 
      # ...
+
 
      @Project.pre.after(compute_volume)
      @Project.post(lambda job: "volume" in job.document)
