@@ -113,7 +113,7 @@ If we wanted to match all documents where *p is greater than 2*, we would use th
 
     {"p": {"$gt": 2}}
 
-Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select all jobs withe p values greater than 2.
+Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select all jobs with p values greater than 2.
 Here is a complete list of all available **arithmetic operators**:
 
   * ``$eq``: equal to
@@ -246,7 +246,7 @@ Simplified Syntax on the Command Line
 
 It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
 In this case filter arguments are expected to be provided as valid JSON expressions.
-However, for simple filters you can also use a simplified syntax in lieu of writing JSON.
+For simple filters, you can use a simplified syntax instead of writing JSON.
 For example, instead of ``{'p': 2}``, you can simply type ``p 2``.
 
 A simplified expression consists of key-value pairs in alternation.

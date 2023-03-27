@@ -91,7 +91,7 @@ Exploring the data space
 
 The core function that **signac** offers is the ability to associate metadata --- for example, a specific set of parameters such as temperature, pressure, and system size --- with a distinct directory on the file system that contains all data related to said metadata.
 The :py:meth:`~signac.Project.open_job` method associates the metadata specified as its first argument with a distinct directory, the *job directory*.
-These directories are located in the ``workspace`` subdirectory within the project directory and the directory name is the so-called *job id*.
+These directories are located in the ``workspace`` subdirectory within the project directory and the directory name is the *job id*.
 
 .. code-block:: bash
 
@@ -160,7 +160,7 @@ Iterating through all jobs within the data space is then as easy as:
     71855b321a04dd9ee27ce6c9cc0436f4
     # ...
 
-To iterate oer a subset of jobs, use the :py:meth:`~signac.Project.find_jobs` method in combination with a query expression:
+To iterate over a subset of jobs, use the :py:meth:`~signac.Project.find_jobs` method in combination with a query expression:
 
 .. code-block:: pycon
 
@@ -511,7 +511,7 @@ Job.data and Job.stores
 
 The job document is useful for storing small sets of numerical values or textual data.
 Text files like JSON are generally unsuitable for large numerical data, however, due to issues with floating point precision as well as sheer file size.
-To support storing such data with **signac**, the job :py:attr:`~signac.contrib.job.Job.data` attribute provides a dict-like interface to an HDF5 file, a much more suitable format for storing large numerical data such as numpy arrays.
+To support storing such data with **signac**, the job :py:attr:`~signac.contrib.job.Job.data` attribute provides a dict-like interface to an HDF5 file, a much more suitable format for storing large numerical data such as NumPy arrays.
 
 .. code-block:: python
 

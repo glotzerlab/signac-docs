@@ -12,7 +12,7 @@ The configuration files are stored using the standard `INI file format <https://
 In general, two config files are supported:
 
   1. Project-specific configuration uses the ``.signac/config`` file at the project root directory.
-  3. Per-user configuration is stored in a global file at ``$HOME/.signacrc``.
+  2. Per-user configuration is stored in a global file at ``$HOME/.signacrc``.
 
 You can either edit these configuration files manually, or execute ``signac config`` on the command line.
 Please see ``signac config --help`` for more information.

@@ -191,7 +191,6 @@ You can modify **nested** *state points* in-place, but you will need to use dict
 
 .. _project-job-document:
 
-
 The Job Document
 ================
 
