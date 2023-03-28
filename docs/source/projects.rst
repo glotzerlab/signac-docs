@@ -104,7 +104,7 @@ For example, to store data associated with particular temperature or pressure of
 
         job = project.open_job({"temperature": 20, "pressure": 1.0}).init()
 
-The uniqueness of a state point should be familiar to anyone who has used a relational database: the state point parameters constitute the primary key of the data space.
+The uniqueness of a state point in a signac data space is analogous to the uniqueness of a primary key in a relational database.
 Any other kind of data and metadata that describe a job but are not part of the key should be stored within the :attr:`Job.doc`, which has the exact same interface like the :attr:`Job.sp`.
 
 .. tip::
