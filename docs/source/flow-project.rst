@@ -52,7 +52,7 @@ Operations
 ==========
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.contrib.job.Job`.
+In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.job.Job`.
 We will demonstrate this concept with a simple example.
 Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
