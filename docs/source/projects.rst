@@ -355,7 +355,7 @@ In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, w
 Schema Detection
 ================
 
-While **signac** does not require you to specify an *explicit* state point schema, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
+While **signac** does not require you to specify an *explicit* :term:`project schema`, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
 This schema is comprised of the set of all keys present in all state points, as well as the range of values that these keys are associated with.
 
 Assuming that we initialize our data space with two state point keys, ``a`` and ``b``, where ``a`` is associated with some set of numbers and ``b`` contains a boolean value:
