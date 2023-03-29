@@ -16,12 +16,12 @@ This means that all data is uniquely addressable from the associated parameters.
 With **signac**, we define the processes generating and manipulating a specific data set as a sequence of operations on a job.
 Using this abstraction, **signac** can define workflows on an arbitrary **signac** data space.
 
-.. _concepts_overview
+.. _concepts_overview:
 .. figure:: images/signac_data_space.png
 
     Overview of the **signac** framework.
-    When a project is initialized (such as `signac init` on the command line) a `workspace/` directory is created.
-    Each job is identified by its `state point`,  a _unique_ dictionary that contains relevant parameters describing the job.
+    When a project is initialized (such as ``signac init`` on the command line) a ``workspace/`` directory is created.
+    Each job is identified by its `state point`, a unique dictionary that contains relevant parameters describing the job.
     The workspace holds a directory for each job, containing JSON files that store the state point and job document.
     The job directory name is a hash of the state point's contents.
     Here, the ``init.py`` file initializes an empty project and adds one job with state point ``{"a": 1}``.
