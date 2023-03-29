@@ -55,7 +55,7 @@ This subdirectory is named by the *job id*, therefore guaranteeing a unique file
     Because **signac** assumes that the state point is a unique identifier, multiple jobs cannot share the same state point.
     A typical remedy for scenarios where, *e.g.*, multiple replicas are required, is to append the replica number to the state point to generate a unique state point.
 
-Both the state point and the job id are equivalent addresses for jobs in the data space.
+Both the state point and the job id are equivalent addresses for jobs in the project.
 To access or modify a data point, obtain an instance of :py:class:`Job` by passing the associated metadata as a mapping of key-value pairs (for example, as an instance of :py:class:`dict`) into the :py:meth:`~signac.Project.open_job` method.
 
 .. code-block:: pycon
@@ -69,7 +69,7 @@ To access or modify a data point, obtain an instance of :py:class:`Job` by passi
 
 
 In general an instance of :py:class:`Job` only gives you a handle to a Python object.
-To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
+To create the underlying workspace directory, you must *initialize* it.
 You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
 .. code-block:: pycon
