@@ -76,12 +76,11 @@ select the group like you would for a regular operation.
 Group-Specific Directives
 =========================
 
-One of the features of :py:class:`FlowGroup` is the ability to assign custom directives
-to an operation that activate in a given group context. This means that
-groups can function as context-specific execution protocols for operations. To
-configure group-specific operation directives, use the
-:code:`@group.with_directives` decorator provided by the result of
-:code:`FlowProject.make_group`.
+One of the features of :py:class:`FlowGroup` is the ability to assign custom directives to an
+operation that activate in a given group context. This means that groups can function as
+context-specific execution protocols for operations. To configure group-specific operation
+directives, use the ``directives`` keyword argument for the :code:`@group` decorator provided by the
+result of :code:`FlowProject.make_group`.
 
 In the following example, :code:`op1` requests one GPU if run by itself or two GPUs if run through the group :code:`ex` (with :code:`python project.py run -o ex`).
 
@@ -98,8 +97,8 @@ In the following example, :code:`op1` requests one GPU if run by itself or two G
     ex = Project.make_group(name="ex")
 
 
-    @ex.with_directives({"ngpu": 2})
-    @Project.operation.with_directives({"ngpu": 1})
+    @ex(directives={"ngpu": 2})
+    @Project.operation(directives={"ngpu": 1})
     def op1(job):
         pass
 

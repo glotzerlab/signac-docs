@@ -97,4 +97,8 @@ Dissecting the dashboard structure
 Searching jobs
 --------------
 
-The search bar accepts JSON-formatted queries in the same way as the ``signac find`` command-line tool. For example, using the query ``{"key": "value"}`` will return all jobs where the job statepoint ``key`` is set to ``value``. To search jobs by their document key-value pairs, use ``doc:`` before the JSON-formatted query, like ``doc:{"key": "value"}``.
+The search bar uses the :ref:`query syntax <query>` of the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
+
+Queries checking for values can be entered without the JSON formatting (for example **"sp.a 1 doc.b 2"**). This example will return all jobs where the job state point key ``a`` has the value ``1`` and the job document key ``b`` has the value ``2``.
+
+The full :ref:`query` can be used for complex expressions. The example query becomes ``{"sp.a": 1, "doc.b": 2}``.

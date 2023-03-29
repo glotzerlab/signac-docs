@@ -157,10 +157,9 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 
 
     def setup_foo_workflow(bar):
-
         # Make sure to make the operation-name a function of the parameter(s)!
-        @Project.operation(f"foo-{bar}")
         @Project.post(lambda job: bar in job.doc.get("foo", []))
+        @Project.operation(f"foo-{bar}")
         def foo(job):
             job.doc.setdefault("foo", []).append(bar)
 
@@ -174,7 +173,7 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 Using signac-flow with MATLAB or other software without Python interface
 ========================================================================
 
-The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``flow.cmd`` decorator.
+The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``FlowProject.operation`` ``cmd`` keyword argument.
 Assuming that we have a MATLAB script called ``prog.m`` within the project root directory:
 
 .. code-block:: matlab
@@ -191,8 +190,7 @@ Then, we could implement a simple operation that passes it some metadata paramet
 
 .. code-block:: python
 
-    @FlowProject.operation
-    @flow.cmd
+    @FlowProject.operation(cmd=True)
     def compute_volume(job):
         return "matlab -r 'prog {job.sp.foo} {job.sp.bar}' > {job.ws}/output.txt"
 
@@ -247,24 +245,22 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
         comm.barrier()
 
 
-MPI-operations with ``flow.cmd``
---------------------------------
+MPI-operations using the command line
+-------------------------------------
 
-Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``FlowProject.operation.with_directives`` decorator.
+Alternatively, you can implement an MPI-parallelized operation with the ``cmd`` keyword argument of the ``FlowProject.operation`` decorator.
 This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
 
 Assuming that we have an MPI-parallelized program named ``my_program``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
 
 .. code-block:: python
 
-    @FlowProject.operation.with_directives({"np": 2})
-    @flow.cmd
+    @FlowProject.operation(cmd=True, directives={"np": 2})
     def hello_mpi(job):
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
-The ``flow.cmd`` decorator instructs **signac-flow** to interpret the operation as a command rather than a Python function.
-The ``@FlowProject.operation.with_directives(...)`` decorator provides additional instructions on how to execute this operation.
-The decorator ``@FlowProject.operation`` does not assign any directives to the operation.
+The ``cmd`` keyword argument instructs **signac-flow** to interpret the operation as a command rather than a Python function.
+The ``directives`` keyword argument provides additional instructions on how to execute this operation.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
 
 .. todo::
@@ -273,7 +269,7 @@ However, some script templates, including those designed for HPC cluster submiss
 
 .. tip::
 
-  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``FlowProject.operation.with_directives({"np": lambda job: job.sp.system_size // 1000})``.
+  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``FlowProject.operation(directives={"np": lambda job: job.sp.system_size // 1000})``.
 
 
 MPI-operations with custom script templates
@@ -305,10 +301,10 @@ For example:
     # [...]
 
 
-    @Project.operation
     @Project.pre.after(bar)
     @Project.post.isfile("foo.txt")
     @Project.post.never  # TODO: Remove after debugging
+    @Project.operation
     def foo(job):
         pass
         # ...
@@ -326,7 +322,7 @@ For example, assuming that we wanted to use a singularity container named ``soft
 
 .. code-block:: jinja
 
-    @Project.operation.with_directives({"executable": "singularity exec software.simg python"})
+    @Project.operation(directives={"executable": "singularity exec software.simg python"})
     def containerized_operation(job):
         pass
 
@@ -401,23 +397,24 @@ different environment.
     desktop = Project.make_group(name="desktop")
 
 
-    @supercomputer.with_directives(
-        directives=dict(
-            ngpu=4, executable="singularity exec --nv /path/to/container python"
-        )
+    @supercomputer(
+        directives={
+            "ngpu": 4,
+            "executable": "singularity exec --nv /path/to/container python",
+        }
     )
-    @laptop.with_directives(directives=dict(ngpu=0))
-    @desktop.with_directives(directives=dict(ngpu=1))
+    @laptop(directives={"ngpu": 0})
+    @desktop(directives={"ngpu": 1})
     @Project.operation
     def op1(job):
         pass
 
 
-    @supercomputer.with_directives(
+    @supercomputer(
         directives=dict(nranks=40, executable="singularity exec /path/to/container python")
     )
-    @laptop.with_directives(directives=dict(nranks=4))
-    @desktop.with_directives(directives=dict(nranks=8))
+    @laptop(directives={"nranks": 4})
+    @desktop(directives={"nranks": 8})
     @Project.operation
     def op2(job):
         pass
@@ -463,7 +460,7 @@ argument to tell an operation executed in a container to run in debug mode.
 
     @debug
     @Project.post.isfile("a.txt")
-    @Project.operation.with_directives({"executable": "/path/to/container exec python3"})
+    @Project.operation(directives={"executable": "/path/to/container exec python3"})
     def op1(job):
         with open(job.fn("a.txt"), "w") as fh:
             fh.write("hello world")

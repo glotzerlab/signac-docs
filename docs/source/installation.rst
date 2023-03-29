@@ -47,18 +47,18 @@ For a standard installation with pip_, execute:
 Installation from Source
 ========================
 
-Alternatively, you can clone any of the package's source code repositories and install them manually.
+Alternatively, you can clone any of the packages' source code repositories and install them manually.
 For example, to install the signac core package you can execute the following code:
 
 .. code:: bash
 
+  # Option 1
   git clone https://github.com/glotzerlab/signac.git
   cd signac
-  python setup.py install --user
+  pip install .
 
-.. note::
-
-    If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
+  # Option 2
+  pip install git+https://github.com/glotzerlab/signac.git
 
 
 Build Status
