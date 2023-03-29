@@ -1,7 +1,7 @@
 .. signac documentation master file, created by
    sphinx-quickstart on Fri Oct 23 17:41:32 2015.
    You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+   contain the root ``toctree`` directive.
 
 Welcome to the signac framework documentation!
 ==============================================
@@ -49,7 +49,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    flow-group
    aggregation
    hooks
-   collections
    configuration
    recipes
    tips_and_tricks

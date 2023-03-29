@@ -1,0 +1,4 @@
+[codespell]
+builtin = clear
+quiet-level = 2
+ignore-words-list = musil

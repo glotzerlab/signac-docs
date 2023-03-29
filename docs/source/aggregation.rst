@@ -12,7 +12,7 @@ This chapter provides information about passing aggregates of jobs to operation 
 Definition
 ==========
 
-An :py:class:`~flow.aggregator` creates generators of aggregates for use in operation functions via `FlowProject.operation`.
+An :py:class:`~flow.aggregator` creates generators of aggregates for use in operation functions via :attr:`FlowProject.operation`.
 Such functions may accept a variable number of positional arguments, ``*jobs``.
 The argument ``*jobs`` is unpacked into an *aggregate*, defined as an ordered tuple of jobs.
 See also the Python documentation about :ref:`argument unpacking <python:tut-unpacking-arguments>`.

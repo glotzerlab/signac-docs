@@ -10,7 +10,7 @@ Installation
 
 The **signac** framework consists of three packages: **signac**, **signac-flow**, and **signac-dashboard**.
 All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages.
-Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.6+ and are built for all major platforms.
+Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.8+ and are built for all major platforms.
 For more details about the functionalities of individual packages, please see :ref:`package-overview`.
 
 
@@ -37,11 +37,7 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install --user signac signac-flow
-
-.. note::
-
-    If you want to install packages for all users on a machine, you can remove the ``--user`` option in the install command.
+    $ pip install signac signac-flow
 
 
 Installation from Source
