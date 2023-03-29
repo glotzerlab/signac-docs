@@ -93,7 +93,7 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
 .. tip::
 
     By default operations only act on a single job and can simply be defined with the signature ``def op(job)``.
-    When using :ref:`aggregate operations <aggregation>`, it is recommended to define operations as accepting a variadic list of ``*jobs`` parameters so that the operation is not restricted to a specific aggregate size.
+    When using :ref:`aggregate operations <aggregation>`, it is recommended to allow the operation to accept a variable number of jobs using a variadic parameter ``*jobs``, so that the operation is not restricted to a specific aggregate size.
 
 
 .. _conditions:
