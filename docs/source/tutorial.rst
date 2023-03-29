@@ -148,7 +148,7 @@ You can obtain an instance of that class within the project root directory and a
     ``project`` and ``job`` will be set to :py:func:`~signac.get_project()` and :py:func:`~signac.get_job()` respectively.
 
 
-Iterating through all jobs within the data space is then as easy as:
+We can then iterate through all jobs in the project:
 
 .. code-block:: pycon
 

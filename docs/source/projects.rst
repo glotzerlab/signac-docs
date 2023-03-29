@@ -28,13 +28,13 @@ In the process, **signac**'s maintenance of the data space also effectively func
 Project Initialization
 ======================
 
-In order to use **signac** to manage a project's data, the project must be **initialized** as a **signac** project.
+In order to use **signac** to manage a project's data, the project must be initialized as a **signac** project.
 After a project has been initialized in **signac**, all shell and Python scripts executed within or below the project's root directory have access to **signac**'s central facility, the **signac** project interface.
 The project interface provides simple and consistent access to the project's underlying *data space*. [#f1]_
 
 .. [#f1] You can access a project interface from other locations by explicitly specifying the root directory.
 
-To initialize a project, simply execute ``$ signac init`` on the command line inside the desired project directory (create a new project directory if needed).
+To initialize a project, execute ``$ signac init`` on the command line inside the desired project directory (create a new project directory if needed).
 For example, to initialize a **signac** project in a directory called ``my_project``, execute:
 
 .. code-block:: bash
@@ -172,7 +172,7 @@ Basic Grouping by Key
 
 Grouping can be quickly performed using a statepoint or job document key.
 
-If *a* was a state point variable in a project's parameter space, we can quickly enumerate the groups corresponding to each value of *a* like this:
+If *a* were a state point parameter, we can enumerate the groups corresponding to each value of *a* like this:
 
 .. code-block:: python
 
