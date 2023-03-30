@@ -9,7 +9,7 @@ Here, we showcase a few examples of scientific papers that have used **signac**.
 To find additional papers using **signac**, please refer to citations of the articles mentioned in :ref:`acknowledge` or this list of `citing works on Google Scholar <https://scholar.google.com/scholar?cites=14270565839129827405,11696507121891896813>`__.
 
 We encourage users to add publications citing **signac** to this list via a pull request.
-To add a paper, put citation information in `signac.bib <https://github.com/glotzerlab/signac-docs/edit/master/docs/source/signac.bib>`__ and follow the formatting of this page.
+To add a paper, put citation information in `signac.bib <https://github.com/glotzerlab/signac-docs/edit/main/docs/source/signac.bib>`__ and follow the formatting of this page.
 Papers are sorted by publication date, from newest to oldest.
 
 --------

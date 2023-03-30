@@ -7,7 +7,7 @@ Tutorial
 .. sidebar:: License
 
     The code shown in this tutorial is part of the :ref:`examples`.
-    It can be downloaded from the signac-docs_ repository and is released into the `public domain <https://github.com/glotzerlab/signac-docs/blob/master/examples/LICENSE.txt>`_.
+    It can be downloaded from the signac-docs_ repository and is released into the `public domain <https://github.com/glotzerlab/signac-docs/blob/main/examples/LICENSE.txt>`_.
 
 .. _signac-docs: https://github.com/glotzerlab/signac-docs
 
