@@ -64,9 +64,9 @@ All code contributed via pull request needs to adhere to the following guideline
   * Avoid introducing dependencies -- especially those that might be harder to install in high-performance computing environments.
   * All code needs to adhere to the PEP8_ style guide, with the exception that a line may have up to 100 characters.
   * Create `unit tests <https://en.wikipedia.org/wiki/Unit_testing>`_  and `integration tests <ttps://en.wikipedia.org/wiki/Integration_testing>`_ that cover the common cases and the corner cases of the code.
-  * Preserve backwards-compatibility whenever possible, and make clear if something must change.
+  * Preserve backwards compatibility whenever possible, and make clear if something must change.
   * Document any portions of the code that might be less clear to others, especially to new developers.
-  * Write API documentation as part of the doc-strings of the package, and put usage information, guides, and concept overviews in the `framework documentation <https://docs.signac.io/>`_, the page you are currently on (`source <https://github.com/glotzerlab/signac-docs/>`_).
+  * Write API documentation as part of the docstrings of the package, and put usage information, guides, and concept overviews in the `framework documentation <https://docs.signac.io/>`_, the page you are currently on (`source <https://github.com/glotzerlab/signac-docs/>`_).
 
 .. _GitHub: https://github.com/glotzerlab/
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/

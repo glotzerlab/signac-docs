@@ -59,3 +59,13 @@ repos:
           - --sort-fields=title,shorttitle,author,year,month,day,journal,booktitle,location,on,publisher,address,series,volume,number,pages,doi,isbn,issn,url,urldate,copyright,category,note,metadata
           - --remove-empty-fields
           - --no-remove-dupe-fields
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: 'v1.10.0'
+    hooks:
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.4
+    hooks:
+      - id: codespell
