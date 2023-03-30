@@ -3,7 +3,7 @@
 The Dashboard
 =============
 
-The **signac-dashboard** visualizes data stored in a **signac** project.
+The **signac-dashboard** visualizes data stored in a **signac** :term:`project`.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
 .. danger::

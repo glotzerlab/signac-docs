@@ -4,8 +4,8 @@
 Query API
 =========
 
-As briefly described in :ref:`project-job-finding`, the :py:meth:`~signac.Project.find_jobs()` method provides much more powerful search functionality beyond simple selection of jobs with specific state point values.
-One of the key features of **signac** is the possibility to immediately search managed data spaces to select desired subsets as needed.
+As briefly described in :ref:`project-job-finding`, the :py:meth:`~signac.Project.find_jobs()` method provides much more powerful search functionality beyond simple selection of jobs with specific :term:`state points <state point>`.
+One of the key features of **signac** is the possibility to search the :term:`project` workspace to select desired subsets as needed.
 
 .. note::
 
@@ -20,8 +20,8 @@ This means that any filter can be used to simultaneously search for keys in both
 Namespaces are identified by prefixing filter keys with the appropriate prefixes.
 Currently, the following prefixes are recognized:
 
-  * **sp**: job state point
-  * **doc**: document
+  * **sp**: job :term:`state point`
+  * **doc**: :term:`job document`
 
 For example, in order to select all jobs whose state point key *a* has the value "foo" and document key *b* has the value "bar", you would use:
 

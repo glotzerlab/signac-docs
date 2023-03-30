@@ -79,7 +79,7 @@ Jobs
 
 The central assumption of the **signac** data model is that the data space is divisible into individual data points consisting of data and metadata that are uniquely addressable in some manner.
 Specifically, the workspace is divided into subdirectories where each directory corresponds to exactly one :py:class:`Job`.
-All data associated with a job is contained in the corresponding *job workspace* directory.
+All data associated with a job is contained in the corresponding job directory.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
 Each job is uniquely addressable via its *state point*, a key-value mapping describing its data.
 There can never be two jobs that share the same state point within the same project.
@@ -473,7 +473,7 @@ Linked Views
 ============
 
 Data space organization by job id is both efficient and flexible, but the obfuscation introduced by the job id makes inspecting the workspace on the command line or *via* a file browser much harder.
-A *linked view* is a directory hierarchy with human-interpretable names that link to to the actual job workspace directories.
+A *linked view* is a directory hierarchy with human-interpretable names that link to the actual :term:`job directories<job directory>`.
 Unlike the default mode for :ref:`data export <data-export>`, no data is copied for the generation of linked views.
 See :py:meth:`~.signac.Project.create_linked_view` for the Python API.
 
