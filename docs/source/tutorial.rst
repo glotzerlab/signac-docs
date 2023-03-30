@@ -50,7 +50,7 @@ We then proceed by initializing the data space within a Python script called ``i
         job = project.open_job(sp).init()
 
 The :py:func:`signac.init_project` function initializes the **signac** project in the current working directory by creating a hidden ``.signac`` subdirectory.
-The location of this directory defines the *project root directory*.
+The location of this directory defines the *project path*.
 Initially, the ``.signac`` directory will contain the minimal configuration information required to define the project.
 
 .. code:: bash
@@ -64,7 +64,7 @@ Initially, the ``.signac`` directory will contain the minimal configuration info
     schema_version = 2
 
 
-We can access the project interface from anywhere within and below the root directory by calling the :py:func:`signac.get_project` function, or from outside this directory by providing an explicit path, *e.g.*, ``signac.get_project('~/ideal_gas_project')``.
+We can access the project interface from anywhere within the project path or its subdirectories by calling the :py:func:`signac.get_project` function, or from outside this directory by providing an explicit path, *e.g.*, ``signac.get_project('~/ideal_gas_project')``.
 
 We can verify that the initialization worked by examining the *implicit* schema of the project we just created:
 
@@ -134,7 +134,7 @@ Interacting with the **signac** project
 
 You interact with the **signac** project on the command line using the ``signac`` command.
 You can also interact with the project within Python *via* the :py:class:`signac.Project` class.
-You can obtain an instance of that class within the project root directory and all subdirectories with:
+You can obtain an instance of that class within the project path or its subdirectories with:
 
 .. code-block:: pycon
 
