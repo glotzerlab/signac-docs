@@ -23,7 +23,7 @@ In other words, all data associated with a particular job should be a direct or 
 
 .. important::
 
-    Every :term:`parameter` that, when changed, would invalidate the job's data, should be part of the *state point*; all others should not.
+    Every :term:`parameter` that, when changed, would invalidate the job's data, should be part of the :term:`state point`; all others should not.
 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
 It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
