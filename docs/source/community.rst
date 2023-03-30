@@ -57,7 +57,7 @@ All code contributed via pull request needs to adhere to the following guideline
 
   * Use the `OneFlow`_ model of development:
 
-    - Both new features and bug fixes should be developed in branches based on ``master``.
+    - Both new features and bug fixes should be developed in branches based on ``main``.
     - Hotfixes (critical bugs that need to be released *fast*) should be developed in a branch based on the latest tagged release.
 
   * Write code that is compatible with all supported versions of Python (listed in the package ``pyproject.toml`` file).
