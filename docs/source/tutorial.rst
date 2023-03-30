@@ -64,7 +64,7 @@ Initially, the ``.signac`` directory will contain the minimal configuration info
     schema_version = 2
 
 
-We can access the project interface from anywhere within the project path or its subdirectories by calling the :py:func:`signac.get_project` function, or from outside this directory by providing an explicit path, *e.g.*, ``signac.get_project('~/ideal_gas_project')``.
+We can access the project interface from anywhere within the project path or its subdirectories by calling the :py:func:`signac.get_project` function, or from outside this directory by providing an explicit path, *e.g.*, ``signac.get_project('/path/to/ideal_gas_project')``.
 
 We can verify that the initialization worked by examining the *implicit* schema of the project we just created:
 
