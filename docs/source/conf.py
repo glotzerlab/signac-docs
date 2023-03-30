@@ -54,7 +54,7 @@ extensions = [
 
 # For hover x ref
 hoverxref_roles = [
-    'term',
+    "term",
 ]
 
 # For sphinxcontrib.bibtex.
