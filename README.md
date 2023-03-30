@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/glotzerlab/signac-docs/master/docs/source/images/palette-header.png" width="75" height="58"> signac-docs
+# <img src="https://raw.githubusercontent.com/glotzerlab/signac-docs/main/docs/source/images/palette-header.png" width="75" height="58"> signac-docs
 
 This is the primary documentation for the [signac data and workflow management framework](https://signac.io).
 

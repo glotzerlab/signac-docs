@@ -29,7 +29,7 @@ Project Initialization
 ======================
 
 In order to use **signac** to manage a project's data, the project must be initialized as a **signac** project.
-After a project has been initialized in **signac**, all shell and Python scripts executed within or below the project's root directory have access to **signac**'s central facility, the **signac** project interface.
+After a project has been initialized in **signac**, all shell and Python scripts executed within the project path or its subdirectories have access to **signac**'s central facility, the **signac** project interface.
 The project interface provides simple and consistent access to the project's underlying *data space*. [#f1]_
 
 .. [#f1] You can access a project interface from other locations by explicitly specifying the root directory.
@@ -57,9 +57,9 @@ The directory containing the ``.signac`` subdirectory is the project's root dire
 The Data Space
 ==============
 
-The project data space is stored in the *workspace directory*, a subdirectory within the project's root directory named ``workspace``.
+The project data space is stored in the *workspace directory*, a subdirectory within the project path named ``workspace``.
 Once a project has been initialized, any data inserted into the data space will be stored within this directory.
-You can access your signac :py:class:`~signac.Project` and the associated data from within your project's root directory or any subdirectory with the :py:func:`~signac.get_project` function:
+You can access your signac :py:class:`~signac.Project` and the associated data from within the project path or any subdirectory with the :py:func:`~signac.get_project` function:
 
 .. code-block:: pycon
 
@@ -232,7 +232,7 @@ Moving, Copying and Removal
 ---------------------------
 
 In some cases it may desirable to divide or merge a project data space.
-To **move** a job to a different project, use the :py:meth:`~signac.job.Job.move` method:
+To **move** a job to a different project, use the :meth:`~signac.job.Job.move` method:
 
 .. code-block:: python
 
