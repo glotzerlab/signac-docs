@@ -54,7 +54,7 @@ Operations
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
 In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.job.Job`.
 We will demonstrate this concept with a simple example.
-Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
+Let's initialize a signac :term:`project` with a few :term:`jobs<job>`, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
 .. code-block:: python
 
@@ -66,7 +66,7 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
     for i in range(10):
         project.open_job({"a": i}).init()
 
-A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
+A very simple *operation*, which creates a file called ``hello.txt`` within the :term:`job directory`, could be implemented like this:
 
 .. code-block:: python
 
@@ -104,8 +104,8 @@ Conditions
 Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow.
 If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
 
-However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
-To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
+However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job directory.
+To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job directory:
 
 
 .. code-block:: python

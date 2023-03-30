@@ -57,6 +57,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :maxdepth: 2
    :caption: Reference
 
+   glossary
    community
    scientific_papers
    GitHub <https://github.com/glotzerlab/signac>

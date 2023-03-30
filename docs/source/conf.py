@@ -41,6 +41,7 @@ release = ""
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "hoverxref.extension",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
@@ -49,6 +50,11 @@ extensions = [
     "nbsphinx",
     "jupyter_sphinx",
     "sphinxcontrib.bibtex",
+]
+
+# For hover x ref
+hoverxref_roles = [
+    "term",
 ]
 
 # For sphinxcontrib.bibtex.

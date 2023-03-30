@@ -10,7 +10,7 @@ Overview
 ========
 
 A *job* is a directory on the file system, which is part of a *project workspace*.
-That directory is called the *job workspace* and contains **all data** associated with that particular job.
+That directory is called the job directory and contains **all data** associated with that particular job.
 Every job has a unique address called the *state point*.
 
 There are two ways to access associated metadata with your job:
@@ -23,7 +23,7 @@ In other words, all data associated with a particular job should be a direct or 
 
 .. important::
 
-    Every parameter that, when changed, would invalidate the job's data, should be part of the *state point*; all others should not.
+    Every :term:`parameter` that, when changed, would invalidate the job's data, should be part of the :term:`state point`; all others should not.
 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
 It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
@@ -461,7 +461,7 @@ Please see the h5py_ documentation for more information on how to interact with 
 Job Stores
 ==========
 
-As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the job workspace.
+As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the :term:`job directory`.
 However, there are some reasons why one would want to operate on multiple different HDF5_ files instead of only one.
 
  1. While the HDF5-format is generally mutable, it is fundamentally designed to be used as an immutable data container.
@@ -469,7 +469,7 @@ However, there are some reasons why one would want to operate on multiple differ
  2. It easier to synchronize multiple files instead of just one.
  3. Multiple operations executed in parallel can operate on different files circumventing file locking issues.
 
-The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job workspace directory.
+The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job directory.
 In fact, the :attr:`Job.data` container is essentially just an alias for ``job.stores.signac_data``.
 
 For example, to store an array ``X`` within a file called ``my_data.h5``, one could use the following approach:

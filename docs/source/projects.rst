@@ -79,7 +79,7 @@ Jobs
 
 The central assumption of the **signac** data model is that the data space is divisible into individual data points consisting of data and metadata that are uniquely addressable in some manner.
 Specifically, the workspace is divided into subdirectories where each directory corresponds to exactly one :py:class:`Job`.
-All data associated with a job is contained in the corresponding *job workspace* directory.
+All data associated with a job is contained in the corresponding job directory.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
 Each job is uniquely addressable via its *state point*, a key-value mapping describing its data.
 There can never be two jobs that share the same state point within the same project.
@@ -355,7 +355,7 @@ In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, w
 Schema Detection
 ================
 
-While **signac** does not require you to specify an *explicit* state point schema, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
+While **signac** does not require you to specify an *explicit* :term:`project schema`, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
 This schema is comprised of the set of all keys present in all state points, as well as the range of values that these keys are associated with.
 
 Assuming that we initialize our data space with two state point keys, ``a`` and ``b``, where ``a`` is associated with some set of numbers and ``b`` contains a boolean value:
@@ -473,7 +473,7 @@ Linked Views
 ============
 
 Data space organization by job id is both efficient and flexible, but the obfuscation introduced by the job id makes inspecting the workspace on the command line or *via* a file browser much harder.
-A *linked view* is a directory hierarchy with human-interpretable names that link to to the actual job workspace directories.
+A *linked view* is a directory hierarchy with human-interpretable names that link to the actual :term:`job directories<job directory>`.
 Unlike the default mode for :ref:`data export <data-export>`, no data is copied for the generation of linked views.
 See :py:meth:`~.signac.Project.create_linked_view` for the Python API.
 
