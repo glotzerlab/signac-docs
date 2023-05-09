@@ -5,7 +5,8 @@ Packages
 ========
 
 
-The **signac** framework is currently comprised of three packages.
+The **signac** framework is currently comprised of four packages.
+The **synced_collections** package is a standalone package containing data structures used by the core **signac** data management package.
 Both **signac-flow** and **signac-dashboard** require the **signac** core package.
 
 The links below lead to the package-specific documentation, including a complete API documentation and changelogs.
@@ -52,11 +53,23 @@ The **signac-flow** package allows users to:
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
 
-The **signac-dashboard** package allows users to browse **signac**-managed data spaces:
+The **signac-dashboard** package allows users to:
 
+- Browse **signac**-managed data spaces
 - Visualize and analyze job data such as text, images, or video.
 - Share and collaborate on workspace data through a browser-based GUI.
+
+.. rubric:: synced-collections_
+
+The **synced_collections** package defines data structures that allow users to:
+
+- Transparently synchronize Python objects like lists and dicts with an underlying data store
+- Seamlessly translate data between different storage backends with arbitrary data validation
+- Tune for performance using different buffering strategies
+
+These collections are leveraged by **signac** to store and work with data and metadata.
 
 .. _signac-core: https://docs.signac.io/projects/core/
 .. _signac-flow: https://docs.signac.io/projects/flow/
 .. _signac-dashboard: https://docs.signac.io/projects/dashboard/
+.. _synced-collections: https://docs.signac.io/projects/synced_collections/
