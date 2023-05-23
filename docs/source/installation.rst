@@ -8,9 +8,10 @@ Installation
 .. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3/installing/index.html
 
-The **signac** framework consists of three packages: **signac**, **signac-flow**, and **signac-dashboard**.
-All packages in the **signac** framework depend on the core **signac** package, which provides the data management functionality used by all other packages.
-Most users should install the **signac** and the **signac-flow** packages, which are tested for Python 3.8+ and are built for all major platforms.
+The **signac** framework consists of four packages: **signac**, **signac-flow**, **signac-dashboard**, and **synced_collections**.
+The **synced_collections** package is a standalone package containing data structures used by the core **signac** package.
+All other packages in the **signac** framework depend on **signac** core, which provides the data management functionality used by all other packages.
+Most users should install **synced_collections** **signac** and the **signac-flow** packages, which are tested for Python 3.8+ and are built for all major platforms.
 For more details about the functionalities of individual packages, please see :ref:`package-overview`.
 
 
@@ -25,6 +26,10 @@ For a standard installation, execute:
 
     $ conda install -c conda-forge signac signac-flow
 
+.. note::
+
+    The synced_collections package is not yet available via conda and must be installed either from source or via pip.
+
 .. tip::
 
     Consider adding the conda-forge_ channel to your default channels with: ``$ conda config --add channels conda-forge``.
@@ -37,7 +42,7 @@ For a standard installation with pip_, execute:
 
 .. code:: bash
 
-    $ pip install signac signac-flow
+    $ pip install synced_collections signac signac-flow
 
 
 Installation from Source
@@ -59,6 +64,13 @@ For example, to install the signac core package you can execute the following co
 
 Build Status
 ============
+
+synced_collections
+------------------
+
+.. image:: https://img.shields.io/pypi/v/synced_collections
+    :target: https://pypi.org/project/synced_collections/
+    :alt: PyPI synced_collections
 
 signac
 ------
