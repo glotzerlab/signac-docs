@@ -64,7 +64,7 @@ The **signac-dashboard** package allows users to:
 The **synced_collections** package defines data structures that allow users to:
 
 - Transparently synchronize Python objects like lists and dicts with an underlying data store
-- Seamlessly translate data between different storage backends with arbitrary data validation
+- Seamlessly translate data from an in-memory Python representation to various storage backends with arbitrary data validation
 - Tune for performance using different buffering strategies
 
 These collections are leveraged by **signac** to store and work with data and metadata.
