@@ -13,7 +13,7 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v3.3.1'
+    rev: 'v3.8.0'
     hooks:
       - id: pyupgrade
         args:
@@ -38,7 +38,7 @@ repos:
       - id: nbqa-black
       - id: nbqa-pyupgrade
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.13.0
+    rev: 1.14.0
     hooks:
       - id: blacken-docs
   - repo: https://github.com/FlamingTempura/bibtex-tidy
@@ -66,6 +66,6 @@ repos:
       - id: rst-directive-colons
       - id: rst-inline-touching-normal
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.4
+    rev: v2.2.5
     hooks:
       - id: codespell
