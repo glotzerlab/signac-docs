@@ -5,7 +5,7 @@ Packages
 ========
 
 
-The **signac** framework is currently comprised of four packages.
+The **signac** framework is currently comprised of the following packages.
 The **synced_collections** package is a standalone package containing data structures used by the core **signac** data management package.
 Both **signac-flow** and **signac-dashboard** require the **signac** core package.
 
@@ -72,4 +72,4 @@ These collections are leveraged by **signac** to store and work with data and me
 .. _signac-core: https://docs.signac.io/projects/core/
 .. _signac-flow: https://docs.signac.io/projects/flow/
 .. _signac-dashboard: https://docs.signac.io/projects/dashboard/
-.. _synced-collections: https://docs.signac.io/projects/synced_collections/
+.. _synced-collections: https://docs.signac.io/projects/synced-collections/

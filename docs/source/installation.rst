@@ -8,7 +8,7 @@ Installation
 .. _conda-forge: https://conda-forge.github.io
 .. _pip: https://docs.python.org/3/installing/index.html
 
-The **signac** framework consists of four packages: **signac**, **signac-flow**, **signac-dashboard**, and **synced_collections**.
+The **signac** framework consists of **signac**, **signac-flow**, **signac-dashboard**, and **synced_collections**.
 The **synced_collections** package is a standalone package containing data structures used by the core **signac** package.
 All other packages in the **signac** framework depend on **signac** core, which provides the data management functionality used by all other packages.
 Most users should install the **signac** and **signac-flow** packages, which are tested for Python 3.8+ and are built for all major platforms.
