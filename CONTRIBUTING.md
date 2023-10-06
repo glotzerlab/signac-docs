@@ -32,7 +32,7 @@ All contributors must agree to the Contributor Agreement ([ContributorAgreement.
   * Document any portions of the code that might be less clear to others, especially to new developers.
   * Write API documentation in this package, and put usage information, guides, and concept overviews in the [framework documentation](https://docs.signac.io/) ([source](https://github.com/glotzerlab/signac-docs/)).
 
-Please see the [Support](https://docs.signac.io/projects/signac-core/en/latest/support.html) section as part of the documentation for detailed development guidelines.
+Please see the [Support](https://docs.signac.io/projects/core/en/latest/support.html) section as part of the documentation for detailed development guidelines.
 
 ### Code style
 
