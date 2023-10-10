@@ -270,7 +270,7 @@ We then generate a *detailed* status view with:
 This view provides information about what labels are met for each job and what operations are eligible for execution.
 If we did things right, then only those jobs without the ``greeted`` label should have the ``hello`` operation pending.
 
-Users have the option to hide the progress bar when generating the status view.
+The progress bar can cause issues when run in a Jupyter notebook, so we may hide the progress bar when generating the status view using the `--hide-progress` flag.
 
 .. code-block:: bash
 
@@ -302,9 +302,6 @@ Users have the option to hide the progress bar when generating the status view.
     b1d43cd340a6b095b41ad645446b6800  greeted
     Legend: ○:ineligible ●:eligible ▹:active ▸:running □:completed
 
-.. note::
-    Status view can generate issues in Jupyter notebook.
-    Hiding this view will prevent errors in Jupyter notebooks.
 
     .. code-block:: python
 
