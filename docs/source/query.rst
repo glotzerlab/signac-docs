@@ -4,11 +4,8 @@
 Query API
 =========
 
-As briefly described in :ref:`project-job-finding`, the :py:meth:`~signac.Project.find_jobs()` method provides much more powerful search functionality beyond simple selection of jobs with specific state point values.
-More generally, all **find()** functions within the framework accept filter arguments that will return a selection of jobs or documents.
-One of the key features of **signac** is the possibility to immediately search managed data spaces to select desired subsets as needed.
-Internally, all search operations are processed by an instance of :py:class:`~signac.Collection` (see :ref:`collections`).
-Therefore, they all follow the same syntax, so you can use the same type of filter arguments in :py:meth:`~signac.Project.find_jobs`, :py:meth:`~signac.Project.find_statepoints`, and so on.
+As briefly described in :ref:`project-job-finding`, the :py:meth:`~signac.Project.find_jobs()` method provides much more powerful search functionality beyond simple selection of jobs with specific :term:`state points <state point>`.
+One of the key features of **signac** is the possibility to search the :term:`project` workspace to select desired subsets as needed.
 
 .. note::
 
@@ -23,8 +20,8 @@ This means that any filter can be used to simultaneously search for keys in both
 Namespaces are identified by prefixing filter keys with the appropriate prefixes.
 Currently, the following prefixes are recognized:
 
-  * **sp**: job state point
-  * **doc**: document
+  * **sp**: job :term:`state point`
+  * **doc**: :term:`job document`
 
 For example, in order to select all jobs whose state point key *a* has the value "foo" and document key *b* has the value "bar", you would use:
 
@@ -38,9 +35,6 @@ This means that the following query is equivalent to the one above:
 .. code-block:: python
 
     project.find_jobs({"a": "foo", "doc.b": "bar"})
-
-For backwards compatibility, some methods in **signac** such as :py:meth:`~signac.Project.find_jobs()` accept separate ``filter`` and ``doc_filter`` arguments, where keys in the ``doc_filter`` are implicitly prefixed with ``'doc.'`` (and state point prefixes in ``filter`` are implicit).
-However, any combination of ``filter`` and ``doc_filter`` without prefixes can be represented by an appropriately namespaced ``filter``, and the unified approach with prefixes should be preferred.
 
 
 Basic Expressions
@@ -61,14 +55,11 @@ Select All
 
 If you want to select the complete data set, don't provide any filter argument at all.
 The default argument of ``None`` or an empty expression ``{}`` will select all jobs or documents.
-As was previously demonstrated, iterating over all jobs in a project or all documents in a collection can be accomplished directly without using any *find* method at all:
+As was previously demonstrated, iterating over all jobs in a project can be accomplished directly:
 
 .. code-block:: python
 
     for job in project:
-        pass
-
-    for doc in collection:
         pass
 
 .. _simple-selection:
@@ -93,7 +84,7 @@ We can select the 2nd document with ``{'p': 2}``, but also ``{'N': 1000, 'p': 2}
 Nested Keys
 -----------
 
-To match **nested** keys, avoid nesting the filter arguments, but instead use the `.`-operator.
+To match **nested** keys, avoid nesting the filter arguments, but instead use the ``.``-operator.
 For example, if the documents shown in the example above were all nested like this:
 
 .. code-block:: python
@@ -122,7 +113,7 @@ If we wanted to match all documents where *p is greater than 2*, we would use th
 
     {"p": {"$gt": 2}}
 
-Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select *all all jobs withe p values greater than 2*.
+Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select all jobs with p values greater than 2.
 Here is a complete list of all available **arithmetic operators**:
 
   * ``$eq``: equal to
@@ -255,14 +246,14 @@ Simplified Syntax on the Command Line
 
 It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
 In this case filter arguments are expected to be provided as valid JSON expressions.
-However, for simple filters you can also use a *simplified syntax*.
+For simple filters, you can use a simplified syntax instead of writing JSON.
 For example, instead of ``{'p': 2}``, you can simply type ``p 2``.
 
 A simplified expression consists of key-value pairs in alternation.
 The first argument will then be interpreted as the first key, the second argument as the first value, the third argument as the second key, and so on.
 If you provide an odd number of arguments, the last value will default to ``{'$exists': True}``.
-Querying via operator is supported using the `.`-operator.
-Finally, you can use ``/<regex>/`` intead of ``{'$regex': '<regex>'}`` for regular expressions.
+Querying via operator is supported using the ``.``-operator.
+Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
 The following list shows simplified expressions on the left and their equivalent standard expression on the right.
 

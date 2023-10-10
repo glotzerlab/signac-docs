@@ -28,47 +28,38 @@ In the process, **signac**'s maintenance of the data space also effectively func
 Project Initialization
 ======================
 
-In order to use **signac** to manage a project's data, the project must be **initialized** as a **signac** project.
-After a project has been initialized in **signac**, all shell and Python scripts executed within or below the project's root directory have access to **signac**'s central facility, the **signac** project interface.
+In order to use **signac** to manage a project's data, the project must be initialized as a **signac** project.
+After a project has been initialized in **signac**, all shell and Python scripts executed within the project path or its subdirectories have access to **signac**'s central facility, the **signac** project interface.
 The project interface provides simple and consistent access to the project's underlying *data space*. [#f1]_
 
 .. [#f1] You can access a project interface from other locations by explicitly specifying the root directory.
 
-To initialize a project, simply execute ``$ signac init <project-name>`` on the command line inside the desired project directory (create a new project directory if needed).
-For example, to initialize a **signac** project named *MyProject* in a directory called ``my_project``, execute:
+To initialize a project, execute ``$ signac init`` on the command line inside the desired project directory (create a new project directory if needed).
+For example, to initialize a **signac** project in a directory called ``my_project``, execute:
 
 .. code-block:: bash
 
     $ mkdir my_project
     $ cd my_project
-    $ signac init MyProject
+    $ signac init
 
 You can alternatively initialize your project within Python with the :py:func:`~signac.init_project` function:
 
 .. code-block:: pycon
 
-    >>> project = signac.init_project("MyProject")
+    >>> project = signac.init_project()
 
-This will create a configuration file which contains the name of the project.
-The directory that contains this configuration file is the project's root directory.
+This will create a ``.signac`` directory with a configuration file.
+The directory containing the ``.signac`` subdirectory is the project's root directory.
 
 .. _project-data-space:
 
 The Data Space
 ==============
 
-The project data space is stored in the *workspace directory*.
-By default this is a sub-directory within the project's root directory named *workspace*.
+The project data space is stored in the *workspace directory*, a subdirectory within the project path named ``workspace``.
 Once a project has been initialized, any data inserted into the data space will be stored within this directory.
-This association is not permanent; a project can be reassociated with a new workspace at any time, and it may at times be beneficial to maintain multiple separate workspaces for a single project.
-You can access your signac :py:class:`~signac.Project` and the associated *data space* from within your project's root directory or any subdirectory from the command line:
-
-.. code-block:: shell
-
-    $ signac project
-    MyProject
-
-Or with the :py:func:`~signac.get_project` function:
+You can access your signac :py:class:`~signac.Project` and the associated data from within the project path or any subdirectory with the :py:func:`~signac.get_project` function:
 
 .. code-block:: pycon
 
@@ -81,22 +72,20 @@ Or with the :py:func:`~signac.get_project` function:
 
 .. _project-jobs:
 
-.. currentmodule:: signac.contrib.job
+.. currentmodule:: signac.job
 
 Jobs
 ----
 
-The central assumption of the **signac** data model is that the *data space* is divisible into individual data points, consisting of data and metadata, which are uniquely addressable in some manner.
-Specifically, the workspace is divided into sub-directories, where each directory corresponds to exactly one :py:class:`Job`.
-Each job has a unique address, which is referred to as a *state point*.
+The central assumption of the **signac** data model is that the data space is divisible into individual data points consisting of data and metadata that are uniquely addressable in some manner.
+Specifically, the workspace is divided into subdirectories where each directory corresponds to exactly one :py:class:`Job`.
+All data associated with a job is contained in the corresponding job directory.
 A job can consist of any type of data, ranging from a single value to multiple terabytes of simulation data; **signac**'s only requirement is that this data can be encoded in a file.
+Each job is uniquely addressable via its *state point*, a key-value mapping describing its data.
+There can never be two jobs that share the same state point within the same project.
+All data associated with your job should be a unique function of the state point, e.g., the parameters that go into your physics or machine learning model.
 
-A job is essentially just a directory on the file system, which is part of a *project workspace*.
-That directory is called the *job workspace* and contains **all data** associated with that particular job.
-
-You access a job by providing a *state point*, which is a unique key-value mapping describing your data.
-All data associated with your job should be a unique function of the *state point*, e.g., the parameters that go into your physics or machine learning model.
-For example, to store data associated with particular temperature or pressure of a simulation, you would first initialize a project, and then *open* a job like this:
+For example, to store data associated with particular temperature or pressure of a simulation, you would first initialize a project and then *open* a job like this:
 
 .. code-block:: python
 
@@ -109,15 +98,14 @@ For example, to store data associated with particular temperature or pressure of
 .. tip::
 
     You only need to call the :meth:`Job.init` function the first time that you are accessing a job.
-    Furthermore, the :meth:`Job.init` function returns itself, so you can abbreviate like this:
+    Furthermore, the :meth:`Job.init` function returns the job itself, so you can abbreviate like this:
 
     .. code-block:: python
 
         job = project.open_job({"temperature": 20, "pressure": 1.0}).init()
 
-The job *state point* represents a **unique address** of your data within one project.
-There can never be two jobs that share the same *state point* within the same project.
-Any other kind of data and metadata that describe your job, but do not represent a unique address should be stored within the :attr:`Job.doc`, which has the exact same interface like the :attr:`Job.sp`, but does not represent a unique address of the job.
+The uniqueness of a state point in a signac data space is analogous to the uniqueness of a primary key in a relational database.
+Any other kind of data and metadata that describe a job but are not part of the key should be stored within the :attr:`Job.doc`, which has the exact same interface like the :attr:`Job.sp`.
 
 .. tip::
 
@@ -172,7 +160,7 @@ Grouping
 Grouping operations can be performed on the complete project data space or the results of search queries, enabling aggregated analysis of multiple jobs and state points.
 
 The return value of the :py:meth:`~Project.find_jobs()` method is a cursor that we can use to iterate over all jobs (or all jobs matching an optional filter if one is specified).
-This cursor is an instance of :py:class:`~signac.contrib.project.JobsCursor` and allows us to group these jobs by state point parameters, the job document values, or even arbitrary functions.
+This cursor is an instance of :py:class:`~signac.project.JobsCursor` and allows us to group these jobs by state point parameters, the job document values, or even arbitrary functions.
 
 .. note::
 
@@ -184,7 +172,7 @@ Basic Grouping by Key
 
 Grouping can be quickly performed using a statepoint or job document key.
 
-If *a* was a state point variable in a project's parameter space, we can quickly enumerate the groups corresponding to each value of *a* like this:
+If *a* were a state point parameter, we can enumerate the groups corresponding to each value of *a* like this:
 
 .. code-block:: python
 
@@ -202,7 +190,7 @@ Similarly, we can group by values in the job document as well. Here, we group al
 Grouping by Multiple Keys
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Grouping by multiple state point parameters or job document values is possible, by passing an iterable of fields that should be used for grouping.
+To group by multiple state point parameters or job document values, pass an iterable of fields that should be used for grouping.
 For example, we can group jobs by state point parameters *c* and *d*:
 
 .. code-block:: python
@@ -244,7 +232,7 @@ Moving, Copying and Removal
 ---------------------------
 
 In some cases it may desirable to divide or merge a project data space.
-To **move** a job to a different project, use the :py:meth:`~signac.contrib.job.Job.move` method:
+To **move** a job to a different project, use the :meth:`~signac.job.Job.move` method:
 
 .. code-block:: python
 
@@ -262,15 +250,15 @@ To **move** a job to a different project, use the :py:meth:`~signac.contrib.job.
     for job in jobs_to_copy:
         project.clone(job)
 
-Trying to move or copy a job to a project which has already an initialized job with the same *state point*, will trigger a :py:class:`~signac.errors.DestinationExistsError`.
+Trying to move or copy a job to a project which has already an initialized job with the same state point will trigger a :py:class:`~signac.errors.DestinationExistsError`.
 
 .. warning::
 
     While **moving** is a cheap renaming operation, **copying** may be much more expensive since all of the job's data will be copied from one workspace into the other.
 
-To **clear** all data associated with a specific job, call the :py:meth:`~signac.contrib.job.Job.clear` method.
-Note that this function will do nothing if the job is uninitialized; the :py:meth:`~signac.contrib.job.Job.reset` method will also clear all data associated with a job, but it will also automatically initialize the job if it was not originally initialized.
-To **permanently delete** a job and its contents use the :py:meth:`~signac.contrib.job.Job.remove` method:
+To **clear** all data associated with a specific job, call the :py:meth:`~signac.job.Job.clear` method.
+Note that this function will do nothing if the job is uninitialized; the :py:meth:`~signac.job.Job.reset` method will also clear all data associated with a job, but it will also automatically initialize the job if it was not originally initialized.
+To **permanently delete** a job and its contents use the :py:meth:`~signac.job.Job.remove` method:
 
 .. code-block:: python
 
@@ -330,7 +318,7 @@ To access data through a functional interface:
     ...     x = project.data.get("x")[:]
     ...
 
-.. currentmodule:: signac.contrib.job
+.. currentmodule:: signac.job
 
 In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, which is analogous to the :py:meth:`Job.fn` method described above:
 
@@ -367,7 +355,7 @@ In addition, **signac** also provides the :py:meth:`signac.Project.fn` method, w
 Schema Detection
 ================
 
-While **signac** does not require you to specify an *explicit* state point schema, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
+While **signac** does not require you to specify an *explicit* :term:`project schema`, it is always possible to deduce an *implicit* semi-structured schema from a project's data space.
 This schema is comprised of the set of all keys present in all state points, as well as the range of values that these keys are associated with.
 
 Assuming that we initialize our data space with two state point keys, ``a`` and ``b``, where ``a`` is associated with some set of numbers and ``b`` contains a boolean value:
@@ -485,7 +473,7 @@ Linked Views
 ============
 
 Data space organization by job id is both efficient and flexible, but the obfuscation introduced by the job id makes inspecting the workspace on the command line or *via* a file browser much harder.
-A *linked view* is a directory hierarchy with human-interpretable names that link to to the actual job workspace directories.
+A *linked view* is a directory hierarchy with human-interpretable names that link to the actual :term:`job directories<job directory>`.
 Unlike the default mode for :ref:`data export <data-export>`, no data is copied for the generation of linked views.
 See :py:meth:`~.signac.Project.create_linked_view` for the Python API.
 
@@ -495,7 +483,7 @@ To create views from the command line, use the ``$ signac view`` command.
 
     When the project data space is changed by adding or removing jobs, simply update the view, by executing :py:meth:`~signac.Project.create_linked_view` or ``$ signac view`` for the same view directory again.
 
-You can limit the *linked view* to a specific data subset by providing a set of *job ids* to the :py:meth:`~signac.Project.create_linked_view` method.
+You can limit the linked view to a specific data subset by providing a set of job ids to the :py:meth:`~signac.Project.create_linked_view` method.
 This works similarly for ``$ signac view`` on the command line, but here you can also specify a filter directly:
 
 .. code-block:: bash
@@ -518,7 +506,7 @@ Users who are familiar with ``rsync`` will recognize that most of the core funct
 
 As an example, let's assume that we have a project stored locally in the path ``/data/my_project`` and want to synchronize it with ``/remote/my_project``.
 We would first change into the root directory of the project that we want to synchronize data into.
-Then we would call ``signac sync`` with the path of the project that we want to *synchronize with*:
+Then we would call ``signac sync`` with the path of the project that we want to synchronize with:
 
 .. code-block:: bash
 

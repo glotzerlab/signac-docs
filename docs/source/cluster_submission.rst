@@ -67,25 +67,35 @@ For example the following command would submit up to 5 ``hello`` operations, whe
     Use the ``--pretend`` option to preview the generated submission scripts on screen instead of submitting them.
 
 
-Parallelization and Bundling
-============================
+Bundling
+========
 
-By default all eligible job-operations will be submitted as separate cluster jobs.
-This is usually the best model for clusters that provide shared compute partitions.
-However, sometimes it is beneficial to execute multiple operations within one cluster job, especially if the compute cluster can only make reservation for full nodes.
+By default, all eligible job-operations will be submitted as separate cluster jobs.
+This is usually the best model for clusters that provide shared compute partitions because it allows the cluster scheduler to optimize the scheduling of your job.
+However, sometimes it is beneficial to execute multiple operations within one cluster job, like if the compute cluster can only make reservation for full nodes or if there is a limit to the number of cluster jobs you can submit to the cluster scheduler's queue.
 
-You can place multiple job-operations within one cluster submission with the ``--bundle`` option.
-For example, the following command will bundle up to 5 job-operations to be executed in parallel into a single cluster submission:
+You can execute multiple job-operations in serial per cluster job submission with the ``--bundle`` option.
+For example, the following command will bundle up to five job-operations to be executed in each cluster submission:
 
 .. code-block:: bash
 
-    ~/my_project $ python project.py submit --bundle=5 --parallel
+    ~/my_project $ python project.py submit --bundle=5
 
-Without any argument the ``--bundle`` option will bundle **all** eligible job-operations into a single cluster job.
+Without any argument, the ``--bundle`` option will bundle **all** eligible job-operations into a single cluster job.
 
 .. tip::
 
     Recognizing that ``--bundle=1`` is the default option might help you to better understand the bundling concept.
+
+By default, the submit command will run bundled job-operations in serial.
+It is possible to run bundled jobs in parallel (when executing on the CPU), as long as the operating system assigns running threads to any available CPU cores, which is **not** the default behavior on all compute clusters.
+The ``--parallel`` flag will start the bundled job-operations and run them as background processes. Ensure that the processes are correctly assigned to the requested resources before using this option.
+
+.. warning::
+
+    The ``--parallel`` option will not distribute operations among multiple GPUs. Use :ref:`aggregation` instead.
+    To distribute across multiple GPUs, clusters may require a split MPI communicator.
+    An example of this behavior can be found in the `signac-examples project flow.aggregation-mpi <https://github.com/glotzerlab/signac-examples/tree/main/projects/flow.aggregation-mpi>`__.
 
 .. _cluster_submission_directives:
 
@@ -102,7 +112,7 @@ For example, to specify that a parallelized operation requires **4** processing 
     from multiprocessing import Pool
 
 
-    @FlowProject.operation.with_directives({"np": 4})
+    @FlowProject.operation(directives={"np": 4})
     def hello(job):
         with Pool(4) as pool:
             print("hello", job)
@@ -115,7 +125,7 @@ All directives are essentially conventions, the ``np`` directive in particular m
 
 .. tip::
 
-    Note that all directives may be specified as callables, e.g. ``FlowProject.operation.with_directives({"np": lambda job: job.doc.np})``.
+    Note that all directives may be specified as callables, e.g. ``FlowProject.operation(directives={"np": lambda job: job.doc.np})``.
 
 Available directives
 --------------------
@@ -164,27 +174,27 @@ Using these directives and their combinations allows us to realize the following
 .. glossary::
 
     serial:
-      ``@FlowProject.operation.with_directives()``
+      ``@FlowProject.operation()``
 
       This operation is a simple serial process, no directive needed.
 
     parallelized:
-      ``@FlowProject.operation.with_directives({"np": 4})``
+      ``@FlowProject.operation(directives={"np": 4})``
 
       This operation requires 4 processing units.
 
     MPI parallelized:
-      ``@FlowProject.operation.with_directives({"nranks": 4})``
+      ``@FlowProject.operation(directives={"nranks": 4})``
 
       This operation requires 4 MPI ranks.
 
     MPI/OpenMP Hybrid:
-      ``@FlowProject.operation.with_directives({"nranks": 4, "omp_num_threads": 2})``
+      ``@FlowProject.operation(directives={"nranks": 4, "omp_num_threads": 2})``
 
       This operation requires 4 MPI ranks with 2 OpenMP threads per rank.
 
     GPU:
-      ``@FlowProject.operation.with_directives({"ngpu": 1})``
+      ``@FlowProject.operation(directives={"ngpu": 1})``
 
       The operation requires one GPU for execution.
 

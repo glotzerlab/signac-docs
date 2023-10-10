@@ -10,13 +10,13 @@ Introduction
 ============
 
 One of the goals of the **signac** framework is to make it easy to track the provenance of research data and to ensure its reproducibility.
-Hooks make it possible to execute user-defined functions before or after :ref:`FlowProject <flow-project>` operations act on a **signac** project.
+Hooks make it possible to execute user-defined functions before or after :ref:`FlowProject <flow-project>` operations act on a **signac** :term:`project`.
 For example, hooks can be used to track state changes before and after each operation.
 
 A hook is a function that is called at a specific time relative to the execution of a **signac-flow** :ref:`operation <operations>`.
 A hook can be triggered when an operation starts, exits, succeeds, or raises an exception.
 
-A basic use case is to log the success/failure of an operation by creating a hook that sets a job document value ``job.doc.operation_success`` to ``True`` or ``False``.
+A basic use case is to log the success/failure of an operation by creating a hook that sets a :term:`job document` value ``job.doc.operation_success`` to ``True`` or ``False``.
 As another example, a user may record the `git commit ID <https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History>`_ upon the start of an operation, allowing them to track which version of code ran the operation.
 
 .. _hook_triggers:
@@ -95,7 +95,7 @@ The ``on_exception`` hook trigger will run, and ``job.doc.error_on_a_0_success``
 Project-Level Hooks
 ===================
 
-It may be desirable to install the same hook or set of hooks for all operations in a project.
+It may be desirable to install the same hook or set of hooks for all operations in a FlowProject.
 In the following example FlowProject, the hook ``track_start_time`` is triggered when each operation starts.
 The hook appends the current time to a list in the job document that is named based on the name of the operation.
 
@@ -108,15 +108,15 @@ The hook appends the current time to a list in the job document that is named ba
         pass
 
 
-    @Project.operation
     @Project.post.true("test_ran")
+    @Project.operation
     def do_operation(job):
         job.doc.test_ran = True
 
 
-    @Project.operation
     @Project.pre.after(do_operation)
     @Project.post.false("test_ran")
+    @Project.operation
     def undo_operation(job):
         job.doc.test_ran = False
 
@@ -148,8 +148,8 @@ A custom set of hooks may also be installed at the project level by a custom ``i
         pass
 
 
-    @Project.operation
     @Project.post.true("test_ran")
+    @Project.operation
     def do_operation(job):
         job.doc.test_ran = True
 

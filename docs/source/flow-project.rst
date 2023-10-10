@@ -52,11 +52,9 @@ Operations
 ==========
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-
-In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
-
+In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.job.Job`.
 We will demonstrate this concept with a simple example.
-Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
+Let's initialize a signac :term:`project` with a few :term:`jobs<job>`, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
 .. code-block:: python
 
@@ -68,7 +66,7 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
     for i in range(10):
         project.open_job({"a": i}).init()
 
-A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
+A very simple *operation*, which creates a file called ``hello.txt`` within the :term:`job directory`, could be implemented like this:
 
 .. code-block:: python
 
@@ -92,6 +90,11 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
     if __name__ == "__main__":
         MyProject().main()
 
+.. tip::
+
+    By default operations only act on a single job and can simply be defined with the signature ``def op(job)``.
+    When using :ref:`aggregate operations <aggregation>`, it is recommended to allow the operation to accept a variable number of jobs using a variadic parameter ``*jobs``, so that the operation is not restricted to a specific aggregate size.
+
 
 .. _conditions:
 
@@ -101,8 +104,8 @@ Conditions
 Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow.
 If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
 
-However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
-To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
+However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job directory.
+To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job directory:
 
 
 .. code-block:: python
@@ -128,8 +131,10 @@ The entirety of the code is as follows:
         return job.isfile("hello.txt")
 
 
-    @MyProject.operation
+    # Pre/post condition decorators must appear on a line above the operation decorator
+    # so that the condition decorator is added after the operation decorator.
     @MyProject.post(greeted)
+    @MyProject.operation
     def hello(job):
         with job:
             with open("hello.txt", "w") as file:
@@ -139,8 +144,19 @@ The entirety of the code is as follows:
     if __name__ == "__main__":
         MyProject().main()
 
+
+.. note::
+
+    Decorators execute from the bottom to the top. For example, in the code block above
+    ``@MyProject.operation`` is run before ``@MyProject.post(greeted)``. The code is roughly
+    equivalent to ``MyProject.post(greeted)(MyProject.operation(hello))``. See `Python's official
+    documentation <https://docs.python.org/3/reference/compound_stmts.html#function-definitions>`__
+    for more information.
+
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
-A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
+An operation is only executed if **all** preconditions are met, and at *at least one* postcondition is not met.
+These are added above a :attr:`~flow.FlowProject.operation` decorator.
+Using these decorators before declaring a function an operation is an error.
 
 .. tip::
 
@@ -149,9 +165,9 @@ A operation is only executed if **all** pre-conditions are met, and at *at least
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.pre(cheap_condition)
         @MyProject.pre(expensive_condition)
+        @MyProject.operation
         def hello(job):
             pass
 
@@ -176,7 +192,7 @@ If we implemented and integrated the operation and condition functions correctly
 
 .. tip::
 
-    The ``@with_job`` decorator can be used so the entire operation takes place in the ``job`` context.
+    The ``with_job`` keyword argument can be used so the entire operation takes place in the ``job`` context.
     For example:
 
     .. code-block:: python
@@ -184,9 +200,8 @@ If we implemented and integrated the operation and condition functions correctly
         from flow import with_job
 
 
-        @MyProject.operation
         @MyProject.post(greeted)
-        @with_job
+        @MyProject.operation(with_job=True)
         def hello(job):
             with open("hello.txt", "w") as file:
                 file.write("world!\n")
@@ -195,21 +210,19 @@ If we implemented and integrated the operation and condition functions correctly
 
     .. code-block:: python
 
-        @MyProject.operation
         @MyProject.post(greeted)
+        @MyProject.operation
         def hello(job):
             with job:
                 with open("hello.txt", "w") as file:
                     file.write("world!\n")
 
     This saves a level of indentation and makes it clear the entire operation should take place in the ``job`` context.
-    ``@with_job`` also works with the ``@cmd`` decorator but **must** be used first, e.g.:
+    ``with_job`` also works with the ``cmd`` keyword argument:
 
     .. code-block:: python
 
-        @MyProject.operation
-        @with_job
-        @cmd
+        @MyProject.operation(with_job=True, cmd=True)
         def hello(job):
             return "echo 'hello {}'".format(job)
 
@@ -219,7 +232,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A *label-function* is a condition function which will be shown in the **status** view.
+A *label function* is a condition function which will be shown in the **status** view.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
@@ -228,13 +241,13 @@ We can convert any condition function into a label function by adding the :py:me
     def greeted(job):
         return job.isfile("hello.txt")
 
-We will reset the workflow for only a few jobs to get a more interesting *status* view:
+We will reset the workflow for only a few jobs to get a more interesting status view:
 
 .. code-block:: bash
 
     ~/my_project $ signac find a.\$lt 5 | xargs -I{} rm workspace/{}/hello.txt
 
-We then generate a *detailed* status view with:
+We then generate a detailed status view with:
 
 .. code-block:: bash
 

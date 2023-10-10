@@ -3,7 +3,7 @@
 The Dashboard
 =============
 
-The **signac-dashboard** visualizes data stored in a **signac** project.
+The **signac-dashboard** visualizes data stored in a **signac** :term:`project`.
 To install the **signac-dashboard** package, see :ref:`dashboard-installation`.
 
 .. danger::
@@ -34,7 +34,9 @@ Write the file ``dashboard.py`` containing:
     if __name__ == "__main__":
         Dashboard(modules=modules).main()
 
-Launch the dashboard with ``python dashboard.py run --port 8888`` and open http://localhost:8888/jobs/ in your web browser.
+Launch the dashboard with ``python dashboard.py run --port 8888``.
+The terminal output provides access instructions: ``To access this server, connect to: http://localhost:8888/login?token=<hidden>``.
+Using your web browser, navigate to this URL (with the full token provided on the terminal) to open and login to the dashboard.
 
 Once the dashboard is open, use the "Views" panel in the sidebar to switch the view from list view to grid view.
 Select which modules' cards to show using the "Modules" panel in the sidebar.
@@ -95,4 +97,8 @@ Dissecting the dashboard structure
 Searching jobs
 --------------
 
-The search bar accepts JSON-formatted queries in the same way as the ``signac find`` command-line tool. For example, using the query ``{"key": "value"}`` will return all jobs where the job statepoint ``key`` is set to ``value``. To search jobs by their document key-value pairs, use ``doc:`` before the JSON-formatted query, like ``doc:{"key": "value"}``.
+The search bar uses the :ref:`query syntax <query>` of the ``signac find`` command line tool, including the query namespaces ``'sp.'`` and ``'doc.'``.
+
+Queries checking for values can be entered without the JSON formatting (for example **"sp.a 1 doc.b 2"**). This example will return all jobs where the job state point key ``a`` has the value ``1`` and the job document key ``b`` has the value ``2``.
+
+The full :ref:`query` can be used for complex expressions. The example query becomes ``{"sp.a": 1, "doc.b": 2}``.

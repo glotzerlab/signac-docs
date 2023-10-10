@@ -4,13 +4,13 @@
 Jobs
 ====
 
-.. currentmodule:: signac.contrib.job
+.. currentmodule:: signac.job
 
 Overview
 ========
 
 A *job* is a directory on the file system, which is part of a *project workspace*.
-That directory is called the *job workspace* and contains **all data** associated with that particular job.
+That directory is called the job directory and contains **all data** associated with that particular job.
 Every job has a unique address called the *state point*.
 
 There are two ways to access associated metadata with your job:
@@ -23,7 +23,7 @@ In other words, all data associated with a particular job should be a direct or 
 
 .. important::
 
-    Every parameter that, when changed, would invalidate the job's data, should be part of the *state point*; all others should not.
+    Every :term:`parameter` that, when changed, would invalidate the job's data, should be part of the :term:`state point`; all others should not.
 
 However, you only have to add those parameters that are **actually changed** (or anticipated to be changed) to the *state point*.
 It is perfectly acceptable to hard-code parameters up until the point where you **actually change them**, at which point you would add them to the *state point* :ref:`retroactively <add-sp-keys>`.
@@ -55,7 +55,7 @@ This subdirectory is named by the *job id*, therefore guaranteeing a unique file
     Because **signac** assumes that the state point is a unique identifier, multiple jobs cannot share the same state point.
     A typical remedy for scenarios where, *e.g.*, multiple replicas are required, is to append the replica number to the state point to generate a unique state point.
 
-Both the state point and the job id are equivalent addresses for jobs in the data space.
+Both the state point and the job id are equivalent addresses for jobs in the project.
 To access or modify a data point, obtain an instance of :py:class:`Job` by passing the associated metadata as a mapping of key-value pairs (for example, as an instance of :py:class:`dict`) into the :py:meth:`~signac.Project.open_job` method.
 
 .. code-block:: pycon
@@ -69,17 +69,15 @@ To access or modify a data point, obtain an instance of :py:class:`Job` by passi
 
 
 In general an instance of :py:class:`Job` only gives you a handle to a Python object.
-To create the underlying workspace directory and thus make the job part of the data space, you must *initialize* it.
+To create the underlying workspace directory, you must *initialize* it.
 You can initialize a job **explicitly**, by calling the :py:meth:`Job.init` method, or **implicitly**, by either accessing the job's :ref:`job document <project-job-document>` or by switching into the job's workspace directory.
 
 .. code-block:: pycon
 
-    >>> job = project.open_job({"a": 2})
-    # Job does not exist yet
+    >>> job = project.open_job({"a": 2})  # Job does not exist yet
     >>> job in project
     False
-    >>> job.init()
-    # Job now exists
+    >>> job.init()  # Job now exists
     >>> job in project
     True
 
@@ -188,7 +186,7 @@ You can modify **nested** *state points* in-place, but you will need to use dict
     modifiable copy that will not modify the underlying JSON file,
     you can access a dict copy of the statepoint by calling it, e.g.
     ``sp_dict = job.statepoint()`` instead of ``sp = job.statepoint``.
-    For more information, see :class:`~signac.JSONDict`.
+    For more information, see :attr:`signac.JSONDict`.
 
 
 .. _project-job-document:
@@ -196,7 +194,7 @@ You can modify **nested** *state points* in-place, but you will need to use dict
 The Job Document
 ================
 
-In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :py:attr:`~Job.document`.
+In addition to the state point, additional metadata can be associated with your job in the form of simple key-value pairs using the job :attr:`Job.document`.
 This *job document* is automatically stored in the job's workspace directory in `JSON`_ format.
 You can access it via the :py:attr:`Job.document` or the :py:attr:`Job.doc` attribute.
 
@@ -246,7 +244,7 @@ Like the :py:attr:`Job.document`, this information can be accessed using key-val
 Unlike the :py:attr:`Job.document`, :attr:`Job.data` is not searchable.
 
 Data written with :py:attr:`Job.data` is stored in a file named ``signac_data.h5`` in the associated job folder.
-Data written with :py:attr:`Job.stores['key_name']` is stored in a file named ``key_name.h5``.
+Data written with ``Job.stores['key_name']`` is stored in a file named ``key_name.h5``.
 For cases where job-associated data may be accessed from multiple sources at the same time or other instances where multiple files may be preferred to one large file, :py:attr:`Job.stores` should be used instead of :py:attr:`Job.data`.
 This section will focus on examples and usage of :py:attr:`Job.data`.
 Further discussion of :py:attr:`Job.stores` is provided in the following topic, :ref:`Job Stores <project-job-stores>`.
@@ -463,7 +461,7 @@ Please see the h5py_ documentation for more information on how to interact with 
 Job Stores
 ==========
 
-As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the job workspace.
+As mentioned before, the :attr:`Job.data` property represents an instance of :class:`~signac.H5Store`, specifically one that operates on a file called ``signac_data.h5`` in the :term:`job directory`.
 However, there are some reasons why one would want to operate on multiple different HDF5_ files instead of only one.
 
  1. While the HDF5-format is generally mutable, it is fundamentally designed to be used as an immutable data container.
@@ -471,10 +469,10 @@ However, there are some reasons why one would want to operate on multiple differ
  2. It easier to synchronize multiple files instead of just one.
  3. Multiple operations executed in parallel can operate on different files circumventing file locking issues.
 
-The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job workspace directory.
+The :attr:`Job.stores` property provides a dict-like interface to access *multiple different* HDF5 files within the job directory.
 In fact, the :attr:`Job.data` container is essentially just an alias for ``job.stores.signac_data``.
 
-For example, to store an array `X` within a file called ``my_data.h5``, one could use the following approach:
+For example, to store an array ``X`` within a file called ``my_data.h5``, one could use the following approach:
 
 .. code-block:: pycon
 
