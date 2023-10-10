@@ -283,11 +283,11 @@ We then generate a detailed status view with:
 This view provides information about what labels are met for each job and what operations are eligible for execution.
 If we did things right, then only those jobs without the ``greeted`` label should have the ``hello`` operation pending.
 
-The progress bar can cause issues when run in a Jupyter notebook, so we may hide the progress bar when generating the status view using the `--hide-progress` flag.
+We may hide the progress bar when generating the status view using the ``--hide-progress`` flag.
 
 .. code-block:: bash
 
-    ~/my_project $ python project.py status --detailed --stack --pretty --no-progress
+    ~/my_project $ python project.py status --detailed --stack --pretty --hide-progress
     # Overview:
     Total # of jobs: 10
 
@@ -315,15 +315,15 @@ The progress bar can cause issues when run in a Jupyter notebook, so we may hide
     b1d43cd340a6b095b41ad645446b6800  greeted
     Legend: ○:ineligible ●:eligible ▹:active ▸:running □:completed
 
+The same can be accomplished in Python (such as within a Jupyter cell) via,
 
-    .. code-block:: python
+.. code-block:: python
 
-        class MyProject(flow.FlowProject):
-            pass
+    project = MyProject.init_project()
+    project.print_status(detailed=True, parameters=["p"], hide_progress=True)
 
-
-        project = MyProject.init_project()
-        project.print_status(detailed=True, parameters=["p"], no_progress=True)
+Hiding progress can be useful when the progress results with many lines of output as occurs in
+Jupyter notebooks.
 
 As shown before, all *eligible* operations can then be executed with:
 
