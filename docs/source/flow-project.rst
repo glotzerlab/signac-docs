@@ -322,7 +322,7 @@ The same can be accomplished in Python (such as within a Jupyter cell) via,
     project = MyProject.init_project()
     project.print_status(detailed=True, parameters=["p"], hide_progress=True)
 
-Hiding progress bars can declutter output, which can be useful when run in Jupyter notebooks. 
+Hiding progress bars can declutter output, which can be useful when run in Jupyter notebooks.
 
 As shown before, all *eligible* operations can then be executed with:
 
