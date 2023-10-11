@@ -283,6 +283,47 @@ We then generate a detailed status view with:
 This view provides information about what labels are met for each job and what operations are eligible for execution.
 If we did things right, then only those jobs without the ``greeted`` label should have the ``hello`` operation pending.
 
+We may hide the progress bar when generating the status view using the ``--hide-progress`` flag.
+
+.. code-block:: bash
+
+    ~/my_project $ python project.py status --detailed --stack --pretty --hide-progress
+    # Overview:
+    Total # of jobs: 10
+
+    label    ratio
+    -------  -------------------------------------------------
+    greeted  |####################--------------------| 50.00%
+
+    # Detailed View:
+    job_id                            labels
+    --------------------------------  --------
+    0d32543f785d3459f27b8746f2053824  greeted
+    14fb5d016557165019abaac200785048
+    └● hello [U]
+    2af7905ebe91ada597a8d4bb91a1c0fc
+    └● hello [U]
+    2e6ba580a9975cf0c01cb3c3f373a412  greeted
+    42b7b4f2921788ea14dac5566e6f06d0
+    └● hello [U]
+    751c7156cca734e22d1c70e5d3c5a27f  greeted
+    81ee11f5f9eb97a84b6fc934d4335d3d  greeted
+    9bfd29df07674bc4aa960cf661b5acd2
+    └● hello [U]
+    9f8a8e5ba8c70c774d410a9107e2a32b
+    └● hello [U]
+    b1d43cd340a6b095b41ad645446b6800  greeted
+    Legend: ○:ineligible ●:eligible ▹:active ▸:running □:completed
+
+The same can be accomplished in Python (such as within a Jupyter cell) via,
+
+.. code-block:: python
+
+    project = MyProject.init_project()
+    project.print_status(detailed=True, parameters=["p"], hide_progress=True)
+
+Hiding progress bars can declutter output, which can be useful when run in Jupyter notebooks.
+
 As shown before, all *eligible* operations can then be executed with:
 
 .. code-block:: bash
