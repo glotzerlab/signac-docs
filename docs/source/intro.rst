@@ -23,7 +23,7 @@ Using this abstraction, **signac** can define workflows on an arbitrary **signac
 
 .. _signac_and_flow:
 .. figure:: images/signac-overview.svg
-            
+
     Overview of the **signac** framework.
     When a **signac** project is initialized, a ``workspace/`` directory is created.
     Each job is uniquely identified by its `state point`, a unique dictionary that contains relevant parameters describing the job.
@@ -32,9 +32,3 @@ Using this abstraction, **signac** can define workflows on an arbitrary **signac
     Here, the ``init.py`` file initializes an empty project and adds one job with state point ``{"t": 1}``.
     Next, users define a workflow using a subclass of **signac-flow**'s ``FlowProject``.
     The workflow shown has three operations (simulate, analyze, visualize) that, when executed, produce two new files ``results.txt`` and ``plot.png`` in the job directory.
-
-
-
-
-
-
