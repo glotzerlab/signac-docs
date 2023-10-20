@@ -1,7 +1,7 @@
 .. signac documentation master file, created by
    sphinx-quickstart on Fri Oct 23 17:41:32 2015.
    You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+   contain the root ``toctree`` directive.
 
 Welcome to the signac framework documentation!
 ==============================================
@@ -33,6 +33,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    signac (core) API <https://docs.signac.io/projects/core/en/latest/api.html>
    signac-flow API <https://docs.signac.io/projects/flow/en/latest/api.html>
    signac-dashboard API <https://docs.signac.io/projects/dashboard/en/latest/api.html>
+   synced_collections API <https://docs.signac.io/projects/synced-collections/en/latest/api.html>
 
 .. toctree::
    :maxdepth: 2
@@ -49,7 +50,6 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    flow-group
    aggregation
    hooks
-   collections
    configuration
    recipes
    tips_and_tricks
@@ -58,6 +58,7 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :maxdepth: 2
    :caption: Reference
 
+   glossary
    community
    scientific_papers
    GitHub <https://github.com/glotzerlab/signac>

@@ -11,13 +11,13 @@ This is a collection of recipes on how to solve typical problems using **signac*
     Move all recipes below into a 'General' section once we have added more recipes.
 
 
-Migrating (changing) the data space schema
+Migrating (changing) the project schema
 ==========================================
 
 Adding/renaming/deleting keys
 -----------------------------
 
-Oftentimes, one discovers at a later stage that important keys are missing from the metadata schema.
+Oftentimes, one discovers at a later stage that important :term:`parameters<parameter>` are missing from the :term:`project schema`.
 For example, in the tutorial we are modeling a gas using the ideal gas law, but we might discover later that important effects are not captured using this overly simplistic model and decide to replace it with the van der Waals equation:
 
 .. math::
@@ -44,19 +44,6 @@ The ``setdefault()`` function sets the value for :math:`a` and :math:`b` to 0 in
 
 
 .. _document-wide-migration:
-
-Initializing Jobs with Replica Indices
---------------------------------------
-If you want to initialize your workspace with multiple instances of the same state point, you may want to include a **replica_index** or **random_seed** parameter in the state point.
-
-.. code-block:: python
-
-    num_reps = 3
-    for i in range(num_reps):
-        for p in range(1, 11):
-            sp = {"p": p, "kT": 1.0, "N": 1000, "replica_index": i}
-            job = project.open_job(sp)
-            job.init()
 
 Applying document-wide changes
 ------------------------------
@@ -88,7 +75,7 @@ This approach makes it also easy to compare the pre- and post-migration states b
 Initializing state points with replica indices
 ==============================================
 
-We often require multiple jobs with the same state point to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can simply add a **replica_index** to the state point. For example, we can use the following code to generate 3 copies of each state point in a workspace:
+We often require multiple jobs with the same state point to collect enough information to make statistical inferences about the data. Instead of creating multiple projects to handle this, we can add a **replica_index** to the state point. For example, we can use the following code to generate 3 copies of each state point in a workspace:
 
 .. code-block:: python
 
@@ -110,7 +97,7 @@ We often require multiple jobs with the same state point to collect enough infor
 Defining a grid of state point values
 =====================================
 
-Many signac data spaces are structured like a "grid" where the goal is an exhaustive search or a Cartesian product of multiple sets of input parameters. While this can be done with nested ``for`` loops, that approach can be cumbersome for state points with many keys. Here we offer a helper function that can assist in this kind of initialization, inspired by `this StackOverflow answer <https://stackoverflow.com/a/5228294>`__:
+Some **signac** :term:`project schemas<project schema>` are structured like a "grid" where the goal is an exhaustive search or a Cartesian product of multiple sets of :term:`parameters<parameter>`. While this can be done with nested ``for`` loops, that approach can be cumbersome for state points with many keys. Here we offer a helper function that can assist in this kind of initialization, inspired by `this StackOverflow answer <https://stackoverflow.com/a/5228294>`__:
 
 .. code-block:: python
 
@@ -144,7 +131,7 @@ Creating parameter-dependent operations
 =======================================
 
 Operations defined as a function as part of a **signac-flow** workflow can only have one required argument: the job.
-That is to ensure reproduciblity of these operations.
+That is to ensure reproducibility of these operations.
 An operation should be a true function of the job's data without any hidden parameters.
 
 Here we show how to define operations that are a function of one or more additional parameters without violating the above mentioned principle.
@@ -157,7 +144,6 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 
 
     def setup_foo_workflow(bar):
-
         # Make sure to make the operation-name a function of the parameter(s)!
         @Project.post(lambda job: bar in job.doc.get("foo", []))
         @Project.operation(f"foo-{bar}")
@@ -174,7 +160,7 @@ Assuming that we have an operation called *foo*, which depends on parameter *bar
 Using signac-flow with MATLAB or other software without Python interface
 ========================================================================
 
-The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``flow.cmd`` decorator.
+The easiest way to integrate software that has no native Python interface is to implement **signac-flow** operations in combination with the ``FlowProject.operation`` ``cmd`` keyword argument.
 Assuming that we have a MATLAB script called ``prog.m`` within the project root directory:
 
 .. code-block:: matlab
@@ -191,8 +177,7 @@ Then, we could implement a simple operation that passes it some metadata paramet
 
 .. code-block:: python
 
-    @FlowProject.operation
-    @flow.cmd
+    @FlowProject.operation(cmd=True)
     def compute_volume(job):
         return "matlab -r 'prog {job.sp.foo} {job.sp.bar}' > {job.ws}/output.txt"
 
@@ -247,24 +232,22 @@ You could run this operation directly with: ``mpiexec -n 2 python project.py run
         comm.barrier()
 
 
-MPI-operations with ``flow.cmd``
---------------------------------
+MPI-operations using the command line
+-------------------------------------
 
-Alternatively, you can implement an MPI-parallelized operation with the ``flow.cmd`` decorator, optionally in combination with the ``FlowProject.operation.with_directives`` decorator.
+Alternatively, you can implement an MPI-parallelized operation with the ``cmd`` keyword argument of the ``FlowProject.operation`` decorator.
 This strategy lets you define the number of ranks directly within the code and is also the only possible strategy when integrating external programs without a Python interface.
 
 Assuming that we have an MPI-parallelized program named ``my_program``, which expects an input file as its first argument and which we want to run on two ranks, we could implement the operation like this:
 
 .. code-block:: python
 
-    @FlowProject.operation.with_directives({"np": 2})
-    @flow.cmd
+    @FlowProject.operation(cmd=True, directives={"np": 2})
     def hello_mpi(job):
         return "mpiexec -n 2 mpi_program {job.ws}/input_file.txt"
 
-The ``flow.cmd`` decorator instructs **signac-flow** to interpret the operation as a command rather than a Python function.
-The ``@FlowProject.operation.with_directives(...)`` decorator provides additional instructions on how to execute this operation.
-The decorator ``@FlowProject.operation`` does not assign any directives to the operation.
+The ``cmd`` keyword argument instructs **signac-flow** to interpret the operation as a command rather than a Python function.
+The ``directives`` keyword argument provides additional instructions on how to execute this operation.
 However, some script templates, including those designed for HPC cluster submissions, will use the value provided by the ``np`` key to compute the required compute ranks for a specific submission.
 
 .. todo::
@@ -273,7 +256,7 @@ However, some script templates, including those designed for HPC cluster submiss
 
 .. tip::
 
-  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``FlowProject.operation.with_directives({"np": lambda job: job.sp.system_size // 1000})``.
+  You do not have to *hard-code* the number of ranks, it may be a function of the job, *e.g.*: ``FlowProject.operation(directives={"np": lambda job: job.sp.system_size // 1000})``.
 
 
 MPI-operations with custom script templates
@@ -326,7 +309,7 @@ For example, assuming that we wanted to use a singularity container named ``soft
 
 .. code-block:: jinja
 
-    @Project.operation.with_directives({"executable": "singularity exec software.simg python"})
+    @Project.operation(directives={"executable": "singularity exec software.simg python"})
     def containerized_operation(job):
         pass
 
@@ -343,7 +326,7 @@ If you are using the ``run`` command for execution, simply execute the whole scr
     This means that the actual submission, (e.g. ``python project.py submit`` or similar) will need to be executed with a **local** Python executable.
 
     To avoid issues with dependencies that are only available in the container image, move imports into the operation function.
-    Condition functions will be executed during the submission process to determine *what* to submit, so depedencies for those must be installed into the local environment as well.
+    Condition functions will be executed during the submission process to determine *what* to submit, so dependencies for those must be installed into the local environment as well.
 
 .. tip::
 
@@ -401,23 +384,24 @@ different environment.
     desktop = Project.make_group(name="desktop")
 
 
-    @supercomputer.with_directives(
-        directives=dict(
-            ngpu=4, executable="singularity exec --nv /path/to/container python"
-        )
+    @supercomputer(
+        directives={
+            "ngpu": 4,
+            "executable": "singularity exec --nv /path/to/container python",
+        }
     )
-    @laptop.with_directives(directives=dict(ngpu=0))
-    @desktop.with_directives(directives=dict(ngpu=1))
+    @laptop(directives={"ngpu": 0})
+    @desktop(directives={"ngpu": 1})
     @Project.operation
     def op1(job):
         pass
 
 
-    @supercomputer.with_directives(
+    @supercomputer(
         directives=dict(nranks=40, executable="singularity exec /path/to/container python")
     )
-    @laptop.with_directives(directives=dict(nranks=4))
-    @desktop.with_directives(directives=dict(nranks=8))
+    @laptop(directives={"nranks": 4})
+    @desktop(directives={"nranks": 8})
     @Project.operation
     def op2(job):
         pass
@@ -443,7 +427,7 @@ Passing command line options to operations run in a container or other environme
 
 When executing an operation in a container (e.g. Singularity or Docker) or a different environment,
 the operation will not receive command line flags from the submitting process. ``FlowGroups`` can be
-used to pass options to an ``exec`` command. This example shows how to use the `run_options`
+used to pass options to an ``exec`` command. This example shows how to use the ``run_options``
 argument to tell an operation executed in a container to run in debug mode.
 
 .. code-block:: python
@@ -463,7 +447,7 @@ argument to tell an operation executed in a container to run in debug mode.
 
     @debug
     @Project.post.isfile("a.txt")
-    @Project.operation.with_directives({"executable": "/path/to/container exec python3"})
+    @Project.operation(directives={"executable": "/path/to/container exec python3"})
     def op1(job):
         with open(job.fn("a.txt"), "w") as fh:
             fh.write("hello world")

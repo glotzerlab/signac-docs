@@ -10,6 +10,6 @@
 ## Checklist:
 <!-- Please select all items that apply either now or after creating the pull request. -->
 <!-- If you are unsure about any of these items, do not hesitate to ask! -->
-- [ ] I am familiar with the [**Contributing Guidelines**](https://github.com/glotzerlab/signac-docs/blob/master/CONTRIBUTING.md).
-- [ ] I agree with the terms of the [**Contributor Agreement**](https://github.com/glotzerlab/signac-docs/blob/master/ContributorAgreement.md).
-- [ ] My code follows the [code style guideline](https://github.com/glotzerlab/signac-docs/blob/master/CONTRIBUTING.md#code-style) of this project.
+- [ ] I am familiar with the [**Contributing Guidelines**](https://github.com/glotzerlab/signac-docs/blob/main/CONTRIBUTING.md).
+- [ ] I agree with the terms of the [**Contributor Agreement**](https://github.com/glotzerlab/signac-docs/blob/main/ContributorAgreement.md).
+- [ ] My code follows the [code style guideline](https://github.com/glotzerlab/signac-docs/blob/main/CONTRIBUTING.md#code-style) of this project.

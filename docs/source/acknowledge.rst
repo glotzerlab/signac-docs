@@ -46,15 +46,6 @@ If your paper makes use of the **signac-flow** features for aggregation or group
 
 --------
 
-If possible, we also recommend including a citation of the associated Zenodo resource:
-
-.. bibliography::
-    :filter: False
-
-    signac_zenodo
-
---------
-
 To cite these references, you can use the following BibTeX entries:
 
 

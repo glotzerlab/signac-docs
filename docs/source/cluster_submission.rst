@@ -95,7 +95,7 @@ The ``--parallel`` flag will start the bundled job-operations and run them as ba
 
     The ``--parallel`` option will not distribute operations among multiple GPUs. Use :ref:`aggregation` instead.
     To distribute across multiple GPUs, clusters may require a split MPI communicator.
-    An example of this behavior can be found in the `signac-examples project flow.aggregation-mpi <https://github.com/glotzerlab/signac-examples/tree/master/projects/flow.aggregation-mpi>`__.
+    An example of this behavior can be found in the `signac-examples project flow.aggregation-mpi <https://github.com/glotzerlab/signac-examples/tree/main/projects/flow.aggregation-mpi>`__.
 
 .. _cluster_submission_directives:
 
@@ -112,7 +112,7 @@ For example, to specify that a parallelized operation requires **4** processing 
     from multiprocessing import Pool
 
 
-    @FlowProject.operation.with_directives({"np": 4})
+    @FlowProject.operation(directives={"np": 4})
     def hello(job):
         with Pool(4) as pool:
             print("hello", job)
@@ -125,7 +125,7 @@ All directives are essentially conventions, the ``np`` directive in particular m
 
 .. tip::
 
-    Note that all directives may be specified as callables, e.g. ``FlowProject.operation.with_directives({"np": lambda job: job.doc.np})``.
+    Note that all directives may be specified as callables, e.g. ``FlowProject.operation(directives={"np": lambda job: job.doc.np})``.
 
 Available directives
 --------------------
@@ -174,27 +174,27 @@ Using these directives and their combinations allows us to realize the following
 .. glossary::
 
     serial:
-      ``@FlowProject.operation.with_directives()``
+      ``@FlowProject.operation()``
 
       This operation is a simple serial process, no directive needed.
 
     parallelized:
-      ``@FlowProject.operation.with_directives({"np": 4})``
+      ``@FlowProject.operation(directives={"np": 4})``
 
       This operation requires 4 processing units.
 
     MPI parallelized:
-      ``@FlowProject.operation.with_directives({"nranks": 4})``
+      ``@FlowProject.operation(directives={"nranks": 4})``
 
       This operation requires 4 MPI ranks.
 
     MPI/OpenMP Hybrid:
-      ``@FlowProject.operation.with_directives({"nranks": 4, "omp_num_threads": 2})``
+      ``@FlowProject.operation(directives={"nranks": 4, "omp_num_threads": 2})``
 
       This operation requires 4 MPI ranks with 2 OpenMP threads per rank.
 
     GPU:
-      ``@FlowProject.operation.with_directives({"ngpu": 1})``
+      ``@FlowProject.operation(directives={"ngpu": 1})``
 
       The operation requires one GPU for execution.
 

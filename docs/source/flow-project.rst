@@ -52,11 +52,9 @@ Operations
 ==========
 
 It is highly recommended to divide individual modifications of your project's data space into distinct functions.
-
-In this context, an *operation* is defined as a function whose only positional argument is an instance of :py:class:`~signac.contrib.job.Job` (in the special case of :ref:`aggregate operations <aggregation>`, variable positional arguments ``*jobs`` are permitted).
-
+In this context, an *operation* is defined as a function whose only positional arguments are instances of :py:class:`~signac.job.Job`.
 We will demonstrate this concept with a simple example.
-Let's initialize a project with a few jobs, by executing the following ``init.py`` script within a ``~/my_project`` directory:
+Let's initialize a signac :term:`project` with a few :term:`jobs<job>`, by executing the following ``init.py`` script within a ``~/my_project`` directory:
 
 .. code-block:: python
 
@@ -68,7 +66,7 @@ Let's initialize a project with a few jobs, by executing the following ``init.py
     for i in range(10):
         project.open_job({"a": i}).init()
 
-A very simple *operation*, which creates a file called ``hello.txt`` within a job's workspace directory, could be implemented like this:
+A very simple *operation*, which creates a file called ``hello.txt`` within the :term:`job directory`, could be implemented like this:
 
 .. code-block:: python
 
@@ -92,6 +90,11 @@ A very simple *operation*, which creates a file called ``hello.txt`` within a jo
     if __name__ == "__main__":
         MyProject().main()
 
+.. tip::
+
+    By default operations only act on a single job and can simply be defined with the signature ``def op(job)``.
+    When using :ref:`aggregate operations <aggregation>`, it is recommended to allow the operation to accept a variable number of jobs using a variadic parameter ``*jobs``, so that the operation is not restricted to a specific aggregate size.
+
 
 .. _conditions:
 
@@ -101,8 +104,8 @@ Conditions
 Here the :py:meth:`~flow.FlowProject.operation` decorator function specifies that the ``hello`` operation function is part of our workflow.
 If we run ``python project.py run``, **signac-flow** will execute ``hello`` for all jobs in the project.
 
-However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job's workspace.
-To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job workspace:
+However, we only want to execute ``hello`` if ``hello.txt`` does not yet exist in the job directory.
+To do this, we need to create a condition function named ``greeted`` that tells us if ``hello.txt`` already exists in the job directory:
 
 
 .. code-block:: python
@@ -151,8 +154,8 @@ The entirety of the code is as follows:
     for more information.
 
 We can define both :py:meth:`~flow.FlowProject.pre` and :py:meth:`~flow.FlowProject.post` conditions, which allow us to define arbitrary workflows as a `directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`__.
-A operation is only executed if **all** pre-conditions are met, and at *at least one* post-condition is not met.
-These are added above a `~flow.FlowProject.operation` decorator.
+An operation is only executed if **all** preconditions are met, and at *at least one* postcondition is not met.
+These are added above a :attr:`~flow.FlowProject.operation` decorator.
 Using these decorators before declaring a function an operation is an error.
 
 .. tip::
@@ -229,7 +232,7 @@ The Project Status
 The :py:class:`~flow.FlowProject` class allows us to generate a **status** view of our project.
 The status view provides information about which conditions are met and what operations are pending execution.
 
-A *label-function* is a condition function which will be shown in the **status** view.
+A *label function* is a condition function which will be shown in the **status** view.
 We can convert any condition function into a label function by adding the :py:meth:`~.flow.FlowProject.label` decorator:
 
 .. code-block:: python
@@ -238,13 +241,13 @@ We can convert any condition function into a label function by adding the :py:me
     def greeted(job):
         return job.isfile("hello.txt")
 
-We will reset the workflow for only a few jobs to get a more interesting *status* view:
+We will reset the workflow for only a few jobs to get a more interesting status view:
 
 .. code-block:: bash
 
     ~/my_project $ signac find a.\$lt 5 | xargs -I{} rm workspace/{}/hello.txt
 
-We then generate a *detailed* status view with:
+We then generate a detailed status view with:
 
 .. code-block:: bash
 
@@ -279,6 +282,47 @@ We then generate a *detailed* status view with:
 
 This view provides information about what labels are met for each job and what operations are eligible for execution.
 If we did things right, then only those jobs without the ``greeted`` label should have the ``hello`` operation pending.
+
+We may hide the progress bar when generating the status view using the ``--hide-progress`` flag.
+
+.. code-block:: bash
+
+    ~/my_project $ python project.py status --detailed --stack --pretty --hide-progress
+    # Overview:
+    Total # of jobs: 10
+
+    label    ratio
+    -------  -------------------------------------------------
+    greeted  |####################--------------------| 50.00%
+
+    # Detailed View:
+    job_id                            labels
+    --------------------------------  --------
+    0d32543f785d3459f27b8746f2053824  greeted
+    14fb5d016557165019abaac200785048
+    └● hello [U]
+    2af7905ebe91ada597a8d4bb91a1c0fc
+    └● hello [U]
+    2e6ba580a9975cf0c01cb3c3f373a412  greeted
+    42b7b4f2921788ea14dac5566e6f06d0
+    └● hello [U]
+    751c7156cca734e22d1c70e5d3c5a27f  greeted
+    81ee11f5f9eb97a84b6fc934d4335d3d  greeted
+    9bfd29df07674bc4aa960cf661b5acd2
+    └● hello [U]
+    9f8a8e5ba8c70c774d410a9107e2a32b
+    └● hello [U]
+    b1d43cd340a6b095b41ad645446b6800  greeted
+    Legend: ○:ineligible ●:eligible ▹:active ▸:running □:completed
+
+The same can be accomplished in Python (such as within a Jupyter cell) via,
+
+.. code-block:: python
+
+    project = MyProject.init_project()
+    project.print_status(detailed=True, parameters=["p"], hide_progress=True)
+
+Hiding progress bars can declutter output, which can be useful when run in Jupyter notebooks.
 
 As shown before, all *eligible* operations can then be executed with:
 
