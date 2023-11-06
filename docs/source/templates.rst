@@ -55,9 +55,11 @@ The third line is the actual command that we want to add and the fourth line ens
 
 .. note::
 
-    This custom HPC `class` (see code below) should be stored in its own `python` file (named `hpc_setup.py`) in the main directory and not in the `project.py` file.
-    Storing it in the `project.py` file will result in the following warning, but the code should still execute properly.
-    You will also need to `import hpc_setup` in the `project.py` file.
+    The custom environment class should be defined in and then imported from a separate Python module file (e.g., `environments.py`) in the project root directory and not in the `project.py` file to avoid an inconsequential warning.
+    Defining it within in the `project.py` module will produce the warning shown below, but the code should still execute as expected.
+
+    "WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'"
+    
 
 .. code-block:: python
 
@@ -71,9 +73,8 @@ The third line is the actual command that we want to add and the fourth line ens
         # are stored in the 'templates' folder.
         template = "hpc_name.sh"
 
-.. warning::
 
-    WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'.
+    
 
 The base template
 =================
