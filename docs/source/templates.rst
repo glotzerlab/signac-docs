@@ -59,6 +59,7 @@ The third line is the actual command that we want to add and the fourth line ens
     Storing it in the `project.py` file will result in the following warning, but the code should still execute properly.
 
 .. code-block:: python
+
     class HPC_name(DefaultSlurmEnvironment):
         """Subclass of DefaultSlurmEnvironment for 'hpc_name' HPC."""
 
@@ -68,6 +69,7 @@ The third line is the actual command that we want to add and the fourth line ens
         # The 'template' file contains the custom instructions to the HPC submission script, which
         # are stored in the 'templates' folder.
         template = "hpc_name.sh"
+        
 .. warning::
 
     WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'.
