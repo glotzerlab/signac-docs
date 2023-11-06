@@ -62,9 +62,9 @@ The third line is the actual command that we want to add and the fourth line ens
     class HPC_name(DefaultSlurmEnvironment):
         """Subclass of DefaultSlurmEnvironment for 'hpc_name' HPC."""
 
-        # Find the hostname by loggin in the HPC and using the 'hostname' command.
-        # In this case 'hostname' produced 'hpc_loggin_node-slurm-2\.hpc_name\.university_name\.edu'.
-        hostname_pattern = r"hpc_loggin_node-slurm-.\.hpc_name\.university_name\.edu"
+        # Find the hostname for the HPC by using the 'hostname' command.
+        # In this case 'hostname' produced 'hpc_node-slurm-2\.hpc_name\.university_name\.edu'.
+        hostname_pattern = r"hpc_node-slurm-.\.hpc_name\.university_name\.edu"
         # The 'template' file contains the custom instructions to the HPC submission script, which
         # are stored in the 'templates' folder.
         template = "hpc_name.sh"
