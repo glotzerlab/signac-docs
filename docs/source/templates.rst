@@ -55,7 +55,7 @@ The third line is the actual command that we want to add and the fourth line ens
 
 .. note::
 
-    This custom HPC class `class` (see code below) should be stored in its own `python` file (named `hpc_setup.py`) in the main directory and not in the the `project.py` file.
+    This custom HPC `class` (see code below) should be stored in its own `python` file (named `hpc_setup.py`) in the main directory and not in the the `project.py` file.
     Storing it in the `project.py` file will result in the following warning, but the code should still execute properly.
 
 .. code-block:: python
