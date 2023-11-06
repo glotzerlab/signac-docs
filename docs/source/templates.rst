@@ -55,17 +55,18 @@ The third line is the actual command that we want to add and the fourth line ens
 
 .. note::
 
-    This custom HPC class `class` (see code below) should be stored in its own `python` file (named `hpc_setup.py`) in the main directory and not in the the `project.py` file.  
-    Storing it in the `project.py` file will result in the following warning, but the code should still execute properly.  
+    This custom HPC class `class` (see code below) should be stored in its own `python` file (named `hpc_setup.py`) in the main directory and not in the the `project.py` file.
+    Storing it in the `project.py` file will result in the following warning, but the code should still execute properly.
 
 .. code-block:: python
 
-    class HPC_name(DefaultSlurmEnvironment):  
+    class HPC_name(DefaultSlurmEnvironment):
         """Subclass of DefaultSlurmEnvironment for 'hpc_name' HPC."""
+
         # Find the hostname by loggin in the HPC and using the 'hostname' command.
         # In this case 'hostname' produced 'hpc_login_node-slurm-2\.hpc_name\.university_name\.edu'.
         hostname_pattern = r"hpc_login_node-slurm-.\.hpc_name\.university_name\.edu"
-        # The 'template' file contains the custom instructions to the HPC submission script, which 
+        # The 'template' file contains the custom instructions to the HPC submission script, which
         # are stored in the 'templates' folder.
         template = "hpc_name.sh"
 
