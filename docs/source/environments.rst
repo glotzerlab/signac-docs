@@ -43,12 +43,24 @@ Those are the steps usually required to define a new environment:
   2. Determine a `regular expression <https://en.wikipedia.org/wiki/Regular_expression>`_ that would match the output of :py:func:`socket.getfqdn()`.
   3. Create a template and specify the template name as ``template`` class variable.
 
+.. note::
+
+    The custom environment class should be defined in and then imported from a separate Python module file (e.g., `environments.py`) in the project root directory and not in the `project.py` file to avoid an inconsequential warning.
+    Defining it within in the `project.py` module will produce the warning shown below, but the code should still execute as expected.
+
+    "WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'"
+
+
 This is an example for a typical environment class definition:
 
 .. code-block:: python
 
       class MyUniversityCluster(flow.environment.DefaultSlurmEnvironment):
+          # Find the hostname for the HPC by using the 'hostname' command.
+          # In this case 'hostname' produced 'hpc_node-slurm-2\.hpc_name\.university_name\.edu'.
           hostname_pattern = r".*\.mycluster\.university\.edu$"  # Matches names like login.mycluster.university.edu
+          # The 'template' file contains the custom instructions to the HPC submission script, which
+        # are stored in the 'templates' folder.
           template = "myuniversity-mycluster.sh"
 
 Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`` directory within your project root directory.

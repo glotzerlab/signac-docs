@@ -53,29 +53,6 @@ The first line again indicates that this template extends an existing template b
 The second and last line indicate that the enclosed lines are to be placed in the *body* block of the base template.
 The third line is the actual command that we want to add and the fourth line ensures that the code provided by the base template within the body block is still added.
 
-.. note::
-
-    The custom environment class should be defined in and then imported from a separate Python module file (e.g., `environments.py`) in the project root directory and not in the `project.py` file to avoid an inconsequential warning.
-    Defining it within in the `project.py` module will produce the warning shown below, but the code should still execute as expected.
-
-    "WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'"
-
-
-.. code-block:: python
-
-    class HPC_name(DefaultSlurmEnvironment):
-        """Subclass of DefaultSlurmEnvironment for 'hpc_name' HPC."""
-
-        # Find the hostname for the HPC by using the 'hostname' command.
-        # In this case 'hostname' produced 'hpc_node-slurm-2\.hpc_name\.university_name\.edu'.
-        hostname_pattern = r"hpc_node-slurm-.\.hpc_name\.university_name\.edu"
-        # The 'template' file contains the custom instructions to the HPC submission script, which
-        # are stored in the 'templates' folder.
-        template = "hpc_name.sh"
-
-
-
-
 The base template
 =================
 
