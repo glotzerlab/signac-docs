@@ -59,7 +59,7 @@ The third line is the actual command that we want to add and the fourth line ens
     Defining it within in the `project.py` module will produce the warning shown below, but the code should still execute as expected.
 
     "WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'"
-    
+
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ The third line is the actual command that we want to add and the fourth line ens
         template = "hpc_name.sh"
 
 
-    
+
 
 The base template
 =================
