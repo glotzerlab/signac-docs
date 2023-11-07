@@ -56,11 +56,7 @@ This is an example for a typical environment class definition:
 .. code-block:: python
 
       class MyUniversityCluster(flow.environment.DefaultSlurmEnvironment):
-          # Find the hostname for the HPC by using the 'hostname' command.
-          # In this case 'hostname' produced 'hpc_node-slurm-2\.hpc_name\.university_name\.edu'.
           hostname_pattern = r".*\.mycluster\.university\.edu$"  # Matches names like login.mycluster.university.edu
-          # The 'template' file contains the custom instructions to the HPC submission script, which
-          # are stored in the 'templates' folder.
           template = "myuniversity-mycluster.sh"
 
 Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`` directory within your project root directory.
