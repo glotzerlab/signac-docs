@@ -43,7 +43,6 @@ Those are the steps usually required to define a new environment:
   2. Determine a `regular expression <https://en.wikipedia.org/wiki/Regular_expression>`_ that would match the output of :py:func:`socket.getfqdn()`.
   3. Create a template and specify the template name as ``template`` class variable.
 
-
 This is an example for a typical environment class definition:
 
 .. code-block:: python
