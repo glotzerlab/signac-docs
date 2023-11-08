@@ -65,7 +65,7 @@ Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`
     Defining the custom environment class within in the `project.py` module will produce
     the warning shown below, but the code should still execute as expected.
 
-    .. code-block:: python
+.. code-block:: python
 
     WARNING:flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'
 
