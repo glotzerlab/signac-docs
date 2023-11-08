@@ -67,7 +67,9 @@ Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`
 
 .. code-block:: python
 
-    warning("flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'")
+    warning(
+        "flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'"
+    )
 
 
 As an example on how to write a submission script template, this would be a viable template to define the header for a SLURM scheduler:
