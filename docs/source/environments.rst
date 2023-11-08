@@ -55,7 +55,16 @@ Then, add the ``myuniversity-mycluster.sh`` template script to the ``templates/`
 
 .. important::
 
-    The new environment will be automatically registered and used as long as it is either defined within the same module as your :py:class:`~flow.FlowProject` class or its module is imported into the same module.
+    To avoid an inconsequential warning and automatically register the new environment,
+    the custom environment class should be defined in and then imported from a separate
+    Python module file (e.g., `environments.py`), located in the the project root directory
+    and not in the `project.py` file.  The `project.py` file should import the
+    Python module file (e.g., `environments.py`) and define the :py:class:`~flow.FlowProject`
+    class's module.
+    Defining the custom environment class within in the `project.py` module will produce
+    the warning, "flow.project:Unable to load template from package. Original Error '__main__.__spec__ is None'",
+    but the code should still execute as expected.
+
 
 As an example on how to write a submission script template, this would be a viable template to define the header for a SLURM scheduler:
 
