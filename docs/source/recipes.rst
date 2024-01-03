@@ -82,7 +82,7 @@ We often require multiple jobs with the same state point to collect enough infor
     # init.py
     import signac
 
-    project = signac.init_project("ideal-gas-project")
+    project = signac.init_project()
     num_reps = 3
 
     jobs = project.find_jobs({"replica_index.$exists": False})
@@ -105,7 +105,7 @@ Some **signac** :term:`project schemas<project schema>` are structured like a "g
     import itertools
     import signac
 
-    project = signac.init_project("ideal-gas-project")
+    project = signac.init_project()
 
 
     def grid(gridspec):

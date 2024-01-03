@@ -26,7 +26,7 @@ This is an example for a basic template that would be sufficient for the simple 
 
 .. code-block:: jinja
 
-    cd {{ project.config.project_dir }}
+    cd {{ project.path }}
 
     {% for operation in operations %}
     {{ operation.cmd }}
