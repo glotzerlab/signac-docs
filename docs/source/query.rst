@@ -168,8 +168,8 @@ Exists Operator
 ---------------
 
 If you want to check for the existence of a specific key but do not care about its actual value, use the ``$exists``-operator.
-For example, the expression ``{'p': {'$exists': true}}`` will return all documents that *have a key p* regardless of its value.
-Likewise, using ``false`` as argument would return all documents that have no key with the given name.
+For example, the expression ``{'p': {'$exists': True}}`` will return all documents that *have a key p* regardless of its value.
+Likewise, using ``False`` as argument would return all documents that have no key with the given name.
 
 .. _array-operator:
 
@@ -256,16 +256,15 @@ Querying via operator is supported using the ``.``-operator.
 Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
 The following list shows simplified expressions on the left and their equivalent standard expression on the right.
-Note the use of lowercase booleans in JSON.
 
 .. code-block:: bash
 
     simplified            standard
     --------------------  ------------------------------------
 
-    p                     {'p': {'$exists': true}}
+    p                     {'p': {'$exists': True}}
     p 2                   {'p': 2}
-    p 2 kT                {'p': 2, 'kT': {'$exists': true}}
+    p 2 kT                {'p': 2, 'kT': {'$exists': True}}
     p 2 kT.$gte 1.0       {'p': 2, 'kT': {'$gte': 1.0}}
     protocol /assembly/   {'protocol': {'$regex': 'assembly'}}
 
