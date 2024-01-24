@@ -237,7 +237,7 @@ For example, to match all documents where the value for *protocol* contains the 
 
 .. code-block:: bash
 
-    signac find '{"protocal": {"$regex": "assembly"}}'
+    signac find '{"protocol": {"$regex": "assembly"}}'
 
 This operator internally applies the :py:func:`re.search` function and will never match if the value is not of type ``str``.
 
@@ -313,7 +313,7 @@ The following list shows simplified ``signac find`` expressions on the left, ful
     p 2                  {'p': 2}                              '{"p": 2}'
     p 2 kT               {'p': 2, 'kT': {'$exists': True}}     '{"p": 2, "kT": {"$exists": true}}'
     p 2 kT.$gte 1.0      {'p': 2, 'kT': {'$gte': 1.0}}         '{"p": 2, "kT.": 1.0}'
-    protocol /assembly/  {'protocol': {'$regex': 'assembly'}}  '{"protocal": {"$regex": "assembly"}}'
+    protocol /assembly/  {'protocol': {'$regex': 'assembly'}}  '{"protocol": {"$regex": "assembly"}}'
 
 .. important::
 
