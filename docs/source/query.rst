@@ -197,7 +197,7 @@ Likewise, using ``False`` as argument would return all documents that have no ke
 
 .. code-block:: python
 
-    project.find_jobs({'p': {'$exists': True}})
+    project.find_jobs({"p": {"$exists": True}})
 
 On the command line, this expression must be written in JSON encapsulated in single quotes:
 
