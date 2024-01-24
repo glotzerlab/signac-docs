@@ -21,9 +21,7 @@ All community members are expected to follow the signac project's `code of condu
 Support
 -------
 
-The signac community offers real-time user support through the `Slack workspace`_.
-The project's primary communication channel for code development is the Slack workspace.
-Alternatively, you can send an email to `signac-support@umich.edu <signac-support@umich.edu>`_.
+The signac community offers user support and communicates about code development through GitHub Discussions on the respective repositories and the `Slack workspace`_.
 
 Please use the issue trackers of the individual :ref:`packages <package-overview>` to file bug reports or request new features!
 
@@ -48,7 +46,7 @@ Contributions
 
 Contributions to **signac** are very welcome!
 We highly appreciate contributions in the form of **user feedback** and **bug reports**.
-Such contributions are best communicated through our `Slack workspace`_, which we use for developer discussions, the issue trackers of individual :ref:`packages <package-overview>`, or via `email <signac-support@umich.edu>`_.
+Such contributions are best communicated through our `Slack workspace`_, or the issue trackers or GitHub Discussions of individual :ref:`packages <package-overview>`.
 Developers are invited to contribute to the framework by pull request to the appropriate package repository.
 The source code for all packages is hosted on `GitHub`_.
 We recommend discussing new features in form of a proposal on the issue tracker for the appropriate project prior to development.
