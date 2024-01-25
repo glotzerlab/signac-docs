@@ -312,7 +312,7 @@ The following list shows simplified ``signac find`` expressions on the left, ful
     p                    {'p': {'$exists': True}}              '{"p": {'$exists': true}}'
     p 2                  {'p': 2}                              '{"p": 2}'
     p 2 kT               {'p': 2, 'kT': {'$exists': True}}     '{"p": 2, "kT": {"$exists": true}}'
-    p 2 kT.$gte 1.0      {'p': 2, 'kT': {'$gte': 1.0}}         '{"p": 2, "kT.": 1.0}'
+    p 2 kT.$gte 1.0      {'p': 2, 'kT': {'$gte': 1.0}}         '{"p": 2, "kT.$gte": 1.0}' or '{"p": 2, "kT": {"$gte": 1.0}}'
     protocol /assembly/  {'protocol': {'$regex': 'assembly'}}  '{"protocol": {"$regex": "assembly"}}'
 
 .. important::
