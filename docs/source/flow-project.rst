@@ -62,7 +62,7 @@ Let's initialize a signac :term:`project` with a few :term:`jobs<job>`, by execu
 
     import signac
 
-    project = signac.init_project("MyProject")
+    project = signac.init_project()
     for i in range(10):
         project.open_job({"a": i}).init()
 

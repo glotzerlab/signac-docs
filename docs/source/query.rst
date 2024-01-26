@@ -247,11 +247,11 @@ Simplified Syntax on the Command Line
 It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
 In this case filter arguments are expected to be provided as valid JSON expressions.
 For simple filters, you can use a simplified syntax instead of writing JSON.
-For example, instead of ``{'p': 2}``, you can simply type ``p 2``.
+For example, instead of ``{'p': 2}``, you can type ``p 2``.
 
 A simplified expression consists of key-value pairs in alternation.
 The first argument will then be interpreted as the first key, the second argument as the first value, the third argument as the second key, and so on.
-If you provide an odd number of arguments, the last value will default to ``{'$exists': True}``.
+If you provide an odd number of arguments, the last value will default to ``{'$exists': true}``.
 Querying via operator is supported using the ``.``-operator.
 Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
