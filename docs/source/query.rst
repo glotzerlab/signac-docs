@@ -81,7 +81,7 @@ Simple Selection
 To select documents by one or more specific key-value pairs, provide these directly as filter arguments.
 For example, assuming that we have a list of documents with values *N*, *kT*, and *p*, as such:
 
-.. code-block:: bash
+.. code-block:: python
 
     1: {"N": 1000, "kT": 1.0, "p": 1}
     2: {"N": 1000, "kT": 1.2, "p": 2}
@@ -98,7 +98,7 @@ Nested Keys
 To match **nested** keys, avoid nesting the filter arguments, but instead use the ``.``-operator.
 For example, if the documents shown in the example above were all nested like this:
 
-.. code-block:: bash
+.. code-block:: python
 
     1: {"statepoint": {"N": 1000, "kT": 1.0, "p": 1}}
     2: {"statepoint": {"N": 1000, "kT": 1.2, "p": 2}}
