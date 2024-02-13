@@ -9,7 +9,7 @@ One of the key features of **signac** is the possibility to search the :term:`pr
 
 It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
 In this case, filter arguments are expected to be provided as valid JSON expressions.
-Notably, JSON writes booleans like ``true`` and ``false`` as opposed to Python's ``True`` and ``False``.
+Notably, JSON (Javascript's) Booleans are ``true`` and ``false`` as opposed to Python's ``True`` and ``False``.
 
 
 Query Namespaces
@@ -199,7 +199,7 @@ Likewise, using ``False`` as argument would return all documents that have no ke
 
     project.find_jobs({"p": {"$exists": True}})
 
-On the command line, this expression must be written in JSON encapsulated in single quotes:
+On the command line, this expression must be valid JSON encapsulated in single quotes:
 
 .. code-block:: bash
 
