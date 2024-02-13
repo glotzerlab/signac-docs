@@ -307,13 +307,13 @@ The following list shows simplified ``signac find`` expressions on the left, ful
 
 .. code-block:: bash
 
-    simplified            full Python                           full JSON
-    -------------------  ------------------------------------  --------------------------------
-    p                    {'p': {'$exists': True}}              '{"p": {'$exists': true}}'
-    p 2                  {'p': 2}                              '{"p": 2}'
-    p 2 kT               {'p': 2, 'kT': {'$exists': True}}     '{"p": 2, "kT": {"$exists": true}}'
-    p 2 kT.$gte 1.0      {'p': 2, 'kT': {'$gte': 1.0}}         '{"p": 2, "kT.$gte": 1.0}' or '{"p": 2, "kT": {"$gte": 1.0}}'
-    protocol /assembly/  {'protocol': {'$regex': 'assembly'}}  '{"protocol": {"$regex": "assembly"}}'
+    simplified JSON      full JSON                                                      Python
+    -------------------  --------------------------------                               ------------------------------------
+    p                    '{"p": {'$exists': true}}'                                     {'p': {'$exists': True}}
+    p 2                  '{"p": 2}'                                                     {'p': 2}
+    p 2 kT               '{"p": 2, "kT": {"$exists": true}}'                            {'p': 2, 'kT': {'$exists': True}}
+    p 2 kT.$gte 1.0      '{"p": 2, "kT.$gte": 1.0}' or '{"p": 2, "kT": {"$gte": 1.0}}'  {'p': 2, 'kT': {'$gte': 1.0}}
+    protocol /assembly/  '{"protocol": {"$regex": "assembly"}}'                         {'protocol': {'$regex': 'assembly'}}
 
 .. important::
 
