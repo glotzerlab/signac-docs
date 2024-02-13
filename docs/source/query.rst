@@ -303,17 +303,17 @@ If you provide an odd number of arguments, the last value will default to ``{'$e
 Querying via operator is supported using the ``.``-operator.
 Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
-The following list shows simplified ``signac find`` expressions on the left, full query syntax in Python in the middle, and full query syntax in JSON on the right.
+The following table shows simplified ``signac find`` expressions on the left, full query syntax in JSON in the middle, and full query syntax in Python the right.
 
-.. code-block:: bash
-
-    simplified JSON      full JSON                                                      Python
-    -------------------  --------------------------------                               ------------------------------------
-    p                    '{"p": {'$exists': true}}'                                     {'p': {'$exists': True}}
-    p 2                  '{"p": 2}'                                                     {'p': 2}
-    p 2 kT               '{"p": 2, "kT": {"$exists": true}}'                            {'p': 2, 'kT': {'$exists': True}}
-    p 2 kT.$gte 1.0      '{"p": 2, "kT.$gte": 1.0}' or '{"p": 2, "kT": {"$gte": 1.0}}'  {'p': 2, 'kT': {'$gte': 1.0}}
-    protocol /assembly/  '{"protocol": {"$regex": "assembly"}}'                         {'protocol': {'$regex': 'assembly'}}
+===================  =====================================================================  ====================================
+simplified JSON      full JSON (in ``''`` for command line)                                 Python
+===================  =====================================================================  ====================================
+p                    ``'{"p": {'$exists': true}}'``                                         ``{'p': {'$exists': True}}``
+p 2                  ``'{"p": 2}'``                                                         ``{'p': 2}``
+p 2 kT               ``'{"p": 2, "kT": {"$exists": true}}'``                                ``{'p': 2, 'kT': {'$exists': True}}``
+p 2 kT.$gte 1.0      ``'{"p": 2, "kT.$gte": 1.0}'`` or ``'{"p": 2, "kT": {"$gte": 1.0}}'``  ``{'p': 2, 'kT': {'$gte': 1.0}}``
+protocol /assembly/  ``'{"protocol": {"$regex": "assembly"}}'``                             ``{'protocol': {'$regex': 'assembly'}}``
+===================  =====================================================================  ====================================
 
 .. important::
 
