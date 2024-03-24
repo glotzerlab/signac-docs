@@ -8,7 +8,7 @@ The **signac-flow** package uses jinja2_ templates to generate scripts for execu
 Templates for simple bash execution and submission to popular schedulers and compute clusters are shipped with the package.
 To customize the script generation, a user can replace the default template or customize any of the provided ones.
 
-.. _jinja2: http://jinja.pocoo.org/
+.. _jinja2: https://jinja.palletsprojects.com
 
 Replacing the default template
 ==============================
@@ -26,7 +26,7 @@ This is an example for a basic template that would be sufficient for the simple 
 
 .. code-block:: jinja
 
-    cd {{ project.config.project_dir }}
+    cd {{ project.path }}
 
     {% for operation in operations %}
     {{ operation.cmd }}

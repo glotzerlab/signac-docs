@@ -7,9 +7,9 @@ Query API
 As briefly described in :ref:`project-job-finding`, the :py:meth:`~signac.Project.find_jobs()` method provides much more powerful search functionality beyond simple selection of jobs with specific :term:`state points <state point>`.
 One of the key features of **signac** is the possibility to search the :term:`project` workspace to select desired subsets as needed.
 
-.. note::
-
-    The **signac** framework query API is a subset of the `MongoDB query API <https://docs.mongodb.com/manual/tutorial/query-documents/>`_!
+It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
+In this case, filter arguments are expected to be provided as valid JSON expressions.
+Notably, JSON (Javascript's) Booleans are ``true`` and ``false`` as opposed to Python's ``True`` and ``False``.
 
 
 Query Namespaces
@@ -23,7 +23,7 @@ Currently, the following prefixes are recognized:
   * **sp**: job :term:`state point`
   * **doc**: :term:`job document`
 
-For example, in order to select all jobs whose state point key *a* has the value "foo" and document key *b* has the value "bar", you would use:
+For example, to select all jobs whose state point key *a* has the value "foo" and document key *b* has the value "bar", you would use:
 
 .. code-block:: python
 
@@ -41,33 +41,44 @@ Basic Expressions
 =================
 
 Filter arguments are a mapping of expressions, where a single expression consists of a key-value pair.
-All selected documents must match these expressions.
+All selected documents will match these expressions.
+
 
 The simplest expression is an *exact match*.
-For example, in order to select all jobs whose state point key *a* has the value 42, you would use the following expression: ``{'a': 42}`` as follows:
+For example, in order to select all jobs whose state point key *a* has the value 42, you would use the following expression: ``{"a": 42}`` as follows:
 
 .. code-block:: python
 
     project.find_jobs({"a": 42})
+
+.. code-block:: bash
+
+    signac find '{"a": 42}'
 
 Select All
 ----------
 
 If you want to select the complete data set, don't provide any filter argument at all.
 The default argument of ``None`` or an empty expression ``{}`` will select all jobs or documents.
-As was previously demonstrated, iterating over all jobs in a project can be accomplished directly:
+As was previously demonstrated, iterating over all jobs in a project can be accomplished directly.
 
 .. code-block:: python
 
     for job in project:
         pass
 
+On the command line, ``signac find`` without an arguments will return a list of all jobs.
+
+.. code-block:: bash
+
+    signac find
+
 .. _simple-selection:
 
 Simple Selection
 ----------------
 
-To select documents by one or more specific key-value pairs, simply provide these directly as filter arguments.
+To select documents by one or more specific key-value pairs, provide these directly as filter arguments.
 For example, assuming that we have a list of documents with values *N*, *kT*, and *p*, as such:
 
 .. code-block:: python
@@ -111,7 +122,11 @@ If we wanted to match all documents where *p is greater than 2*, we would use th
 
 .. code-block:: python
 
-    {"p": {"$gt": 2}}
+    project.find_jobs({"p": {"$gt": 2}})
+
+.. code-block:: bash
+
+    signac find '{"p": {"$gt": 2}}'
 
 Note that we have replaced the value for p with the expression ``{'$gt': 2}`` to select all jobs with p values greater than 2.
 Here is a complete list of all available **arithmetic operators**:
@@ -119,9 +134,9 @@ Here is a complete list of all available **arithmetic operators**:
   * ``$eq``: equal to
   * ``$ne``: not equal to
   * ``$gt``: greater than
-  * ``$gte``: greater or equal than
+  * ``$gte``: greater or equal to
   * ``$lt``: less than
-  * ``$lte``: less or equal than
+  * ``$lte``: less than or equal to
 
 .. _near-operator:
 
@@ -151,25 +166,44 @@ For example, to find all documents where *p is greater than 2* **or** *kT=1.0*, 
 
 .. code-block:: python
 
-    {"$or": [{"p": {"$gt": 2}}, {"kT": 1.0}]}
+    project.find_jobs({"$or": [{"p": {"$gt": 2}}, {"kT": 1.0}]})
 
-Logical expressions may be nested, but cannot be the *value* of a key-value expression.
+.. code-block:: bash
+
+    signac find '{"$or": [{"p": {"$gt": 2}}, {"kT": 1.0}]}'
+
+
+Logical expressions may be nested but cannot be the *value* of a key-value expression.
 
 For the ``$not`` operator, we again construct a mapping with the operator as the key, but the value is a single expression rather than a list of expressions.
 For example, to find all jobs where a parameter *a* is not close to zero, we could use the following:
 
 .. code-block:: python
 
-    {"$not": {"a": {"$near": 0}}}
+    project.find_jobs({"$not": {"a": {"$near": 0}}})
 
 .. _exists-operator:
 
 Exists Operator
 ---------------
 
+.. warning::
+
+   Boolean expressions are written differently on the command line because the command line takes JSON formatting.
+
 If you want to check for the existence of a specific key but do not care about its actual value, use the ``$exists``-operator.
-For example, the expression ``{'p': {'$exists': True}}`` will return all documents that *have a key p* regardless of its value.
+For example, this expression will return all documents that *have a key p* regardless of its value.
 Likewise, using ``False`` as argument would return all documents that have no key with the given name.
+
+.. code-block:: python
+
+    project.find_jobs({"p": {"$exists": True}})
+
+On the command line, this expression must be valid JSON encapsulated in single quotes:
+
+.. code-block:: bash
+
+    signac find '{"p": {"$exists": true}}'
 
 .. _array-operator:
 
@@ -180,10 +214,14 @@ This operator may be used to determine whether specific keys have values, that a
 
 .. code-block:: python
 
-    {"p": {"$in": [1, 2, 3]}}
+    project.find_jobs({"p": {"$in": [1, 2, 3]}})
+
+.. code-block:: bash
+
+    signac find '{"p": {"$in": [1, 2, 3]}}'
 
 This would return all documents where the value for *p* is either 1, 2, or 3.
-The usage of ``$nin`` is equivalent, and will return all documents where the value is *not in* the given array.
+The usage of ``$nin`` is analogous and will return all documents where the value is *not in* the given array.
 
 .. _regex-operator:
 
@@ -195,7 +233,11 @@ For example, to match all documents where the value for *protocol* contains the 
 
 .. code-block:: python
 
-    {"protocol": {"$regex": "assembly"}}
+    project.find_jobs({"protocol": {"$regex": "assembly"}})
+
+.. code-block:: bash
+
+    signac find '{"protocol": {"$regex": "assembly"}}'
 
 This operator internally applies the :py:func:`re.search` function and will never match if the value is not of type ``str``.
 
@@ -204,7 +246,7 @@ you would use:
 
 .. code-block:: python
 
-   {"protocol": {"$regex": r"^(?!.*assembly).*$"}}
+   project.find_jobs({"protocol": {"$regex": r"^(?!.*assembly).*$"}})
 
 .. _negative lookaround: https://www.regular-expressions.info/lookaround.html
 
@@ -222,9 +264,13 @@ For example, to match all documents, where the value of the key *N* is of intege
 
 .. code-block:: python
 
-    {"N": {"$type": "int"}}
+    project.find_jobs({"N": {"$type": "int"}})
 
 Other supported types include *float*, *str*, *bool*, *list*, and *null*.
+
+.. code-block:: bash
+
+    signac find '{"N": {"$type": "int"}}'
 
 .. _where-operator:
 
@@ -236,37 +282,38 @@ For example, instead of using the regex-operator, as shown above, we could write
 
 .. code-block:: python
 
-    {"protocol": {"$where": 'lambda x: "assembly" in x'}}
+    project.find_jobs({"protocol": {"$where": 'lambda x: "assembly" in x'}})
 
+.. code-block:: bash
+
+    signac find '{"protocol": {"$where": "lambda x: \"assembly\" in x"}}'
 
 .. _simplified-filter:
 
 Simplified Syntax on the Command Line
 =====================================
 
-It is possible to use search expressions directly on the command line, for example in combination with the ``$ signac find`` command.
-In this case filter arguments are expected to be provided as valid JSON expressions.
 For simple filters, you can use a simplified syntax instead of writing JSON.
-For example, instead of ``{'p': 2}``, you can simply type ``p 2``.
+For example, instead of ``signac find '{"p": 2}'``, you can type ``signac find p 2``.
 
 A simplified expression consists of key-value pairs in alternation.
 The first argument will then be interpreted as the first key, the second argument as the first value, the third argument as the second key, and so on.
-If you provide an odd number of arguments, the last value will default to ``{'$exists': True}``.
+If you provide an odd number of arguments, the last value will default to ``{'$exists': true}``.
+
 Querying via operator is supported using the ``.``-operator.
 Finally, you can use ``/<regex>/`` instead of ``{'$regex': '<regex>'}`` for regular expressions.
 
-The following list shows simplified expressions on the left and their equivalent standard expression on the right.
+The following table shows simplified ``signac find`` expressions on the left, full query syntax in JSON in the middle, and full query syntax in Python the right.
 
-.. code-block:: bash
-
-    simplified            standard
-    --------------------  ------------------------------------
-
-    p                     {'p': {'$exists': True}}
-    p 2                   {'p': 2}
-    p 2 kT                {'p': 2, 'kT': {'$exists': True}}
-    p 2 kT.$gte 1.0       {'p': 2, 'kT': {'$gte': 1.0}}
-    protocol /assembly/   {'protocol': {'$regex': 'assembly'}}
+===================  =====================================================================  ====================================
+simplified JSON      full JSON (in ``''`` for command line)                                 Python
+===================  =====================================================================  ====================================
+p                    ``'{"p": {'$exists': true}}'``                                         ``{'p': {'$exists': True}}``
+p 2                  ``'{"p": 2}'``                                                         ``{'p': 2}``
+p 2 kT               ``'{"p": 2, "kT": {"$exists": true}}'``                                ``{'p': 2, 'kT': {'$exists': True}}``
+p 2 kT.$gte 1.0      ``'{"p": 2, "kT.$gte": 1.0}'`` or ``'{"p": 2, "kT": {"$gte": 1.0}}'``  ``{'p': 2, 'kT': {'$gte': 1.0}}``
+protocol /assembly/  ``'{"protocol": {"$regex": "assembly"}}'``                             ``{'protocol': {'$regex': 'assembly'}}``
+===================  =====================================================================  ====================================
 
 .. important::
 
