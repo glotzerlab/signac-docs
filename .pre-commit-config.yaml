@@ -1,5 +1,7 @@
 ci:
   autoupdate_schedule: quarterly
+  # We skip bibtex-tidy in pre-commit.ci due to https://github.com/FlamingTempura/bibtex-tidy/issues/427
+  skip: [bibtex-tidy]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
