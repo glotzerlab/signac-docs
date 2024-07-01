@@ -5,7 +5,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 'v4.5.0'
+    rev: 'v4.6.0'
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -15,7 +15,7 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v3.15.2'
+    rev: 'v3.16.0'
     hooks:
       - id: pyupgrade
         args:
@@ -25,11 +25,11 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: '24.3.0'
+    rev: '24.4.2'
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
-    rev: '7.0.0'
+    rev: '7.1.0'
     hooks:
       - id: flake8
         args:
@@ -40,7 +40,7 @@ repos:
       - id: nbqa-black
       - id: nbqa-pyupgrade
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.16.0
+    rev: 1.18.0
     hooks:
       - id: blacken-docs
   - repo: https://github.com/FlamingTempura/bibtex-tidy
@@ -68,6 +68,6 @@ repos:
       - id: rst-directive-colons
       - id: rst-inline-touching-normal
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
