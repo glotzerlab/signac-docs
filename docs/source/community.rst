@@ -21,7 +21,7 @@ All community members are expected to follow the signac project's `code of condu
 Support
 -------
 
-The signac community offers user support and communicates about code development through GitHub Discussions on the respective repositories and the `Slack workspace`_.
+The signac community offers user support and communicates about code development through `GitHub Discussions`_ and the `Slack workspace`_.
 
 Please use the issue trackers of the individual :ref:`packages <package-overview>` to file bug reports or request new features!
 
@@ -36,6 +36,7 @@ The Google Calendar is also embedded below:
     </iframe>
 
 
+.. _GitHub Discussions: https://github.com/glotzerlab/signac/discussions
 .. _Slack workspace: https://signac.io/slack-invite/
 .. _iCal link: https://calendar.google.com/calendar/ical/6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com/public/basic.ics
 
