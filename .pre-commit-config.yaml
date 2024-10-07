@@ -5,7 +5,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 'v4.6.0'
+    rev: 'v5.0.0'
     hooks:
       - id: check-json
       - id: check-merge-conflict
@@ -15,7 +15,7 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: 'v3.16.0'
+    rev: 'v3.17.0'
     hooks:
       - id: pyupgrade
         args:
@@ -25,17 +25,17 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: '24.4.2'
+    rev: '24.8.0'
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
-    rev: '7.1.0'
+    rev: '7.1.1'
     hooks:
       - id: flake8
         args:
           - --max-line-length=100
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.8.7
     hooks:
       - id: nbqa-black
       - id: nbqa-pyupgrade
@@ -44,7 +44,7 @@ repos:
     hooks:
       - id: blacken-docs
   - repo: https://github.com/FlamingTempura/bibtex-tidy
-    rev: 'v1.11.0'
+    rev: 'v1.14.0'
     hooks:
       - id: bibtex-tidy
         args:
