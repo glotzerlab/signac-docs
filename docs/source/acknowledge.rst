@@ -82,7 +82,7 @@ You can add the following badge to **presentation slides** or **README** files t
 .. code-block:: rst
 
     .. image:: https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg
-        :target: https://signac.io
+        :target: https://signac.readthedocs.io
 
 Badges generated with `shields.io <https://shields.io>`_.
 
