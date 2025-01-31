@@ -30,10 +30,10 @@ If you are new to **signac**, the best place to start is to read the :ref:`intro
    :maxdepth: 1
    :caption: Package API Reference
 
-   signac (core) API <https://docs.signac.io/projects/core/en/latest/api.html>
-   signac-flow API <https://docs.signac.io/projects/flow/en/latest/api.html>
-   signac-dashboard API <https://docs.signac.io/projects/dashboard/en/latest/api.html>
-   synced_collections API <https://docs.signac.io/projects/synced-collections/en/latest/api.html>
+   signac (core) API <https://signac.readthedocs.io/projects/core/en/latest/api.html>
+   signac-flow API <https://signac.readthedocs.io/projects/flow/en/latest/api.html>
+   signac-dashboard API <https://signac.readthedocs.io/projects/dashboard/en/latest/api.html>
+   synced_collections API <https://signac.readthedocs.io/projects/synced-collections/en/latest/api.html>
 
 .. toctree::
    :maxdepth: 2

@@ -14,7 +14,7 @@ The signac framework is part of the community of `NumFOCUS Affiliated Projects <
 Code of Conduct
 ---------------
 
-All community members are expected to follow the signac project's `code of conduct <https://signac.io/conduct/>`_.
+All community members are expected to follow the signac project's `code of conduct <https://signac.readthedocs.io/conduct/>`_.
 
 .. _support:
 
@@ -37,7 +37,7 @@ The Google Calendar is also embedded below:
 
 
 .. _GitHub Discussions: https://github.com/glotzerlab/signac/discussions
-.. _Slack workspace: https://signac.io/slack-invite/
+.. _Slack workspace: https://signac.readthedocs.io/slack-invite/
 .. _iCal link: https://calendar.google.com/calendar/ical/6pfj3imrfa87i29icmm93f3mi8%40group.calendar.google.com/public/basic.ics
 
 .. _contribute:
@@ -65,7 +65,7 @@ All code contributed via pull request needs to adhere to the following guideline
   * Create `unit tests <https://en.wikipedia.org/wiki/Unit_testing>`_  and `integration tests <ttps://en.wikipedia.org/wiki/Integration_testing>`_ that cover the common cases and the corner cases of the code.
   * Preserve backwards compatibility whenever possible, and make clear if something must change.
   * Document any portions of the code that might be less clear to others, especially to new developers.
-  * Write API documentation as part of the docstrings of the package, and put usage information, guides, and concept overviews in the `framework documentation <https://docs.signac.io/>`_, the page you are currently on (`source <https://github.com/glotzerlab/signac-docs/>`_).
+  * Write API documentation as part of the docstrings of the package, and put usage information, guides, and concept overviews in the `framework documentation <https://signac.readthedocs.io/>`_, the page you are currently on (`source <https://github.com/glotzerlab/signac-docs/>`_).
 
 .. _GitHub: https://github.com/glotzerlab/
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/

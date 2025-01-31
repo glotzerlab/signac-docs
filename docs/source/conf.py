@@ -214,11 +214,11 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "signac": ("https://docs.signac.io/projects/core/en/latest/", None),
-    "flow": ("https://docs.signac.io/projects/flow/en/latest/", None),
-    "signac_dashboard": ("https://docs.signac.io/projects/dashboard/en/latest/", None),
+    "signac": ("https://signac.readthedocs.io/projects/core/en/latest/", None),
+    "flow": ("https://signac.readthedocs.io/projects/flow/en/latest/", None),
+    "signac_dashboard": ("https://signac.readthedocs.io/projects/dashboard/en/latest/", None),
     "synced_collections": (
-        "https://docs.signac.io/projects/synced-collections/en/latest/",
+        "https://signac.readthedocs.io/projects/synced-collections/en/latest/",
         None,
     ),
     "pymongo": ("https://pymongo.readthedocs.io/en/stable/", None),

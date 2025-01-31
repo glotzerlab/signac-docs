@@ -164,7 +164,7 @@ The following directives are respected by all base templates shipped with **sign
     walltime
       The number of hours to request for executing this job.
 
-For more detailed information about supported directives, visit the API reference doc of `directives <https://docs.signac.io/projects/flow/en/latest/api.html#flow.directives>`_.
+For more detailed information about supported directives, visit the API reference doc of `directives <https://signac.readthedocs.io/projects/flow/en/latest/api.html#flow.directives>`_.
 
 Execution Modes
 ---------------

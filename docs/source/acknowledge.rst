@@ -69,19 +69,19 @@ You can add the following badge to **presentation slides** or **README** files t
 
 .. code-block:: html
 
-    https://docs.signac.io/en/latest/_images/signac.io-dark.svg
+    https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg
 
 .. rubric:: Markdown
 
 .. code-block:: html
 
-    [![signac](https://docs.signac.io/en/latest/_images/signac.io-dark.svg)](https://signac.io)
+    [![signac](https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg)](https://signac.readthedocs.io)
 
 .. rubric:: reStructuredText
 
 .. code-block:: rst
 
-    .. image:: https://docs.signac.io/en/latest/_images/signac.io-dark.svg
+    .. image:: https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg
         :target: https://signac.io
 
 Badges generated with `shields.io <https://shields.io>`_.

@@ -69,7 +69,7 @@ The **synced_collections** package defines data structures that allow users to:
 
 These collections are leveraged by **signac** to store and work with data and metadata.
 
-.. _signac-core: https://docs.signac.io/projects/core/
-.. _signac-flow: https://docs.signac.io/projects/flow/
-.. _signac-dashboard: https://docs.signac.io/projects/dashboard/
-.. _synced-collections: https://docs.signac.io/projects/synced-collections/
+.. _signac-core: https://signac.readthedocs.io/projects/core/
+.. _signac-flow: https://signac.readthedocs.io/projects/flow/
+.. _signac-dashboard: https://signac.readthedocs.io/projects/dashboard/
+.. _synced-collections: https://signac.readthedocs.io/projects/synced-collections/
