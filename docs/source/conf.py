@@ -216,7 +216,10 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "signac": ("https://signac.readthedocs.io/projects/core/en/latest/", None),
     "flow": ("https://signac.readthedocs.io/projects/flow/en/latest/", None),
-    "signac_dashboard": ("https://signac.readthedocs.io/projects/dashboard/en/latest/", None),
+    "signac_dashboard": (
+        "https://signac.readthedocs.io/projects/dashboard/en/latest/",
+        None,
+    ),
     "synced_collections": (
         "https://signac.readthedocs.io/projects/synced-collections/en/latest/",
         None,
