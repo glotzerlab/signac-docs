@@ -4,6 +4,11 @@
 The FlowProject
 ===============
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 This chapter describes how to setup a complete workflow via the implementation of a :py:class:`~flow.FlowProject`.
 It includes two **fundamental concepts** for the implementation of workflows with the **signac-flow** package: :ref:`operations <operations>` and :ref:`conditions <conditions>`.
 

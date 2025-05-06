@@ -221,6 +221,10 @@ Executing this script will calculate and store the volume for each pressure-temp
 Workflows
 =========
 
+.. attention::
+
+    The rest of the tutorial describes how to use **signac-flow**, which is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
 
 Implementing a simple workflow
 ------------------------------

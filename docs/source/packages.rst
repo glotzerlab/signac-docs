@@ -53,6 +53,11 @@ The **signac-flow** package allows users to:
     :target: https://pypi.org/project/signac-dashboard/
     :alt: PyPI signac-dashboard
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 The **signac-dashboard** package allows users to:
 
 - Browse **signac**-managed data spaces

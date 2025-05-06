@@ -4,6 +4,11 @@
 Templates
 =========
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 The **signac-flow** package uses jinja2_ templates to generate scripts for execution and submission to cluster scheduling systems.
 Templates for simple bash execution and submission to popular schedulers and compute clusters are shipped with the package.
 To customize the script generation, a user can replace the default template or customize any of the provided ones.

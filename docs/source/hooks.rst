@@ -4,6 +4,11 @@
 Hooks
 =====
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 .. _hooks_introduction:
 
 Introduction

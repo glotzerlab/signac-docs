@@ -4,6 +4,11 @@
 Manage Environments
 ===================
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 The **signac-flow** package uses environment profiles to adjust the submission process to local environments.
 That is because different environments provide different resources and options for the submission of operations to those resources.
 Although the basic options will always be the same, there might be some subtle differences depending on where you want to submit your operations.

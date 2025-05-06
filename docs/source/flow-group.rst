@@ -4,6 +4,11 @@
 FlowGroups
 ==========
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 This chapter provides information about submitting and running groups of
 multiple operations with varying directives.
 

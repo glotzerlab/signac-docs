@@ -4,6 +4,11 @@
 Cluster Submission
 ==================
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 While it is always possible to manually write and submit scripts to a cluster, using the *flow interface* to generate and submit scripts on our behalf will allow **signac-flow** to **keep track of submitted operations** and prevent the resubmission of active operations.
 
 In addition, **signac-flow** uses :ref:`environment profiles <environments>` to select which :ref:`base template <templates>` to use for the cluster job script generation.

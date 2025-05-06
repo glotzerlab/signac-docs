@@ -4,6 +4,11 @@
 Aggregation
 ===========
 
+.. attention::
+
+    **signac-flow** is no longer maintained.
+    Switch to `row <https://row.readthedocs.io>`_.
+
 This chapter provides information about passing aggregates of jobs to operation functions.
 
 
