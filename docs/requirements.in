@@ -1,0 +1,9 @@
+IPython
+jupyter_client
+jupyter_sphinx
+nbconvert
+nbsphinx
+sphinx-hoverxref
+sphinx>=4.0.0
+sphinx_rtd_theme>=1.0.0
+sphinxcontrib-bibtex>=2.2.0

@@ -73,27 +73,15 @@ All code contributed via pull request needs to adhere to the following guideline
 
 .. tip::
 
-    During continuous integration, the code and the documentation are formatted and checked automatically using `black`_, `isort`_, `flake8`_, `pydocstyle`_, and `mypy`_.
+    During continuous integration, the code and the documentation are formatted and checked automatically using `black`_, `isort`_, `flake8`_, `pydocstyle`_, and `mypy`_ via `prek`_.
     These tools ensure high code quality, establish project standards, and reduce the number of iterations needed in the code review process.
-    Run the following commands to set up a pre-commit hook, using the tool `pre-commit`_, that will ensure your code and documentation are compliant before committing:
-
-    .. code-block:: bash
-
-        pip install pre-commit
-        pre-commit install
-
-    To install and run `Pre-commit`_ for all the files present in the repository, run the following command:
-
-    .. code-block:: bash
-
-        pre-commit run --all-files
 
 .. _black: https://black.readthedocs.io/en/stable/
 .. _isort: https://pycqa.github.io/isort/
 .. _flake8: https://flake8.pycqa.org/en/latest/
 .. _pydocstyle: http://www.pydocstyle.org/en/stable/
 .. _mypy: https://mypy.readthedocs.io/en/stable/
-.. _pre-commit: https://pre-commit.com/
+.. _prek: https://prek.j178.dev/
 
 .. note::
 

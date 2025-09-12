@@ -1,8 +1,3 @@
-ci:
-  autoupdate_schedule: quarterly
-  # We skip bibtex-tidy in pre-commit.ci due to https://github.com/FlamingTempura/bibtex-tidy/issues/427
-  skip: [bibtex-tidy]
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v5.0.0'
@@ -43,24 +38,24 @@ repos:
     rev: 1.19.1
     hooks:
       - id: blacken-docs
-  - repo: https://github.com/FlamingTempura/bibtex-tidy
-    rev: 'v1.14.0'
-    hooks:
-      - id: bibtex-tidy
-        args:
-          - --omit=abstract,keywords,archiveprefix,mendeley-tags,pmid,eprint,arxivid
-          - --wrap=90
-          - --curly
-          - --numeric
-          - --space=2
-          - --align=0
-          - --sort=key,type,author,-year
-          - --duplicates=key,doi,citation
-          - --strip-enclosing-braces
-          - --drop-all-caps
-          - --sort-fields=title,shorttitle,author,year,month,day,journal,booktitle,location,on,publisher,address,series,volume,number,pages,doi,isbn,issn,url,urldate,copyright,category,note,metadata
-          - --remove-empty-fields
-          - --no-remove-dupe-fields
+  # - repo: https://github.com/FlamingTempura/bibtex-tidy
+  #   rev: 'v1.14.0'
+  #   hooks:
+  #     - id: bibtex-tidy
+  #       args:
+  #         - --omit=abstract,keywords,archiveprefix,mendeley-tags,pmid,eprint,arxivid
+  #         - --wrap=90
+  #         - --curly
+  #         - --numeric
+  #         - --space=2
+  #         - --align=0
+  #         - --sort=key,type,author,-year
+  #         - --duplicates=key,doi,citation
+  #         - --strip-enclosing-braces
+  #         - --drop-all-caps
+  #         - --sort-fields=title,shorttitle,author,year,month,day,journal,booktitle,location,on,publisher,address,series,volume,number,pages,doi,isbn,issn,url,urldate,copyright,category,note,metadata
+  #         - --remove-empty-fields
+  #         - --no-remove-dupe-fields
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
     hooks:
