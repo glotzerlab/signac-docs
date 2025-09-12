@@ -4,14 +4,6 @@
 How to cite signac
 ==================
 
-.. sidebar:: |badge|
-
-      Consider placing this badge on **presentation slides** or **README** files!
-      See :ref:`badge` for instructions.
-
-.. |badge| image:: badge/signac.io-dark.svg
-    :alt: signac.io
-
 Preferred Citation
 ==================
 
@@ -53,38 +45,6 @@ To cite these references, you can use the following BibTeX entries:
     :language: bibtex
 
 .. _badge:
-
-Badge
-=====
-
-You can add the following badge to **presentation slides** or **README** files to acknowledge the use of **signac** as part of your project: |badge|
-
-.. rubric:: Downloads
-
-* :download:`PDF (high resolution) <badge/signac.io-dark.pdf>`
-* :download:`PNG (high resolution) <badge/signac.io-dark.png>`
-* :download:`SVG (low resolution) <badge/signac.io-dark.svg>`
-
-.. rubric:: URL
-
-.. code-block:: html
-
-    https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg
-
-.. rubric:: Markdown
-
-.. code-block:: html
-
-    [![signac](https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg)](https://signac.readthedocs.io)
-
-.. rubric:: reStructuredText
-
-.. code-block:: rst
-
-    .. image:: https://signac.readthedocs.io/en/latest/_images/signac.io-dark.svg
-        :target: https://signac.readthedocs.io
-
-Badges generated with `shields.io <https://shields.io>`_.
 
 Logos
 =====
