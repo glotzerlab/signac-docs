@@ -2,8 +2,6 @@
 #    uv pip compile docs/requirements.in --output-file=docs/requirements.txt
 alabaster==1.0.0
     # via sphinx
-appnope==0.1.4
-    # via ipykernel
 asttokens==3.0.0
     # via stack-data
 attrs==25.3.0
@@ -24,7 +22,7 @@ comm==0.2.3
     # via
     #   ipykernel
     #   ipywidgets
-debugpy==1.8.16
+debugpy==1.8.17
     # via ipykernel
 decorator==5.2.1
     # via ipython
@@ -130,7 +128,7 @@ platformdirs==4.4.0
     # via jupyter-core
 prompt-toolkit==3.0.52
     # via ipython
-psutil==7.0.0
+psutil==7.1.0
     # via ipykernel
 ptyprocess==0.7.0
     # via pexpect
@@ -227,7 +225,7 @@ typing-extensions==4.15.0
     # via beautifulsoup4
 urllib3==2.5.0
     # via requests
-wcwidth==0.2.13
+wcwidth==0.2.14
     # via prompt-toolkit
 webencodings==0.5.1
     # via
