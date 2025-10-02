@@ -10,7 +10,7 @@ attrs==25.3.0
     #   referencing
 babel==2.17.0
     # via sphinx
-beautifulsoup4==4.13.5
+beautifulsoup4==4.14.2
     # via nbconvert
 bleach==6.2.0
     # via nbconvert
@@ -45,7 +45,7 @@ imagesize==1.4.1
     # via sphinx
 ipykernel==6.30.1
     # via jupyter-sphinx
-ipython==9.5.0
+ipython==9.6.0
     # via
     #   -r docs/requirements.in
     #   ipykernel
@@ -86,7 +86,7 @@ jupyterlab-widgets==3.0.15
     # via ipywidgets
 latexcodec==3.0.1
     # via pybtex
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   jinja2
     #   nbconvert
@@ -148,7 +148,7 @@ pygments==2.19.2
     #   sphinx
 python-dateutil==2.9.0.post0
     # via jupyter-client
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via pybtex
 pyzmq==27.1.0
     # via
