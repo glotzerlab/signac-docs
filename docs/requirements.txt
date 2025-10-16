@@ -16,7 +16,7 @@ bleach==6.2.0
     # via nbconvert
 certifi==2025.10.5
     # via requests
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via requests
 comm==0.2.3
     # via
@@ -39,11 +39,11 @@ executing==2.2.1
     # via stack-data
 fastjsonschema==2.21.2
     # via nbformat
-idna==3.10
+idna==3.11
     # via requests
 imagesize==1.4.1
     # via sphinx
-ipykernel==6.30.1
+ipykernel==7.0.1
     # via jupyter-sphinx
 ipython==9.6.0
     # via
@@ -154,7 +154,7 @@ pyzmq==27.1.0
     # via
     #   ipykernel
     #   jupyter-client
-referencing==0.36.2
+referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
