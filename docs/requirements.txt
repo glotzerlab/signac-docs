@@ -12,7 +12,7 @@ babel==2.17.0
     # via sphinx
 beautifulsoup4==4.14.2
     # via nbconvert
-bleach==6.2.0
+bleach==6.3.0
     # via nbconvert
 certifi==2025.10.5
     # via requests
@@ -43,7 +43,7 @@ idna==3.11
     # via requests
 imagesize==1.4.1
     # via sphinx
-ipykernel==7.0.1
+ipykernel==7.1.0
     # via jupyter-sphinx
 ipython==9.6.0
     # via
@@ -90,7 +90,7 @@ markupsafe==3.0.3
     # via
     #   jinja2
     #   nbconvert
-matplotlib-inline==0.1.7
+matplotlib-inline==0.2.1
     # via
     #   ipykernel
     #   ipython
@@ -128,7 +128,7 @@ platformdirs==4.5.0
     # via jupyter-core
 prompt-toolkit==3.0.52
     # via ipython
-psutil==7.1.1
+psutil==7.1.2
     # via ipykernel
 ptyprocess==0.7.0
     # via pexpect
