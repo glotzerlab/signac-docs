@@ -128,7 +128,7 @@ platformdirs==4.5.1
     # via jupyter-core
 prompt-toolkit==3.0.52
     # via ipython
-psutil==7.2.0
+psutil==7.2.1
     # via ipykernel
 ptyprocess==0.7.0
     # via pexpect
