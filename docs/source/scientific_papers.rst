@@ -17,6 +17,15 @@ Papers are sorted by publication date, from newest to oldest.
 .. bibliography::
     :filter: False
 
+    Janek2025
+
+Tests of the proposed universal integration scheme for molecular dynamics. Multiple systems, integrators and integration steps. Simulations performed using simul++.
+
+--------
+
+.. bibliography::
+    :filter: False
+
     Cersonsky2021
 
 Identifies photonic band gaps over a space of 151,593 crystal structures. Simulations performed using MIT Photonic Bands (MPB).
